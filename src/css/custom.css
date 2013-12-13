@@ -1,0 +1,345 @@
+body {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+}
+
+ul.sortable {
+    width: 100%;
+    overflow: scroll;
+    margin: 0;
+}
+
+ul.sortable li {
+    background-color: white;
+    height:80px;
+    width:100px;
+    margin:4px;
+    cursor:pointer;
+    display:inline-block;
+    border: 1px solid gray;
+    /*float:left;*/
+    /*float:none;*/
+    /*clear:both;*/
+}
+
+
+
+
+
+.sortable {
+    white-space:nowrap;
+    overflow-x:scroll;
+    overflow-y:hidden;
+    /*text-align:left;*/
+}
+
+
+ul.sortable li.sortable-placeholder {
+    border: 1px dashed gray;
+    background: transparent;
+}
+
+.color-gray {
+    color: #bbb;
+}
+
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 90px;
+    border-top: 1px solid #ccc;
+
+    background: #E9E9E9 url('../img/bg-content.jpg');
+    z-index: 5;
+
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+footer .row {
+    margin-left: 0;
+}
+
+
+
+.cuadros {
+}
+
+
+.contenedor-layers {
+  position: absolute;
+  bottom: 150px;
+  top: 113px;
+  left: 20px;
+  right: 440px;
+  overflow: hidden;
+}
+
+
+.contenedor-layers video {
+ width: 100%;
+ height: 100%;
+}
+
+.contenedor-layers canvas {
+  position: absolute;
+  width: 100%;
+ /* height: 100%; */
+  z-index: 2;
+}
+
+.contenedor-layers img {
+  position: absolute;
+  z-index: 2;
+
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sin-cuadros {
+  color: gray;
+  margin-left: 10px;
+  
+  border: 1px dashed gray;
+  height:70px;
+  width:100px;
+  text-align: center;
+}
+
+
+/* Estos dos elementos, tab-content y .oculto se han creado
+ * a modo de hack, porque en realidad se busca ocultar elementos
+ * y al usar display:none angular no evalúa el scope. Puede ser
+ * un detalle de angular.slide.
+ */
+.tab-content {
+  overflow: hidden !important;
+}
+
+.oculto {
+  margin-left: 600px;
+  position: absolute;
+}
+
+
+
+.numero_seleccionado {
+  position: fixed;
+  background-color: white;
+  padding: 7px;
+  width: 20px;
+  text-align: center;
+	border-bottom: 1px solid rgba(255, 0, 0, 0.5);
+	border-right: 1px solid rgba(255, 0, 0, 0.5);
+	font-weight: bold;
+	opacity: 0.8;
+}
+
+.numero {
+  position: fixed;
+  background-color: white;
+  opacity: 0.3;
+  padding: 7px;
+  width: 20px;
+  text-align: center;
+  border-bottom: 1px solid white;
+  border-right: 1px solid white;
+}
+
+
+.seleccionada {
+box-shadow: 0 0 5px red;
+}
+
+video {
+  width: 100%;
+}
+
+
+html {
+	overflow: hidden !important;
+}
+
+
+div.loading {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    background-color: white;
+    z-index: 3000;
+    padding-top: 150px;
+    text-align: center;
+    font-size: 15px;
+    border-bottom: 5px solid gray;
+}
+
+.ayuda {
+    position: absolute;
+    z-index: 2500;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    -webkit-transition: top 0.25s ease-in-out;
+    background-color: rgba(14, 6, 6, 0.67);
+    border-top: 2px solid gray;
+}
+
+.ayuda-invisible {
+    top: 100%;
+}
+
+.ayuda-contenido {
+    background-color: white;
+    margin: 100px;
+    padding: 25px;
+}
+
+.ayuda-contenido ul {
+    list-style: none;
+    margin-top: 40px;
+}
+
+.ayuda-contenido li {
+    float: none;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.ayuda-contenido .tecla {
+  font-weight: 100;
+  display: inline-block;
+  min-width: 1.6em;
+  background: #f7f7f7;
+  box-shadow: 0 2px #d9d9d9;
+  border: 1px solid #d9d9d9;
+  text-align: center;
+  line-height: 1.6em;
+  border-radius: 3px;
+  font-size: 1em;
+  margin-right: 14px;
+
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+
+
+.panel-lateral-invisible {
+  right: -600px !important;
+}
+
+.side-right {
+  -webkit-transition: right 0.25s ease-in-out;
+}
+
+.affix {
+  position: fixed;
+}
+
+.contenedor-layers-expandido {
+  right: 10px !important;
+}
+
+.contenedor-layers {
+  -webkit-transition: right 0.25s ease-in-out;
+}
+
+
+/* Frame */
+.frame {
+	height: 70px;
+	line-height: 50px;
+	overflow: hidden;
+}
+.frame ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	font-size: 10px;
+}
+
+.frame ul li {
+	float: left;
+	width: 80px;
+	height: 100px;
+	margin: 0 4px 0 0;
+	padding: 0;
+	background: #333;
+	color: #ddd;
+	text-align: center;
+	cursor: pointer;
+  border-bottom: 5px solid gray;
+}
+
+.frame ul li.active {
+	color: #fff;
+	background: #a03232;
+  border-bottom: 5px solid red;
+}
+
+
+/* Scrollbar */
+.scrollbar {
+	margin: 0 0 1em 0;
+	height: 2px;
+	background: #ccc;
+	line-height: 0;
+}
+.scrollbar .handle {
+	width: 100px;
+	height: 100%;
+	background: #292a33;
+	cursor: pointer;
+}
+.scrollbar .handle .mousearea {
+	position: absolute;
+	top: -9px;
+	left: 0;
+	width: 100%;
+	height: 20px;
+}
+
+/* Pages */
+.pages {
+	list-style: none;
+	margin: 3px 0;
+	padding: 0;
+	text-align: center;
+}
+.pages li {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin: 0 4px;
+	text-indent: -999px;
+	border-radius: 10px;
+	cursor: pointer;
+	overflow: hidden;
+	background: #fff;
+	box-shadow: inset 0 0 0 1px rgba(0,0,0,.2);
+}
+.pages li:hover {
+	background: #aaa;
+}
+.pages li.active {
+	background: #666;
+}
+
+.wrap {
+    position: relative;
+    width: 100%;
+}
+

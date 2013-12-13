@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" ng-app='app'>
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head>
+    <meta name="author" content="Hugo Ruscitti"/>
+
+    <title>Huayra StopMotion</title>
+
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/angular-slider.css" rel="stylesheet" />
+    <link href="css/theme.css" rel="stylesheet" />
+    <link href="css/theme-helper.css" rel="stylesheet" />
+    <link href="css/theme-icon.css" rel="stylesheet" />
+    <link href="css/font-awesome.css" rel="stylesheet" />
+    <link href="css/animate.css" rel="stylesheet" />
+    <link href="css/uniform.default.css" rel="stylesheet" />
+    <link href="css/custom.css" rel="stylesheet" />
+  </head>
+
+  <body ng-controller='AppCtrl'>
+
+    <!-- PANEL INICIAL MIENTRAS CARGA LA APLICACION -->
+    <div class='loading'>
+      <img src='./img/vaca.gif'/>
+      <br/>
+      <br/>
+      iniciando ...
+    </div>
+
+
+
+
+
+
+    <!-- PANEL DE AYUDA -->
+    <div class='ayuda ayuda-invisible' id='ayuda'>
+
+      <div class='ayuda-contenido'>
+        <h1>Atajos de teclado</h1>
+
+        <ul>
+          <li><div class='tecla'>h</div> Muestra esta ayuda.</li>
+          <li><div class='tecla'>n</div> Oculta el panel lateral.</li>
+          <li><div class='tecla'>Espacio</div> Captura un cuadro de animación.</li>
+          <li><div class='tecla'>→</div> Avanzar un cuadro.</li>
+          <li><div class='tecla'>←</div> Retroceder un cuadro.</li>
+          <li><div class='tecla'>↓</div> Ir al último cuadro.</li>
+          <li><div class='tecla'>↑</div> Ir al primer cuadro.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- TITULO DE LA APLICACION -->
+    <header class="header" data-spy="affix" data-offset-top="0">
+      <div class="navbar-helper">
+        <div class="span12">
+          <div class="panel-sitename">
+            <h2><img src='img/icon.png'> <span class="color-gray">stop</span>Motion</h2>
+          </div>
+        </div>
+      </div>
+    </header>
+
+
+
+
+
+    <!-- SONIDOS -->
+    <audio id="audio_foto">
+        <source src="sonidos/foto.ogg" type="audio/ogg">
+    </audio>
+
+    <section class="section">
+
+        <!-- SELECTOR DE CAMARAS -->
+        <div id='content' class="content">
+          <div class="sidebar-camara">
+            <ul class="sr-control-item">
+
+              <li class="active"><a ng-click="seleccionar_tab(1)" href="#alt1" data-toggle="tab"><i class="icon-camera"></i> Cámara 1</a></li>
+              <li ng-repeat='c in camaras'><a ng-click="seleccionar_tab(c.indice)" href="#alt{{c.indice}}" data-toggle="tab"><i class="icon-camera"></i> Cámara {{c.indice}}</a></li>
+
+            </ul>
+          </div>
+        </div>
+  
+        <!-- PANEL DE CONTENIDOS PRINCIPAL -->
+        <div class="content-body" id='content-body'>
+          <div class='contenedor-izquierdo'>
+            <div class='contenedor-layers' id='contenedor-layers'>
+              <!-- cuadro fantasma -->
+              <canvas ng-show='fantasma' style='opacity: {{fantasma_opacidad/100}}' id='canvas' width=640 height=480></canvas>
+
+              <!-- capas overlay -->
+              <img src='app://./images/capas/guias.png' style='opacity: {{capa_guia_opacidad/100}}'>
+              <img src='app://./images/capas/grilla.png' style='opacity: {{capa_grilla_opacidad/100}}'>
+              <img src='app://./images/capas/circulo.png' style='opacity: {{capa_circulo_opacidad/100}}'>
+
+              <!-- el video capturado de la camara -->
+              <video autoplay loop="true"></video>
+            </div>
+          </div>
+
+          <!-- PANEL CON BOTONES DE CAPTURA DEBADO DEL VIDEO -->
+          <div id="contenedor-controles">
+            <button class='btn btn-danger' ng-click='capturar()'> <span class="icon-plus icon-white"></span>Foto</button>
+          </div>
+
+        </div>
+
+        <!-- PANEL LATERAR CON OPCIONES DE PROYECTO, EFECTOS Y CAPAS -->
+        <aside id='panel-lateral' class="side-right">
+
+          <div class="sidebar-right">
+
+            <!-- SELECTORES DE SECCIONES TIPO TABS -->
+            <div class="sidebar-right-control">
+              <ul class="sr-control-item">
+                <li class="active"><a ng-click="seleccionar_tab(1)" href="#alt1" data-toggle="tab"><i class="icon-film"></i> Proyecto</a></li>
+                <li><a href="#alt2"   ng-click="seleccionar_tab(2)" data-toggle="tab"><i class="icon-eye-close"></i> Fantasma</a></li>
+                <li><a href="#alt3"   ng-click="seleccionar_tab(3)" data-toggle="tab"><i class="icon-align-justify"></i> Capas</a></li>
+                <li><a href="#alt4"   ng-click="seleccionar_tab(4)" data-toggle="tab"><i class="icon-eye-open"></i> Efectos</a></li>
+                <li><a href="#alt5"   ng-click="seleccionar_tab(5)" data-toggle="tab"><i class="icon-wrench"></i> Opciones</a></li>
+              </ul>
+            </div>
+
+            <!-- CONTENIDO DEL PANEL LATERAL -->
+            <div class="sidebar-right-content">
+              <div class="tab-content">
+
+                <!-- TAB 1: PROYECTO -->
+                <div ng-class="{'oculto': tab_seleccionado != 'tab1'}">
+                  <div class="side-box">
+
+                    <div class="control-group">
+                      <label class="control-label" for="titulo">Título del proyecto</label>
+                      <div class="controls">
+                        <input id='titulo' ng-model='titulo'></input>
+                      </div>
+                    </div>
+
+                    <div class="control-group">
+                      <label class="control-label" for="titulo">Detalles</label>
+
+                      <div class="controls">
+                        <p ng-show='cuadros.length < 1'>Esta animación no tiene cuadros aún.</p>
+                        <p ng-show='cuadros.length == 1'><strong>{{cuadros.length}}</strong> solo cuadro de animación.</p>
+                        <p ng-show='cuadros.length > 1'><strong>{{cuadros.length}}</strong> cuadros de animación en total.</p>
+                      </div>
+
+
+                      <div class="controls">
+                        <a ng-disabled='cuadros.length < 1' ng-click='generar_video()' class='btn btn-success'>Generar video</a>
+
+                        <button class='btn' ng-click='abrir_directorio_destino()'>Explorar directorio</button>            
+                      </div>
+
+
+                    </div>
+                  </div>
+                </div>
+
+                <!-- TAB 2: FANTASMA -->
+                <div ng-class="{'oculto': tab_seleccionado != 'tab2'}">
+                  <div class="side-box">
+
+
+                    <div class="alert">
+                      <button type="button" class="close" data-dismiss="alert">&times;</button>
+                      <div>El modo fantasma te permite ver el cuadro anterior de la animación
+                        con transparencia, esto ayuda a producir animaciones mas detalladas.
+                      </div>
+                    </div>
+
+                    <div class="control-group">
+                      <label class="control-label" for="fantasma_opacidad">Activar modo fantasma</label>
+                      <div class="controls">
+                        <input type='checkbox'  id='fantasma' ng-model="fantasma"></input>
+                      </div>
+                    </div>
+
+
+                    <div ng-class="{'oculto': !fantasma}" class="control-group">
+
+                      <label class="control-label" for="fantasma_opacidad">Opacidad</label>
+                      <div class="controls">
+                        <slider id='fantasma_opacidad' floor="0" ceiling="100" step="1" precision="2" ng-model="fantasma_opacidad"></slider>
+                      </div>
+
+
+                      <div ng-show='cuadros.length < 1' class="alert alert-error">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <div><strong>Epa!</strong>, no hay cuadros en la animación, el modo fantasma necesita al menos
+                          un cuadro para funcionar bien :)
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <!-- TAB 3: CAPAS -->
+                <div ng-class="{'oculto': tab_seleccionado != 'tab3'}">
+                  <div class="side-box">           
+
+                    <div class="control-group">
+                      <label class="control-label" for="capa_guia_opacidad">Guia</label>
+                      <div class="controls">
+                        <slider id='capa_guia_opacidad' floor="0" ceiling="100" step="1" precision="2" ng-model="capa_guia_opacidad"></slider>
+                      </div>
+                    </div>
+
+                    <div class="control-group">
+                      <label class="control-label" for="capa_guia_opacidad">Grilla</label>
+                      <div class="controls">
+                        <slider id='capa_grilla_opacidad' floor="0" ceiling="100" step="1" precision="2" ng-model="capa_grilla_opacidad"></slider>
+                      </div>
+                    </div>
+
+                    <div class="control-group">
+                      <label class="control-label" for="capa_circulo_opacidad">Circulo</label>
+                      <div class="controls">
+                        <slider id='capa_circulo_opacidad' floor="0" ceiling="100" step="1" precision="2" ng-model="capa_circulo_opacidad"></slider>
+                      </div>
+                    </div>
+
+                    <div class="control-group">
+                      <br/>
+                      <div class="controls">
+                        <button class='btn' ng-click='deshabilitar_capas()'>Deshabilitar capas</button>            
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- TAB 4: EFECTOS -->
+                <div ng-class="{'oculto': tab_seleccionado != 'tab4'}">
+                  <div class="side-box">
+
+                    <div class="control-group">
+                      <label class="control-label" for="brillo">Brillo</label>
+                      <div class="controls">
+                        <slider id='brillo' floor="0" ceiling="100" step="1" precision="2" ng-model="brillo"></slider>
+                      </div>
+                    </div>
+
+                    <div class="control-group">
+                      <label class="control-label" for="contraste">Contraste</label>
+                      <div class="controls">
+                        <slider id='contraste' floor="0" ceiling="100" step="1" precision="2" ng-model="contraste"></slider>
+                      </div>
+                    </div>
+
+                    <div class="control-group">
+                      <label class="control-label" for="borrosidad">Borrosidad</label>
+                      <div class="controls">
+                        <slider id='borrosidad' floor="0" ceiling="100" step="1" precision="2" ng-model="borrosidad"></slider>
+                        <p ng-show="borrosidad>0.01">uff, este efecto es muuuuy lento :|</p>
+                      </div>
+                    </div>
+
+                    <div class="control-group">
+                      <br/>
+                      <div class="controls">
+                        <button class='btn' ng-click='restaurar()'>Restaurar valores iniciales</button>            
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- TAB 5: OPCIONES -->
+                <div ng-class="{'oculto': tab_seleccionado != 'tab5'}">
+                  <div class="side-box">
+
+                    <div class="control-group">
+                      <label class="control-label" for="sonidos">Sonidos Habilitados</label>
+                      <div class="controls">
+                        <input ng-model='sonido_habilitado' type='checkbox'></input>
+                      </div>
+                    </div>
+
+                    <div class="control-group">
+                      <label class="control-label" for="desarrollo">Modo desarrollador</label>
+                      <div class="controls">
+                        <button id='desarrollo' ng-click="abrir_modo_desarrollador()" class='btn btn-sucess'>Abrir modo desarrollador</button>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </aside>
+    </section>
+
+
+
+
+
+
+
+
+
+    <!-- LINEA DE TIEMPO CON TODOS LOS CUADROS DE ANIMACION -->
+    <footer>
+
+<div class="wrap">
+
+			<div class="scrollbar">
+				<div class="handle">
+					<div class="mousearea"></div>
+				</div>
+			</div>
+
+			<div class="frame" id="basic">
+				<ul class="clearfix">
+				</ul>
+			</div>
+
+			<ul class="pages"></ul>
+    </div>
+
+    </footer>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.sortable.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/angular.js"></script>
+    <script src="js/angular-animate.js"></script>
+    <script src="js/angular-slider.js"></script>
+    <script src='js/libs/ui-bootstrap-tpls-0.6.0.js'></script>
+    <script src="js/keymaster.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/video.js"></script>
+    <script src="js/sly.js"></script>
+    <script src="js/plugins.js"></script>
+  </body>
+</html>
