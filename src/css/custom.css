@@ -84,8 +84,20 @@ footer .row {
 
 
 .contenedor-layers video {
- width: 100%;
+ position: absolute;
  height: 100%;
+ width: 100%;
+ max-width: 100%;
+ max-height: 100%;
+}
+
+.contenedor-layers img {
+  position: absolute;
+  z-index: 2;
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .contenedor-layers canvas {
@@ -95,15 +107,6 @@ footer .row {
   z-index: 2;
 }
 
-.contenedor-layers img {
-  position: absolute;
-  z-index: 2;
-
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-}
 
 .sin-cuadros {
   color: gray;
@@ -159,11 +162,6 @@ footer .row {
 .seleccionada {
 box-shadow: 0 0 5px red;
 }
-
-video {
-  width: 100%;
-}
-
 
 html {
 	overflow: hidden !important;
