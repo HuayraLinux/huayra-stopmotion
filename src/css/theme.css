@@ -402,7 +402,7 @@ ul.dropdown-notification > li.dropdown-header:hover{
     position: absolute;
     display: block;
     height:100%;
-    top: 65px;
+    top: 0;
     background: #FFFFFF url('../img/noise.png');
     width: 400px;
     border: 1px solid #CDCDCD;
@@ -1016,7 +1016,7 @@ ul.dropdown-notification > li.dropdown-header:hover{
 
 /* content */
 .content{
-    margin-top: 60px;
+    margin-top: 0px;
     display: block;
     min-height: 580px;
     margin-right: 410px;
