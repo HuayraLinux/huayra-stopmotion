@@ -199,6 +199,11 @@ app.controller('AppCtrl', function ($scope) {
 		var $slidee = $frame.children('ul').eq(0);
 		var $wrap   = $frame.parent();
 
+
+    window.onresize = function(){
+      $scope.frame.sly('reload')
+    }
+
 		// Call Sly on frame
 		$frame.sly({
 			horizontal: 1,
@@ -223,6 +228,7 @@ app.controller('AppCtrl', function ($scope) {
 
     $scope.frame = $frame;
 
+    window.frame = $frame;
   /*
    * Atajos de teclado.
    *
