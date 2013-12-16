@@ -25,6 +25,7 @@ app.controller('AppCtrl', function ($scope) {
 	$scope.titulo = "Sin título";
   $scope.sonido_habilitado = true;
   $scope.camaras = [];
+  $scope.camara_seleccionada = 1;
 
   // TODO: reemplazar por un identificador único.
   $scope.proyecto_id = parseInt(Math.random()* 1000 + 1000, 10); // es un numero entre 1000 y 2000.
@@ -55,6 +56,10 @@ app.controller('AppCtrl', function ($scope) {
   
   $scope.seleccionar_tab = function (numero) {
   	$scope.tab_seleccionado = "tab" + numero;
+  }
+
+  $scope.seleccionar_camara = function (numero) {
+  	$scope.camara_seleccionada = 1;
   }
   
 
