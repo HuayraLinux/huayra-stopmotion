@@ -391,6 +391,24 @@ label {
     cursor: default !important;
 }
 
-video {
-    opacity: 0;
+
+.inner-control {
+  margin: 10px;
+  padding-left: 125px;
+  margin-bottom: 30px;
+}
+
+table.grilla {
+    position: absolute;
+    z-index: 2000;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
+
+table.grilla td {
+    border: 1px solid white;
 }

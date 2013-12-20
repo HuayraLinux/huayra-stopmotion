@@ -35,17 +35,21 @@ app.controller('AppCtrl', function ($scope) {
   
   $scope.fantasma = true;
   $scope.fantasma_opacidad = 50;
+
+  $scope.getNumber = function(num) {
+    return new Array(num);   
+  }
+  
   
   $scope.capa_guia_opacidad = 0;
   $scope.capa_grilla_opacidad = 0;
-  $scope.capa_circulo_opacidad = 0;
+  $scope.capa_grilla_cantidad_filas = 5;
+  $scope.capa_grilla_cantidad_columnas = 3;
   
   $scope.deshabilitar_capas = function() {
   	$scope.capa_guia_opacidad = 0;
   	$scope.capa_grilla_opacidad = 0;
-  	$scope.capa_circulo_opacidad = 0;
   }
-  
 
   $scope.restaurar = function () {
     $scope.brillo = 50;
@@ -145,7 +149,6 @@ app.controller('AppCtrl', function ($scope) {
 
     var nombre_imagen = contador_item + '.png'
     var imageBuffer = decodeBase64Image(imagen.src);
-
 
     fs.writeFile($scope.directorio_destino + nombre_imagen, imageBuffer.data, function(err) {
       $scope.cuadros.push({id: contador_item, nombre: 'nuevo', src: $scope.directorio_destino + imagen.src});

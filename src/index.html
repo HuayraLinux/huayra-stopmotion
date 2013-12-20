@@ -79,12 +79,19 @@
           <div class='contenedor-izquierdo'>
             <div class='contenedor-layers' id='contenedor-layers'>
               <!-- cuadro fantasma -->
+
+              <table class='grilla'>
+                {{capa_grilla_cantidad_columnas}}
+                  <tr ng-repeat='f in getNumber(capa_grilla_cantidad_filas) track by $index'>
+                    <td ng-repeat='c in getNumber(capa_grilla_cantidad_columnas) track by $index'>&nbsp;</td>
+                  </tr>
+              </table>
+
               <canvas ng-show='fantasma' style='opacity: {{fantasma_opacidad/100}}' id='canvas' width=640 height=480></canvas>
 
               <!-- capas overlay -->
               <img src='app://./images/capas/guias.png' style='opacity: {{capa_guia_opacidad/100}}'>
               <img src='app://./images/capas/grilla.png' style='opacity: {{capa_grilla_opacidad/100}}'>
-              <img src='app://./images/capas/circulo.png' style='opacity: {{capa_circulo_opacidad/100}}'>
 
               <!-- el video capturado de la camara -->
               <video autoplay loop="true"></video>
@@ -174,32 +181,40 @@
                     <div class="control-group">
                       <label class="control-label" for="capa_guia_opacidad">Guia</label>
                       <div class="controls">
-                        <input type='range' min="0" max="100" ng-model="capa_guia_opacidad"></input>
+                        <input type='range' step="5" min="0" max="100" ng-model="capa_guia_opacidad"></input>
                         <span class='nota'>{{capa_guia_opacidad}}</span>
                       </div>
                     </div>
 
                     <div class="control-group">
                       <label class="control-label" for="capa_guia_opacidad">Grilla</label>
+
                       <div class="controls">
-                        <input type='range' min="0" max="100" ng-model="capa_grilla_opacidad"></input>
+                        <input type='range' step="5" min="0" max="100" ng-model="capa_grilla_opacidad"></input>
                         <span class='nota'>{{capa_grilla_opacidad}}</span>
                       </div>
-                    </div>
 
-                    <div class="control-group">
-                      <label class="control-label" for="capa_circulo_opacidad">Circulo</label>
-                      <div class="controls">
-                        <input type='range' min="0" max="100" ng-model="capa_circulo_opacidad"></input>
-                        <span class='nota'>{{capa_circulo_opacidad}}</span>
+
+                      <div class='inner-control'>
+                        <div class="control-group">
+                          Filas
+                          <input ng-disabled='capa_grilla_opacidad == 0' ng-model='capa_grilla_cantidad_filas' type='range' step="1" min="0" max="12"></input>
+                        </div>
+
+                        <div class="control-group">
+                          Columnas:
+                          <input ng-disabled='capa_grilla_opacidad == 0' ng-model='capa_grilla_cantidad_columnas' type='range' step="1" min="0" max="12"></input>
+                        </div>
                       </div>
+
+
                     </div>
 
 
                     <div class="control-group">
                       <label class="control-label" for="capa_circulo_opacidad">Opacidad de la capa de cebolla</label>
                       <div class="controls">
-                        <input ng-disabled='cuadros.length == 0' type='range' min="0" max="100" ng-model="fantasma_opacidad"></input>
+                        <input ng-disabled='cuadros.length == 0' type='range' step="5" min="0" max="100" ng-model="fantasma_opacidad"></input>
                         <span class='nota'>{{fantasma_opacidad}}</span>
                       </div>
 
@@ -226,7 +241,7 @@
                     <div class="control-group">
                       <label class="control-label" for="brillo">Brillo</label>
                       <div class="controls">
-                        <input type='range' min="0" max="100" ng-model="brillo"></input>
+                        <input type='range' step="5" min="0" max="100" ng-model="brillo"></input>
                         <span class='nota'>{{brillo}}</span>
                       </div>
                     </div>
@@ -234,7 +249,7 @@
                     <div class="control-group">
                       <label class="control-label" for="contraste">Contraste</label>
                       <div class="controls">
-                        <input type='range' min="0" max="100" ng-model="contraste"></input>
+                        <input type='range' step="5" min="0" max="100" ng-model="contraste"></input>
                         <span class='nota'>{{contraste}}</span>
                       </div>
                     </div>
@@ -242,7 +257,7 @@
                     <div class="control-group">
                       <label class="control-label" for="borrosidad">Borrosidad</label>
                       <div class="controls">
-                        <input type='range' min="0" max="100" ng-model="borrosidad"></input>
+                        <input type='range' step="5" min="0" max="100" ng-model="borrosidad"></input>
                         <span class='nota'>{{borrosidad}}</span>
                       </div>
                     </div>
