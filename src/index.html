@@ -8,7 +8,6 @@
     <title>Huayra StopMotion</title>
 
     <link href="css/bootstrap.css" rel="stylesheet" />
-    <link href="css/angular-slider.css" rel="stylesheet" />
     <link href="css/theme.css" rel="stylesheet" />
     <link href="css/theme-helper.css" rel="stylesheet" />
     <link href="css/theme-icon.css" rel="stylesheet" />
@@ -108,7 +107,7 @@
             <div class="sidebar-right-control">
               <ul class="sr-control-item">
                 <li class="active"><a ng-click="seleccionar_tab(1)" href="#" data-toggle="tab"><i class="icon-film"></i> Proyecto</a></li>
-                <li><a href="#" ng-click="seleccionar_tab(2)" data-toggle="tab"><i class="icon-eye-close"></i> Fantasma</a></li>
+                <li><a href="#" ng-click="seleccionar_tab(2)" data-toggle="tab"> ... </a></li>
                 <li><a href="#" ng-click="seleccionar_tab(3)" data-toggle="tab"><i class="icon-align-justify"></i> Capas</a></li>
                 <li><a href="#" ng-click="seleccionar_tab(4)" data-toggle="tab"><i class="icon-eye-open"></i> Efectos</a></li>
                 <li><a href="#" ng-click="seleccionar_tab(5)" data-toggle="tab"><i class="icon-wrench"></i> Opciones</a></li>
@@ -158,34 +157,10 @@
 
                     <div class="alert">
                       <button type="button" class="close" data-dismiss="alert">&times;</button>
-                      <div>El modo fantasma te permite ver el cuadro anterior de la animación
-                        con transparencia, esto ayuda a producir animaciones mas detalladas.
-                      </div>
-                    </div>
+                      <div>Este panel está libre por el momento ...</div>
 
-                    <div class="control-group">
-                      <label class="control-label" for="fantasma_opacidad">Activar modo fantasma</label>
-                      <div class="controls">
-                        <input type='checkbox'  id='fantasma' ng-model="fantasma"></input>
-                      </div>
-                    </div>
-
-
-                    <div ng-class="{'oculto': !fantasma}" class="control-group">
-
-                      <label class="control-label" for="fantasma_opacidad">Opacidad</label>
-                      <div class="controls">
-                        <slider id='fantasma_opacidad' floor="0" ceiling="100" step="1" precision="2" ng-model="fantasma_opacidad"></slider>
-                      </div>
-
-
-                      <div ng-show='cuadros.length < 1' class="alert alert-error">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <div><strong>Epa!</strong>, no hay cuadros en la animación, el modo fantasma necesita al menos
-                          un cuadro para funcionar bien :)
-                        </div>
-                      </div>
-
+                      <div>El deslizador para el modo fantasma ahora está en la sección capas, con el nombre
+                      capa de cebolla.</div>
                     </div>
 
                   </div>
@@ -199,23 +174,39 @@
                     <div class="control-group">
                       <label class="control-label" for="capa_guia_opacidad">Guia</label>
                       <div class="controls">
-                        <slider id='capa_guia_opacidad' floor="0" ceiling="100" step="1" precision="2" ng-model="capa_guia_opacidad"></slider>
+                        <input type='range' min="0" max="100" ng-model="capa_guia_opacidad"></input>
+                        <span class='nota'>{{capa_guia_opacidad}}</span>
                       </div>
                     </div>
 
                     <div class="control-group">
                       <label class="control-label" for="capa_guia_opacidad">Grilla</label>
                       <div class="controls">
-                        <slider id='capa_grilla_opacidad' floor="0" ceiling="100" step="1" precision="2" ng-model="capa_grilla_opacidad"></slider>
+                        <input type='range' min="0" max="100" ng-model="capa_grilla_opacidad"></input>
+                        <span class='nota'>{{capa_grilla_opacidad}}</span>
                       </div>
                     </div>
 
                     <div class="control-group">
                       <label class="control-label" for="capa_circulo_opacidad">Circulo</label>
                       <div class="controls">
-                        <slider id='capa_circulo_opacidad' floor="0" ceiling="100" step="1" precision="2" ng-model="capa_circulo_opacidad"></slider>
+                        <input type='range' min="0" max="100" ng-model="capa_circulo_opacidad"></input>
+                        <span class='nota'>{{capa_circulo_opacidad}}</span>
                       </div>
                     </div>
+
+
+                    <div class="control-group">
+                      <label class="control-label" for="capa_circulo_opacidad">Opacidad de la capa de cebolla</label>
+                      <div class="controls">
+                        <input ng-disabled='cuadros.length == 0' type='range' min="0" max="100" ng-model="fantasma_opacidad"></input>
+                        <span class='nota'>{{fantasma_opacidad}}</span>
+                      </div>
+
+                    </div>
+
+
+                    <!-- Control para deshabilitar las capas -->
 
                     <div class="control-group">
                       <br/>
@@ -223,6 +214,8 @@
                         <button class='btn' ng-click='deshabilitar_capas()'>Deshabilitar capas</button>            
                       </div>
                     </div>
+
+
                   </div>
                 </div>
 
@@ -233,22 +226,24 @@
                     <div class="control-group">
                       <label class="control-label" for="brillo">Brillo</label>
                       <div class="controls">
-                        <slider id='brillo' floor="0" ceiling="100" step="1" precision="2" ng-model="brillo"></slider>
+                        <input type='range' min="0" max="100" ng-model="brillo"></input>
+                        <span class='nota'>{{brillo}}</span>
                       </div>
                     </div>
 
                     <div class="control-group">
                       <label class="control-label" for="contraste">Contraste</label>
                       <div class="controls">
-                        <slider id='contraste' floor="0" ceiling="100" step="1" precision="2" ng-model="contraste"></slider>
+                        <input type='range' min="0" max="100" ng-model="contraste"></input>
+                        <span class='nota'>{{contraste}}</span>
                       </div>
                     </div>
 
                     <div class="control-group">
                       <label class="control-label" for="borrosidad">Borrosidad</label>
                       <div class="controls">
-                        <slider id='borrosidad' floor="0" ceiling="100" step="1" precision="2" ng-model="borrosidad"></slider>
-                        <p ng-show="borrosidad>0.01">uff, este efecto es muuuuy lento :|</p>
+                        <input type='range' min="0" max="100" ng-model="borrosidad"></input>
+                        <span class='nota'>{{borrosidad}}</span>
                       </div>
                     </div>
 
@@ -323,7 +318,6 @@
     <script src="js/bootstrap.js"></script>
     <script src="js/angular.js"></script>
     <script src="js/angular-animate.js"></script>
-    <script src="js/angular-slider.js"></script>
     <script src='js/libs/ui-bootstrap-tpls-0.6.0.js'></script>
     <script src="js/keymaster.js"></script>
     <script src="js/app.js"></script>

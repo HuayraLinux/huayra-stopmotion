@@ -1,5 +1,5 @@
 'use strict';
-var app = angular.module('app', ['uiSlider', 'ngAnimate', 'ui.bootstrap']);
+var app = angular.module('app', ['ngAnimate', 'ui.bootstrap']);
 
 var gui = require('nw.gui');
 var fs = require('fs');
@@ -33,7 +33,7 @@ app.controller('AppCtrl', function ($scope) {
 
   fs.mkdir($scope.directorio_destino);
   
-  $scope.fantasma = false;
+  $scope.fantasma = true;
   $scope.fantasma_opacidad = 50;
   
   $scope.capa_guia_opacidad = 0;
@@ -146,9 +146,11 @@ app.controller('AppCtrl', function ($scope) {
     var nombre_imagen = contador_item + '.png'
     var imageBuffer = decodeBase64Image(imagen.src);
 
+
     fs.writeFile($scope.directorio_destino + nombre_imagen, imageBuffer.data, function(err) {
       $scope.cuadros.push({id: contador_item, nombre: 'nuevo', src: $scope.directorio_destino + imagen.src});
       $scope.frame.sly('add', '<li><img src="' + $scope.directorio_destino + nombre_imagen + '"></img></li>');
+      $scope.$apply();
     });
     
 
@@ -277,8 +279,8 @@ app.controller('AppCtrl', function ($scope) {
   }
 
   setTimeout(function() {
-    jQuery('.loading').slideUp(500)
-  }, 5000);
+    jQuery('.loading').slideUp(200)
+  }, 1000);
 
 
   var express = require('express');
