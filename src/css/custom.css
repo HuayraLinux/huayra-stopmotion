@@ -26,17 +26,12 @@ ul.sortable li {
     /*clear:both;*/
 }
 
-
-
-
-
 .sortable {
     white-space:nowrap;
     overflow-x:scroll;
     overflow-y:hidden;
     /*text-align:left;*/
 }
-
 
 ul.sortable li.sortable-placeholder {
     border: 1px dashed gray;
@@ -46,7 +41,6 @@ ul.sortable li.sortable-placeholder {
 .color-gray {
     color: #bbb;
 }
-
 
 footer {
     position: fixed;
@@ -67,8 +61,6 @@ footer .row {
     margin-left: 0;
 }
 
-
-
 .cuadros {
 }
 
@@ -81,13 +73,13 @@ footer .row {
   overflow: hidden;
 }
 
-
 .contenedor-layers video {
  position: absolute;
  height: auto;
  width: 100%;
  max-width: 100%;
  max-height: 100%;
+	opacity: 0.01;
 }
 
 .contenedor-layers img {
@@ -105,7 +97,6 @@ footer .row {
  /* height: 100%; */
   z-index: 2;
 }
-
 
 .sin-cuadros {
   color: gray;
@@ -331,8 +322,9 @@ div.loading {
 	background-color: rgba(177, 177, 177, 0.7);
 	border-radius: 5px;
 	padding-top: 5px;
-	border: 1px solid rgb(145, 145, 145);
+	box-shadow: 0 0 2px rgb(56, 56, 56);
 }
+
 .pages li {
 	display: inline-block;
 	width: 14px;
@@ -415,4 +407,25 @@ table.grilla {
 
 table.grilla td {
     border: 1px solid white;
+}
+
+
+.toolbar {
+	position: absolute;
+	z-index: 2000;
+	bottom: 90px;
+	right: 0;
+	margin: 5px;
+}
+
+.btn-pulsado {
+	background-color: rgb(255, 213, 213);
+}
+
+.btn-normal {
+	background-color: white;
+}
+
+.boton-plano {
+	border: 1px solid rgb(138, 138, 138);
 }

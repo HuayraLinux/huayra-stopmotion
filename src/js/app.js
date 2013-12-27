@@ -26,6 +26,13 @@ app.controller('AppCtrl', function ($scope) {
   $scope.sonido_habilitado = true;
   $scope.camaras = [];
   $scope.camara_seleccionada = 1;
+	$scope.panel_visible = true;
+	
+	
+	$scope.pulsa_boton_alternar_panel = function() {
+		$scope.panel_visible = !$scope.panel_visible;
+		alternar_panel_lateral();
+	}
 
   // TODO: reemplazar por un identificador único.
   $scope.proyecto_id = parseInt(Math.random()* 1000 + 1000, 10); // es un numero entre 1000 y 2000.
@@ -201,15 +208,24 @@ app.controller('AppCtrl', function ($scope) {
 		controles.classList.toggle('contenedor-controles-expandido');
 	}
 
+
+	
+	
+	
   window.alternar_panel_ayuda = function() {
 		var ayuda = document.getElementById('ayuda');
 
 		ayuda.classList.toggle('ayuda-invisible');
   }
 
-		var $frame  = jQuery('#basic');
-		var $slidee = $frame.children('ul').eq(0);
-		var $wrap   = $frame.parent();
+	/* Oculta el panel de ayuda si se hace click */
+	var ayuda = document.getElementById('ayuda');
+	ayuda.onclick = alternar_panel_ayuda;
+	
+	
+	var $frame  = jQuery('#basic');
+	var $slidee = $frame.children('ul').eq(0);
+	var $wrap   = $frame.parent();
 
 
     window.onresize = function(){
@@ -246,11 +262,14 @@ app.controller('AppCtrl', function ($scope) {
    *
    */
 	key('n', function(){
+		$scope.panel_visible = !$scope.panel_visible;
+		$scope.$apply();
 		alternar_panel_lateral()
 	});
 
 	key('h', function(){
-		alternar_panel_ayuda()
+
+		alternar_panel_ayuda();
 	});
 
   key("space", function(){

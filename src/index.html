@@ -302,7 +302,9 @@
 
 
 
-
+<div class='toolbar'>
+	<button class='boton-plano' ng-click='pulsa_boton_alternar_panel()' ng-model='panel_visible' ng-class="{'btn-pulsado': panel_visible, 'btn-normal': !panel_visible}"><i class='icon  icon-tasks'></i></button>
+</div>
 
 
 
@@ -310,7 +312,8 @@
     <!-- LINEA DE TIEMPO CON TODOS LOS CUADROS DE ANIMACION -->
     <footer>
 
-<div class="wrap">
+
+		<div class="wrap">
 
 			<div class="scrollbar">
 				<div class="handle">
@@ -324,6 +327,7 @@
 			</div>
 
 			<ul class="pages"></ul>
+			
     </div>
 
     </footer>
@@ -344,6 +348,7 @@
 		 var Gaze = require('gaze').Gaze;
 		 var gaze = new Gaze('**/*');
 		
+		 gaze.on('all', function(event, filepath) {
 			 if (location)
 				 location.reload();
 		 });
