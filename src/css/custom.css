@@ -166,9 +166,9 @@ div.panel-inicial {
     bottom: 0px;
     background-color: white;
     z-index: 3000;
-    padding-top: 150px;
     text-align: center;
     font-size: 15px;
+		padding-top: 7em;
 }
 
 .ayuda {
@@ -427,4 +427,16 @@ table.grilla td {
 
 .boton-plano {
 	border: 1px solid rgb(138, 138, 138);
+}
+.proyectos-recientes {
+	margin: auto;
+	width: 50%;
+	background-color: rgb(236, 236, 236);
+	border-radius: 9px;
+	margin-top: 3em;
+	padding: 1em;
+}
+
+.cabecera-proyectos {
+	font-weight:bold;
 }
