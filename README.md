@@ -3,6 +3,7 @@ huayra-stopmotion
 
 **huayra-stopmotion** es una herramienta libre para realizar cortos animados usando la técnica de animación stopmotion.
 
+![](img/preview2.png)
 ![](img/preview.png)
 
 
