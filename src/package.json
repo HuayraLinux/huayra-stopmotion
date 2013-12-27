@@ -3,7 +3,7 @@
     "main": "index.html",
     "version": "0.1",
     "window": {
-      "toolbar": true,
+      "toolbar": false,
       "min_width": 750,
       "min_height": 500,
       "width": 750,
