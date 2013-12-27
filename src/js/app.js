@@ -13,8 +13,14 @@ ventana.on("close", function() {
   gui.App.quit();
 });
 
-
-
+app.filter('range', function() {
+  return function(arr, lower, upper) {
+    for (var i = lower; i <= upper; i++){
+      arr.push(i);
+    }
+    return arr;
+  };
+});
 
 app.controller('AppCtrl', function ($scope) {
   $scope.brillo = 50;
@@ -52,13 +58,11 @@ app.controller('AppCtrl', function ($scope) {
   }
   
   
-  $scope.capa_guia_opacidad = 0;
   $scope.capa_grilla_opacidad = 0;
   $scope.capa_grilla_cantidad_filas = 5;
   $scope.capa_grilla_cantidad_columnas = 3;
   
   $scope.deshabilitar_capas = function() {
-  	$scope.capa_guia_opacidad = 0;
   	$scope.capa_grilla_opacidad = 0;
   }
 
@@ -67,7 +71,7 @@ app.controller('AppCtrl', function ($scope) {
     $scope.contraste = 50;
     $scope.borrosidad = 0;
     $scope.saturacion = 0;
-  }
+	}
   
   $scope.seleccionar_tab = function (numero) {
   	$scope.tab_seleccionado = "tab" + numero;

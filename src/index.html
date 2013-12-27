@@ -28,10 +28,12 @@
 			<p>
 					<button id='boton_iniciar_proyecto' class='btn btn-success'>Iniciar un nuevo proyecto</button>
 					<button disabled id='boton_abrir_proyecto' class='btn btn-success'>Cargar proyecto</button>
-				
+			</p>
+			
 			<p>
 					<button disabled class='btn btn-success'>Ver ejemplos</button>
 					<button disabled class='btn btn-success'>Leer el tutorial</button>
+			</p>
 			
 			<div class='proyectos-recientes'>
 				<p class='cabecera-proyectos'>Proyectos recientes:</p>
@@ -99,18 +101,13 @@
             <div class='contenedor-layers' id='contenedor-layers'>
               <!-- cuadro fantasma -->
 
-              <table class='grilla'>
-                {{capa_grilla_cantidad_columnas}}
-                  <tr ng-repeat='f in getNumber(capa_grilla_cantidad_filas) track by $index'>
-                    <td ng-repeat='c in getNumber(capa_grilla_cantidad_columnas) track by $index'>&nbsp;</td>
-                  </tr>
+              <table class='grilla' style='opacity: {{capa_grilla_opacidad/100}}'>
+								<tr ng-repeat="f in [] | range:0:capa_grilla_cantidad_filas">
+									<td ng-repeat="c in [] | range:0:capa_grilla_cantidad_columnas"> &nbsp; </td>
+        				</tr>
               </table>
 
               <canvas ng-show='fantasma' style='opacity: {{fantasma_opacidad/100}}' id='canvas' width=640 height=480></canvas>
-
-              <!-- capas overlay -->
-              <img src='app://./images/capas/guias.png' style='opacity: {{capa_guia_opacidad/100}}'>
-              <img src='app://./images/capas/grilla.png' style='opacity: {{capa_grilla_opacidad/100}}'>
 
               <!-- el video capturado de la camara -->
               <video autoplay loop="true"></video>
