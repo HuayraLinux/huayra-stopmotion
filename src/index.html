@@ -19,12 +19,29 @@
 
   <body ng-controller='AppCtrl'>
 
-    <!-- PANEL INICIAL MIENTRAS CARGA LA APLICACION -->
-    <div class='loading'>
-      <img src='./img/vaca.gif'/>
-      <br/>
-      <br/>
-      iniciando ...
+    <!-- PANEL INICIAL -->
+    <div class='panel-inicial'>
+			<p>
+      Hola, ¿que te gustaría hacer?
+			</p>
+			
+			
+			<button id='boton_iniciar_proyecto' class='btn btn-success'>Iniciar un nuevo proyecto</button>
+			<button disabled class='btn btn-success'>Ver ejemplos</button>
+			<button disabled class='btn btn-success'>Leer el tutorial</button>
+			
+			
+			<div class='proyectos-recientes'>
+				<p>Proyectos recientes:</p>
+				
+				<div class='cargando'>Cargando ...</div>
+				
+				<div class='invisible'>
+				
+				</div>
+				
+				
+			</div>
     </div>
 
 

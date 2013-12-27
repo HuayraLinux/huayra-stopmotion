@@ -299,12 +299,17 @@ app.controller('AppCtrl', function ($scope) {
     var w = gui.Window.get();
     w.showDevTools();
   }
+	
 
-  setTimeout(function() {
-    jQuery('.loading').slideUp(200)
-  }, 1000);
-
-
+	window.iniciar_nuevo_proyecto = function() {
+		jQuery('.panel-inicial').fadeOut();
+	}
+	
+	console.log("aca!");
+	var boton_iniciar_proyecto = document.getElementById('boton_iniciar_proyecto');
+	boton_iniciar_proyecto.onclick = iniciar_nuevo_proyecto;
+	
+	
   var express = require('express');
   var http = require('http');
 

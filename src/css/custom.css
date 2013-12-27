@@ -158,7 +158,7 @@ html {
 }
 
 
-div.loading {
+div.panel-inicial {
     position: absolute;
     left: 0px;
     right: 0px;
@@ -169,7 +169,6 @@ div.loading {
     padding-top: 150px;
     text-align: center;
     font-size: 15px;
-    border-bottom: 5px solid gray;
 }
 
 .ayuda {
