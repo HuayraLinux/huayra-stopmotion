@@ -418,7 +418,7 @@ table.grilla td {
 }
 
 .btn-pulsado {
-	background-color: rgb(255, 213, 213);
+	background-color: rgb(255, 213, 213) !important;
 }
 
 .btn-normal {
@@ -427,6 +427,7 @@ table.grilla td {
 
 .boton-plano {
 	border: 1px solid rgb(138, 138, 138);
+	background-color: white;
 }
 .proyectos-recientes {
 	margin: auto;

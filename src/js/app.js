@@ -29,6 +29,10 @@ app.controller('AppCtrl', function ($scope) {
 	$scope.panel_visible = true;
 	
 	
+	$scope.pulsa_boton_alternar_ayuda = function() {
+		alternar_panel_ayuda();
+	}
+	
 	$scope.pulsa_boton_alternar_panel = function() {
 		$scope.panel_visible = !$scope.panel_visible;
 		alternar_panel_lateral();
@@ -268,7 +272,6 @@ app.controller('AppCtrl', function ($scope) {
 	});
 
 	key('h', function(){
-
 		alternar_panel_ayuda();
 	});
 
