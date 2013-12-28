@@ -188,7 +188,7 @@ div.panel-inicial {
 
 .ayuda-contenido {
     background-color: white;
-    margin: 100px;
+    margin: 4%;
     padding: 25px;
 }
 
@@ -439,4 +439,11 @@ table.grilla td {
 
 .cabecera-proyectos {
 	font-weight:bold;
+}
+
+.li-tecla {
+  font-size: 16px;
+  display: inline-block;
+  width: 49%;
+  margin-bottom: 20px;
 }

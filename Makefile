@@ -14,7 +14,7 @@ build:
 
 test_mac:
 	@echo "Cuidado - se está usando la version de nodewebkit del sistema."
-	open -a node-webkit.app src
+	open -a /Applications/node-webkit.app src
 
 instalar:
 	cd dist; wget https://s3.amazonaws.com/node-webkit/v0.7.3/node-webkit-v0.7.3-linux-ia32.tar.gz

@@ -60,13 +60,13 @@
         <h1>Atajos de teclado</h1>
 
         <ul>
-          <li><div class='tecla'>h</div> Muestra esta ayuda.</li>
-          <li><div class='tecla'>n</div> Oculta el panel lateral.</li>
-          <li><div class='tecla'>Espacio</div> Captura un cuadro de animación.</li>
-          <li><div class='tecla'>→</div> Avanzar un cuadro.</li>
-          <li><div class='tecla'>←</div> Retroceder un cuadro.</li>
-          <li><div class='tecla'>↓</div> Ir al último cuadro.</li>
-          <li><div class='tecla'>↑</div> Ir al primer cuadro.</li>
+          <li class='li-tecla'><div class='tecla'>h</div> Muestra esta ayuda.</li>
+          <li class='li-tecla'><div class='tecla'>n</div> Oculta el panel lateral.</li>
+          <li class='li-tecla'><div class='tecla'>Espacio</div> Captura un cuadro.</li>
+          <li class='li-tecla'><div class='tecla'>→</div> Avanzar un cuadro.</li>
+          <li class='li-tecla'><div class='tecla'>←</div> Retroceder un cuadro.</li>
+          <li class='li-tecla'><div class='tecla'>↓</div> Ir al último cuadro.</li>
+          <li class='li-tecla'><div class='tecla'>↑</div> Ir al primer cuadro.</li>
         </ul>
       </div>
 
@@ -362,6 +362,9 @@
     <script src="js/plugins.js"></script>
 
 		<script>
+      var config = require('./package.json');
+      
+      console.log(config);
 		 //var Gaze = require('gaze').Gaze;
 		 //var gaze = new Gaze('**/*');
 		
