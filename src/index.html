@@ -25,10 +25,7 @@
       Hola, bienvenido a huayra-stopmotion.
 			</p>
 			
-			<p>
-					<button id='boton_iniciar_proyecto' class='btn btn-success'>Iniciar un nuevo proyecto</button>
-					<button disabled id='boton_abrir_proyecto' class='btn btn-success'>Cargar proyecto</button>
-			</p>
+			<p><button id='boton_iniciar_proyecto' class='btn btn-success'>Iniciar un nuevo proyecto</button><button disabled id='boton_abrir_proyecto' class='btn btn-success'>Cargar proyecto</button></p>
 			
 			<p>
 					<button disabled class='btn btn-success'>Ver ejemplos</button>
@@ -98,19 +95,47 @@
         <!-- PANEL DE CONTENIDOS PRINCIPAL -->
         <div class="content-body" id='content-body'>
           <div class='contenedor-izquierdo'>
+            
+            
             <div class='contenedor-layers' id='contenedor-layers'>
-              <!-- cuadro fantasma -->
+              
+              
+              
+                  <div  class='contenedor-scroll'>  
+      <div class="contenedor">
+        <!-- capa cebolla -->
+          <div style='display: none' class='overlay'></div>
+        
 
-              <table class='grilla' style='opacity: {{capa_grilla_opacidad/100}}'>
+              <!-- capa grilla -->
+              <table id='table' class='grilla'>
 								<tr ng-repeat="f in [] | range:0:capa_grilla_cantidad_filas">
 									<td ng-repeat="c in [] | range:0:capa_grilla_cantidad_columnas"> &nbsp; </td>
         				</tr>
               </table>
 
-              <canvas ng-show='fantasma' style='opacity: {{fantasma_opacidad/100}}' id='canvas' width=640 height=480></canvas>
+          
+           <!-- cuadro capa de cebolla -->
+           <canvas ng-show='fantasma' style='opacity: {{fantasma_opacidad/100}}' id='canvas' width=640 height=480></canvas>
+        
+           <!-- el video capturado de la camara -->
+           <video id='video' autoplay loop="true"></video>
+      </div>
+      </div>
+              
+              
+              
+              
+              
+              
+              
+              
 
-              <!-- el video capturado de la camara -->
-              <video autoplay loop="true"></video>
+
+              
+              
+              
+              
             </div>
           </div>
 
@@ -206,12 +231,12 @@
 
                       <div class='inner-control'>
                         <div class="control-group">
-                          Filas
+                          <span>Filas ({{capa_grilla_cantidad_filas + 1}}):</span>
                           <input ng-disabled='capa_grilla_opacidad == 0' ng-model='capa_grilla_cantidad_filas' type='range' step="1" min="0" max="12"></input>
                         </div>
 
                         <div class="control-group">
-                          Columnas:
+                          <span>Columnas ({{capa_grilla_cantidad_columnas + 1}}):</span>
                           <input ng-disabled='capa_grilla_opacidad == 0' ng-model='capa_grilla_cantidad_columnas' type='range' step="1" min="0" max="12"></input>
                         </div>
                       </div>

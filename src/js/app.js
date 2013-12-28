@@ -65,6 +65,12 @@ app.controller('AppCtrl', function ($scope) {
   $scope.deshabilitar_capas = function() {
   	$scope.capa_grilla_opacidad = 0;
   }
+  
+  $scope.$watch('capa_grilla_opacidad', function() {
+    var table = document.getElementById('table');
+    table.style.opacity = $scope.capa_grilla_opacidad / 100;
+  });
+  
 
   $scope.restaurar = function () {
     $scope.brillo = 50;
@@ -168,6 +174,7 @@ app.controller('AppCtrl', function ($scope) {
     fs.writeFile($scope.directorio_destino + nombre_imagen, imageBuffer.data, function(err) {
       $scope.cuadros.push({id: contador_item, nombre: 'nuevo', src: $scope.directorio_destino + imagen.src});
       $scope.frame.sly('add', '<li><img src="' + $scope.directorio_destino + nombre_imagen + '"></img></li>');
+      ajustar_capas();
       $scope.$apply();
     });
     
@@ -235,9 +242,21 @@ app.controller('AppCtrl', function ($scope) {
 	var $slidee = $frame.children('ul').eq(0);
 	var $wrap   = $frame.parent();
 
+  
+  window.ajustar_capas = function() {
+    var canvas = document.getElementById('canvas');
+    var table = document.getElementById('table');
+    
+    table.width = canvas.clientWidth;
+    table.style.left = '50%';
+    table.style.marginLeft = -table.width / 2 + "px";
+    
+    table.style.height = canvas.clientHeight + "px"; 
+  }
 
     window.onresize = function(){
       $scope.frame.sly('reload')
+      ajustar_capas();
     }
 
 		// Call Sly on frame
