@@ -194,13 +194,6 @@
                 <div ng-class="{'oculto': tab_seleccionado != 'tab3'}">
                   <div class="side-box">           
 
-                    <div class="control-group">
-                      <label class="control-label" for="capa_guia_opacidad">Guia</label>
-                      <div class="controls">
-                        <input type='range' step="5" min="0" max="100" ng-model="capa_guia_opacidad"></input>
-                        <span class='nota'>{{capa_guia_opacidad}}</span>
-                      </div>
-                    </div>
 
                     <div class="control-group">
                       <label class="control-label" for="capa_guia_opacidad">Grilla</label>
@@ -362,16 +355,16 @@
     <script src="js/plugins.js"></script>
 
 		<script>
-      var config = require('./package.json');
-      
-      console.log(config);
-		 //var Gaze = require('gaze').Gaze;
-		 //var gaze = new Gaze('**/*');
-		
-		 //gaze.on('all', function(event, filepath) {
-		 //	 if (location)
-		 // 	 location.reload();
-		 //});
+      var config = require('./package.json');     
+      if (config.livereload) {
+		    var Gaze = require('gaze').Gaze;
+        var gaze = new Gaze('**/*');
+       
+        gaze.on('all', function(event, filepath) {
+          if (location)
+            location.reload();
+        });
+      }
 		</script>
 
   </body>
