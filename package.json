@@ -18,6 +18,7 @@
     "express": "~3.4.4",
     "socket.io": "~0.9.16",
     "fluent-ffmpeg": "~1.5.2",
-    "jsonfile": "~1.1.1"
+    "jsonfile": "~1.1.1",
+    "gaze": "~0.4.3"
   }
 }
