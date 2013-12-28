@@ -58,9 +58,9 @@ app.controller('AppCtrl', function ($scope) {
   }
   
   
-  $scope.capa_grilla_opacidad = 0;
-  $scope.capa_grilla_cantidad_filas = 5;
-  $scope.capa_grilla_cantidad_columnas = 3;
+  $scope.capa_grilla_opacidad = 50;
+  $scope.capa_grilla_cantidad_filas = 2;
+  $scope.capa_grilla_cantidad_columnas = 2;
   
   $scope.deshabilitar_capas = function() {
   	$scope.capa_grilla_opacidad = 0;
@@ -312,7 +312,6 @@ app.controller('AppCtrl', function ($scope) {
 		jQuery('.panel-inicial').fadeOut();
 	}
 	
-	console.log("aca!");
 	var boton_iniciar_proyecto = document.getElementById('boton_iniciar_proyecto');
 	boton_iniciar_proyecto.onclick = iniciar_nuevo_proyecto;
 	
