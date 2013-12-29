@@ -91,8 +91,9 @@ app.controller('AppCtrl', function ($scope) {
   }
 
   $scope.seleccionar_camara = function (numero) {
-  	$scope.camara_seleccionada = 1;
+  	$scope.camara_seleccionada = numero;
   }
+  $scope.seleccionar_camara(1);
   
 
   function actualizar_efectos(_old, _new) {
@@ -236,6 +237,7 @@ app.controller('AppCtrl', function ($scope) {
 
   
   window.ajustar_capas = function() {
+    var previsualizar = document.getElementById('previsualizado');
     var canvas = document.getElementById('canvas');
     var table = document.getElementById('table');
     
@@ -249,6 +251,11 @@ app.controller('AppCtrl', function ($scope) {
     video.style.height = table.style.height;
     video.style.width = table.width;
     video.style.marginLeft = -table.width / 2 + "px";
+    
+    previsualizar.style.left = table.style.left;
+    previsualizar.style.height = table.style.height;
+    previsualizar.style.width = table.width;
+    previsualizar.style.marginLeft = -table.width / 2 + "px";
   }
 
     window.onresize = function(){
@@ -288,10 +295,12 @@ app.controller('AppCtrl', function ($scope) {
   
   $scope.sly.on('active', function(e, indice) {
     var canvas = document.getElementById("canvas");
+    var previsualizado = document.getElementById("previsualizado");
   	var item = $scope.sly.getPos(indice);
     var imagen = item.el.children[0];
     
     dibujar_imagen_sobre_canvas(imagen, canvas);
+    dibujar_imagen_sobre_canvas(imagen, previsualizado);
   })
   
   

@@ -87,6 +87,7 @@
           <div class="sidebar-camara">
             <ul class="sr-control-item">
 
+              <li><a ng-click="seleccionar_camara(0)" href="#" data-toggle="tab"><i class="icon-eye-close"></i> Previsualizar</a></li>
               <li class="active"><a ng-click="seleccionar_camara(1)" href="#" data-toggle="tab"><i class="icon-camera"></i> Cámara 1</a></li>
               <li ng-repeat='c in camaras'><a ng-click="seleccionar_tab(c.indice)" href="#alt{{c.indice}}" data-toggle="tab"><i class="icon-camera"></i> Cámara {{c.indice}}</a></li>
 
@@ -121,7 +122,9 @@
            <canvas ng-show='fantasma' style='opacity: {{fantasma_opacidad/100}}' id='canvas' width=640 height=480></canvas>
         
            <!-- el video capturado de la camara -->
-           <video id='video' autoplay loop="true"></video>
+           <video ng-show='camara_seleccionada == 1' id='video' autoplay loop="true"></video>
+        
+           <canvas ng-show='camara_seleccionada == 0' id='previsualizado' width=640 height=480></video>
       </div>
       </div>
               
