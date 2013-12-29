@@ -22,6 +22,13 @@ app.filter('range', function() {
   };
 });
 
+app.filter('incrementar', function() {
+  return function(input) {
+    return parseInt(input, 10) + 1;
+    ;
+  };
+});
+
 app.controller('AppCtrl', function ($scope) {
   $scope.brillo = 50;
   $scope.contraste = 50;
@@ -252,12 +259,19 @@ app.controller('AppCtrl', function ($scope) {
     table.style.marginLeft = -table.width / 2 + "px";
     
     table.style.height = canvas.clientHeight + "px"; 
+    
+    video.style.left = table.style.left;
+    video.style.height = table.style.height;
+    video.style.width = table.width;
+    video.style.marginLeft = -table.width / 2 + "px";
   }
 
     window.onresize = function(){
       $scope.frame.sly('reload')
       ajustar_capas();
     }
+    
+    setInterval(ajustar_capas, 100);
 
 		// Call Sly on frame
 		$frame.sly({
@@ -282,8 +296,10 @@ app.controller('AppCtrl', function ($scope) {
 		});
 
     $scope.frame = $frame;
+  	$scope.sly = $frame.data('sly');
 
     window.frame = $frame;
+  	window.sly = $scope.sly;
   /*
    * Atajos de teclado.
    *
@@ -312,11 +328,17 @@ app.controller('AppCtrl', function ($scope) {
   });
 
   key("up", function(){
-    $scope.frame.sly('prevPage');
+    $scope.sly.activate(0);
   });
 
   key("down", function(){
-    $scope.frame.sly('nextPage');
+    var pos = $scope.sly.rel.activeItem;
+    $scope.sly.next();
+    
+    var nuevaPos = $scope.sly.rel.activeItem;
+    
+    if (pos == nuevaPos)
+      $scope.sly.activate(0);
   });
 
 
@@ -330,9 +352,17 @@ app.controller('AppCtrl', function ($scope) {
 	window.iniciar_nuevo_proyecto = function() {
 		jQuery('.panel-inicial').fadeOut();
 	}
+  
+  
+  window.abrir_proyecto = function() {
+    alert("hey!");
+  }
 	
 	var boton_iniciar_proyecto = document.getElementById('boton_iniciar_proyecto');
 	boton_iniciar_proyecto.onclick = iniciar_nuevo_proyecto;
+  
+  var boton_abrir_proyecto = document.getElementById('boton_abrir_proyecto');
+  boton_abrir_proyecto = abrir_proyecto;
 	
 	
   var express = require('express');

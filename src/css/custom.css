@@ -76,7 +76,6 @@ footer .row {
 .contenedor-layers video {
   position: absolute;
   height: auto;
-  width: 100%;
   max-width: 100%;
   max-height: 100%;
   top: 0;
@@ -429,7 +428,6 @@ table.grilla td {
 	width: 50%;
 	background-color: rgb(236, 236, 236);
 	border-radius: 9px;
-	margin-top: 3em;
 	padding: 1em;
 }
 
@@ -465,4 +463,28 @@ canvas#canvas {
   left:0;
   right:0;
   margin:auto;
+}
+.asistente {
+  list-style: none;
+  padding:0;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.asistente-item {
+  display: inline-block;
+  box-shadow: 0 1px 0 0 #FFFFFF inset, 0 1px 0 rgba(0, 0, 0, 0.4);
+  border: 1px solid #d5d5d5;
+  border-radius: 4px 4px 4px 4px;
+  background-color: #F7F7F7;
+  margin: 0 10px 10px;
+}
+
+.asistente-item :hover {
+  background-color: white;
+}
+
+.asistente-item a {
+  display: block;
+  padding: 15px;
 }

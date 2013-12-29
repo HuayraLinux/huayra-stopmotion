@@ -24,13 +24,11 @@
 			<p>
       Hola, bienvenido a huayra-stopmotion.
 			</p>
-			
-			<p><button id='boton_iniciar_proyecto' class='btn btn-success'>Iniciar un nuevo proyecto</button><button disabled id='boton_abrir_proyecto' class='btn btn-success'>Cargar proyecto</button></p>
-			
-			<p>
-					<button disabled class='btn btn-success'>Ver ejemplos</button>
-					<button disabled class='btn btn-success'>Leer el tutorial</button>
-			</p>
+      
+      <ul class='asistente'>
+        <li class='asistente-item'><a id='boton_iniciar_proyecto' href='#'><i class="icon-edit"></i> Iniciar un proyecto</a></li>
+        <li class='asistente-item'><a id='boton_abrir_proyecto' href='#'><i class="icon-folder-open"></i> Abrir un proyecto existente</a></li>
+      </ul>
 			
 			<div class='proyectos-recientes'>
 				<p class='cabecera-proyectos'>Proyectos recientes:</p>
@@ -62,7 +60,7 @@
           <li class='li-tecla'><div class='tecla'>Espacio</div> Captura un cuadro.</li>
           <li class='li-tecla'><div class='tecla'>→</div> Avanzar un cuadro.</li>
           <li class='li-tecla'><div class='tecla'>←</div> Retroceder un cuadro.</li>
-          <li class='li-tecla'><div class='tecla'>↓</div> Ir al último cuadro.</li>
+          <li class='li-tecla'><div class='tecla'>↓</div> Avanzar continuamente.</li>
           <li class='li-tecla'><div class='tecla'>↑</div> Ir al primer cuadro.</li>
         </ul>
       </div>
@@ -231,12 +229,12 @@
 
                       <div class='inner-control'>
                         <div class="control-group">
-                          <span>Filas ({{capa_grilla_cantidad_filas + 1}}):</span>
+                          <span>Filas ({{capa_grilla_cantidad_filas | incrementar}}):</span>
                           <input ng-disabled='capa_grilla_opacidad == 0' ng-model='capa_grilla_cantidad_filas' type='range' step="1" min="0" max="12"></input>
                         </div>
 
                         <div class="control-group">
-                          <span>Columnas ({{capa_grilla_cantidad_columnas + 1}}):</span>
+                          <span>Columnas ({{capa_grilla_cantidad_columnas | incrementar}}):</span>
                           <input ng-disabled='capa_grilla_opacidad == 0' ng-model='capa_grilla_cantidad_columnas' type='range' step="1" min="0" max="12"></input>
                         </div>
                       </div>
