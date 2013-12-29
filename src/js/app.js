@@ -208,17 +208,6 @@ app.controller('AppCtrl', function ($scope) {
     }
   }
   
-  
-  $scope.seleccionar = function(id) {
-    $scope.cuadro_seleccionado = id;
-    var cuadro_como_image = obtener_cuadro_por_id(id);
-    
-    // Reemplaza el cuadro fantasma por el cuadro seleccionado.
-    var image = new Image();
-    image.src = cuadro_como_image.src;
-    dibujar_imagen_sobre_canvas(image, canvas);
-  }
-	
 	
 	window.alternar_panel_lateral = function() {
 		var panel = document.getElementById('panel-lateral');
@@ -229,10 +218,6 @@ app.controller('AppCtrl', function ($scope) {
 		contenedor.classList.toggle('contenedor-layers-expandido');
 		controles.classList.toggle('contenedor-controles-expandido');
 	}
-
-
-	
-	
 	
   window.alternar_panel_ayuda = function() {
 		var ayuda = document.getElementById('ayuda');
@@ -300,6 +285,16 @@ app.controller('AppCtrl', function ($scope) {
 
     window.frame = $frame;
   	window.sly = $scope.sly;
+  
+  $scope.sly.on('active', function(e, indice) {
+    var canvas = document.getElementById("canvas");
+  	var item = $scope.sly.getPos(indice);
+    var imagen = item.el.children[0];
+    
+    dibujar_imagen_sobre_canvas(imagen, canvas);
+  })
+  
+  
   /*
    * Atajos de teclado.
    *
@@ -353,17 +348,28 @@ app.controller('AppCtrl', function ($scope) {
 		jQuery('.panel-inicial').fadeOut();
 	}
   
-  
   window.abrir_proyecto = function() {
-    alert("hey!");
+    var openDialog = document.getElementById('open-dialog');
+    openDialog.click();
+
+    openDialog.onchange = function(evento) {
+      var archivo = this.value;
+      this.value = ""; // Hace que se pueda seleccionar el archivo nuevamente.
+      
+      if (/.hmotion$/.test(archivo)) {
+        console.log("Abrir el archivo " + archivo);
+      	alert(archivo);
+      } else {
+        alert("Lo siento, solo puedo leer archivos del formato .hmotion");
+      }
+    }
   }
 	
 	var boton_iniciar_proyecto = document.getElementById('boton_iniciar_proyecto');
 	boton_iniciar_proyecto.onclick = iniciar_nuevo_proyecto;
   
   var boton_abrir_proyecto = document.getElementById('boton_abrir_proyecto');
-  boton_abrir_proyecto = abrir_proyecto;
-	
+  boton_abrir_proyecto.onclick = abrir_proyecto;
 	
   var express = require('express');
   var http = require('http');
@@ -372,7 +378,7 @@ app.controller('AppCtrl', function ($scope) {
   var server = http.createServer(app);
 
   app.configure(function(){
-    app.set('port', 3000);
+    app.set('port', 3002);
     app.use(express.static('./public'));
   });
 
