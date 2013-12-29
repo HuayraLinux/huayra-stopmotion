@@ -89,7 +89,7 @@
 
               <li><a ng-click="seleccionar_camara(0)" href="#" data-toggle="tab"><i class="icon-eye-close"></i> Previsualizar</a></li>
               <li class="active"><a ng-click="seleccionar_camara(1)" href="#" data-toggle="tab"><i class="icon-camera"></i> Cámara 1</a></li>
-              <li ng-repeat='c in camaras'><a ng-click="seleccionar_tab(c.indice)" href="#alt{{c.indice}}" data-toggle="tab"><i class="icon-camera"></i> Cámara {{c.indice}}</a></li>
+              <li ng-repeat='c in camaras'><a ng-click="seleccionar_camara(c.indice)" href="#" data-toggle="tab"><i class="icon-camera"></i> Cámara {{c.indice}}</a></li>
 
             </ul>
           </div>
@@ -327,6 +327,14 @@
                         <button id='desarrollo' ng-click="abrir_modo_desarrollador()" class='btn btn-sucess'>Abrir modo desarrollador</button>
                       </div>
                     </div>
+                  
+                    <div class="control-group">
+                      <label class="control-label" for="desarrollo">Compartir cámara</label>
+                      <div class="controls">
+                        Puerto para acceso remoto {{puerto_remoto}}
+                      </div>
+                    </div>
+                  
 
                   </div>
                 </div>

@@ -40,6 +40,7 @@ app.controller('AppCtrl', function ($scope) {
   $scope.camaras = [];
   $scope.camara_seleccionada = 1;
 	$scope.panel_visible = true;
+  $scope.puerto_remoto = "???";
 	
 	
 	$scope.pulsa_boton_alternar_ayuda = function() {
@@ -152,15 +153,26 @@ app.controller('AppCtrl', function ($scope) {
     explorar_directorio('./' + $scope.directorio_destino);
   }
   
+  $scope.seleccionar_ultimo_cuadro = function() {
+    $scope.sly.activate(sly.items.length - 1);
+  }
   
   $scope.capturar = function() {
     contador_item += 1;
     $scope.cuadro_seleccionado = contador_item;
     
     var canvas = document.getElementById("canvas");
-    var context = canvas.getContext("2d");
-    context.drawImage(video, 0, 0, 640, 480);
+    var previsualizado = document.getElementById("previsualizado");
+    
+    dibujar_imagen_sobre_canvas(video, canvas);
+    dibujar_imagen_sobre_canvas(video, previsualizado);
+    
     var imagen = convertCanvasToImage(canvas);
+    
+    
+    
+    
+    
 
     function decodeBase64Image(dataString) {
       var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
@@ -184,6 +196,7 @@ app.controller('AppCtrl', function ($scope) {
       $scope.frame.sly('add', '<li><img src="' + $scope.directorio_destino + nombre_imagen + '"></img></li>');
       ajustar_capas();
       $scope.$apply();
+      $scope.seleccionar_ultimo_cuadro();
     });
     
 
@@ -387,12 +400,14 @@ app.controller('AppCtrl', function ($scope) {
   var server = http.createServer(app);
 
   app.configure(function(){
-    app.set('port', 3002);
+    app.set('port', 3000 + Math.floor(Math.random() * 1000));
     app.use(express.static('./public'));
   });
 
   server.listen(app.get('port'), function(){
     console.log("Comenzando a escuchar en el puerto: " + app.get('port'));
+    $scope.puerto_remoto = app.get('port');
+    $scope.$apply();
   });
 
   var io = require("socket.io").listen(server);
