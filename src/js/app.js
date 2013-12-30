@@ -393,42 +393,47 @@ app.controller('AppCtrl', function ($scope) {
   var boton_abrir_proyecto = document.getElementById('boton_abrir_proyecto');
   boton_abrir_proyecto.onclick = abrir_proyecto;
 	
-  var express = require('express');
-  var http = require('http');
-
-  var app = express();
-  var server = http.createServer(app);
-
-  app.configure(function(){
-    app.set('port', 3000 + Math.floor(Math.random() * 1000));
-    app.use(express.static('./public'));
-  });
-
-  server.listen(app.get('port'), function(){
-    console.log("Comenzando a escuchar en el puerto: " + app.get('port'));
-    $scope.puerto_remoto = app.get('port');
-    $scope.$apply();
-  });
-
-  var io = require("socket.io").listen(server);
-
-  io.sockets.on('connection', function (socket) {
-
-    $scope.camaras.push({
-      indice: 2,
-      socket: socket,
-    });
-
-    $scope.$apply();
-
-    socket.on('disconnect', function() {
-      $scope.camaras.splice(0, 1);
-      $scope.$apply();
-    });
-
-    socket.on("mensaje", function(data) {
-      console.log(data);
-    });
-  });
+	
+	var config = require('./package.json');
+	
+	if (config.compartir) {
+		var express = require('express');
+		var http = require('http');
+	
+		var app = express();
+		var server = http.createServer(app);
+	
+		app.configure(function(){
+			app.set('port', 3000 + Math.floor(Math.random() * 1000));
+			app.use(express.static('./public'));
+		});
+	
+		server.listen(app.get('port'), function(){
+			console.log("Comenzando a escuchar en el puerto: " + app.get('port'));
+			$scope.puerto_remoto = app.get('port');
+			$scope.$apply();
+		});
+	
+		var io = require("socket.io").listen(server);
+	
+		io.sockets.on('connection', function (socket) {
+	
+			$scope.camaras.push({
+				indice: 2,
+				socket: socket,
+			});
+	
+			$scope.$apply();
+	
+			socket.on('disconnect', function() {
+				$scope.camaras.splice(0, 1);
+				$scope.$apply();
+			});
+	
+			socket.on("mensaje", function(data) {
+				console.log(data);
+			});
+		});
+	}
 
 });

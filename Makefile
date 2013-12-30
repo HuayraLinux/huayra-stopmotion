@@ -10,6 +10,7 @@ test:
 	./dist/node-webkit-v0.7.3-linux-ia32/nw src
 
 build:
+	rm -f -r webkitbuilds/releases/
 	grunt nodewebkit
 
 test_mac:
