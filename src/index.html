@@ -105,7 +105,8 @@
               
               
                   <div  class='contenedor-scroll'>  
-      <div class="contenedor">
+										
+      <div class="contenedor" id='contenedor_interno'>
         <!-- capa cebolla -->
           <div style='display: none' class='overlay'></div>
         
@@ -119,7 +120,7 @@
 
           
            <!-- cuadro capa de cebolla -->
-           <canvas ng-show='fantasma' style='opacity: {{fantasma_opacidad/100}}' id='canvas' width=640 height=480></canvas>
+           <canvas ng-show='fantasma' id='canvas' width=640 height=480></canvas>
         
            <!-- el video capturado de la camara -->
            <video ng-show='camara_seleccionada == 1' id='video' autoplay loop="true"></video>

@@ -79,6 +79,13 @@ app.controller('AppCtrl', function ($scope) {
     table.style.opacity = $scope.capa_grilla_opacidad / 100;
   });
   
+	
+	$scope.$watch('fantasma_opacidad', function() {
+    var canvas = document.getElementById('canvas');
+    canvas.style.opacity = $scope.fantasma_opacidad / 100;
+	});
+	
+	
 
   $scope.restaurar = function () {
     $scope.brillo = 50;
@@ -248,27 +255,52 @@ app.controller('AppCtrl', function ($scope) {
 	var $slidee = $frame.children('ul').eq(0);
 	var $wrap   = $frame.parent();
 
+	window.calculateAspectRatioFit = function(srcWidth, srcHeight, maxWidth, maxHeight)
+	{
+    var ratio = [maxWidth / srcWidth, maxHeight / srcHeight ];
+    ratio = Math.min(ratio[0], ratio[1]);
+
+    return {width: Math.floor(srcWidth*ratio), height: Math.floor(srcHeight*ratio)};
+ 	}
+	
   
   window.ajustar_capas = function() {
+    var contenedor_interno = document.getElementById('contenedor_interno');
     var previsualizar = document.getElementById('previsualizado');
     var canvas = document.getElementById('canvas');
     var table = document.getElementById('table');
+		
+		var size = calculateAspectRatioFit(canvas.width, canvas.height, contenedor_interno.clientWidth, contenedor_interno.clientHeight);
+		
+		function calcularMitad(longitud, en_negativo) {
+			var en_negativo = en_negativo || false;
+			var longitud_como_numero = parseInt(longitud, 10) / 2;
+			
+			if (en_negativo)
+				longitud_como_numero = -longitud_como_numero;
+			
+			return Math.floor(longitud_como_numero) + "px";
+		}
     
-    table.width = canvas.clientWidth;
+    table.style.width = size.width + "px";
     table.style.left = '50%';
-    table.style.marginLeft = -table.width / 2 + "px";
-    
-    table.style.height = canvas.clientHeight + "px"; 
+    table.style.marginLeft = calcularMitad(table.style.width, true);
+    table.style.height = size.height + "px";
     
     video.style.left = table.style.left;
+    video.style.width = table.style.width;
     video.style.height = table.style.height;
-    video.style.width = table.width;
-    video.style.marginLeft = -table.width / 2 + "px";
+    video.style.marginLeft = table.style.marginLeft;
     
     previsualizar.style.left = table.style.left;
+    previsualizar.style.width = table.style.width;
     previsualizar.style.height = table.style.height;
-    previsualizar.style.width = table.width;
-    previsualizar.style.marginLeft = -table.width / 2 + "px";
+    previsualizar.style.marginLeft = table.style.marginLeft;
+		
+    canvas.style.left = table.style.left;
+    canvas.style.width = table.style.width;
+    canvas.style.height = table.style.height;
+    canvas.style.marginLeft = table.style.marginLeft;
   }
 
     window.onresize = function(){
