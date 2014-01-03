@@ -20,8 +20,8 @@
   <body ng-controller='AppCtrl'>
     
     <!-- CUADROS DE DIALOGO PARA ABRIR Y GUARDAR PROYECTOS -->
-    <input style="display:none;" id="open-dialog" type="file" />
-    <input style="display:none;" id="save-dialog" type="file" />
+    <input style="display:none;" id="open-dialog" type="file" accept=".hmotion"/>
+    <input style="display:none;" id="save-dialog" type="file" nwsaveas="proyecto.hmotion" accept=".hmotion"/>
 
     <!-- PANEL INICIAL -->
     <div class='panel-inicial'>
@@ -194,9 +194,14 @@
 
 
                       <div class="controls">
+												<p>
                         <a ng-disabled='cuadros.length < 1' ng-click='generar_video()' class='btn btn-success'>Generar video</a>
 
                         <button class='btn' ng-click='abrir_directorio_destino()'>Explorar directorio</button>            
+												
+												<p>
+                        <button ng-disabled='cuadros.length < 1' class='btn' ng-click='guardar_proyecto()'>Guardar proyecto</button>            
+												
                       </div>
 
 

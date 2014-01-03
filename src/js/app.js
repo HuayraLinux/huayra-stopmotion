@@ -3,11 +3,34 @@ var app = angular.module('app', ['ngAnimate', 'ui.bootstrap']);
 
 var gui = require('nw.gui');
 var fs = require('fs');
+var path = require('path');
 
 var ffmpeg = require('fluent-ffmpeg');
 
 
 var ventana = gui.Window.get();
+
+var menubar = new gui.Menu({type: 'menubar'});
+
+var menu_archivo = new gui.Menu();
+
+var item_guardar = new gui.MenuItem({
+	label: 'Guardar proyecto como ...',
+	click: function() {
+		window.guardar_proyecto();
+	}
+});
+
+item_guardar.enabled = false;
+
+menu_archivo.append(item_guardar);
+
+menubar.append(new gui.MenuItem({
+	label: 'Archivo', 
+	submenu: menu_archivo
+}));
+
+ventana.menu = menubar;
 
 ventana.on("close", function() {
   gui.App.quit();
@@ -400,6 +423,7 @@ app.controller('AppCtrl', function ($scope) {
 
 	window.iniciar_nuevo_proyecto = function() {
 		jQuery('.panel-inicial').fadeOut();
+		item_guardar.enabled = true;
 	}
   
   window.abrir_proyecto = function() {
@@ -418,6 +442,53 @@ app.controller('AppCtrl', function ($scope) {
       }
     }
   }
+	
+	$scope.guardar_proyecto = function() {
+		guardar_proyecto();
+	}
+	
+	
+  window.guardar_proyecto = function() {
+    var saveDialog = document.getElementById('save-dialog');
+    saveDialog.click();
+
+    saveDialog.onchange = function(evento) {
+      var archivo = this.value;
+			var ruta_destino = path.dirname(this.value);
+			var nombre_archivo = path.basename(this.value);
+			
+      this.value = ""; // Hace que se pueda seleccionar el archivo nuevamente.
+      
+      if (/.hmotion$/.test(archivo)) {
+				
+				var contenido = {
+					titulo: 'Titulo del proyecto',
+					cuadros: []
+				};
+				
+				fs.mkdir(path.join(ruta_destino, 'imagenes'));
+				
+				for (var i=0; i<sly.items.length; i++) {
+					var ruta_imagen = sly.items[i].el.children[0].src.replace('file://', '') 
+					var ruta_imagen_destino = path.join(ruta_destino, 'imagenes', path.basename(ruta_imagen));
+					
+					fs.createReadStream(ruta_imagen).pipe(fs.createWriteStream(ruta_imagen_destino));
+					contenido.cuadros.push({ruta: ruta_imagen})
+				}
+				
+				
+				fs.writeFile(archivo, JSON.stringify(contenido, null, 4), function(err) {
+					if(err)
+      			alert(err);
+				}); 
+				
+      } else {
+        alert("Lo siento, solo puedo grabar sobre archivos del formato .hmotion");
+      }
+    }
+  }
+	
+	
 	
 	var boton_iniciar_proyecto = document.getElementById('boton_iniciar_proyecto');
 	boton_iniciar_proyecto.onclick = iniciar_nuevo_proyecto;
