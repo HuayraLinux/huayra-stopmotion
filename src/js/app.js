@@ -435,8 +435,26 @@ app.controller('AppCtrl', function ($scope) {
       this.value = ""; // Hace que se pueda seleccionar el archivo nuevamente.
       
       if (/.hmotion$/.test(archivo)) {
-        console.log("Abrir el archivo " + archivo);
-      	alert(archivo);
+				
+				fs.readFile(archivo, 'utf8', function (err, data) {
+  				if (err) {
+    				console.log('Error: ' + err);
+    				return;
+  				}
+	 
+					data = JSON.parse(data);
+					
+					iniciar_nuevo_proyecto();
+					
+					for (var i=0; i<data.cuadros.length; i++) {
+      			$scope.frame.sly('add', '<li><img src="' + data.cuadros[i].ruta + '"></img></li>');
+					}
+					
+      		ajustar_capas();
+      		$scope.seleccionar_ultimo_cuadro();
+      		$scope.$apply();
+				});
+				
       } else {
         alert("Lo siento, solo puedo leer archivos del formato .hmotion");
       }
