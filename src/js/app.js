@@ -14,8 +14,15 @@ var menubar = new gui.Menu({type: 'menubar'});
 
 var menu_archivo = new gui.Menu();
 
+var item_abrir = new gui.MenuItem({
+	label: 'Abrir',
+	click: function() {
+		window.abrir_proyecto();
+	}
+});
+
 var item_guardar = new gui.MenuItem({
-	label: 'Guardar proyecto como ...',
+	label: 'Guardar como ...',
 	click: function() {
 		window.guardar_proyecto();
 	}
@@ -23,6 +30,7 @@ var item_guardar = new gui.MenuItem({
 
 item_guardar.enabled = false;
 
+menu_archivo.append(item_abrir);
 menu_archivo.append(item_guardar);
 
 menubar.append(new gui.MenuItem({
