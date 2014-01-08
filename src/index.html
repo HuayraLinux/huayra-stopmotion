@@ -2,7 +2,7 @@
 <html lang="en" ng-app='app'>
   <head>
     <meta charset="utf-8"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="author" content="Hugo Ruscitti"/>
 
     <title>Huayra StopMotion</title>
@@ -179,7 +179,7 @@
                     <div class="control-group">
                       <label class="control-label" for="titulo">Título del proyecto</label>
                       <div class="controls">
-                        <input id='titulo' ng-model='titulo'></input>
+                        <input id='titulo' ng-model='titulo'/>
                       </div>
                     </div>
 
@@ -235,7 +235,7 @@
                       <label class="control-label" for="capa_guia_opacidad">Grilla</label>
 
                       <div class="controls">
-                        <input type='range' step="5" min="0" max="100" ng-model="capa_grilla_opacidad"></input>
+                        <input type='range' step="5" min="0" max="100" ng-model="capa_grilla_opacidad"/>
                         <span class='nota'>{{capa_grilla_opacidad}}</span>
                       </div>
 
@@ -286,7 +286,7 @@
                     <div class="control-group">
                       <label class="control-label" for="brillo">Brillo</label>
                       <div class="controls">
-                        <input type='range' step="5" min="0" max="100" ng-model="brillo"></input>
+                        <input type='range' step="5" min="0" max="100" ng-model="brillo"/>
                         <span class='nota'>{{brillo}}</span>
                       </div>
                     </div>
@@ -294,7 +294,7 @@
                     <div class="control-group">
                       <label class="control-label" for="contraste">Contraste</label>
                       <div class="controls">
-                        <input type='range' step="5" min="0" max="100" ng-model="contraste"></input>
+                        <input type='range' step="5" min="0" max="100" ng-model="contraste"/>
                         <span class='nota'>{{contraste}}</span>
                       </div>
                     </div>
@@ -302,7 +302,7 @@
                     <div class="control-group">
                       <label class="control-label" for="borrosidad">Borrosidad</label>
                       <div class="controls">
-                        <input type='range' step="5" min="0" max="100" ng-model="borrosidad"></input>
+                        <input type='range' step="5" min="0" max="100" ng-model="borrosidad"/>
                         <span class='nota'>{{borrosidad}}</span>
                       </div>
                     </div>
@@ -323,7 +323,7 @@
                     <div class="control-group">
                       <label class="control-label" for="sonidos">Sonidos Habilitados</label>
                       <div class="controls">
-                        <input ng-model='sonido_habilitado' type='checkbox'></input>
+                        <input ng-model='sonido_habilitado' type='checkbox'/>
                       </div>
                     </div>
 
@@ -400,13 +400,24 @@
 
 		<script>
       var config = require('./package.json');     
+			
       if (config.livereload) {
 		    var Gaze = require('gaze').Gaze;
         var gaze = new Gaze('**/*');
+				var doReload = false;
+				
+       	setInterval(function() {
+					
+       		if (doReload) {
+            window.location.reload();
+						doReload = false;
+					}
+					
+				}, 2000);
        
         gaze.on('all', function(event, filepath) {
           if (location)
-            location.reload();
+            doReload = true;
         });
       }
 		</script>
