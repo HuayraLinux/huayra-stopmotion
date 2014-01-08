@@ -76,8 +76,6 @@ footer .row {
 .contenedor-layers video {
   position: absolute;
   height: auto;
-  max-width: 100%;
-  max-height: 100%;
   top: 0;
   left: 0;
   bottom: 0;
@@ -89,8 +87,6 @@ footer .row {
   z-index: 2;
   height: 100%;
   width: auto;
-  max-width: 100%;
-  max-height: 100%;
 }
 
 .contenedor-layers canvas {
@@ -455,8 +451,6 @@ table.grilla td {
 }
 
 canvas#canvas {
-  max-height: 100%;
-  max-width: 100%;
   position: absolute;
   top:0;
   bottom:0;
@@ -465,8 +459,6 @@ canvas#canvas {
 }
 
 canvas#previsualizado {
-  max-height: 100%;
-  max-width: 100%;
   position:absolute;
   top:0;
   bottom:0;
