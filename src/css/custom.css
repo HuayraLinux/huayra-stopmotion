@@ -273,12 +273,32 @@ div.panel-inicial {
 	text-align: center;
 	cursor: pointer;
   border-bottom: 5px solid gray;
+	position: relative;
 }
 
 .frame ul li.active {
 	color: #fff;
 	background: #a03232;
   border-bottom: 5px solid red;
+}
+
+li.active .accion {
+	display: block;
+}
+
+li .accion {
+	display: none;
+}
+
+.accion {
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	z-index: 5000;
+	border: 1px solid rgba(248, 248, 248, 0.49);
+	width: 20px;
+	height: 20px;
+	background-color: rgba(255, 255, 255, 0.41);
 }
 
 
@@ -337,6 +357,7 @@ div.panel-inicial {
 .pages li.active {
 	background: #666;
 }
+
 
 .wrap {
     position: relative;

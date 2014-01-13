@@ -243,7 +243,7 @@ app.controller('AppCtrl', function ($scope) {
 
     fs.writeFile($scope.directorio_destino + nombre_imagen, imageBuffer.data, function(err) {
       $scope.cuadros.push({id: contador_item, nombre: 'nuevo', src: $scope.directorio_destino + imagen.src});
-      $scope.frame.sly('add', '<li><img src="' + $scope.directorio_destino + nombre_imagen + '"></img></li>');
+			$scope.agregar_cuadro($scope.directorio_destino + nombre_imagen);
       ajustar_capas();
       $scope.$apply();
       $scope.seleccionar_ultimo_cuadro();
@@ -445,6 +445,16 @@ app.controller('AppCtrl', function ($scope) {
     w.showDevTools();
   }
 	
+	window.borrar = function() {
+		$scope.sly.remove($scope.sly.rel.activeItem);
+	}
+	
+	$scope.agregar_cuadro = function(ruta_a_imagen) {
+		var acciones = "<div class='accion' onclick='borrar()'>x</div>";
+    $scope.frame.sly('add', '<li><img src="' + ruta_a_imagen + '"></img>' + acciones + '</li>');
+	}
+		
+	
 
 	window.iniciar_nuevo_proyecto = function() {
 		jQuery('.panel-inicial').fadeOut();
@@ -472,7 +482,7 @@ app.controller('AppCtrl', function ($scope) {
 					iniciar_nuevo_proyecto();
 					
 					for (var i=0; i<data.cuadros.length; i++) {
-      			$scope.frame.sly('add', '<li><img src="' + data.cuadros[i].ruta + '"></img></li>');
+						$scope.agregar_cuadro(data.cuadros[i].ruta);
 					}
 					
       		ajustar_capas();
