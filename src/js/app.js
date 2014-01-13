@@ -433,6 +433,11 @@ app.controller('AppCtrl', function ($scope) {
       $scope.sly.activate(0);
   });
 
+	key("backspace", function() {
+		$scope.sly.remove($scope.sly.rel.activeItem);
+	});
+	
+	
 
   $scope.abrir_modo_desarrollador = function() {
     var gui = require('nw.gui');
