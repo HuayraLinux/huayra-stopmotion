@@ -28,10 +28,22 @@ var item_guardar = new gui.MenuItem({
 	}
 });
 
+var item_salir = new gui.MenuItem({
+	label: 'Salir',
+	click: function() {
+		gui.App.closeAllWindows();
+	}
+});
+
 item_guardar.enabled = false;
 
 menu_archivo.append(item_abrir);
 menu_archivo.append(item_guardar);
+menu_archivo.append(item_salir);
+
+
+
+
 
 menubar.append(new gui.MenuItem({
 	label: 'Archivo', 

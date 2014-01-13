@@ -72,9 +72,6 @@
     </div>
 
 
-
-
-
     <!-- SONIDOS -->
     <audio id="audio_foto">
         <source src="sonidos/foto.ogg" type="audio/ogg">
@@ -160,11 +157,9 @@
             <!-- SELECTORES DE SECCIONES TIPO TABS -->
             <div class="sidebar-right-control">
               <ul class="sr-control-item">
-                <li class="active"><a ng-click="seleccionar_tab(1)" href="#" data-toggle="tab"><i class="icon-film"></i> Proyecto</a></li>
-                <li><a href="#" ng-click="seleccionar_tab(2)" data-toggle="tab"> ... </a></li>
-                <li><a href="#" ng-click="seleccionar_tab(3)" data-toggle="tab"><i class="icon-align-justify"></i> Capas</a></li>
-                <li><a href="#" ng-click="seleccionar_tab(4)" data-toggle="tab"><i class="icon-eye-open"></i> Efectos</a></li>
-                <li><a href="#" ng-click="seleccionar_tab(5)" data-toggle="tab"><i class="icon-wrench"></i> Opciones</a></li>
+                <li class="active"><a href="#" ng-click="seleccionar_tab(1)" data-toggle="tab"><i class="icon-align-justify"></i> Capas</a></li>
+                <li><a href="#" ng-click="seleccionar_tab(2)" data-toggle="tab"><i class="icon-eye-open"></i> Efectos</a></li>
+                <li><a href="#" ng-click="seleccionar_tab(3)" data-toggle="tab"><i class="icon-wrench"></i> Opciones</a></li>
               </ul>
             </div>
 
@@ -172,62 +167,8 @@
             <div class="sidebar-right-content">
               <div class="tab-content">
 
-                <!-- TAB 1: PROYECTO -->
+                <!-- TAB 1: CAPAS -->
                 <div ng-class="{'oculto': tab_seleccionado != 'tab1'}">
-                  <div class="side-box">
-
-                    <div class="control-group">
-                      <label class="control-label" for="titulo">Título del proyecto</label>
-                      <div class="controls">
-                        <input id='titulo' ng-model='titulo'/>
-                      </div>
-                    </div>
-
-                    <div class="control-group">
-                      <label class="control-label" for="titulo">Detalles</label>
-
-                      <div class="controls">
-                        <p ng-show='cuadros.length < 1'>Esta animación no tiene cuadros aún.</p>
-                        <p ng-show='cuadros.length == 1'><strong>{{cuadros.length}}</strong> solo cuadro de animación.</p>
-                        <p ng-show='cuadros.length > 1'><strong>{{cuadros.length}}</strong> cuadros de animación en total.</p>
-                      </div>
-
-
-                      <div class="controls">
-												<p>
-                        <a ng-disabled='cuadros.length < 1' ng-click='generar_video()' class='btn btn-success'>Generar video</a>
-
-                        <button class='btn' ng-click='abrir_directorio_destino()'>Explorar directorio</button>            
-												
-												<p>
-                        <button ng-disabled='cuadros.length < 1' class='btn' ng-click='guardar_proyecto()'>Guardar proyecto</button>            
-												
-                      </div>
-
-
-                    </div>
-                  </div>
-                </div>
-
-                <!-- TAB 2: FANTASMA -->
-                <div ng-class="{'oculto': tab_seleccionado != 'tab2'}">
-                  <div class="side-box">
-
-
-                    <div class="alert">
-                      <button type="button" class="close" data-dismiss="alert">&times;</button>
-                      <div>Este panel está libre por el momento ...</div>
-
-                      <div>El deslizador para el modo fantasma ahora está en la sección capas, con el nombre
-                      capa de cebolla.</div>
-                    </div>
-
-                  </div>
-
-                </div>
-
-                <!-- TAB 3: CAPAS -->
-                <div ng-class="{'oculto': tab_seleccionado != 'tab3'}">
                   <div class="side-box">           
 
 
@@ -279,8 +220,8 @@
                   </div>
                 </div>
 
-                <!-- TAB 4: EFECTOS -->
-                <div ng-class="{'oculto': tab_seleccionado != 'tab4'}">
+                <!-- TAB 2: EFECTOS -->
+                <div ng-class="{'oculto': tab_seleccionado != 'tab2'}">
                   <div class="side-box">
 
                     <div class="control-group">
@@ -316,8 +257,8 @@
                   </div>
                 </div>
 
-                <!-- TAB 5: OPCIONES -->
-                <div ng-class="{'oculto': tab_seleccionado != 'tab5'}">
+                <!-- TAB 3: OPCIONES -->
+                <div ng-class="{'oculto': tab_seleccionado != 'tab3'}">
                   <div class="side-box">
 
                     <div class="control-group">
