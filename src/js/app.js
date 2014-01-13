@@ -39,6 +39,7 @@ item_guardar.enabled = false;
 
 menu_archivo.append(item_abrir);
 menu_archivo.append(item_guardar);
+menu_archivo.append(new gui.MenuItem({type: 'separator'}));
 menu_archivo.append(item_salir);
 
 
@@ -433,7 +434,7 @@ app.controller('AppCtrl', function ($scope) {
       $scope.sly.activate(0);
   });
 
-	key("backspace", function() {
+	key("x", function() {
 		$scope.sly.remove($scope.sly.rel.activeItem);
 	});
 	
