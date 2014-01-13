@@ -35,10 +35,19 @@ var item_salir = new gui.MenuItem({
 	}
 });
 
+var item_generar_video = new gui.MenuItem({
+	label: 'Generar video',
+	click: function() {
+		alert("todo!!");
+	}
+});
+
 item_guardar.enabled = false;
 
 menu_archivo.append(item_abrir);
 menu_archivo.append(item_guardar);
+menu_archivo.append(new gui.MenuItem({type: 'separator'}));
+menu_archivo.append(item_generar_video);
 menu_archivo.append(new gui.MenuItem({type: 'separator'}));
 menu_archivo.append(item_salir);
 
