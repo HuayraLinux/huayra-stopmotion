@@ -207,6 +207,7 @@ app.controller('AppCtrl', function ($scope) {
       .saveToFile($scope.directorio_destino + 'test.mpeg', function(retcode, stdout){
         explorar_directorio($scope.directorio_destino + 'test.mpeg');
     }); 
+		
   }
 
   $scope.abrir_directorio_destino = function() {
@@ -228,11 +229,6 @@ app.controller('AppCtrl', function ($scope) {
     dibujar_imagen_sobre_canvas(video, previsualizado);
     
     var imagen = convertCanvasToImage(canvas);
-    
-    
-    
-    
-    
 
     function decodeBase64Image(dataString) {
       var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
@@ -308,8 +304,7 @@ app.controller('AppCtrl', function ($scope) {
 	var $slidee = $frame.children('ul').eq(0);
 	var $wrap   = $frame.parent();
 
-	window.calculateAspectRatioFit = function(srcWidth, srcHeight, maxWidth, maxHeight)
-	{
+	window.calculateAspectRatioFit = function(srcWidth, srcHeight, maxWidth, maxHeight) {
     var ratio = [maxWidth / srcWidth, maxHeight / srcHeight ];
     ratio = Math.min(ratio[0], ratio[1]);
 
@@ -356,7 +351,7 @@ app.controller('AppCtrl', function ($scope) {
     canvas.style.marginLeft = table.style.marginLeft;
   }
 
-    window.onresize = function(){
+    window.onresize = function() {
       $scope.frame.sly('reload')
       ajustar_capas();
     }
@@ -460,8 +455,12 @@ app.controller('AppCtrl', function ($scope) {
 	}
 	
 	$scope.agregar_cuadro = function(ruta_a_imagen) {
+		var position = $scope.sly.rel.activeItem;
 		var acciones = "<div class='accion' onclick='borrar()'>x</div>";
-    $scope.frame.sly('add', '<li><img src="' + ruta_a_imagen + '"></img>' + acciones + '</li>');
+		var image = '<li><img src="' + ruta_a_imagen + '"></img>' + acciones + '</li>';
+    var a = $scope.sly.add(image);
+		$scope.sly.moveBefore(-1, position +1);
+    $scope.sly.activate(position);
 	}
 		
 	

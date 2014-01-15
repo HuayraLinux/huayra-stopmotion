@@ -2,7 +2,7 @@
     "name": "stop motion",
     "main": "index.html",
     "version": "0.1",
-    "livereload": false,
+    "livereload": true,
     "single-instance": false,
     "compartir": true,
     "window": {
