@@ -93,19 +93,18 @@ app.controller('AppCtrl', function ($scope) {
   $scope.camara_seleccionada = 1;
 	$scope.panel_visible = true;
   $scope.puerto_remoto = "???";
+	$scope.host = "";
 	$scope.en_reproduccion = false;
 	$scope.fps = 10;
 	
 	
 	$scope.reproducir = function() {
 		$scope.en_reproduccion = true;
-		console.log($scope.en_reproduccion);
-		
 		
 		function solicitar_siguiente_cuadro() {
-			avanzar_continuamente_un_cuadro();
 			
 			if ($scope.en_reproduccion) {
+				avanzar_continuamente_un_cuadro();
 				setTimeout(solicitar_siguiente_cuadro, 1000 / $scope.fps);
 			}
 		}
@@ -115,11 +114,14 @@ app.controller('AppCtrl', function ($scope) {
 	
 	$scope.detener = function() {
 		$scope.en_reproduccion = false;
-		console.log($scope.en_reproduccion);
 	}
 	
 	
-	
+	$scope.abrir_pantalla_compartida_en_el_navegador = function() {
+		var url = 'http://' + $scope.host + ':' + $scope.puerto_remoto;
+		alert(url);
+		gui.Shell.openExternal(url);
+	}
 	
 
 	
@@ -180,8 +182,12 @@ app.controller('AppCtrl', function ($scope) {
   }
 
   $scope.seleccionar_camara = function (numero) {
+		if (numero)
+			$scope.detener();
+			
   	$scope.camara_seleccionada = numero;
   }
+	
   $scope.seleccionar_camara(1);
   
 
@@ -606,8 +612,11 @@ app.controller('AppCtrl', function ($scope) {
 		});
 	
 		server.listen(app.get('port'), function(){
+			var os = require("os");
+			
 			console.log("Comenzando a escuchar en el puerto: " + app.get('port'));
 			$scope.puerto_remoto = app.get('port');
+			$scope.host = os.hostname();
 			$scope.$apply();
 		});
 	
