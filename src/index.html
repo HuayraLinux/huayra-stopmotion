@@ -143,9 +143,18 @@
             </div>
           </div>
 
-          <!-- PANEL CON BOTONES DE CAPTURA DEBADO DEL VIDEO -->
+          <!-- PANEL CON BOTONES DEBAJO DEL VIDEO -->
           <div id="contenedor-controles">
-            <button class='btn btn-danger' ng-click='capturar()'> <span class="icon-plus icon-white"></span> Capturar un cuadro</button>
+						<!-- Botones para reproducir y previsualizar -->
+          	<div ng-show='camara_seleccionada == 0'>
+            	<button ng-show='!en_reproduccion' class='btn btn-success' ng-click='reproducir()'> <span class="icon-play icon-white"></span> Reproducir</button>
+            	<button ng-show='en_reproduccion' class='btn btn-success' ng-click='detener()'> <span class="icon-stop icon-white"></span> Detener</button>
+          	</div>
+						
+						<!-- Capturar cuadro de animación -->
+          	<div ng-hide='camara_seleccionada == 0'>
+            	<button class='btn btn-danger' ng-click='capturar()'> <span class="icon-plus icon-white"></span> Capturar un cuadro</button>
+          	</div>
           </div>
 
         </div>
@@ -261,6 +270,13 @@
                 <!-- TAB 3: OPCIONES -->
                 <div ng-class="{'oculto': tab_seleccionado != 'tab3'}">
                   <div class="side-box">
+                    <div class="control-group">
+                      <label class="control-label" for="fps">Cuadros por segundo (FPS)</label>
+                      <div class="controls">
+                        <input type='range' step="1" min="1" max="60" ng-model="fps"/>
+                        <span class='nota'>{{fps}}</span>
+                      </div>
+                    </div>
 
                     <div class="control-group">
                       <label class="control-label" for="sonidos">Sonidos Habilitados</label>

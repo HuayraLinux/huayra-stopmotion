@@ -7,7 +7,6 @@ var path = require('path');
 
 var ffmpeg = require('fluent-ffmpeg');
 
-
 var ventana = gui.Window.get();
 
 var menubar = new gui.Menu({type: 'menubar'});
@@ -94,6 +93,35 @@ app.controller('AppCtrl', function ($scope) {
   $scope.camara_seleccionada = 1;
 	$scope.panel_visible = true;
   $scope.puerto_remoto = "???";
+	$scope.en_reproduccion = false;
+	$scope.fps = 10;
+	
+	
+	$scope.reproducir = function() {
+		$scope.en_reproduccion = true;
+		console.log($scope.en_reproduccion);
+		
+		
+		function solicitar_siguiente_cuadro() {
+			avanzar_continuamente_un_cuadro();
+			
+			if ($scope.en_reproduccion) {
+				setTimeout(solicitar_siguiente_cuadro, 1000 / $scope.fps);
+			}
+		}
+		
+		solicitar_siguiente_cuadro();
+	}
+	
+	$scope.detener = function() {
+		$scope.en_reproduccion = false;
+		console.log($scope.en_reproduccion);
+	}
+	
+	
+	
+	
+
 	
 	
 	$scope.pulsa_boton_alternar_ayuda = function() {
@@ -427,8 +455,8 @@ app.controller('AppCtrl', function ($scope) {
   key("up", function(){
     $scope.sly.activate(0);
   });
-
-  key("down", function(){
+	
+	function avanzar_continuamente_un_cuadro() {
     var pos = $scope.sly.rel.activeItem;
     $scope.sly.next();
     
@@ -436,6 +464,10 @@ app.controller('AppCtrl', function ($scope) {
     
     if (pos == nuevaPos)
       $scope.sly.activate(0);
+	}
+
+  key("down", function(){
+		avanzar_continuamente_un_cuadro();
   });
 
 	key("x", function() {
