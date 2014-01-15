@@ -351,6 +351,7 @@ app.controller('AppCtrl', function ($scope) {
     var previsualizar = document.getElementById('previsualizado');
     var canvas = document.getElementById('canvas');
     var table = document.getElementById('table');
+    var imagen_remota = document.getElementById('imagen_remota');
 		
 		var size = calculateAspectRatioFit(canvas.width, canvas.height, contenedor_interno.clientWidth, contenedor_interno.clientHeight);
 		
@@ -383,6 +384,11 @@ app.controller('AppCtrl', function ($scope) {
     canvas.style.width = table.style.width;
     canvas.style.height = table.style.height;
     canvas.style.marginLeft = table.style.marginLeft;
+		
+    imagen_remota.style.left = table.style.left;
+    imagen_remota.style.width = table.style.width;
+    imagen_remota.style.height = table.style.height;
+    imagen_remota.style.marginLeft = table.style.marginLeft;
   }
 
     window.onresize = function() {
@@ -636,8 +642,12 @@ app.controller('AppCtrl', function ($scope) {
 				$scope.$apply();
 			});
 	
-			socket.on("mensaje", function(data) {
-				console.log(data);
+			socket.on("captura", function(data) {
+				var imagen_remota = document.getElementById('imagen_remota');
+				console.log(data.data);
+				
+				var buffer = data.data;
+				imagen_remota.src = buffer;
 			});
 		});
 	}

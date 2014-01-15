@@ -106,6 +106,7 @@
 										
       <div class="contenedor" id='contenedor_interno'>
         <!-- capa cebolla -->
+				
           <div style='display: none' class='overlay'></div>
         
 
@@ -119,11 +120,19 @@
           
            <!-- cuadro capa de cebolla -->
            <canvas ng-show='fantasma' id='canvas' width=640 height=480></canvas>
+				
+      		 <!-- el cuadro remoto -->
+					 <img ng-show='camara_seleccionada == 2'  id='imagen_remota'></img>
         
            <!-- el video capturado de la camara -->
            <video ng-show='camara_seleccionada == 1' id='video' autoplay loop="true"></video>
         
            <canvas ng-show='camara_seleccionada == 0' id='previsualizado' width=640 height=480></video>
+				
+				
+      
+      
+      
       </div>
       </div>
               
@@ -145,6 +154,7 @@
 
           <!-- PANEL CON BOTONES DEBAJO DEL VIDEO -->
           <div id="contenedor-controles">
+					
 						<!-- Botones para reproducir y previsualizar -->
           	<div ng-show='camara_seleccionada == 0'>
             	<button ng-show='!en_reproduccion' class='btn btn-success' ng-click='reproducir()'> <span class="icon-play icon-white"></span> Reproducir</button>

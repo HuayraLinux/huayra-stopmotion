@@ -17,20 +17,7 @@
 
     <script src="/js/socket.io.js"></script>
 
-    <script>
-      var socket = io.connect('http://localhost');
-
-      socket.on('connect', function () {
-        //socket.emit('set nickname', prompt('What is your nickname?'));
-
-          setInterval(function() {
-            socket.emit("mensaje", {nombre: "tick"});
-          }, 3000);
-
-      });
-
-      window.socket = socket;
-    </script>
+    <script></script>
 
   </head>
 <body>
@@ -40,11 +27,47 @@
 <p>Esta ventana está capturando el video del equipo
 para compartirlo con huayra stop-motion.</p>
 
-<video autoplay></video>
+<video autoplay id='video'></video>
+<canvas width=640 height=480 id='canvas'></canvas>
 
 <p>Para finalizar la captura, solo cierra la ventana.</p>
 
 <script type="text/javascript" charset="utf-8">
+	
+	function dibujar_imagen_sobre_canvas(image, canvas) {
+    var contexto = canvas.getContext('2d');
+    contexto.drawImage(image, 0, 0);
+  }
+	
+	function convertCanvasToImage(canvas) {
+    var image = new Image();
+    image.src = canvas.toDataURL("image/png");
+    return image;
+  }
+	
+	function iniciar_sockets_y_transmision() {
+  	var socket = io.connect();
+
+    socket.on('connect', function () {
+			
+    	setInterval(function() {
+      	//socket.emit("mensaje", {nombre: "tick"});
+						
+    		var video = document.getElementById("video");
+    		var canvas = document.getElementById("canvas");
+    		dibujar_imagen_sobre_canvas(video, canvas);
+				
+    		var imagen = convertCanvasToImage(canvas);
+				
+      	socket.emit("captura", {data: imagen.src});
+
+      }, 500);
+			
+    });
+
+    window.socket = socket;
+	}
+	
   var onFailSoHard = function(e) {
     var video = document.querySelector('video');
     video.play();
@@ -58,6 +81,7 @@ para compartirlo con huayra stop-motion.</p>
   if (navigator.getUserMedia) {
     navigator.getUserMedia({audio: false, video: true}, function(stream) {
       video.src = window.URL.createObjectURL(stream);
+			iniciar_sockets_y_transmision();
     }, onFailSoHard);
   } else {
     alert("ERROR: es importante aceptar el pedido de la webcam.");

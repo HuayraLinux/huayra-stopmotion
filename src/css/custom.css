@@ -479,6 +479,10 @@ canvas#canvas {
   right:0;
 }
 
+img#imagen_remota {
+	position: absolute;
+}
+
 canvas#previsualizado {
   position:absolute;
   top:0;
