@@ -1,0 +1,3 @@
+src/* usr/share/huayra-stopmotion/src
+public/* usr/share/huayra-stopmotion/public
+bin/huayra-stopmotion usr/bin/huayra-stopmotion
