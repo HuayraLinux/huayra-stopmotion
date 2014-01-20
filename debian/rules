@@ -10,12 +10,16 @@
 # Modified to make a template file for a multi-binary package with separated
 # build-arch and build-indep targets  by Bill Allombert 2001
 
-# Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
+#export DH_VERBOSE=0
 
+DEB_DH_SHLIBDEPS_ARGS_ALL=--dpkg-shlibdeps-params=--ignore-missing-info
 # This has to be exported to make some magic below work.
 export DH_OPTIONS
+export DEB_DH_SHLIBDEPS_ARGS_ALL
 
 
 %:
 	dh $@ 
+
+override_dh_shlibdeps:
+	@echo "..."
