@@ -1,3 +1,4 @@
 src/* usr/share/huayra-stopmotion/src
 public/* usr/share/huayra-stopmotion/public
-bin/huayra-stopmotion usr/bin/huayra-stopmotion
+bin/huayra-stopmotion usr/bin/
+node_modules/* usr/share/huayra-stopmotion/node_modules

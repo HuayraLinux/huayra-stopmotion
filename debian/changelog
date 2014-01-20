@@ -1,3 +1,9 @@
+huayra-stopmotion (0.3) unstable; urgency=low
+
+  * Actualizando paquete para que incluya todas las dependencias node.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Mon, 20 Jan 2014 20:41:11 +0100
+
 huayra-stopmotion (0.2) unstable; urgency=low
 
   * Creando script para iniciar el proyecto.
