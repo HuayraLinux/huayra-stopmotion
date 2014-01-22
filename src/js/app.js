@@ -43,7 +43,7 @@ var item_salir = new gui.MenuItem({
 var item_generar_video = new gui.MenuItem({
 	label: 'Generar video',
 	click: function() {
-		alert("todo!!");
+		alert("todo !!!");
 	}
 });
 
@@ -127,7 +127,6 @@ app.controller('AppCtrl', function ($scope) {
 	
 	$scope.abrir_pantalla_compartida_en_el_navegador = function() {
 		var url = 'http://' + $scope.host + ':' + $scope.puerto_remoto;
-		alert(url);
 		gui.Shell.openExternal(url);
 	}
 	
