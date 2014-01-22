@@ -1,0 +1,23 @@
+huayra-stopmotion (0.4) unstable; urgency=low
+
+  * Agregando dependencias nuevamente.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Mon, 20 Jan 2014 21:20:32 +0100
+
+huayra-stopmotion (0.3) unstable; urgency=low
+
+  * Actualizando paquete para que incluya todas las dependencias node.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Mon, 20 Jan 2014 20:41:11 +0100
+
+huayra-stopmotion (0.2) unstable; urgency=low
+
+  * Creando script para iniciar el proyecto.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Mon, 20 Jan 2014 19:33:05 +0100
+
+huayra-stopmotion (0.1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Mon, 20 Jan 2014 19:22:13 +0100
