@@ -517,3 +517,22 @@ canvas#previsualizado {
   display: block;
   padding: 15px;
 }
+
+
+.panel-depuracion-inicial {
+	position: fixed;
+	right: 5px;
+	bottom: 5px;
+}
+
+
+
+	.mini-icono {
+		opacity: 0.5;
+		margin-left: 5px;
+	}
+
+	.mini-icono:hover {
+		opacity: 1;
+		cursor: pointer;
+	}

@@ -97,6 +97,13 @@ app.controller('AppCtrl', function ($scope) {
 	$scope.en_reproduccion = false;
 	$scope.fps = 10;
 	
+	$scope.mostrar_herramientas_de_desarrollo = function() {
+		var gui = require('nw.gui');
+    var w = gui.Window.get();
+    w.showDevTools();
+	}
+	
+	
 	
 	$scope.reproducir = function() {
 		$scope.en_reproduccion = true;
