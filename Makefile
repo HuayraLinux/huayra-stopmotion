@@ -1,6 +1,5 @@
 all:
 	@echo "init           Instala todas las dependencias necesarias."
-	@echo "test           Prueba la aplicacion usando nodewebkit en linux."
 	@echo "test_mac       Prueba la aplicacion usando nodewebkit en mac osx."
 	@echo "instalar       Instala node webkit para linux."
 	@echo "instalar_mac   Instala node webkit para mac osx."
@@ -12,8 +11,6 @@ init:
 	npm install
 	cd ./src/; bower install
 
-test:
-	./dist/node-webkit-v0.7.3-linux-ia32/nw src
 
 build:
 	rm -f -r webkitbuilds/releases/
@@ -47,3 +44,9 @@ upload: build
 	zip -r dist/huayra-stopmotion_mac.zip webkitbuilds/releases/stop\ motion/mac
 	@echo ""
 	scp dist/* digitalocean:~/dev-losersjuegos.com.ar/stopmotion
+
+install:
+	echo "haciendo make install..."
+
+clean:
+	echo "haciendo make clean...."

@@ -1,3 +1,9 @@
+huayra-stopmotion (0.8) unstable; urgency=low
+
+  * Actualizando scripts de empaquetado. 
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Thu, 23 Jan 2014 20:22:48 +0100
+
 huayra-stopmotion (0.7) unstable; urgency=low
 
   * Actualizando la descripción del proyecto y colocando un límite de 30 FPS.
