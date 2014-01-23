@@ -1,2 +1,0 @@
-sudo apt-get install nodejs nodejs-legacy curl
-curl https://npmjs.org/install.sh | sudo sh

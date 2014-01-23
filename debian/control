@@ -2,17 +2,17 @@ Source: huayra-stopmotion
 Section: unknown
 Priority: extra
 Maintainer: Hugo Ruscitti <hugoruscitti@gmail.com>
-Depends: node-webkit, libc6, libgcc1, libstdc++6, g++, gcc, libc6-dev, nodejs nodejs-legacy curl
+Depends: node-webkit, libc6, libgcc1, libstdc++6, g++, gcc, libc6-dev
 Build-Depends: debhelper (>= 8.0.0)
 Standards-Version: 3.9.3
-Homepage: <insert the upstream URL, if relevant>
+Homepage: http://github.com/HuayraLinux/huayra-stopmotion
 #Vcs-Git: git://git.debian.org/collab-maint/huayra-stopmotion.git
 #Vcs-Browser: http://git.debian.org/?p=collab-maint/huayra-stopmotion.git;a=summary
 
 Package: huayra-stopmotion
 Architecture: any
 #Depends: ${shlibs:Depends}, ${misc:Depends}, node-webkit, libc6, libgcc1, libstdc++6, g++, gcc, libc6-dev
-Depends: ${misc:Depends}, node-webkit, libc6, libgcc1, libstdc++6, g++, gcc, libc6-dev, nodejs nodejs-legacy curl
+Depends: ${misc:Depends}, node-webkit, libc6, libgcc1, libstdc++6, g++, gcc, libc6-dev
 Description: Permite realizar animaciones de stopmotion
  Huayra-motion permite crear películas y cortos animados
  utilizando la técnica de animación stopmotion, que consiste
