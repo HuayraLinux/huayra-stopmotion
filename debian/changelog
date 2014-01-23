@@ -1,3 +1,21 @@
+huayra-stopmotion (0.7) unstable; urgency=low
+
+  * Actualizando la descripción del proyecto y colocando un límite de 30 FPS.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Thu, 23 Jan 2014 19:29:42 +0100
+
+huayra-stopmotion (0.6) unstable; urgency=low
+
+  * Instalando dependencias de bower. 
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 22 Jan 2014 20:00:08 +0100
+
+huayra-stopmotion (0.5) unstable; urgency=low
+
+  * Agregando atajo en la interfaz para ver las herramientas de desarrollo.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 22 Jan 2014 19:27:18 +0100
+
 huayra-stopmotion (0.4) unstable; urgency=low
 
   * Agregando dependencias nuevamente.

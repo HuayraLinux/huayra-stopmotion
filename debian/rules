@@ -23,3 +23,8 @@ export DEB_DH_SHLIBDEPS_ARGS_ALL
 
 override_dh_shlibdeps:
 	@echo "..."
+
+override_dh_install:
+	mv Makefile _anterior_makefile
+	dh_install
+	mv _anterior_makefile Makefile
