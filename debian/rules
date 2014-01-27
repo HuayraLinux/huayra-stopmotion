@@ -10,7 +10,7 @@
 # Modified to make a template file for a multi-binary package with separated
 # build-arch and build-indep targets  by Bill Allombert 2001
 
-#export DH_VERBOSE=0
+# export DH_VERBOSE=1
 
 DEB_DH_SHLIBDEPS_ARGS_ALL=--dpkg-shlibdeps-params=--ignore-missing-info
 # This has to be exported to make some magic below work.
@@ -23,3 +23,6 @@ export DEB_DH_SHLIBDEPS_ARGS_ALL
 
 override_dh_shlibdeps:
 	@echo "..."
+
+override_dh_install:
+	dh_install
