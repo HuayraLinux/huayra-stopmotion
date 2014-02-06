@@ -1,3 +1,10 @@
+huayra-stopmotion (0.9) unstable; urgency=low
+
+  * Creando un icono en el lanzador del menu.
+  * Cambiando el nombre del script inicial por huayra-motion.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Thu, 06 Feb 2014 20:32:43 +0100
+
 huayra-stopmotion (0.8) unstable; urgency=low
 
   * Actualizando scripts de empaquetado. 
