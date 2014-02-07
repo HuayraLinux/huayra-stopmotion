@@ -12,12 +12,10 @@ huayra-stopmotion
 
 Este software funciona sobre GNU/Linux, MacOSX y Windows.
 
-Podés descargar las versiones binarias desde aquí:
+Podés descargar las versiones binarias para *Linux*, *Mac OSX* o
+*Windows?* aquí:
 
-- GNU/Linux ([32 bits](http://dev-losersjuegos.com.ar/stopmotion/huayra-stopmotion_linux32.zip) | [64 bits](http://dev-losersjuegos.com.ar/stopmotion/huayra-stopmotion_linux64.zip))
-- [MacOSX](http://dev-losersjuegos.com.ar/stopmotion/huayra-stopmotion_mac.zip)
-- [Windows](http://dev-losersjuegos.com.ar/stopmotion/huayra-stopmotion_windows.zip)
-
+- [Descargar](http://dev-losersjuegos.com.ar/huayra-motion)
 
 ¿Cómo compilar la aplicación completa?
 --------------------------------------
