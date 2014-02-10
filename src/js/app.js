@@ -651,7 +651,6 @@ app.controller('AppCtrl', function ($scope) {
 	
 			socket.on("captura", function(data) {
 				var imagen_remota = document.getElementById('imagen_remota');
-				console.log(data.data);
 				
 				var buffer = data.data;
 				imagen_remota.src = buffer;
