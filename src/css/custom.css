@@ -536,3 +536,22 @@ canvas#previsualizado {
 		opacity: 1;
 		cursor: pointer;
 	}
+
+
+
+.lista-proyectos-recientes {
+    display: none;
+}
+
+
+.visible {
+    display: block !important;
+}
+
+.invisible {
+    display: none;
+}
+
+.deshabilitado {
+    opacity: 0.5;
+}

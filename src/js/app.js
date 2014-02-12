@@ -153,6 +153,16 @@ app.controller('AppCtrl', function ($scope) {
 	$scope.host = "";
 	$scope.en_reproduccion = false;
 	$scope.fps = 10;
+  $scope.cargado = false;
+    
+    
+  setTimeout(function() {
+      
+  	$scope.cargado = true;
+    $scope.$apply();
+      
+  }, 3000);
+    
 
 
 
