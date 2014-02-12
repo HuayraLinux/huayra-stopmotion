@@ -37,7 +37,7 @@
 			<div class='proyectos-recientes'>
 				<p class='cabecera-proyectos'>Proyectos recientes:</p>
 
-				<div class='cargando' ng-repeat='proyecto in proyectos_recientes|orderBy:"-indice"'><a href ng-click='abrir_proyecto(proyecto.ruta)'>{{ proyecto.ruta.slice(-15) }}</a></div>
+				<div class='cargando' ng-repeat='proyecto in proyectos_recientes|orderBy:"-indice"'><a href ng-click='abrir_proyecto(proyecto.ruta)'>{{ proyecto.ruta.split('/').slice(-1)[0] }}</a></div>
 
 				<div class='invisible'>  </div>
 
