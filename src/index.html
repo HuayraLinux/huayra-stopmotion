@@ -18,7 +18,7 @@
   </head>
 
   <body ng-controller='AppCtrl'>
-    
+
     <!-- CUADROS DE DIALOGO PARA ABRIR Y GUARDAR PROYECTOS -->
     <input style="display:none;" id="open-dialog" type="file" accept=".hmotion"/>
     <input style="display:none;" id="save-dialog" type="file" nwsaveas="proyecto.hmotion" accept=".hmotion"/>
@@ -28,25 +28,25 @@
 			<p>
       Hola, bienvenido a huayra-stopmotion.
 			</p>
-      
+
       <ul class='asistente'>
         <li class='asistente-item'><a id='boton_iniciar_proyecto' href='#'><i class="icon-edit"></i> Iniciar un proyecto</a></li>
         <li class='asistente-item'><a id='boton_abrir_proyecto' href='#'><i class="icon-folder-open"></i> Abrir un proyecto existente</a></li>
       </ul>
-			
+
 			<div class='proyectos-recientes'>
 				<p class='cabecera-proyectos'>Proyectos recientes:</p>
-				
-				<div class='cargando'>No hay ninguno</div>
-				
-				<div class='invisible'>  </div>	
-				
+
+				<div class='cargando' ng-repeat='proyecto in proyectos_recientes|orderBy:"-indice"'><a href ng-click='abrir_proyecto(proyecto.ruta)'>{{ proyecto.ruta.split('/').slice(-1)[0] }}</a></div>
+
+				<div class='invisible'>  </div>
+
 			</div>
-			
+
 				<div class='panel-depuracion-inicial'>
 					<i class='mini-icono icon-chevron-right' onclick="mostrar_herramientas_de_desarrollo()"></i>
 				</div>
-    
+
     </div>
 
 
@@ -94,23 +94,23 @@
             </ul>
           </div>
         </div>
-  
+
         <!-- PANEL DE CONTENIDOS PRINCIPAL -->
         <div class="content-body" id='content-body'>
           <div class='contenedor-izquierdo'>
-            
-            
+
+
             <div class='contenedor-layers' id='contenedor-layers'>
-              
-              
-              
-                  <div  class='contenedor-scroll'>  
-										
+
+
+
+                  <div  class='contenedor-scroll'>
+
       <div class="contenedor" id='contenedor_interno'>
         <!-- capa cebolla -->
-				
+
           <div style='display: none' class='overlay'></div>
-        
+
 
               <!-- capa grilla -->
               <table id='table' class='grilla'>
@@ -119,50 +119,50 @@
         				</tr>
               </table>
 
-          
+
            <!-- cuadro capa de cebolla -->
            <canvas ng-show='fantasma' id='canvas' width=640 height=480></canvas>
-				
+
       		 <!-- el cuadro remoto -->
 					 <img ng-show='camara_seleccionada == 2'  id='imagen_remota'></img>
-        
+
            <!-- el video capturado de la camara -->
            <video ng-show='camara_seleccionada == 1' id='video' autoplay loop="true"></video>
-        
+
            <canvas ng-show='camara_seleccionada == 0' id='previsualizado' width=640 height=480></video>
-				
-				
-      
-      
-      
-      </div>
-      </div>
-              
-              
-              
-              
-              
-              
-              
-              
 
 
-              
-              
-              
-              
+
+
+
+      </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             </div>
           </div>
 
           <!-- PANEL CON BOTONES DEBAJO DEL VIDEO -->
           <div id="contenedor-controles">
-					
+
 						<!-- Botones para reproducir y previsualizar -->
           	<div ng-show='camara_seleccionada == 0'>
             	<button ng-show='!en_reproduccion' class='btn btn-success' ng-click='reproducir()'> <span class="icon-play icon-white"></span> Reproducir</button>
             	<button ng-show='en_reproduccion' class='btn btn-success' ng-click='detener()'> <span class="icon-stop icon-white"></span> Detener</button>
           	</div>
-						
+
 						<!-- Capturar cuadro de animación -->
           	<div ng-hide='camara_seleccionada == 0'>
             	<button class='btn btn-danger' ng-click='capturar()'> <span class="icon-plus icon-white"></span> Capturar un cuadro</button>
@@ -191,7 +191,7 @@
 
                 <!-- TAB 1: CAPAS -->
                 <div ng-class="{'oculto': tab_seleccionado != 'tab1'}">
-                  <div class="side-box">           
+                  <div class="side-box">
 
 
                     <div class="control-group">
@@ -234,7 +234,7 @@
                     <div class="control-group">
                       <br/>
                       <div class="controls">
-                        <button class='btn' ng-click='deshabilitar_capas()'>Deshabilitar capas</button>            
+                        <button class='btn' ng-click='deshabilitar_capas()'>Deshabilitar capas</button>
                       </div>
                     </div>
 
@@ -273,7 +273,7 @@
                     <div class="control-group">
                       <br/>
                       <div class="controls">
-                        <button class='btn' ng-click='restaurar()'>Restaurar valores iniciales</button>            
+                        <button class='btn' ng-click='restaurar()'>Restaurar valores iniciales</button>
                       </div>
                     </div>
                   </div>
@@ -303,14 +303,14 @@
                         <button id='desarrollo' ng-click="abrir_modo_desarrollador()" class='btn btn-sucess'>Abrir modo desarrollador</button>
                       </div>
                     </div>
-                  
+
                     <div class="control-group">
                       <label class="control-label" for="desarrollo">Compartir cámara</label>
                       <div class="controls">
                         <code>http://{{host}}.local:{{puerto_remoto}}</code> <a ng-click='abrir_pantalla_compartida_en_el_navegador()' href=''>Abrir en el navegador</a>
                       </div>
                     </div>
-                  
+
 
                   </div>
                 </div>
@@ -351,7 +351,7 @@
 			</div>
 
 			<ul class="pages"></ul>
-			
+
     </div>
 
     </footer>
@@ -361,7 +361,7 @@
     <script src="js/bootstrap.js"></script>
     <script src="js/angular.js"></script>
     <script src="js/angular-animate.js"></script>
-		<script src='app/bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js'></script>
+		<script src='bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js'></script>
     <script src="js/keymaster.js"></script>
     <script src="js/app.js"></script>
     <script src="js/video.js"></script>
@@ -369,22 +369,22 @@
     <script src="js/plugins.js"></script>
 
 		<script>
-      var config = require('./package.json');     
-			
+      var config = require('./package.json');
+
       if (config.livereload) {
 		    var Gaze = require('gaze').Gaze;
         var gaze = new Gaze('**/*');
 				var doReload = false;
-				
+
        	setInterval(function() {
-					
+
        		if (doReload) {
             window.location.reload();
 						doReload = false;
 					}
-					
+
 				}, 2000);
-       
+
         gaze.on('all', function(event, filepath) {
           if (location)
             doReload = true;
