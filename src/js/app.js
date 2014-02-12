@@ -25,7 +25,7 @@ Preferencias.prototype.abrir = function (){
 
 Preferencias.prototype.guardar = function (){
     var self = this;
-    fs.writeFileSync(this.ruta, JSON.stringify(self.data));
+    fs.writeFileSync(this.ruta, angular.toJson(self.data));
 };
 
 Preferencias.prototype.agregar_proyecto_reciente = function (ruta){
