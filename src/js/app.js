@@ -156,6 +156,9 @@ app.controller('AppCtrl', function ($scope) {
 
 
 
+    $scope.abrir_proyecto = function(ruta){
+        window.abrir_proyecto_desde_ruta(ruta);
+    }
 
 	$scope.reproducir = function() {
 		$scope.en_reproduccion = true;
@@ -572,6 +575,31 @@ app.controller('AppCtrl', function ($scope) {
 		item_guardar.enabled = true;
 	}
 
+    window.abrir_proyecto_desde_ruta = function(archivo){
+        if (/.hmotion$/.test(archivo)) {
+            fs.readFile(archivo, 'utf8', function (err, data) {
+                if (err) {
+                    console.log('Error: ' + err);
+                    return;
+                }
+
+                data = JSON.parse(data);
+                iniciar_nuevo_proyecto();
+
+                for (var i=0; i<data.cuadros.length; i++) {
+                    $scope.agregar_cuadro(data.cuadros[i].ruta);
+                }
+
+                ajustar_capas();
+                $scope.seleccionar_ultimo_cuadro();
+                $scope.$apply();
+            });
+        }
+        else {
+            alert("Lo siento, solo puedo leer archivos del formato .hmotion");
+        }
+    }
+
   window.abrir_proyecto = function() {
     var openDialog = document.getElementById('open-dialog');
     openDialog.click();
@@ -579,31 +607,7 @@ app.controller('AppCtrl', function ($scope) {
     openDialog.onchange = function(evento) {
       var archivo = this.value;
       this.value = ""; // Hace que se pueda seleccionar el archivo nuevamente.
-
-      if (/.hmotion$/.test(archivo)) {
-
-				fs.readFile(archivo, 'utf8', function (err, data) {
-  				if (err) {
-    				console.log('Error: ' + err);
-    				return;
-  				}
-
-					data = JSON.parse(data);
-
-					iniciar_nuevo_proyecto();
-
-					for (var i=0; i<data.cuadros.length; i++) {
-						$scope.agregar_cuadro(data.cuadros[i].ruta);
-					}
-
-      		ajustar_capas();
-      		$scope.seleccionar_ultimo_cuadro();
-      		$scope.$apply();
-				});
-
-      } else {
-        alert("Lo siento, solo puedo leer archivos del formato .hmotion");
-      }
+      abrir_proyecto_desde_ruta(archivo);
     }
   }
 
