@@ -92,7 +92,8 @@ var item_salir = new gui.MenuItem({
 var item_generar_video = new gui.MenuItem({
 	label: 'Generar video',
 	click: function() {
-		alert("todo !!!");
+		$scope.exportar();	
+		$scope.$apply();
 	}
 });
 
@@ -136,7 +137,7 @@ app.filter('incrementar', function() {
   };
 });
 
-app.controller('AppCtrl', function ($scope) {
+app.controller('AppCtrl', function ($scope, $modal) {
     $scope.proyectos_recientes = preferencias.data.proyectos_recientes;
 
   $scope.brillo = 50;
@@ -155,6 +156,32 @@ app.controller('AppCtrl', function ($scope) {
 	$scope.fps = 10;
   $scope.cargado = false;
 
+    
+	$scope.exportar = function() {
+      
+    var modalInstance = $modal.open({
+      templateUrl: 'partials/modal.html',
+    });
+
+      /*
+    modalInstance.result.then(function (selectedItem) {
+      $scope.selected = selectedItem;
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+    */
+		
+		/*
+    var proc = new ffmpeg({ source: $scope.directorio_destino + '%d.png', nolog: true })
+      .withVideoCodec('mpeg4')
+      .withFpsInput(3)
+      .withFps(10)
+      .saveToFile($scope.directorio_destino + 'test.mpeg', function(retcode, stdout){
+        explorar_directorio($scope.directorio_destino + 'test.mpeg');
+    });
+		*/
+
+	}
 
   setTimeout(function() {
 
@@ -303,17 +330,6 @@ app.controller('AppCtrl', function ($scope) {
     gui.Shell.showItemInFolder(root + ruta_relativa_al_archivo)
   }
 
-  $scope.generar_video = function() {
-
-    var proc = new ffmpeg({ source: $scope.directorio_destino + '%d.png', nolog: true })
-      .withVideoCodec('mpeg4')
-      .withFpsInput(3)
-      .withFps(10)
-      .saveToFile($scope.directorio_destino + 'test.mpeg', function(retcode, stdout){
-        explorar_directorio($scope.directorio_destino + 'test.mpeg');
-    });
-
-  }
 
   $scope.abrir_directorio_destino = function() {
     explorar_directorio('./' + $scope.directorio_destino);
@@ -580,7 +596,6 @@ app.controller('AppCtrl', function ($scope) {
     }
 
 
-
 	window.iniciar_nuevo_proyecto = function() {
 		jQuery('.panel-inicial').fadeOut();
 		item_guardar.enabled = true;
@@ -650,11 +665,11 @@ app.controller('AppCtrl', function ($scope) {
 
 				for (var i=0; i<sly.items.length; i++) {
 					var ruta_imagen = sly.items[i].el.children[0].src.replace('file://', '')
-					var ruta_imagen_destino = path.join(ruta_destino, carpeta_imagenes, path.basename(ruta_imagen));
+					var ruta_imagen_destino = path.join(ruta_destino, carpeta_imagenes, "imagen" + i + ".png");
 
 					fs.createReadStream(ruta_imagen).pipe(fs.createWriteStream(ruta_imagen_destino));
 
-					contenido.cuadros.push({ruta: path.join(carpeta_imagenes, path.basename(ruta_imagen))})
+					contenido.cuadros.push({ruta: path.join(carpeta_imagenes, path.basename(ruta_imagen_destino))});
 				}
 
 
