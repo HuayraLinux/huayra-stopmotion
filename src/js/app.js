@@ -571,7 +571,7 @@ app.controller('AppCtrl', function ($scope) {
 
     $scope.agregar_cuadro = function(ruta_a_imagen) {
         var position = $scope.sly.rel.activeItem;
-        var acciones = "<div class='accion' onclick='borrar()'>x</div>";
+        var acciones = "<div class='accion' onclick='borrar()'><i class='icon icon-trash icon-white'></i></div>";
         var image = '<li><img src="' + ruta_a_imagen + '"></img>' + acciones + '</li>';
         var a = $scope.sly.add(image);
 
