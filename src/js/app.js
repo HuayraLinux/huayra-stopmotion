@@ -154,15 +154,15 @@ app.controller('AppCtrl', function ($scope) {
 	$scope.en_reproduccion = false;
 	$scope.fps = 10;
   $scope.cargado = false;
-    
-    
+
+
   setTimeout(function() {
-      
+
   	$scope.cargado = true;
     $scope.$apply();
-      
+
   }, 3000);
-    
+
 
 
 
@@ -634,6 +634,10 @@ app.controller('AppCtrl', function ($scope) {
       var archivo = this.value;
 			var ruta_destino = path.dirname(this.value);
 			var nombre_archivo = path.basename(this.value);
+            var carpeta_imagenes = nombre_archivo.split('.')[0] + '.imagenes';
+
+            console.log(carpeta_imagenes);
+            alert(carpeta_imagenes);
 
       this.value = ""; // Hace que se pueda seleccionar el archivo nuevamente.
 
@@ -644,11 +648,11 @@ app.controller('AppCtrl', function ($scope) {
 					cuadros: []
 				};
 
-				fs.mkdir(path.join(ruta_destino, 'imagenes'));
+				fs.mkdir(path.join(ruta_destino, carpeta_imagenes));
 
 				for (var i=0; i<sly.items.length; i++) {
 					var ruta_imagen = sly.items[i].el.children[0].src.replace('file://', '')
-					var ruta_imagen_destino = path.join(ruta_destino, 'imagenes', path.basename(ruta_imagen));
+					var ruta_imagen_destino = path.join(ruta_destino, carpeta_imagenes, path.basename(ruta_imagen));
 
 					fs.createReadStream(ruta_imagen).pipe(fs.createWriteStream(ruta_imagen_destino));
 					contenido.cuadros.push({ruta: ruta_imagen})
