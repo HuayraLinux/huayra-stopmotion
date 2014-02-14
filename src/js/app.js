@@ -569,14 +569,15 @@ app.controller('AppCtrl', function ($scope) {
 		$scope.sly.remove($scope.sly.rel.activeItem);
 	}
 
-	$scope.agregar_cuadro = function(ruta_a_imagen) {
-		var position = $scope.sly.rel.activeItem;
-		var acciones = "<div class='accion' onclick='borrar()'>x</div>";
-		var image = '<li><img src="' + ruta_a_imagen + '"></img>' + acciones + '</li>';
-    var a = $scope.sly.add(image);
-		$scope.sly.moveBefore(-1, position +1);
-    $scope.sly.activate(position);
-	}
+    $scope.agregar_cuadro = function(ruta_a_imagen) {
+        var position = $scope.sly.rel.activeItem;
+        var acciones = "<div class='accion' onclick='borrar()'>x</div>";
+        var image = '<li><img src="' + ruta_a_imagen + '"></img>' + acciones + '</li>';
+        var a = $scope.sly.add(image);
+
+        $scope.sly.moveBefore(-1, position +1);
+        $scope.sly.activate(position);
+    }
 
 
 
@@ -597,7 +598,7 @@ app.controller('AppCtrl', function ($scope) {
                 iniciar_nuevo_proyecto();
 
                 for (var i=0; i<data.cuadros.length; i++) {
-                    $scope.agregar_cuadro(data.cuadros[i].ruta);
+                    $scope.agregar_cuadro(path.join(path.dirname(archivo), data.cuadros[i].ruta));
                 }
 
                 ajustar_capas();
@@ -636,9 +637,6 @@ app.controller('AppCtrl', function ($scope) {
 			var nombre_archivo = path.basename(this.value);
             var carpeta_imagenes = nombre_archivo.split('.')[0] + '.imagenes';
 
-            console.log(carpeta_imagenes);
-            alert(carpeta_imagenes);
-
       this.value = ""; // Hace que se pueda seleccionar el archivo nuevamente.
 
       if (/.hmotion$/.test(archivo)) {
@@ -655,7 +653,8 @@ app.controller('AppCtrl', function ($scope) {
 					var ruta_imagen_destino = path.join(ruta_destino, carpeta_imagenes, path.basename(ruta_imagen));
 
 					fs.createReadStream(ruta_imagen).pipe(fs.createWriteStream(ruta_imagen_destino));
-					contenido.cuadros.push({ruta: ruta_imagen})
+
+					contenido.cuadros.push({ruta: path.join(carpeta_imagenes, path.basename(ruta_imagen))})
 				}
 
 
