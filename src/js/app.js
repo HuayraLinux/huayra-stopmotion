@@ -120,7 +120,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
 
     $scope.pulsa_boton_alternar_panel = function() {
         $scope.panel_visible = !$scope.panel_visible;
-        alternar_panel_lateral();
+        Paneles.alternar_panel_lateral();
     }
 
     // TODO: reemplazar por un identificador único.
@@ -289,16 +289,6 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
         }
     }
 
-    window.alternar_panel_lateral = function() {
-        var panel = document.getElementById('panel-lateral');
-        var contenedor = document.getElementById('contenedor-layers');
-        var controles = document.getElementById('contenedor-controles');
-
-        panel.classList.toggle('panel-lateral-invisible');
-        contenedor.classList.toggle('contenedor-layers-expandido');
-        controles.classList.toggle('contenedor-controles-expandido');
-    }
-
 
     /* Oculta el panel de ayuda si se hace click */
     var ayuda = document.getElementById('ayuda');
@@ -414,7 +404,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
   key('n', function(){
       $scope.panel_visible = !$scope.panel_visible;
       $scope.$apply();
-      alternar_panel_lateral()
+			Paneles.alternar_panel_lateral();
   });
 
     key('h', Paneles.alternar_ayuda);
