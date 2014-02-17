@@ -13,7 +13,7 @@ function Menu(gui) {
     this.item_guardar = new gui.MenuItem({
         label: 'Guardar como ...',
         click: function() {
-            window.guardar_proyecto();
+            window.guardar_proyecto_como();
         }
     });
 

@@ -564,3 +564,11 @@ canvas#previsualizado {
 	top: 0;
 	opacity: 0.7;
 }
+
+.modal-backdrop {
+	z-index: 5000 !important;
+}
+
+.modal  {
+z-index: 5500 !important;
+}

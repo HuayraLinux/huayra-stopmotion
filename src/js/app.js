@@ -42,27 +42,33 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
     $scope.cargado = false;
 
 		var ModalCerrarCtrl = function($scope, $modalInstance) {
+      
+        $scope.guardar = function() {
+            window.guardar_proyecto_como();
+            $modalInstance.close();
+        }
 
-			$scope.cancelar = function() {
-				$modalInstance.close();
-			}
+        $scope.cancelar = function() {
+            $modalInstance.close();
+        }
 
-			$scope.salir = function() {
-    		gui.App.quit();
-			}
+        $scope.salir = function() {
+            gui.App.quit();
+        }
+        
 		}
 
 		ventana.on("close", function() {
 
-			if ($scope.cambios_sin_guardar) {
+			if (Proyecto.cambios_sin_guardar) {
 
 				var modalInstance = $modal.open({
 					templateUrl: 'partials/modal_cerrar.html',
 					controller: ModalCerrarCtrl,
-					//resolve: {
-					//	es_proyecto_nuevo: $scope.es_proyecto_nuevo,
+					resolve: {
+						es_proyecto_nuevo: $scope.es_proyecto_nuevo,
 					//	guardar: ejemplo
-					//}
+					}
 				});
 
 			} else {
@@ -458,11 +464,11 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
     }
 
     $scope.guardar_proyecto = function() {
-        guardar_proyecto();
+        guardar_proyecto_como();
     }
 
 
-    window.guardar_proyecto = function() {
+    window.guardar_proyecto_como = function() {
         var saveDialog = document.getElementById('save-dialog');
         saveDialog.click();
 
