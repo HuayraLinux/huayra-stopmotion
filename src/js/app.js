@@ -8,14 +8,12 @@ var path = require('path');
 var ffmpeg = require('fluent-ffmpeg');
 var Preferencias = require('./js/preferencias');
 var menu = require('./js/menu');
-
+var utils = require('./js/utils');
 
 var mostrar_herramientas_de_desarrollo = function() {
     var w = gui.Window.get();
     w.showDevTools();
 }
-
-
 
 var app = angular.module('app', ['ngAnimate', 'ui.bootstrap']);
 
@@ -294,7 +292,6 @@ app.controller('AppCtrl', function ($scope, $modal) {
         }
     }
 
-
     window.alternar_panel_lateral = function() {
         var panel = document.getElementById('panel-lateral');
         var contenedor = document.getElementById('contenedor-layers');
@@ -314,7 +311,6 @@ app.controller('AppCtrl', function ($scope, $modal) {
     /* Oculta el panel de ayuda si se hace click */
     var ayuda = document.getElementById('ayuda');
     ayuda.onclick = alternar_panel_ayuda;
-
 
     var $frame  = jQuery('#basic');
     var $slidee = $frame.children('ul').eq(0);
@@ -493,7 +489,6 @@ app.controller('AppCtrl', function ($scope, $modal) {
 
     window.iniciar_nuevo_proyecto = function() {
         jQuery('.panel-inicial').fadeOut();
-        item_guardar.enabled = true;
     }
 
     window.abrir_proyecto_desde_ruta = function(archivo){
@@ -578,7 +573,6 @@ app.controller('AppCtrl', function ($scope, $modal) {
             }
         }
     }
-
 
 
     var boton_iniciar_proyecto = document.getElementById('boton_iniciar_proyecto');
