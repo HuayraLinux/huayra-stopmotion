@@ -18,15 +18,6 @@
     </head>
 
     <body ng-controller='AppCtrl'>
-			<div class='debug'>
-				<pre>
-directorio_destino = {{directorio_destino}}
-nombre_del_proyecto = {{nombre_del_proyecto}}
-es_proyecto_nuevo = {{es_proyecto_nuevo}}
-cambios_sin_guardar = {{cambios_sin_guardar}}
-				</pre>
-			</div>
-
         <!-- CUADROS DE DIALOGO PARA ABRIR Y GUARDAR PROYECTOS -->
         <input style="display:none;" id="open-dialog" type="file" accept=".hmotion"/>
         <input style="display:none;" id="save-dialog" type="file" nwsaveas="proyecto.hmotion" accept=".hmotion"/>

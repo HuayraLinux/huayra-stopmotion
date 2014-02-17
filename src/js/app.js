@@ -42,20 +42,20 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
     $scope.cargado = false;
 
 		var ModalCerrarCtrl = function($scope, $modalInstance) {
-			
+
 			$scope.cancelar = function() {
 				$modalInstance.close();
 			}
-			
+
 			$scope.salir = function() {
     		gui.App.quit();
 			}
 		}
-	
+
 		ventana.on("close", function() {
-			
+
 			if ($scope.cambios_sin_guardar) {
-				
+
 				var modalInstance = $modal.open({
 					templateUrl: 'partials/modal_cerrar.html',
 					controller: ModalCerrarCtrl,
@@ -64,7 +64,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
 					//	guardar: ejemplo
 					//}
 				});
-				
+
 			} else {
     		gui.App.quit();
 			}
@@ -144,13 +144,13 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         Paneles.alternar_panel_lateral();
     }
 
-		
+
     $scope.directorio_destino = null;
     $scope.nombre_del_proyecto = null;
 		$scope.es_proyecto_nuevo = null;
 		$scope.cambios_sin_guardar = null;
-	
-	
+
+
     $scope.fantasma = true;
     $scope.fantasma_opacidad = 50;
 
@@ -228,10 +228,6 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
 
     var contador_item = 0;
 
-    $scope.seleccionar_ultimo_cuadro = function() {
-        Proyecto.sly.activate(sly.items.length - 1);
-    }
-
     $scope.capturar = function() {
         contador_item += 1;
         $scope.cuadro_seleccionado = contador_item;
@@ -242,35 +238,10 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         dibujar_imagen_sobre_canvas(video, canvas);
         dibujar_imagen_sobre_canvas(video, previsualizado);
 
+        // TODO: Canvas de la camara activa
         var imagen = convertCanvasToImage(canvas);
-			
-				$scope.cambios_sin_guardar = true;
 
-        function decodeBase64Image(dataString) {
-            var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
-                response = {};
-
-            if (matches.length !== 3) {
-                return new Error('Invalid input string');
-            }
-
-            response.type = matches[1];
-            response.data = new Buffer(matches[2], 'base64');
-
-            return response;
-        }
-
-        var nombre_imagen = contador_item + '.png'
-        var imageBuffer = decodeBase64Image(imagen.src);
-
-        fs.writeFile($scope.directorio_destino + nombre_imagen, imageBuffer.data, function(err) {
-            $scope.cuadros.push({id: contador_item, nombre: 'nuevo', src: $scope.directorio_destino + imagen.src});
-            $scope.agregar_cuadro($scope.directorio_destino + nombre_imagen);
-            ajustar_capas();
-            $scope.$apply();
-            $scope.seleccionar_ultimo_cuadro();
-        });
-
+        Proyecto.guardar_cuadro(imagen.src);
 
         // Reproduce el sonido de captura de pantalla.
         if ($scope.sonido_habilitado) {
@@ -386,7 +357,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
 
     //Proyecto.frame = $frame;
     //Proyecto.sly = $frame.data('sly');
-	
+
 		Proyecto.definir_cuadros($frame);
 
     window.frame = Proyecto.frame;
@@ -462,58 +433,17 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         Proyecto.sly.remove(Proyecto.sly.rel.activeItem);
     }
 
-    $scope.agregar_cuadro = function(ruta_a_imagen) {
-        var position = Proyecto.sly.rel.activeItem;
-        var acciones = "<div class='accion' onclick='borrar()'><i class='icon icon-trash icon-white'></i></div>";
-        var image = '<li><img src="' + ruta_a_imagen + '"></img>' + acciones + '</li>';
-        var a = Proyecto.sly.add(image);
-
-        Proyecto.sly.moveBefore(-1, position +1);
-        Proyecto.sly.activate(position);
-    }
-
 
     window.iniciar_nuevo_proyecto = function() {
-    		var tmp_id = parseInt(Math.random()* 1000 + 1000, 10); // es un numero entre 1000 y 2000.
+        Proyecto.iniciar();
         menu.habilitar_guardado();
-			
-    		$scope.directorio_destino = "/tmp/" + tmp_id + "/";
-    		$scope.nombre_del_proyecto = tmp_id;
-				$scope.es_proyecto_nuevo = true;
-				$scope.cambios_sin_guardar = false;
-				$scope.$apply();
-	
-    		fs.mkdir($scope.directorio_destino);
     }
 
     window.abrir_proyecto_desde_ruta = function(archivo, success_callback){
-        if (/.hmotion$/.test(archivo)) {
-            fs.readFile(archivo, 'utf8', function (err, data) {
-                if (err) {
-                    console.log('Error: ' + err);
-                    return;
-                }
-
-                data = JSON.parse(data);
-
-                for (var i=0; i<data.cuadros.length; i++) {
-                    $scope.agregar_cuadro(path.join(path.dirname(archivo), data.cuadros[i].ruta));
-                }
-							
-								$scope.directorio_destino = path.dirname(archivo);
-								$scope.nombre_del_proyecto = path.basename(archivo, ".hmotion");
-								$scope.es_proyecto_nuevo = false;
-								$scope.cambios_sin_guardar = false;
-
-                ajustar_capas();
-                $scope.seleccionar_ultimo_cuadro();
-                $scope.$apply();
-								success_callback.call(this);
-            });
-        }
-        else {
-            alert("Lo siento, solo puedo leer archivos del formato .hmotion");
-        }
+        Proyecto.abrir();
+        success_callback.call(this);
+        ajustar_capas();
+        $scope.$apply();
     }
 
     window.abrir_proyecto = function(success_callback) {
@@ -573,20 +503,20 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         }
     }
 
-		
+
 		function ocultar_pantalla_inicial() {
         jQuery('.panel-inicial').fadeOut();
 		}
 
     var boton_iniciar_proyecto = document.getElementById('boton_iniciar_proyecto');
-	
+
     boton_iniciar_proyecto.onclick = function() {
 			ocultar_pantalla_inicial();
 			iniciar_nuevo_proyecto();
 		}
 
     var boton_abrir_proyecto = document.getElementById('boton_abrir_proyecto');
-	
+
     boton_abrir_proyecto.onclick = function() {
 			abrir_proyecto(ocultar_pantalla_inicial);
 		}
