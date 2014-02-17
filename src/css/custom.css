@@ -555,3 +555,12 @@ canvas#previsualizado {
 .deshabilitado {
     opacity: 0.5;
 }
+
+.debug {
+	z-index: 5000;
+	position: absolute;
+	left:0;
+	right: 0;
+	top: 0;
+	opacity: 0.7;
+}

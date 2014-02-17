@@ -21,11 +21,6 @@ var menu = new Menu(gui);
 menu.agregar_a_ventana(ventana);
 
 
-ventana.on("close", function() {
-    gui.App.quit();
-});
-
-
 app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
     $scope.proyectos_recientes = Preferencias.data.proyectos_recientes;
 
@@ -46,6 +41,34 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
     $scope.fps = 10;
     $scope.cargado = false;
 
+		var ModalCerrarCtrl = function($scope, $modalInstance) {
+			
+			$scope.cancelar = function() {
+				$modalInstance.close();
+			}
+			
+			$scope.salir = function() {
+    		gui.App.quit();
+			}
+		}
+	
+		ventana.on("close", function() {
+			
+			if ($scope.cambios_sin_guardar) {
+				
+				var modalInstance = $modal.open({
+					templateUrl: 'partials/modal_cerrar.html',
+					controller: ModalCerrarCtrl,
+					//resolve: {
+					//	es_proyecto_nuevo: $scope.es_proyecto_nuevo,
+					//	guardar: ejemplo
+					//}
+				});
+				
+			} else {
+    		gui.App.quit();
+			}
+		});
 
     $scope.exportar = function() {
 
@@ -220,6 +243,8 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
         dibujar_imagen_sobre_canvas(video, previsualizado);
 
         var imagen = convertCanvasToImage(canvas);
+			
+				$scope.cambios_sin_guardar = true;
 
         function decodeBase64Image(dataString) {
             var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
@@ -453,7 +478,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
     		$scope.directorio_destino = "/tmp/" + tmp_id + "/";
     		$scope.nombre_del_proyecto = tmp_id;
 				$scope.es_proyecto_nuevo = true;
-				$scope.cambios_sin_guardar = true;
+				$scope.cambios_sin_guardar = false;
 				$scope.$apply();
 	
     		fs.mkdir($scope.directorio_destino);
