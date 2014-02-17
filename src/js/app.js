@@ -7,7 +7,7 @@ var fs = require('fs');
 var path = require('path');
 var ffmpeg = require('fluent-ffmpeg');
 var Preferencias = require('./js/preferencias');
-var menu = require('./js/menu');
+var Menu = require('./js/menu');
 var utils = require('./js/utils');
 
 var mostrar_herramientas_de_desarrollo = function() {
@@ -16,14 +16,15 @@ var mostrar_herramientas_de_desarrollo = function() {
 }
 
 var app = angular.module('app', ['ngAnimate', 'ui.bootstrap']);
+var ventana = gui.Window.get();
 
 var preferencias = new Preferencias();
 preferencias.abrir();
 
-var ventana = gui.Window.get();
 
-var menubar = menu.crear(gui);
-ventana.menu = menubar;
+var menu = new Menu(gui);
+menu.agregar_a_ventana(ventana);
+
 
 ventana.on("close", function() {
     gui.App.quit();
@@ -37,6 +38,7 @@ app.controller('AppCtrl', function ($scope, $modal) {
     $scope.contraste = 50;
     $scope.borrosidad = 0;
     $scope.saturacion = 0;
+    
     $scope.tab_seleccionado = "tab1";
     $scope.titulo = "Sin título";
     $scope.sonido_habilitado = true;
@@ -489,6 +491,7 @@ app.controller('AppCtrl', function ($scope, $modal) {
 
     window.iniciar_nuevo_proyecto = function() {
         jQuery('.panel-inicial').fadeOut();
+        menu.habilitar_guardado();
     }
 
     window.abrir_proyecto_desde_ruta = function(archivo){
