@@ -28,45 +28,45 @@ var menubar = menu.crear(gui);
 ventana.menu = menubar;
 
 ventana.on("close", function() {
-  gui.App.quit();
+    gui.App.quit();
 });
 
 
 app.controller('AppCtrl', function ($scope, $modal) {
     $scope.proyectos_recientes = preferencias.data.proyectos_recientes;
 
-  $scope.brillo = 50;
-  $scope.contraste = 50;
-  $scope.borrosidad = 0;
-  $scope.saturacion = 0;
-  $scope.tab_seleccionado = "tab1";
-	$scope.titulo = "Sin título";
-  $scope.sonido_habilitado = true;
-  $scope.camaras = [];
-  $scope.camara_seleccionada = 1;
-	$scope.panel_visible = true;
-  $scope.puerto_remoto = "???";
-	$scope.host = "";
-	$scope.en_reproduccion = false;
-	$scope.fps = 10;
-  $scope.cargado = false;
+    $scope.brillo = 50;
+    $scope.contraste = 50;
+    $scope.borrosidad = 0;
+    $scope.saturacion = 0;
+    $scope.tab_seleccionado = "tab1";
+    $scope.titulo = "Sin título";
+    $scope.sonido_habilitado = true;
+    $scope.camaras = [];
+    $scope.camara_seleccionada = 1;
+    $scope.panel_visible = true;
+    $scope.puerto_remoto = "???";
+    $scope.host = "";
+    $scope.en_reproduccion = false;
+    $scope.fps = 10;
+    $scope.cargado = false;
 
-    
-	$scope.exportar = function() {
-      
-    var modalInstance = $modal.open({
-      templateUrl: 'partials/modal.html',
-    });
 
-      /*
+    $scope.exportar = function() {
+
+        var modalInstance = $modal.open({
+            templateUrl: 'partials/modal.html',
+        });
+
+        /*
     modalInstance.result.then(function (selectedItem) {
       $scope.selected = selectedItem;
     }, function () {
       $log.info('Modal dismissed at: ' + new Date());
     });
     */
-		
-		/*
+
+             /*
     var proc = new ffmpeg({ source: $scope.directorio_destino + '%d.png', nolog: true })
       .withVideoCodec('mpeg4')
       .withFpsInput(3)
@@ -76,14 +76,14 @@ app.controller('AppCtrl', function ($scope, $modal) {
     });
 		*/
 
-	}
+         }
 
-  setTimeout(function() {
+         setTimeout(function() {
 
-  	$scope.cargado = true;
-    $scope.$apply();
+             $scope.cargado = true;
+             $scope.$apply();
 
-  }, 3000);
+         }, 3000);
 
 
 
@@ -92,393 +92,393 @@ app.controller('AppCtrl', function ($scope, $modal) {
         window.abrir_proyecto_desde_ruta(ruta);
     }
 
-	$scope.reproducir = function() {
-		$scope.en_reproduccion = true;
+    $scope.reproducir = function() {
+        $scope.en_reproduccion = true;
 
-		function solicitar_siguiente_cuadro() {
+        function solicitar_siguiente_cuadro() {
 
-			if ($scope.en_reproduccion) {
-				avanzar_continuamente_un_cuadro();
-				setTimeout(solicitar_siguiente_cuadro, 1000 / $scope.fps);
-			}
-		}
+            if ($scope.en_reproduccion) {
+                avanzar_continuamente_un_cuadro();
+                setTimeout(solicitar_siguiente_cuadro, 1000 / $scope.fps);
+            }
+        }
 
-		solicitar_siguiente_cuadro();
-	}
-
-	$scope.detener = function() {
-		$scope.en_reproduccion = false;
-	}
-
-
-	$scope.abrir_pantalla_compartida_en_el_navegador = function() {
-		var url = 'http://' + $scope.host + ':' + $scope.puerto_remoto;
-		gui.Shell.openExternal(url);
-	}
-
-
-
-
-	$scope.pulsa_boton_alternar_ayuda = function() {
-		alternar_panel_ayuda();
-	}
-
-	$scope.pulsa_boton_alternar_panel = function() {
-		$scope.panel_visible = !$scope.panel_visible;
-		alternar_panel_lateral();
-	}
-
-  // TODO: reemplazar por un identificador único.
-  $scope.proyecto_id = parseInt(Math.random()* 1000 + 1000, 10); // es un numero entre 1000 y 2000.
-  $scope.directorio_destino = "/tmp/" + $scope.proyecto_id + "/";
-
-  fs.mkdir($scope.directorio_destino);
-
-  $scope.fantasma = true;
-  $scope.fantasma_opacidad = 50;
-
-  $scope.getNumber = function(num) {
-    return new Array(num);
-  }
-
-
-  $scope.capa_grilla_opacidad = 50;
-  $scope.capa_grilla_cantidad_filas = 2;
-  $scope.capa_grilla_cantidad_columnas = 2;
-
-  $scope.deshabilitar_capas = function() {
-  	$scope.capa_grilla_opacidad = 0;
-  }
-
-  $scope.$watch('capa_grilla_opacidad', function() {
-    var table = document.getElementById('table');
-    table.style.opacity = $scope.capa_grilla_opacidad / 100;
-  });
-
-
-	$scope.$watch('fantasma_opacidad', function() {
-    var canvas = document.getElementById('canvas');
-    canvas.style.opacity = $scope.fantasma_opacidad / 100;
-	});
-
-
-
-  $scope.restaurar = function () {
-    $scope.brillo = 50;
-    $scope.contraste = 50;
-    $scope.borrosidad = 0;
-    $scope.saturacion = 0;
-	}
-
-  $scope.seleccionar_tab = function (numero) {
-  	$scope.tab_seleccionado = "tab" + numero;
-  }
-
-  $scope.seleccionar_camara = function (numero) {
-		if (numero)
-			$scope.detener();
-
-  	$scope.camara_seleccionada = numero;
-  }
-
-  $scope.seleccionar_camara(1);
-
-
-  function actualizar_efectos(_old, _new) {
-    var video = document.querySelector('video');
-    var borrosidad = "blur(" + $scope.borrosidad / 10.0 + "px) ";
-    var brillo = "brightness(" + $scope.brillo / 50 + ") ";
-    var contraste = "contrast(" + $scope.contraste / 50 + ") ";
-    //var saturacion = "saturate(" + $scope.saturacion / 50 + ") ";
-
-  	video.style.webkitFilter = borrosidad + brillo + contraste;
-    //+ saturacion;
-  }
-
-  $scope.$watch('borrosidad', actualizar_efectos);
-  $scope.$watch('brillo', actualizar_efectos);
-  $scope.$watch('contraste', actualizar_efectos);
-  $scope.$watch('saturacion', actualizar_efectos);
-
-  $scope.cuadros = [
-  ];
-
-  function convertCanvasToImage(canvas) {
-    var image = new Image();
-    image.src = canvas.toDataURL("image/png");
-    return image;
-  }
-
-  function dibujar_imagen_sobre_canvas(image, canvas) {
-    var contexto = canvas.getContext('2d');
-    contexto.drawImage(image, 0, 0);
-  }
-
-  var contador_item = 0;
-
-
-  function explorar_directorio(ruta_relativa_al_archivo) {
-    //var path = require('path');
-    var root = './'; //path.resolve( './' ) + '/';
-
-    ruta_relativa_al_archivo = ruta_relativa_al_archivo || '';
-    gui.Shell.showItemInFolder(root + ruta_relativa_al_archivo)
-  }
-
-
-  $scope.abrir_directorio_destino = function() {
-    explorar_directorio('./' + $scope.directorio_destino);
-  }
-
-  $scope.seleccionar_ultimo_cuadro = function() {
-    $scope.sly.activate(sly.items.length - 1);
-  }
-
-  $scope.capturar = function() {
-    contador_item += 1;
-    $scope.cuadro_seleccionado = contador_item;
-
-    var canvas = document.getElementById("canvas");
-    var previsualizado = document.getElementById("previsualizado");
-
-    dibujar_imagen_sobre_canvas(video, canvas);
-    dibujar_imagen_sobre_canvas(video, previsualizado);
-
-    var imagen = convertCanvasToImage(canvas);
-
-    function decodeBase64Image(dataString) {
-      var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
-          response = {};
-
-      if (matches.length !== 3) {
-        return new Error('Invalid input string');
-      }
-
-      response.type = matches[1];
-      response.data = new Buffer(matches[2], 'base64');
-
-      return response;
+        solicitar_siguiente_cuadro();
     }
 
-    var nombre_imagen = contador_item + '.png'
-    var imageBuffer = decodeBase64Image(imagen.src);
+    $scope.detener = function() {
+        $scope.en_reproduccion = false;
+    }
 
-    fs.writeFile($scope.directorio_destino + nombre_imagen, imageBuffer.data, function(err) {
-      $scope.cuadros.push({id: contador_item, nombre: 'nuevo', src: $scope.directorio_destino + imagen.src});
-			$scope.agregar_cuadro($scope.directorio_destino + nombre_imagen);
-      ajustar_capas();
-      $scope.$apply();
-      $scope.seleccionar_ultimo_cuadro();
+
+    $scope.abrir_pantalla_compartida_en_el_navegador = function() {
+        var url = 'http://' + $scope.host + ':' + $scope.puerto_remoto;
+        gui.Shell.openExternal(url);
+    }
+
+
+
+
+    $scope.pulsa_boton_alternar_ayuda = function() {
+        alternar_panel_ayuda();
+    }
+
+    $scope.pulsa_boton_alternar_panel = function() {
+        $scope.panel_visible = !$scope.panel_visible;
+        alternar_panel_lateral();
+    }
+
+    // TODO: reemplazar por un identificador único.
+    $scope.proyecto_id = parseInt(Math.random()* 1000 + 1000, 10); // es un numero entre 1000 y 2000.
+    $scope.directorio_destino = "/tmp/" + $scope.proyecto_id + "/";
+
+    fs.mkdir($scope.directorio_destino);
+
+    $scope.fantasma = true;
+    $scope.fantasma_opacidad = 50;
+
+    $scope.getNumber = function(num) {
+        return new Array(num);
+    }
+
+
+    $scope.capa_grilla_opacidad = 50;
+    $scope.capa_grilla_cantidad_filas = 2;
+    $scope.capa_grilla_cantidad_columnas = 2;
+
+    $scope.deshabilitar_capas = function() {
+        $scope.capa_grilla_opacidad = 0;
+    }
+
+    $scope.$watch('capa_grilla_opacidad', function() {
+        var table = document.getElementById('table');
+        table.style.opacity = $scope.capa_grilla_opacidad / 100;
     });
 
 
-    // Reproduce el sonido de captura de pantalla.
-    if ($scope.sonido_habilitado) {
-    	var sonido = window.document.getElementById('audio_foto');
-      sonido.currentTime=0;
-      sonido.play();
-    }
-  };
+    $scope.$watch('fantasma_opacidad', function() {
+        var canvas = document.getElementById('canvas');
+        canvas.style.opacity = $scope.fantasma_opacidad / 100;
+    });
 
-  /*
+
+
+    $scope.restaurar = function () {
+        $scope.brillo = 50;
+        $scope.contraste = 50;
+        $scope.borrosidad = 0;
+        $scope.saturacion = 0;
+    }
+
+    $scope.seleccionar_tab = function (numero) {
+        $scope.tab_seleccionado = "tab" + numero;
+    }
+
+    $scope.seleccionar_camara = function (numero) {
+        if (numero)
+            $scope.detener();
+
+        $scope.camara_seleccionada = numero;
+    }
+
+    $scope.seleccionar_camara(1);
+
+
+    function actualizar_efectos(_old, _new) {
+        var video = document.querySelector('video');
+        var borrosidad = "blur(" + $scope.borrosidad / 10.0 + "px) ";
+        var brillo = "brightness(" + $scope.brillo / 50 + ") ";
+        var contraste = "contrast(" + $scope.contraste / 50 + ") ";
+        //var saturacion = "saturate(" + $scope.saturacion / 50 + ") ";
+
+        video.style.webkitFilter = borrosidad + brillo + contraste;
+        //+ saturacion;
+    }
+
+    $scope.$watch('borrosidad', actualizar_efectos);
+    $scope.$watch('brillo', actualizar_efectos);
+    $scope.$watch('contraste', actualizar_efectos);
+    $scope.$watch('saturacion', actualizar_efectos);
+
+    $scope.cuadros = [
+    ];
+
+    function convertCanvasToImage(canvas) {
+        var image = new Image();
+        image.src = canvas.toDataURL("image/png");
+        return image;
+    }
+
+    function dibujar_imagen_sobre_canvas(image, canvas) {
+        var contexto = canvas.getContext('2d');
+        contexto.drawImage(image, 0, 0);
+    }
+
+    var contador_item = 0;
+
+
+    function explorar_directorio(ruta_relativa_al_archivo) {
+        //var path = require('path');
+        var root = './'; //path.resolve( './' ) + '/';
+
+        ruta_relativa_al_archivo = ruta_relativa_al_archivo || '';
+        gui.Shell.showItemInFolder(root + ruta_relativa_al_archivo)
+    }
+
+
+    $scope.abrir_directorio_destino = function() {
+        explorar_directorio('./' + $scope.directorio_destino);
+    }
+
+    $scope.seleccionar_ultimo_cuadro = function() {
+        $scope.sly.activate(sly.items.length - 1);
+    }
+
+    $scope.capturar = function() {
+        contador_item += 1;
+        $scope.cuadro_seleccionado = contador_item;
+
+        var canvas = document.getElementById("canvas");
+        var previsualizado = document.getElementById("previsualizado");
+
+        dibujar_imagen_sobre_canvas(video, canvas);
+        dibujar_imagen_sobre_canvas(video, previsualizado);
+
+        var imagen = convertCanvasToImage(canvas);
+
+        function decodeBase64Image(dataString) {
+            var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+                response = {};
+
+            if (matches.length !== 3) {
+                return new Error('Invalid input string');
+            }
+
+            response.type = matches[1];
+            response.data = new Buffer(matches[2], 'base64');
+
+            return response;
+        }
+
+        var nombre_imagen = contador_item + '.png'
+        var imageBuffer = decodeBase64Image(imagen.src);
+
+        fs.writeFile($scope.directorio_destino + nombre_imagen, imageBuffer.data, function(err) {
+            $scope.cuadros.push({id: contador_item, nombre: 'nuevo', src: $scope.directorio_destino + imagen.src});
+            $scope.agregar_cuadro($scope.directorio_destino + nombre_imagen);
+            ajustar_capas();
+            $scope.$apply();
+            $scope.seleccionar_ultimo_cuadro();
+        });
+
+
+        // Reproduce el sonido de captura de pantalla.
+        if ($scope.sonido_habilitado) {
+            var sonido = window.document.getElementById('audio_foto');
+            sonido.currentTime=0;
+            sonido.play();
+        }
+    };
+
+    /*
    * Retorna el cuadro en formato JSON buscando por id.
    *
    * El resultado es de la forma:
    *
    *
    */
-  function obtener_cuadro_por_id(id) {
-    for (var i=0; i<$scope.cuadros.length; i++) {
-      if ($scope.cuadros[i].id == id)
-        return $scope.cuadros[i];
+    function obtener_cuadro_por_id(id) {
+        for (var i=0; i<$scope.cuadros.length; i++) {
+            if ($scope.cuadros[i].id == id)
+                return $scope.cuadros[i];
+        }
     }
-  }
 
 
-	window.alternar_panel_lateral = function() {
-		var panel = document.getElementById('panel-lateral');
-  	var contenedor = document.getElementById('contenedor-layers');
-  	var controles = document.getElementById('contenedor-controles');
+    window.alternar_panel_lateral = function() {
+        var panel = document.getElementById('panel-lateral');
+        var contenedor = document.getElementById('contenedor-layers');
+        var controles = document.getElementById('contenedor-controles');
 
-		panel.classList.toggle('panel-lateral-invisible');
-		contenedor.classList.toggle('contenedor-layers-expandido');
-		controles.classList.toggle('contenedor-controles-expandido');
-	}
+        panel.classList.toggle('panel-lateral-invisible');
+        contenedor.classList.toggle('contenedor-layers-expandido');
+        controles.classList.toggle('contenedor-controles-expandido');
+    }
 
-  window.alternar_panel_ayuda = function() {
-		var ayuda = document.getElementById('ayuda');
+    window.alternar_panel_ayuda = function() {
+        var ayuda = document.getElementById('ayuda');
 
-		ayuda.classList.toggle('ayuda-invisible');
-  }
+        ayuda.classList.toggle('ayuda-invisible');
+    }
 
-	/* Oculta el panel de ayuda si se hace click */
-	var ayuda = document.getElementById('ayuda');
-	ayuda.onclick = alternar_panel_ayuda;
-
-
-	var $frame  = jQuery('#basic');
-	var $slidee = $frame.children('ul').eq(0);
-	var $wrap   = $frame.parent();
-
-	window.calculateAspectRatioFit = function(srcWidth, srcHeight, maxWidth, maxHeight) {
-    var ratio = [maxWidth / srcWidth, maxHeight / srcHeight ];
-    ratio = Math.min(ratio[0], ratio[1]);
-
-    return {width: Math.floor(srcWidth*ratio), height: Math.floor(srcHeight*ratio)};
- 	}
+    /* Oculta el panel de ayuda si se hace click */
+    var ayuda = document.getElementById('ayuda');
+    ayuda.onclick = alternar_panel_ayuda;
 
 
-  window.ajustar_capas = function() {
-    var contenedor_interno = document.getElementById('contenedor_interno');
-    var previsualizar = document.getElementById('previsualizado');
-    var canvas = document.getElementById('canvas');
-    var table = document.getElementById('table');
-    var imagen_remota = document.getElementById('imagen_remota');
+    var $frame  = jQuery('#basic');
+    var $slidee = $frame.children('ul').eq(0);
+    var $wrap   = $frame.parent();
 
-		var size = calculateAspectRatioFit(canvas.width, canvas.height, contenedor_interno.clientWidth, contenedor_interno.clientHeight);
+    window.calculateAspectRatioFit = function(srcWidth, srcHeight, maxWidth, maxHeight) {
+        var ratio = [maxWidth / srcWidth, maxHeight / srcHeight ];
+        ratio = Math.min(ratio[0], ratio[1]);
 
-		function calcularMitad(longitud, en_negativo) {
-			var en_negativo = en_negativo || false;
-			var longitud_como_numero = parseInt(longitud, 10) / 2;
+        return {width: Math.floor(srcWidth*ratio), height: Math.floor(srcHeight*ratio)};
+    }
 
-			if (en_negativo)
-				longitud_como_numero = -longitud_como_numero;
 
-			return Math.floor(longitud_como_numero) + "px";
-		}
+    window.ajustar_capas = function() {
+        var contenedor_interno = document.getElementById('contenedor_interno');
+        var previsualizar = document.getElementById('previsualizado');
+        var canvas = document.getElementById('canvas');
+        var table = document.getElementById('table');
+        var imagen_remota = document.getElementById('imagen_remota');
 
-    table.style.width = size.width + "px";
-    table.style.left = '50%';
-    table.style.marginLeft = calcularMitad(table.style.width, true);
-    table.style.height = size.height + "px";
+        var size = calculateAspectRatioFit(canvas.width, canvas.height, contenedor_interno.clientWidth, contenedor_interno.clientHeight);
 
-    video.style.left = table.style.left;
-    video.style.width = table.style.width;
-    video.style.height = table.style.height;
-    video.style.marginLeft = table.style.marginLeft;
+        function calcularMitad(longitud, en_negativo) {
+            var en_negativo = en_negativo || false;
+            var longitud_como_numero = parseInt(longitud, 10) / 2;
 
-    previsualizar.style.left = table.style.left;
-    previsualizar.style.width = table.style.width;
-    previsualizar.style.height = table.style.height;
-    previsualizar.style.marginLeft = table.style.marginLeft;
+            if (en_negativo)
+                longitud_como_numero = -longitud_como_numero;
 
-    canvas.style.left = table.style.left;
-    canvas.style.width = table.style.width;
-    canvas.style.height = table.style.height;
-    canvas.style.marginLeft = table.style.marginLeft;
+            return Math.floor(longitud_como_numero) + "px";
+        }
 
-    imagen_remota.style.left = table.style.left;
-    imagen_remota.style.width = table.style.width;
-    imagen_remota.style.height = table.style.height;
-    imagen_remota.style.marginLeft = table.style.marginLeft;
-  }
+        table.style.width = size.width + "px";
+        table.style.left = '50%';
+        table.style.marginLeft = calcularMitad(table.style.width, true);
+        table.style.height = size.height + "px";
+
+        video.style.left = table.style.left;
+        video.style.width = table.style.width;
+        video.style.height = table.style.height;
+        video.style.marginLeft = table.style.marginLeft;
+
+        previsualizar.style.left = table.style.left;
+        previsualizar.style.width = table.style.width;
+        previsualizar.style.height = table.style.height;
+        previsualizar.style.marginLeft = table.style.marginLeft;
+
+        canvas.style.left = table.style.left;
+        canvas.style.width = table.style.width;
+        canvas.style.height = table.style.height;
+        canvas.style.marginLeft = table.style.marginLeft;
+
+        imagen_remota.style.left = table.style.left;
+        imagen_remota.style.width = table.style.width;
+        imagen_remota.style.height = table.style.height;
+        imagen_remota.style.marginLeft = table.style.marginLeft;
+    }
 
     window.onresize = function() {
-      $scope.frame.sly('reload')
-      ajustar_capas();
+        $scope.frame.sly('reload')
+        ajustar_capas();
     }
 
     setInterval(ajustar_capas, 100);
 
-		// Call Sly on frame
-		$frame.sly({
-			horizontal: 1,
-			itemNav: 'basic',
-			smart: 1,
-			activateOn: 'click',
-			mouseDragging: 1,
-			touchDragging: 1,
-			releaseSwing: 1,
-			startAt: 0,
-			scrollBar: $wrap.find('.scrollbar'),
-			scrollBy: 1,
-			pagesBar: $wrap.find('.pages'),
-			activatePageOn: 'click',
-			speed: 300,
-			elasticBounds: 1,
-			easing: 'easeOutExpo',
-			dragHandle: 1,
-			dynamicHandle: 1,
-			clickBar: 1,
-		});
+    // Call Sly on frame
+    $frame.sly({
+        horizontal: 1,
+        itemNav: 'basic',
+        smart: 1,
+        activateOn: 'click',
+        mouseDragging: 1,
+        touchDragging: 1,
+        releaseSwing: 1,
+        startAt: 0,
+        scrollBar: $wrap.find('.scrollbar'),
+        scrollBy: 1,
+        pagesBar: $wrap.find('.pages'),
+        activatePageOn: 'click',
+        speed: 300,
+        elasticBounds: 1,
+        easing: 'easeOutExpo',
+        dragHandle: 1,
+        dynamicHandle: 1,
+        clickBar: 1,
+    });
 
     $scope.frame = $frame;
-  	$scope.sly = $frame.data('sly');
+    $scope.sly = $frame.data('sly');
 
     window.frame = $frame;
-  	window.sly = $scope.sly;
+    window.sly = $scope.sly;
 
-  $scope.sly.on('active', function(e, indice) {
-    var canvas = document.getElementById("canvas");
-    var previsualizado = document.getElementById("previsualizado");
-  	var item = $scope.sly.getPos(indice);
-    var imagen = item.el.children[0];
+    $scope.sly.on('active', function(e, indice) {
+        var canvas = document.getElementById("canvas");
+        var previsualizado = document.getElementById("previsualizado");
+        var item = $scope.sly.getPos(indice);
+        var imagen = item.el.children[0];
 
-    dibujar_imagen_sobre_canvas(imagen, canvas);
-    dibujar_imagen_sobre_canvas(imagen, previsualizado);
-  })
+        dibujar_imagen_sobre_canvas(imagen, canvas);
+        dibujar_imagen_sobre_canvas(imagen, previsualizado);
+    })
 
 
-  /*
+    /*
    * Atajos de teclado.
    *
    */
-	key('n', function(){
-		$scope.panel_visible = !$scope.panel_visible;
-		$scope.$apply();
-		alternar_panel_lateral()
-	});
-
-	key('h', function(){
-		alternar_panel_ayuda();
-	});
-
-  key("space", function(){
-    $scope.capturar();
-    $scope.$apply();
+  key('n', function(){
+      $scope.panel_visible = !$scope.panel_visible;
+      $scope.$apply();
+      alternar_panel_lateral()
   });
 
-  key("left", function(){
-    $scope.frame.sly('prev');
-  });
+    key('h', function(){
+        alternar_panel_ayuda();
+    });
 
-  key("right", function(){
-    $scope.frame.sly('next');
-  });
+    key("space", function(){
+        $scope.capturar();
+        $scope.$apply();
+    });
 
-  key("up", function(){
-    $scope.sly.activate(0);
-  });
+    key("left", function(){
+        $scope.frame.sly('prev');
+    });
 
-	function avanzar_continuamente_un_cuadro() {
-    var pos = $scope.sly.rel.activeItem;
-    $scope.sly.next();
+    key("right", function(){
+        $scope.frame.sly('next');
+    });
 
-    var nuevaPos = $scope.sly.rel.activeItem;
+    key("up", function(){
+        $scope.sly.activate(0);
+    });
 
-    if (pos == nuevaPos)
-      $scope.sly.activate(0);
-	}
+    function avanzar_continuamente_un_cuadro() {
+        var pos = $scope.sly.rel.activeItem;
+        $scope.sly.next();
 
-  key("down", function(){
-		avanzar_continuamente_un_cuadro();
-  });
+        var nuevaPos = $scope.sly.rel.activeItem;
 
-	key("x", function() {
-		$scope.sly.remove($scope.sly.rel.activeItem);
-	});
+        if (pos == nuevaPos)
+            $scope.sly.activate(0);
+    }
+
+    key("down", function(){
+        avanzar_continuamente_un_cuadro();
+    });
+
+    key("x", function() {
+        $scope.sly.remove($scope.sly.rel.activeItem);
+    });
 
 
 
-  $scope.abrir_modo_desarrollador = function() {
-    var gui = require('nw.gui');
-    var w = gui.Window.get();
-    w.showDevTools();
-  }
+    $scope.abrir_modo_desarrollador = function() {
+        var gui = require('nw.gui');
+        var w = gui.Window.get();
+        w.showDevTools();
+    }
 
-	window.borrar = function() {
-		$scope.sly.remove($scope.sly.rel.activeItem);
-	}
+    window.borrar = function() {
+        $scope.sly.remove($scope.sly.rel.activeItem);
+    }
 
     $scope.agregar_cuadro = function(ruta_a_imagen) {
         var position = $scope.sly.rel.activeItem;
@@ -491,10 +491,10 @@ app.controller('AppCtrl', function ($scope, $modal) {
     }
 
 
-	window.iniciar_nuevo_proyecto = function() {
-		jQuery('.panel-inicial').fadeOut();
-		item_guardar.enabled = true;
-	}
+    window.iniciar_nuevo_proyecto = function() {
+        jQuery('.panel-inicial').fadeOut();
+        item_guardar.enabled = true;
+    }
 
     window.abrir_proyecto_desde_ruta = function(archivo){
         if (/.hmotion$/.test(archivo)) {
@@ -521,119 +521,119 @@ app.controller('AppCtrl', function ($scope, $modal) {
         }
     }
 
-  window.abrir_proyecto = function() {
-    var openDialog = document.getElementById('open-dialog');
-    openDialog.click();
+    window.abrir_proyecto = function() {
+        var openDialog = document.getElementById('open-dialog');
+        openDialog.click();
 
-    openDialog.onchange = function(evento) {
-      var archivo = this.value;
-      this.value = ""; // Hace que se pueda seleccionar el archivo nuevamente.
-      abrir_proyecto_desde_ruta(archivo);
+        openDialog.onchange = function(evento) {
+            var archivo = this.value;
+            this.value = ""; // Hace que se pueda seleccionar el archivo nuevamente.
+            abrir_proyecto_desde_ruta(archivo);
+        }
     }
-  }
 
-	$scope.guardar_proyecto = function() {
-		guardar_proyecto();
-	}
+    $scope.guardar_proyecto = function() {
+        guardar_proyecto();
+    }
 
 
-  window.guardar_proyecto = function() {
-    var saveDialog = document.getElementById('save-dialog');
-    saveDialog.click();
+    window.guardar_proyecto = function() {
+        var saveDialog = document.getElementById('save-dialog');
+        saveDialog.click();
 
-    saveDialog.onchange = function(evento) {
-      var archivo = this.value;
-			var ruta_destino = path.dirname(this.value);
-			var nombre_archivo = path.basename(this.value);
+        saveDialog.onchange = function(evento) {
+            var archivo = this.value;
+            var ruta_destino = path.dirname(this.value);
+            var nombre_archivo = path.basename(this.value);
             var carpeta_imagenes = nombre_archivo.split('.')[0] + '.imagenes';
 
-      this.value = ""; // Hace que se pueda seleccionar el archivo nuevamente.
+            this.value = ""; // Hace que se pueda seleccionar el archivo nuevamente.
 
-      if (/.hmotion$/.test(archivo)) {
+            if (/.hmotion$/.test(archivo)) {
 
-				var contenido = {
-					titulo: 'Titulo del proyecto',
-					cuadros: []
-				};
+                var contenido = {
+                    titulo: 'Titulo del proyecto',
+                    cuadros: []
+                };
 
-				fs.mkdir(path.join(ruta_destino, carpeta_imagenes));
+                fs.mkdir(path.join(ruta_destino, carpeta_imagenes));
 
-				for (var i=0; i<sly.items.length; i++) {
-					var ruta_imagen = sly.items[i].el.children[0].src.replace('file://', '')
-					var ruta_imagen_destino = path.join(ruta_destino, carpeta_imagenes, "imagen" + i + ".png");
+                for (var i=0; i<sly.items.length; i++) {
+                    var ruta_imagen = sly.items[i].el.children[0].src.replace('file://', '')
+                    var ruta_imagen_destino = path.join(ruta_destino, carpeta_imagenes, "imagen" + i + ".png");
 
-					fs.createReadStream(ruta_imagen).pipe(fs.createWriteStream(ruta_imagen_destino));
+                    fs.createReadStream(ruta_imagen).pipe(fs.createWriteStream(ruta_imagen_destino));
 
-					contenido.cuadros.push({ruta: path.join(carpeta_imagenes, path.basename(ruta_imagen_destino))});
-				}
+                    contenido.cuadros.push({ruta: path.join(carpeta_imagenes, path.basename(ruta_imagen_destino))});
+                }
 
 
                 fs.writeFile(archivo, JSON.stringify(contenido, null, 4), function(err) {
                     if (err) alert(err);
                     else preferencias.agregar_proyecto_reciente(archivo);
-				});
+                });
 
-      } else {
-        alert("Lo siento, solo puedo grabar sobre archivos del formato .hmotion");
-      }
+            } else {
+                alert("Lo siento, solo puedo grabar sobre archivos del formato .hmotion");
+            }
+        }
     }
-  }
 
 
 
-	var boton_iniciar_proyecto = document.getElementById('boton_iniciar_proyecto');
-	boton_iniciar_proyecto.onclick = iniciar_nuevo_proyecto;
+    var boton_iniciar_proyecto = document.getElementById('boton_iniciar_proyecto');
+    boton_iniciar_proyecto.onclick = iniciar_nuevo_proyecto;
 
-  var boton_abrir_proyecto = document.getElementById('boton_abrir_proyecto');
-  boton_abrir_proyecto.onclick = abrir_proyecto;
+    var boton_abrir_proyecto = document.getElementById('boton_abrir_proyecto');
+    boton_abrir_proyecto.onclick = abrir_proyecto;
 
 
-	var config = require('./package.json');
+    var config = require('./package.json');
 
-	if (config.compartir) {
-		var express = require('express');
-		var http = require('http');
+    if (config.compartir) {
+        var express = require('express');
+        var http = require('http');
 
-		var app = express();
-		var server = http.createServer(app);
+        var app = express();
+        var server = http.createServer(app);
 
-		app.configure(function(){
-			app.set('port', 3000 + Math.floor(Math.random() * 1000));
-			app.use(express.static('./public'));
-		});
+        app.configure(function(){
+            app.set('port', 3000 + Math.floor(Math.random() * 1000));
+            app.use(express.static('./public'));
+        });
 
-		server.listen(app.get('port'), function(){
-			var os = require("os");
+        server.listen(app.get('port'), function(){
+            var os = require("os");
 
-			console.log("Comenzando a escuchar en el puerto: " + app.get('port'));
-			$scope.puerto_remoto = app.get('port');
-			$scope.host = os.hostname();
-			$scope.$apply();
-		});
+            console.log("Comenzando a escuchar en el puerto: " + app.get('port'));
+            $scope.puerto_remoto = app.get('port');
+            $scope.host = os.hostname();
+            $scope.$apply();
+        });
 
-		var io = require("socket.io").listen(server);
+        var io = require("socket.io").listen(server);
 
-		io.sockets.on('connection', function (socket) {
+        io.sockets.on('connection', function (socket) {
 
-			$scope.camaras.push({
-				indice: 2,
-				socket: socket,
-			});
+            $scope.camaras.push({
+                indice: 2,
+                socket: socket,
+            });
 
-			$scope.$apply();
+            $scope.$apply();
 
-			socket.on('disconnect', function() {
-				$scope.camaras.splice(0, 1);
-				$scope.$apply();
-			});
+            socket.on('disconnect', function() {
+                $scope.camaras.splice(0, 1);
+                $scope.$apply();
+            });
 
-			socket.on("captura", function(data) {
-				var imagen_remota = document.getElementById('imagen_remota');
+            socket.on("captura", function(data) {
+                var imagen_remota = document.getElementById('imagen_remota');
 
-				var buffer = data.data;
-				imagen_remota.src = buffer;
-			});
-		});
-	}
+                var buffer = data.data;
+                imagen_remota.src = buffer;
+            });
+        });
+    }
 
 });
