@@ -6,7 +6,6 @@ var gui = require('nw.gui');
 var fs = require('fs');
 var path = require('path');
 var ffmpeg = require('fluent-ffmpeg');
-var Preferencias = require('./js/preferencias');
 var Menu = require('./js/menu');
 var utils = require('./js/utils');
 
@@ -18,10 +17,6 @@ var mostrar_herramientas_de_desarrollo = function() {
 var app = angular.module('app', ['ngAnimate', 'ui.bootstrap']);
 var ventana = gui.Window.get();
 
-var preferencias = new Preferencias();
-preferencias.abrir();
-
-
 var menu = new Menu(gui);
 menu.agregar_a_ventana(ventana);
 
@@ -31,14 +26,14 @@ ventana.on("close", function() {
 });
 
 
-app.controller('AppCtrl', function ($scope, $modal, Paneles) {
-    $scope.proyectos_recientes = preferencias.data.proyectos_recientes;
+app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
+    $scope.proyectos_recientes = Preferencias.data.proyectos_recientes;
 
     $scope.brillo = 50;
     $scope.contraste = 50;
     $scope.borrosidad = 0;
     $scope.saturacion = 0;
-    
+
     $scope.tab_seleccionado = "tab1";
     $scope.titulo = "Sin título";
     $scope.sonido_habilitado = true;
