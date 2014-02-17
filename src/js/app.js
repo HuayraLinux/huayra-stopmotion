@@ -21,7 +21,7 @@ var menu = new Menu(gui);
 menu.agregar_a_ventana(ventana);
 
 
-app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
+app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proyecto) {
     $scope.proyectos_recientes = Preferencias.data.proyectos_recientes;
 
     $scope.brillo = 50;
@@ -229,7 +229,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
     var contador_item = 0;
 
     $scope.seleccionar_ultimo_cuadro = function() {
-        $scope.sly.activate(sly.items.length - 1);
+        Proyecto.sly.activate(sly.items.length - 1);
     }
 
     $scope.capturar = function() {
@@ -356,7 +356,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
     }
 
     window.onresize = function() {
-        $scope.frame.sly('reload')
+        Proyecto.frame.sly('reload')
         ajustar_capas();
     }
 
@@ -384,16 +384,18 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
         clickBar: 1,
     });
 
-    $scope.frame = $frame;
-    $scope.sly = $frame.data('sly');
+    //Proyecto.frame = $frame;
+    //Proyecto.sly = $frame.data('sly');
+	
+		Proyecto.definir_cuadros($frame);
 
-    window.frame = $frame;
-    window.sly = $scope.sly;
+    window.frame = Proyecto.frame;
+    window.sly = Proyecto.sly;
 
-    $scope.sly.on('active', function(e, indice) {
+    Proyecto.sly.on('active', function(e, indice) {
         var canvas = document.getElementById("canvas");
         var previsualizado = document.getElementById("previsualizado");
-        var item = $scope.sly.getPos(indice);
+        var item = Proyecto.sly.getPos(indice);
         var imagen = item.el.children[0];
 
         dibujar_imagen_sobre_canvas(imagen, canvas);
@@ -419,25 +421,25 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
     });
 
     key("left", function(){
-        $scope.frame.sly('prev');
+        Proyecto.frame.sly('prev');
     });
 
     key("right", function(){
-        $scope.frame.sly('next');
+        Proyecto.frame.sly('next');
     });
 
     key("up", function(){
-        $scope.sly.activate(0);
+        Proyecto.sly.activate(0);
     });
 
     function avanzar_continuamente_un_cuadro() {
-        var pos = $scope.sly.rel.activeItem;
-        $scope.sly.next();
+        var pos = Proyecto.sly.rel.activeItem;
+        Proyecto.sly.next();
 
-        var nuevaPos = $scope.sly.rel.activeItem;
+        var nuevaPos = Proyecto.sly.rel.activeItem;
 
         if (pos == nuevaPos)
-            $scope.sly.activate(0);
+            Proyecto.sly.activate(0);
     }
 
     key("down", function(){
@@ -445,7 +447,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
     });
 
     key("x", function() {
-        $scope.sly.remove($scope.sly.rel.activeItem);
+        Proyecto.sly.remove(Proyecto.sly.rel.activeItem);
     });
 
 
@@ -457,17 +459,17 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
     }
 
     window.borrar = function() {
-        $scope.sly.remove($scope.sly.rel.activeItem);
+        Proyecto.sly.remove(Proyecto.sly.rel.activeItem);
     }
 
     $scope.agregar_cuadro = function(ruta_a_imagen) {
-        var position = $scope.sly.rel.activeItem;
+        var position = Proyecto.sly.rel.activeItem;
         var acciones = "<div class='accion' onclick='borrar()'><i class='icon icon-trash icon-white'></i></div>";
         var image = '<li><img src="' + ruta_a_imagen + '"></img>' + acciones + '</li>';
-        var a = $scope.sly.add(image);
+        var a = Proyecto.sly.add(image);
 
-        $scope.sly.moveBefore(-1, position +1);
-        $scope.sly.activate(position);
+        Proyecto.sly.moveBefore(-1, position +1);
+        Proyecto.sly.activate(position);
     }
 
 
