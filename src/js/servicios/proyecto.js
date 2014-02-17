@@ -10,7 +10,15 @@ app.service('Proyecto', function() {
     this.nombre_del_proyecto = null;
     this.es_proyecto_nuevo = null;
     this.cambios_sin_guardar = null;
-
+    
+    this._definir_titulo = function() {
+        var nuevo_titulo = this.nombre_del_proyecto;
+        
+        if (this.cambios_sin_guardar)
+            nuevo_titulo = "* " + nuevo_titulo;
+            
+        document.title = nuevo_titulo;
+    }
 
     this.iniciar = function() {
         // es un numero entre 1000 y 2000.
@@ -20,11 +28,14 @@ app.service('Proyecto', function() {
         this.nombre_del_proyecto = tmp_id;
         this.es_proyecto_nuevo = true;
         this.cambios_sin_guardar = false;
-
+        this._definir_titulo();
+        
         fs.mkdir(this.directorio_destino);
     }
 
     this.abrir = function(archivo) {
+        var self = this;
+        
         fs.readFile(archivo, 'utf8', function (err, data) {
             if (err) {
                 console.log('Error: ' + err);
@@ -34,23 +45,77 @@ app.service('Proyecto', function() {
             data = JSON.parse(data);
 
             for (var i=0; i<data.cuadros.length; i++) {
-                this.agregar_cuadro(path.join(path.dirname(archivo), data.cuadros[i].ruta));
+                self.agregar_cuadro(path.join(path.dirname(archivo), data.cuadros[i].ruta));
             }
 
-            this.directorio_destino = path.dirname(archivo);
-            this.nombre_del_proyecto = path.basename(archivo, ".hmotion");
-            this.es_proyecto_nuevo = false;
-            this.cambios_sin_guardar = false;
+            self.directorio_destino = path.dirname(archivo);
+            self.nombre_del_proyecto = path.basename(archivo, ".hmotion");
+            self.es_proyecto_nuevo = false;
+            self.cambios_sin_guardar = false;
+            self._definir_titulo();
         });
     }
 
-    this.guardar = function(ruta) {
+    this.guardar = function(ruta_destino) {
+        
+        var contenido_hmotion = {
+            titulo: 'Titulo del proyecto',
+            cuadros: []
+        };
+        
+        if (this.es_proyecto_nuevo) {
+      			var nombre_carpeta_imagenes = path.basename(ruta_destino, '.hmotion') + ".imagenes";          /*   ejemplo:  prueba.imagenes    */
+            var ruta_carpeta_imagenes = path.join(path.dirname(ruta_destino), nombre_carpeta_imagenes);   /*   ejemplo:  /home/hugo..../prueba.imagenes/ */
+            
+            // Crear el directorio de las imagenes.
+            fs.mkdir(ruta_carpeta_imagenes);
+            
+            var rutas_a_imagenes_origen = this.obtener_imagenes_desde_sly();
+            
+            rutas_a_imagenes_origen.map(function(ruta_imagen, index) {
+                var nombre_imagen = "imagen_" + index + ".png";
+                var ruta_imagen_destino = path.join(ruta_carpeta_imagenes, nombre_imagen);
+                
+                fs.renameSync(ruta_imagen, ruta_imagen_destino);
+                
+                contenido_hmotion.cuadros.push({
+                    ruta: path.join(nombre_carpeta_imagenes, nombre_imagen)
+                });
+            })
+             
+        } else {
+            alert("No implementado aún");
+        }
+        
+        this._crear_archivo(ruta_destino, contenido_hmotion);
+        
+        this.directorio_destino = path.dirname(ruta_destino);
+        this.nombre_del_proyecto = path.basename(ruta_destino, ".hmotion");
+        this.es_proyecto_nuevo = false;
+        this.cambios_sin_guardar = false;
+        
+        this._definir_titulo();
+    }
+    
+    this.obtener_imagenes_desde_sly = function() {
+        // Retorna la ruta a cada imagen dentro del timeline de sly.
+        return this.sly.items.map(function(imagen) {
+            return imagen.el.children[0].src.replace('file://', '');
+        });
+    }
+    
+    this._crear_archivo = function(ruta_destino, contenido_json) {
+        var data = JSON.stringify(contenido_json, null, 4);
+        var onerror = function(e) {console.log(e)};
+        
+        fs.writeFile(ruta_destino, data, onerror);
     }
 
-	this.definir_cuadros = function(frame) {
-		this.frame = frame;
-		this.sly = frame.data('sly');
-	}
+    
+		this.definir_cuadros = function(frame) {
+			this.frame = frame;
+			this.sly = frame.data('sly');
+		}
 
     this.agregar_cuadro = function(ruta_a_imagen) {
         var position = this.sly.rel.activeItem;
@@ -61,12 +126,14 @@ app.service('Proyecto', function() {
         this.sly.moveBefore(-1, position +1);
         this.sly.activate(position);
         this.seleccionar_ultimo_cuadro();
+        
+        this.cambios_sin_guardar = true;
+        this._definir_titulo();
     }
 
     this.seleccionar_ultimo_cuadro = function() {
         this.sly.activate(sly.items.length - 1);
     }
-
 
     this._decodeBase64Image = function(dataString) {
         var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/), response = {};

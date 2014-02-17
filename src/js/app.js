@@ -440,7 +440,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
     }
 
     window.abrir_proyecto_desde_ruta = function(archivo, success_callback){
-        Proyecto.abrir();
+        Proyecto.abrir(archivo);
         success_callback.call(this);
         ajustar_capas();
         $scope.$apply();
@@ -468,38 +468,8 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
 
         saveDialog.onchange = function(evento) {
             var archivo = this.value;
-            var ruta_destino = path.dirname(this.value);
-            var nombre_archivo = path.basename(this.value);
-            var carpeta_imagenes = nombre_archivo.split('.')[0] + '.imagenes';
-
-            this.value = ""; // Hace que se pueda seleccionar el archivo nuevamente.
-
-            if (/.hmotion$/.test(archivo)) {
-
-                var contenido = {
-                    titulo: 'Titulo del proyecto',
-                    cuadros: []
-                };
-
-                fs.mkdir(path.join(ruta_destino, carpeta_imagenes));
-
-                for (var i=0; i<sly.items.length; i++) {
-                    var ruta_imagen = sly.items[i].el.children[0].src.replace('file://', '')
-                    var ruta_imagen_destino = path.join(ruta_destino, carpeta_imagenes, "imagen" + i + ".png");
-
-                    fs.createReadStream(ruta_imagen).pipe(fs.createWriteStream(ruta_imagen_destino));
-
-                    contenido.cuadros.push({ruta: path.join(carpeta_imagenes, path.basename(ruta_imagen_destino))});
-                }
-
-                fs.writeFile(archivo, JSON.stringify(contenido, null, 4), function(err) {
-                    if (err) alert(err);
-                    else preferencias.agregar_proyecto_reciente(archivo);
-                });
-
-            } else {
-                alert("Lo siento, solo puedo grabar sobre archivos del formato .hmotion");
-            }
+						Proyecto.guardar(archivo);				
+            Preferencias.agregar_proyecto_reciente(archivo);
         }
     }
 
