@@ -1,70 +1,31 @@
 'use strict';
-var app = angular.module('app', ['ngAnimate', 'ui.bootstrap']);
 
 var gui = require('nw.gui');
 var fs = require('fs');
 var path = require('path');
+var ffmpeg = require('fluent-ffmpeg');
+var Preferencias = require('./js/preferencias');
 
-//
-function Preferencias () {
-    this.ruta = process.env.HOME + '/.huayra-motion';
-    this.data = null;
+
+var mostrar_herramientas_de_desarrollo = function() {
+    var w = gui.Window.get();
+    w.showDevTools();
 }
 
-Preferencias.prototype.abrir = function (){
-    var self = this;
-    if (fs.existsSync(self.ruta)) {
-        var tmp_data = fs.readFileSync(self.ruta);
-        self.data = JSON.parse(tmp_data);
-    }
-    else {
-        self.data = {proyectos_recientes: []};
-        self.guardar();
-    }
-};
 
-Preferencias.prototype.guardar = function (){
-    var self = this;
-    fs.writeFileSync(this.ruta, angular.toJson(self.data));
-};
 
-Preferencias.prototype.agregar_proyecto_reciente = function (ruta){
-    var indice = 0;
+var app = angular.module('app', ['ngAnimate', 'ui.bootstrap']);
 
-    this.data.proyectos_recientes.map(function (element, index) {
-        if (element.indice > indice) { indice = element.indice; }
-    });
-
-    for (var index in this.data.proyectos_recientes){
-        if (this.data.proyectos_recientes[index].ruta == ruta) {
-            this.data.proyectos_recientes.splice(index, 1);
-            break;
-        }
-    }
-
-    this.data.proyectos_recientes.push({indice: indice + 1, ruta: ruta});
-    this.guardar();
-};
+window.onerror = function(e) {alert(e)};
 
 var preferencias = new Preferencias();
 preferencias.abrir();
-//
 
-
-
-//
-
-var ffmpeg = require('fluent-ffmpeg');
 
 var ventana = gui.Window.get();
 
 var menubar = new gui.Menu({type: 'menubar'});
 
-var mostrar_herramientas_de_desarrollo = function() {
-	var gui = require('nw.gui');
-  var w = gui.Window.get();
-	w.showDevTools();
-}
 
 var menu_archivo = new gui.Menu();
 
