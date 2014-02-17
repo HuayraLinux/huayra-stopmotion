@@ -45,7 +45,6 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
     $scope.en_reproduccion = false;
     $scope.fps = 10;
     $scope.cargado = false;
-    $scope.cambios_sin_guardar = false;
 
 
     $scope.exportar = function() {
@@ -106,7 +105,6 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
         $scope.en_reproduccion = false;
     }
 
-
     $scope.abrir_pantalla_compartida_en_el_navegador = function() {
         var url = 'http://' + $scope.host + ':' + $scope.puerto_remoto;
         gui.Shell.openExternal(url);
@@ -123,19 +121,19 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
         Paneles.alternar_panel_lateral();
     }
 
-    // TODO: reemplazar por un identificador único.
-    $scope.proyecto_id = parseInt(Math.random()* 1000 + 1000, 10); // es un numero entre 1000 y 2000.
-    $scope.directorio_destino = "/tmp/" + $scope.proyecto_id + "/";
-
-    fs.mkdir($scope.directorio_destino);
-
+		
+    $scope.directorio_destino = null;
+    $scope.nombre_del_proyecto = null;
+		$scope.es_proyecto_nuevo = null;
+		$scope.cambios_sin_guardar = null;
+	
+	
     $scope.fantasma = true;
     $scope.fantasma_opacidad = 50;
 
     $scope.getNumber = function(num) {
         return new Array(num);
     }
-
 
     $scope.capa_grilla_opacidad = 50;
     $scope.capa_grilla_cantidad_filas = 2;
@@ -150,13 +148,10 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
         table.style.opacity = $scope.capa_grilla_opacidad / 100;
     });
 
-
     $scope.$watch('fantasma_opacidad', function() {
         var canvas = document.getElementById('canvas');
         canvas.style.opacity = $scope.fantasma_opacidad / 100;
     });
-
-
 
     $scope.restaurar = function () {
         $scope.brillo = 50;
@@ -177,7 +172,6 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
     }
 
     $scope.seleccionar_camara(1);
-
 
     function actualizar_efectos(_old, _new) {
         var video = document.querySelector('video');
@@ -210,20 +204,6 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
     }
 
     var contador_item = 0;
-
-
-    function explorar_directorio(ruta_relativa_al_archivo) {
-        //var path = require('path');
-        var root = './'; //path.resolve( './' ) + '/';
-
-        ruta_relativa_al_archivo = ruta_relativa_al_archivo || '';
-        gui.Shell.showItemInFolder(root + ruta_relativa_al_archivo)
-    }
-
-
-    $scope.abrir_directorio_destino = function() {
-        explorar_directorio('./' + $scope.directorio_destino);
-    }
 
     $scope.seleccionar_ultimo_cuadro = function() {
         $scope.sly.activate(sly.items.length - 1);
@@ -304,7 +284,6 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
 
         return {width: Math.floor(srcWidth*ratio), height: Math.floor(srcHeight*ratio)};
     }
-
 
     window.ajustar_capas = function() {
         var contenedor_interno = document.getElementById('contenedor_interno');
@@ -468,11 +447,19 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
 
 
     window.iniciar_nuevo_proyecto = function() {
-        jQuery('.panel-inicial').fadeOut();
+    		var tmp_id = parseInt(Math.random()* 1000 + 1000, 10); // es un numero entre 1000 y 2000.
         menu.habilitar_guardado();
+			
+    		$scope.directorio_destino = "/tmp/" + tmp_id + "/";
+    		$scope.nombre_del_proyecto = tmp_id;
+				$scope.es_proyecto_nuevo = true;
+				$scope.cambios_sin_guardar = true;
+				$scope.$apply();
+	
+    		fs.mkdir($scope.directorio_destino);
     }
 
-    window.abrir_proyecto_desde_ruta = function(archivo){
+    window.abrir_proyecto_desde_ruta = function(archivo, success_callback){
         if (/.hmotion$/.test(archivo)) {
             fs.readFile(archivo, 'utf8', function (err, data) {
                 if (err) {
@@ -481,15 +468,20 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
                 }
 
                 data = JSON.parse(data);
-                iniciar_nuevo_proyecto();
 
                 for (var i=0; i<data.cuadros.length; i++) {
                     $scope.agregar_cuadro(path.join(path.dirname(archivo), data.cuadros[i].ruta));
                 }
+							
+								$scope.directorio_destino = path.dirname(archivo);
+								$scope.nombre_del_proyecto = path.basename(archivo, ".hmotion");
+								$scope.es_proyecto_nuevo = false;
+								$scope.cambios_sin_guardar = false;
 
                 ajustar_capas();
                 $scope.seleccionar_ultimo_cuadro();
                 $scope.$apply();
+								success_callback.call(this);
             });
         }
         else {
@@ -497,14 +489,14 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
         }
     }
 
-    window.abrir_proyecto = function() {
+    window.abrir_proyecto = function(success_callback) {
         var openDialog = document.getElementById('open-dialog');
         openDialog.click();
 
         openDialog.onchange = function(evento) {
             var archivo = this.value;
             this.value = ""; // Hace que se pueda seleccionar el archivo nuevamente.
-            abrir_proyecto_desde_ruta(archivo);
+            abrir_proyecto_desde_ruta(archivo, success_callback);
         }
     }
 
@@ -554,13 +546,23 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias) {
         }
     }
 
+		
+		function ocultar_pantalla_inicial() {
+        jQuery('.panel-inicial').fadeOut();
+		}
 
     var boton_iniciar_proyecto = document.getElementById('boton_iniciar_proyecto');
-    boton_iniciar_proyecto.onclick = iniciar_nuevo_proyecto;
+	
+    boton_iniciar_proyecto.onclick = function() {
+			ocultar_pantalla_inicial();
+			iniciar_nuevo_proyecto();
+		}
 
     var boton_abrir_proyecto = document.getElementById('boton_abrir_proyecto');
-    boton_abrir_proyecto.onclick = abrir_proyecto;
-
+	
+    boton_abrir_proyecto.onclick = function() {
+			abrir_proyecto(ocultar_pantalla_inicial);
+		}
 
     var config = require('./package.json');
 
