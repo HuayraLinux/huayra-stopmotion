@@ -31,7 +31,7 @@ ventana.on("close", function() {
 });
 
 
-app.controller('AppCtrl', function ($scope, $modal) {
+app.controller('AppCtrl', function ($scope, $modal, Paneles) {
     $scope.proyectos_recientes = preferencias.data.proyectos_recientes;
 
     $scope.brillo = 50;
@@ -50,6 +50,7 @@ app.controller('AppCtrl', function ($scope, $modal) {
     $scope.en_reproduccion = false;
     $scope.fps = 10;
     $scope.cargado = false;
+    $scope.cambios_sin_guardar = false;
 
 
     $scope.exportar = function() {
@@ -116,12 +117,11 @@ app.controller('AppCtrl', function ($scope, $modal) {
         gui.Shell.openExternal(url);
     }
 
+    $scope.pulsa_boton_alternar_ayuda = Paneles.alternar_ayuda;
 
-
-
-    $scope.pulsa_boton_alternar_ayuda = function() {
-        alternar_panel_ayuda();
-    }
+    //$scope.pulsa_boton_alternar_ayuda = function() {
+        //alternar_panel_ayuda();
+    //}
 
     $scope.pulsa_boton_alternar_panel = function() {
         $scope.panel_visible = !$scope.panel_visible;
@@ -304,15 +304,10 @@ app.controller('AppCtrl', function ($scope, $modal) {
         controles.classList.toggle('contenedor-controles-expandido');
     }
 
-    window.alternar_panel_ayuda = function() {
-        var ayuda = document.getElementById('ayuda');
-
-        ayuda.classList.toggle('ayuda-invisible');
-    }
 
     /* Oculta el panel de ayuda si se hace click */
     var ayuda = document.getElementById('ayuda');
-    ayuda.onclick = alternar_panel_ayuda;
+    ayuda.onclick = Paneles.alternar_ayuda;
 
     var $frame  = jQuery('#basic');
     var $slidee = $frame.children('ul').eq(0);
@@ -427,9 +422,7 @@ app.controller('AppCtrl', function ($scope, $modal) {
       alternar_panel_lateral()
   });
 
-    key('h', function(){
-        alternar_panel_ayuda();
-    });
+    key('h', Paneles.alternar_ayuda);
 
     key("space", function(){
         $scope.capturar();
@@ -564,7 +557,6 @@ app.controller('AppCtrl', function ($scope, $modal) {
 
                     contenido.cuadros.push({ruta: path.join(carpeta_imagenes, path.basename(ruta_imagen_destino))});
                 }
-
 
                 fs.writeFile(archivo, JSON.stringify(contenido, null, 4), function(err) {
                     if (err) alert(err);
