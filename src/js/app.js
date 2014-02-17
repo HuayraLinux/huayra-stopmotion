@@ -1,10 +1,13 @@
 'use strict';
 
+window.onerror = function(e) {alert(e)};
+
 var gui = require('nw.gui');
 var fs = require('fs');
 var path = require('path');
 var ffmpeg = require('fluent-ffmpeg');
 var Preferencias = require('./js/preferencias');
+var menu = require('./js/menu');
 
 
 var mostrar_herramientas_de_desarrollo = function() {
@@ -16,87 +19,18 @@ var mostrar_herramientas_de_desarrollo = function() {
 
 var app = angular.module('app', ['ngAnimate', 'ui.bootstrap']);
 
-window.onerror = function(e) {alert(e)};
-
 var preferencias = new Preferencias();
 preferencias.abrir();
 
-
 var ventana = gui.Window.get();
 
-var menubar = new gui.Menu({type: 'menubar'});
-
-
-var menu_archivo = new gui.Menu();
-
-var item_abrir = new gui.MenuItem({
-	label: 'Abrir',
-	click: function() {
-		window.abrir_proyecto();
-	}
-});
-
-var item_guardar = new gui.MenuItem({
-	label: 'Guardar como ...',
-	click: function() {
-		window.guardar_proyecto();
-	}
-});
-
-var item_salir = new gui.MenuItem({
-	label: 'Salir',
-	click: function() {
-		gui.App.closeAllWindows();
-	}
-});
-
-var item_generar_video = new gui.MenuItem({
-	label: 'Generar video',
-	click: function() {
-		$scope.exportar();	
-		$scope.$apply();
-	}
-});
-
-item_guardar.enabled = false;
-
-menu_archivo.append(item_abrir);
-menu_archivo.append(item_guardar);
-menu_archivo.append(new gui.MenuItem({type: 'separator'}));
-menu_archivo.append(item_generar_video);
-menu_archivo.append(new gui.MenuItem({type: 'separator'}));
-menu_archivo.append(item_salir);
-
-
-
-
-
-menubar.append(new gui.MenuItem({
-	label: 'Archivo',
-	submenu: menu_archivo
-}));
-
+var menubar = menu.crear(gui);
 ventana.menu = menubar;
 
 ventana.on("close", function() {
   gui.App.quit();
 });
 
-app.filter('range', function() {
-  return function(arr, lower, upper) {
-    for (var i = lower; i <= upper; i++){
-      arr.push(i);
-    }
-    return arr;
-  };
-});
-
-app.filter('incrementar', function() {
-  return function(input) {
-    return parseInt(input, 10) + 1;
-    ;
-  };
-});
 
 app.controller('AppCtrl', function ($scope, $modal) {
     $scope.proyectos_recientes = preferencias.data.proyectos_recientes;
