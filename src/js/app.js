@@ -17,8 +17,6 @@ var mostrar_herramientas_de_desarrollo = function() {
 var app = angular.module('app', ['ngAnimate', 'ui.bootstrap']);
 var ventana = gui.Window.get();
 
-var menu = new Menu(gui);
-menu.agregar_a_ventana(ventana);
 
 
 app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proyecto) {
@@ -40,8 +38,11 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
     $scope.en_reproduccion = false;
     $scope.fps = 10;
     $scope.cargado = false;
+    
+    var menu = new Menu(gui);
+    menu.agregar_a_ventana(ventana, function() {$scope.cuando_selecciona_exportar()});
 
-		var ModalCerrarCtrl = function($scope, $modalInstance) {
+    var ModalCerrarCtrl = function($scope, $modalInstance) {
       
         $scope.guardar = function() {
             window.guardar_proyecto_como();
@@ -56,51 +57,102 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
             gui.App.quit();
         }
         
-		}
+    }
 
-		ventana.on("close", function() {
+    ventana.on("close", function() {
 
-			if (Proyecto.cambios_sin_guardar) {
+        if (Proyecto.cambios_sin_guardar) {
 
-				var modalInstance = $modal.open({
-					templateUrl: 'partials/modal_cerrar.html',
-					controller: ModalCerrarCtrl,
-					resolve: {
-						es_proyecto_nuevo: $scope.es_proyecto_nuevo,
-					//	guardar: ejemplo
-					}
-				});
+            var modalInstance = $modal.open({
+                templateUrl: 'partials/modal_cerrar.html',
+                controller: ModalCerrarCtrl,
+                resolve: {
+                    es_proyecto_nuevo: $scope.es_proyecto_nuevo,
+                }
+            });
 
-			} else {
-    		gui.App.quit();
-			}
-		});
+        } else {
+            gui.App.quit();
+        }
+        
+    });
+    
+    
+    var ModalExportarCtrl = function($scope, $modalInstance) {
+        $scope.pagina = "preferencias";
+        
+        $scope.formatos = [
+            {nombre: "MP4",  identificador: "mp4"},
+            {nombre: "MPEG", identificador: "mpg"}
+        ];
 
-    $scope.exportar = function() {
+        $scope.sizes = [
+            {nombre: "100%", identificador: 100},
+            {nombre: "50%",  identificador: 50},
+            {nombre: "25%",  identificador: 25}
+        ];
+        
+        $scope.formato = $scope.formatos[0];
+        $scope.size = $scope.sizes[0];
+      
+        $scope.exportar_video = function() {
+            
+            function abrir_dialogo_exportar() {
+                var dialogo = document.getElementById('dialogo-exportar');
+                dialogo.click();
+
+                dialogo.onchange = function(evento) {
+                    var archivo = this.value;
+                    this.value = "";
+                    
+                    var proc = new ffmpeg({ source: "archivo.png", nolog: false})
+                        .withVideoCodec('mpeg4')
+                        .withFpsInput(3)
+                        .withFps(10)
+                        .saveToFile(archivo, function(retcode, stdout){
+                            
+                    	alert("GUARDANDO! " + archivo);
+                            console.log(retcode);
+                            console.log(stdout);
+                            
+                            $scope.retcode = retcode.toString();
+                            $scope.stdout = stdout.toString();
+                            
+                            $scope.pagina = "finalizado";
+                            $scope.$apply();
+                        });
+
+                    $scope.pagina = "progreso";
+                    $scope.$apply();
+                }
+            }
+                
+            abrir_dialogo_exportar();
+            //$modalInstance.close();
+        }
+
+        $scope.cancelar = function() {
+            $modalInstance.close();
+        }
+        
+        $scope.cerrar = function() {
+            $modalInstance.close();
+        }
+    }
+    
+    
+
+    $scope.cuando_selecciona_exportar = function() {
 
         var modalInstance = $modal.open({
-            templateUrl: 'partials/modal.html',
+            templateUrl: 'partials/modal_exportar.html',
+            controller: ModalExportarCtrl,
+            resolve: {
+                patent_scope: $scope,
+            }
         });
 
-        /*
-    modalInstance.result.then(function (selectedItem) {
-      $scope.selected = selectedItem;
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
-    */
-
-             /*
-    var proc = new ffmpeg({ source: $scope.directorio_destino + '%d.png', nolog: true })
-      .withVideoCodec('mpeg4')
-      .withFpsInput(3)
-      .withFps(10)
-      .saveToFile($scope.directorio_destino + 'test.mpeg', function(retcode, stdout){
-        explorar_directorio($scope.directorio_destino + 'test.mpeg');
-    });
-		*/
-
-         }
+    }
 
          setTimeout(function() {
 

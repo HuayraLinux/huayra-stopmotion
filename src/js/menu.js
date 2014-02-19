@@ -1,4 +1,5 @@
 function Menu(gui) {
+    var self= this;
     this.menubar = new gui.Menu({type: 'menubar'});
 
     this.menu_archivo = new gui.Menu();
@@ -27,8 +28,7 @@ function Menu(gui) {
     this.item_generar_video = new gui.MenuItem({
         label: 'Generar video',
         click: function() {
-            $scope.exportar();
-            $scope.$apply();
+            self.funcion_exportar.call(this);
         }
     });
 
@@ -47,8 +47,10 @@ function Menu(gui) {
     }));
 }
 
-Menu.prototype.agregar_a_ventana = function(ventana) {
+Menu.prototype.agregar_a_ventana = function(ventana, funcion_exportar) {
     ventana.menu = this.menubar;
+    this.funcion_exportar = funcion_exportar;
+    console.log("hey");
 }
 
 

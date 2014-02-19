@@ -1,0 +1,68 @@
+<div class="modal-header">
+    <h3>Generar video</h3>
+</div>
+
+<div ng-show='pagina == "preferencias"'>
+    <div class="modal-body">
+        <p>Por favor selecciona las prefenrecias de salida para el video.</p>
+
+         <div class="control-group">
+             <label class="control-label" for="formato">Formato de exportación</label>
+
+             <div class="controls">
+                 <select ng-model="formato" id="formato" ng-options="c.nombre for c in formatos"></select>
+             </div> 
+        </div>
+
+         <div class="control-group">
+             <label class="control-label" for="size">Tamaño</label>
+
+             <div class="controls">
+                 <select ng-model="size" id="size" ng-options="s.nombre for s in sizes"></select>
+             </div>
+
+        </div>
+    </div>
+    
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="exportar_video()">Exportar video</button>
+        <button class="btn btn-warning" ng-click="cancelar()">Cancelar</button>
+    </div>
+</div>
+
+
+<div ng-show='pagina == "progreso"'>
+
+    <div class="modal-body">
+        <p>Generando el video ... </p>
+        
+        <div class="progress progress-striped active">
+            <div class="bar" style="width: 60%;"></div>
+        </div>
+        
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancelar()">Cancelar</button>
+    </div>
+    
+</div>
+
+
+<div ng-show='pagina == "finalizado"'>
+    
+    <div class="modal-body">
+        <p>Ha finalizado la generación del video.</p>
+        
+        <p>Codigo de retorno:</p>
+        <pre>{{retcode}}</pre>
+        
+        <p>stdout:</p>
+        <pre>{{stdout}}</pre>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="cerrar()">Cerrar</button>
+    </div>
+    
+</div>
