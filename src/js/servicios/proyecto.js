@@ -161,5 +161,25 @@ app.service('Proyecto', function() {
 
         this.cambios_sin_guardar = true;
     }
+    
+    this.exportar_imagenes = function() {
+        var rutas_a_imagenes_origen = this.obtener_imagenes_desde_sly();
+        var tmp_id = parseInt(Math.random()* 1000 + 1000, 10);
+        var directorio_temporal = '/tmp/prueba' + tmp_id;
+        
+        fs.mkdirSync(directorio_temporal);
+            
+        rutas_a_imagenes_origen.map(function(ruta_imagen, index) {
+            var nombre_imagen = index + ".png";
+            var ruta_imagen_destino = path.join(directorio_temporal, nombre_imagen);
+                
+            is = fs.createReadStream(ruta_imagen);
+            os = fs.createWriteStream(ruta_imagen_destino);
+            
+            is.pipe(os);
+        });
+                                    
+        return directorio_temporal;
+    }
 
 });

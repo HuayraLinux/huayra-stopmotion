@@ -78,12 +78,13 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
     });
     
     
-    var ModalExportarCtrl = function($scope, $modalInstance) {
+    var ModalExportarCtrl = function($scope, $modalInstance, proyecto) {
         $scope.pagina = "preferencias";
+        $scope.proyecto = proyecto;
         
         $scope.formatos = [
             {nombre: "MP4",  identificador: "mp4"},
-            {nombre: "MPEG", identificador: "mpg"}
+            {nombre: "MPEG", identificador: "mpeg"}
         ];
 
         $scope.sizes = [
@@ -94,10 +95,10 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         
         $scope.formato = $scope.formatos[0];
         $scope.size = $scope.sizes[0];
-      
-        $scope.exportar_video = function() {
+        
+        $scope.exportar_video = function(proyecto) {
             
-            function abrir_dialogo_exportar() {
+            function abrir_dialogo_exportar(proyecto) {
                 var dialogo = document.getElementById('dialogo-exportar');
                 dialogo.click();
 
@@ -105,21 +106,16 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
                     var archivo = this.value;
                     this.value = "";
                     
-                    var proc = new ffmpeg({ source: "archivo.png", nolog: false})
-                        .withVideoCodec('mpeg4')
+                    var directorio_temporal = proyecto.exportar_imagenes();
+                    
+                    console.log('iniciando exportar');
+                    var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png")})
+                     		.withVideoCodec('mpeg4')
                         .withFpsInput(3)
-                        .withFps(10)
-                        .saveToFile(archivo, function(retcode, stdout){
-                            
-                    	alert("GUARDANDO! " + archivo);
-                            console.log(retcode);
-                            console.log(stdout);
-                            
-                            $scope.retcode = retcode.toString();
-                            $scope.stdout = stdout.toString();
-                            
-                            $scope.pagina = "finalizado";
-                            $scope.$apply();
+                        .withFps(30)
+                        .saveToFile(archivo, function(stdout, stderr){
+                            console.log(directorio_temporal);
+                            console.log(stdout, stderr);
                         });
 
                     $scope.pagina = "progreso";
@@ -127,7 +123,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
                 }
             }
                 
-            abrir_dialogo_exportar();
+            abrir_dialogo_exportar(proyecto);
             //$modalInstance.close();
         }
 
@@ -148,7 +144,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
             templateUrl: 'partials/modal_exportar.html',
             controller: ModalExportarCtrl,
             resolve: {
-                patent_scope: $scope,
+                proyecto: function() {return Proyecto}
             }
         });
 
