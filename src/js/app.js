@@ -39,6 +39,10 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
     $scope.fps = 10;
     $scope.cargado = false;
     
+    $scope.$watch('fps', function() {
+        Proyecto.definir_fps($scope.fps);
+    });
+    
     var menu = new Menu(gui);
     menu.agregar_a_ventana(ventana, function() {$scope.cuando_selecciona_exportar()});
 
@@ -85,7 +89,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         
         $scope.formatos = [
             {nombre: "MP4",  identificador: "mpeg4", extension: ".mp4"},
-            {nombre: "GIF", identificador: "gif", extension: ".gif"}
+            //{nombre: "GIF", identificador: "gif", extension: ".gif"}
         ];
 
         $scope.sizes = [
@@ -118,7 +122,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
                     
                     var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
                                    .withVideoCodec(formato.identificador)
-                                   .withFpsInput(1)
+                                   .withFpsInput(proyecto.fps)
                                    .withFps(30)
                                    .onProgress(function(data, i) {
                                        $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);

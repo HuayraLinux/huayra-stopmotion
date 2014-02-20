@@ -5,11 +5,16 @@ var fs = require('fs');
 app.service('Proyecto', function() {
     this.frame = null;
     this.sly = null;
+    this.fps = 1;
 
     this.directorio_destino = null;
     this.nombre_del_proyecto = null;
     this.es_proyecto_nuevo = null;
     this.cambios_sin_guardar = null;
+    
+    this.definir_fps = function(fps) {
+        this.fps = fps;
+    }
     
     this._definir_titulo = function() {
         var nuevo_titulo = this.nombre_del_proyecto;
@@ -154,6 +159,7 @@ app.service('Proyecto', function() {
         var ruta_imagen = this.directorio_destino + nombre_imagen;
 
         var self = this;
+        
         fs.writeFile(ruta_imagen, image.data, function(err) {
             if (err) throw err;
             self.agregar_cuadro(ruta_imagen);
