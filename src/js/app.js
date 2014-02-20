@@ -81,10 +81,11 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
     var ModalExportarCtrl = function($scope, $modalInstance, proyecto) {
         $scope.pagina = "preferencias";
         $scope.proyecto = proyecto;
+        $scope.progreso_cantidad = 0;
         
         $scope.formatos = [
-            {nombre: "MP4",  identificador: "mp4"},
-            {nombre: "MPEG", identificador: "mpeg"}
+            {nombre: "MP4",  identificador: "mpeg4", extension: ".mp4"},
+            {nombre: "GIF", identificador: "gif", extension: ".gif"}
         ];
 
         $scope.sizes = [
@@ -96,10 +97,17 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         $scope.formato = $scope.formatos[0];
         $scope.size = $scope.sizes[0];
         
-        $scope.exportar_video = function(proyecto) {
+        $scope.exportar_video = function(proyecto, formato) {
+            var dialogo_exportar = document.getElementById('dialogo-exportar');
             
-            function abrir_dialogo_exportar(proyecto) {
+            function abrir_dialogo_exportar(proyecto, formato) {
+                
                 var dialogo = document.getElementById('dialogo-exportar');
+                
+                // Itentando cambiar el nombre de archivo a grabar.
+                dialogo.setAttribute('accept', formato.extension);
+                dialogo.setAttribute('nwsaveas', 'ejemplo' + formato.extension);
+                
                 dialogo.click();
 
                 dialogo.onchange = function(evento) {
@@ -108,23 +116,26 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
                     
                     var directorio_temporal = proyecto.exportar_imagenes();
                     
-                    console.log('iniciando exportar');
-                    var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png")})
-                     		.withVideoCodec('mpeg4')
-                        .withFpsInput(3)
-                        .withFps(30)
-                        .saveToFile(archivo, function(stdout, stderr){
-                            console.log(directorio_temporal);
-                            console.log(stdout, stderr);
-                        });
+                    var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                                   .withVideoCodec(formato.identificador)
+                                   .withFpsInput(1)
+                                   .withFps(30)
+                                   .onProgress(function(data, i) {
+                                       $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                                       $scope.$apply();
+                                   })  
+                                   .saveToFile(archivo, function(stdout, stderr, err){
+                                       $scope.progreso_cantidad = 100;
+                                       $scope.pagina = "finalizado";
+                                       $scope.$apply();
+                                   }); 
 
                     $scope.pagina = "progreso";
                     $scope.$apply();
                 }
             }
                 
-            abrir_dialogo_exportar(proyecto);
-            //$modalInstance.close();
+            abrir_dialogo_exportar(proyecto, formato);
         }
 
         $scope.cancelar = function() {

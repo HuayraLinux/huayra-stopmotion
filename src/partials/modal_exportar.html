@@ -18,14 +18,14 @@
              <label class="control-label" for="size">Tamaño</label>
 
              <div class="controls">
-                 <select ng-model="size" id="size" ng-options="s.nombre for s in sizes"></select>
+                 <select disabled ng-model="size" id="size" ng-options="s.nombre for s in sizes"></select>
              </div>
 
         </div>
     </div>
     
     <div class="modal-footer">
-        <button class="btn btn-success" ng-click="exportar_video(proyecto)">Exportar video</button>
+        <button class="btn btn-success" ng-click="exportar_video(proyecto, formato)">Exportar video</button>
         <button class="btn btn-warning" ng-click="cancelar()">Cancelar</button>
     </div>
 </div>
@@ -37,7 +37,7 @@
         <p>Generando el video ... </p>
         
         <div class="progress progress-striped active">
-            <div class="bar" style="width: 60%;"></div>
+            <div class="bar" style="width: {{progreso_cantidad}}%;"></div>
         </div>
         
     </div>
@@ -54,11 +54,10 @@
     <div class="modal-body">
         <p>Ha finalizado la generación del video.</p>
         
-        <p>Codigo de retorno:</p>
-        <pre>{{retcode}}</pre>
+        <div class="progress">
+            <div class="bar" style="width: {{progreso_cantidad}}%;"></div>
+        </div>
         
-        <p>stdout:</p>
-        <pre>{{stdout}}</pre>
     </div>
 
     <div class="modal-footer">

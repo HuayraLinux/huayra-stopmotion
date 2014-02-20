@@ -162,6 +162,12 @@ app.service('Proyecto', function() {
         this.cambios_sin_guardar = true;
     }
     
+    this.calcular_porcentaje = function(frames) {
+        console.log("test!");
+        var cantidad_imagenes = this.exportar_imagenes().length;
+        return Math.round((frames/(cantidad_imagenes * 30)) * 100);
+    }
+    
     this.exportar_imagenes = function() {
         var rutas_a_imagenes_origen = this.obtener_imagenes_desde_sly();
         var tmp_id = parseInt(Math.random()* 1000 + 1000, 10);
