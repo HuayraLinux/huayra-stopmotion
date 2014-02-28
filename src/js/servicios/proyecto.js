@@ -18,6 +18,10 @@ app.service('Proyecto', function() {
     
     this._definir_titulo = function() {
         var nuevo_titulo = this.nombre_del_proyecto;
+        if (this.es_proyecto_nuevo)
+            var nuevo_titulo = "Sin título";
+        else
+            var nuevo_titulo = this.nombre_del_proyecto;
         
         if (this.cambios_sin_guardar)
             nuevo_titulo = "* " + nuevo_titulo;
