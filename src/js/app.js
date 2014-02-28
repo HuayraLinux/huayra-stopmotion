@@ -173,10 +173,8 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
          }, 3000);
 
 
-
-
-    $scope.abrir_proyecto = function(ruta){
-        window.abrir_proyecto_desde_ruta(ruta);
+    $scope.abrir_proyecto = function(ruta, ocultar_pantalla) {
+        window.abrir_proyecto_desde_ruta(ruta, ocultar_pantalla);
     }
 
     $scope.reproducir = function() {
@@ -311,6 +309,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         var imagen = convertCanvasToImage(canvas);
 
         Proyecto.guardar_cuadro(imagen.src);
+        menu.habilitar_guardado();
 
         // Reproduce el sonido de captura de pantalla.
         if ($scope.sonido_habilitado) {
@@ -508,9 +507,13 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         menu.habilitar_guardado();
     }
 
-    window.abrir_proyecto_desde_ruta = function(archivo, success_callback){
+    window.abrir_proyecto_desde_ruta = function(archivo, ocultar_pantalla){
         Proyecto.abrir(archivo);
-        success_callback.call(this);
+        alert("TODO: limpiar sly");
+        
+        if (ocultar_pantalla)
+            ocultar_pantalla_inicial();
+        
         ajustar_capas();
         $scope.$apply();
     }
@@ -539,13 +542,15 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
             var archivo = this.value;
 						Proyecto.guardar(archivo);				
             Preferencias.agregar_proyecto_reciente(archivo);
+            $scope.abrir_proyecto(archivo);
         }
     }
-
 
 		function ocultar_pantalla_inicial() {
         jQuery('.panel-inicial').fadeOut();
 		}
+    
+    $scope.ocultar_pantalla_incial = ocultar_pantalla_inicial;
 
     var boton_iniciar_proyecto = document.getElementById('boton_iniciar_proyecto');
 

@@ -12,6 +12,11 @@ app.service('Proyecto', function() {
     this.es_proyecto_nuevo = null;
     this.cambios_sin_guardar = null;
     
+    this.contenido_hmotion = {
+        titulo: 'Titulo del proyecto',
+      	cuadros: []
+    };
+    
     this.definir_fps = function(fps) {
         this.fps = fps;
     }
@@ -66,36 +71,32 @@ app.service('Proyecto', function() {
 
     this.guardar = function(ruta_destino) {
         
-        var contenido_hmotion = {
-            titulo: 'Titulo del proyecto',
-            cuadros: []
-        };
+      	var nombre_carpeta_imagenes = path.basename(ruta_destino, '.hmotion') + ".imagenes";          /*   ejemplo:  prueba.imagenes    */
+        var ruta_carpeta_imagenes = path.join(path.dirname(ruta_destino), nombre_carpeta_imagenes);   /*   ejemplo:  /home/hugo..../prueba.imagenes/ */
         
         if (this.es_proyecto_nuevo) {
-      			var nombre_carpeta_imagenes = path.basename(ruta_destino, '.hmotion') + ".imagenes";          /*   ejemplo:  prueba.imagenes    */
-            var ruta_carpeta_imagenes = path.join(path.dirname(ruta_destino), nombre_carpeta_imagenes);   /*   ejemplo:  /home/hugo..../prueba.imagenes/ */
             
             // Crear el directorio de las imagenes.
             fs.mkdir(ruta_carpeta_imagenes);
             
             var rutas_a_imagenes_origen = this.obtener_imagenes_desde_sly();
             
-            rutas_a_imagenes_origen.map(function(ruta_imagen, index) {
-                var nombre_imagen = "imagen_" + index + ".png";
-                var ruta_imagen_destino = path.join(ruta_carpeta_imagenes, nombre_imagen);
-                
-                fs.renameSync(ruta_imagen, ruta_imagen_destino);
-                
-                contenido_hmotion.cuadros.push({
-                    ruta: path.join(nombre_carpeta_imagenes, nombre_imagen)
-                });
-            })
+            this.mover_imagenes(rutas_a_imagenes_origen, ruta_carpeta_imagenes);
              
         } else {
-            alert("No implementado aún");
+            var rutas_a_imagenes_origen = this.obtener_imagenes_desde_sly();
+            var imagenes_en_curso = [];
+            
+            rutas_a_imagenes_origen.map(function(ruta_imagen) {
+                var ruta_imagen_en_curso = ruta_imagen + "_en_curso";
+                fs.renameSync(ruta_imagen, ruta_imagen_en_curso);
+                imagenes_en_curso.push(ruta_imagen_en_curso);
+            });
+            
+            this.mover_imagenes(imagenes_en_curso, ruta_carpeta_imagenes);
         }
         
-        this._crear_archivo(ruta_destino, contenido_hmotion);
+        this._crear_archivo(ruta_destino, this.contenido_hmotion);
         
         this.directorio_destino = path.dirname(ruta_destino);
         this.nombre_del_proyecto = path.basename(ruta_destino, ".hmotion");
@@ -103,6 +104,24 @@ app.service('Proyecto', function() {
         this.cambios_sin_guardar = false;
         
         this._definir_titulo();
+    }
+    
+    this.mover_imagenes = function(lista_a_imagenes, ruta_carpeta_destino) {
+        console.log("Moviendo imagenes", {lista_a_imagenes: lista_a_imagenes, ruta_carpeta_destino: ruta_carpeta_destino});
+        
+        var self = this;
+        this.contenido_hmotion.cuadros = [];
+        
+        lista_a_imagenes.map(function(ruta_imagen, index) {
+            var nombre_imagen = "imagen_" + index + ".png";
+            var ruta_imagen_destino = path.join(ruta_carpeta_destino, nombre_imagen);
+                
+            fs.renameSync(ruta_imagen, ruta_imagen_destino);
+                
+            self.contenido_hmotion.cuadros.push({
+                ruta: path.join(path.basename(ruta_carpeta_destino), nombre_imagen)
+            });
+        })
     }
     
     this.obtener_imagenes_desde_sly = function() {
@@ -136,6 +155,7 @@ app.service('Proyecto', function() {
         this.seleccionar_ultimo_cuadro();
         
         this.cambios_sin_guardar = true;
+        
         this._definir_titulo();
     }
 
@@ -181,7 +201,6 @@ app.service('Proyecto', function() {
     }
     
     this.calcular_porcentaje = function(frames) {
-        console.log("test!");
         var cantidad_imagenes = this.exportar_imagenes().length;
         return Math.round((frames/(cantidad_imagenes * 30)) * 100);
     }
