@@ -17,7 +17,6 @@ app.service('Proyecto', function() {
     }
     
     this._definir_titulo = function() {
-        var nuevo_titulo = this.nombre_del_proyecto;
         if (this.es_proyecto_nuevo)
             var nuevo_titulo = "Sin título";
         else
@@ -160,12 +159,21 @@ app.service('Proyecto', function() {
         var image = this._decodeBase64Image(image_src);
 
         var nombre_imagen = '_imagen_' + (this.sly.items.length + 1) + '.png';
-        var ruta_imagen = this.directorio_destino + nombre_imagen;
+        
+        if (this.es_proyecto_nuevo) {
+        	var ruta_imagen = path.join(this.directorio_destino, nombre_imagen);
+        } else {
+          // Guarda la imagen en el directorio del proyecto pero con un _ al principio.
+      		var nombre_carpeta_imagenes = this.nombre_del_proyecto + ".imagenes";
+        	var ruta_imagen = path.join(this.directorio_destino, nombre_carpeta_imagenes, nombre_imagen);
+        }
 
         var self = this;
         
         fs.writeFile(ruta_imagen, image.data, function(err) {
-            if (err) throw err;
+            if (err)
+                throw err;
+            
             self.agregar_cuadro(ruta_imagen);
         });
 
