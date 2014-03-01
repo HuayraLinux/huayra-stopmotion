@@ -272,14 +272,16 @@ div.panel-inicial {
     color: #ddd;
     text-align: center;
     cursor: pointer;
-    border-bottom: 5px solid gray;
     position: relative;
 }
 
 .frame ul li.active {
     color: #fff;
-    background: #a03232;
-    border-bottom: 5px solid red;
+    background: #0099FF;
+}
+
+.frame ul li.active img {
+    opacity: 0.5;
 }
 
 li.active .accion {
