@@ -38,16 +38,19 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
     $scope.en_reproduccion = false;
     $scope.fps = 10;
     $scope.cargado = false;
-    
+
     $scope.$watch('fps', function() {
         Proyecto.definir_fps($scope.fps);
     });
-    
+
     var menu = new Menu(gui);
-    menu.agregar_a_ventana(ventana, function() {$scope.cuando_selecciona_exportar()});
+
+    menu.agregar_a_ventana(ventana, function() {
+        $scope.cuando_selecciona_exportar()
+    });
 
     var ModalCerrarCtrl = function($scope, $modalInstance) {
-      
+
         $scope.guardar = function() {
             window.guardar_proyecto_como();
             $modalInstance.close();
@@ -60,7 +63,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         $scope.salir = function() {
             gui.App.quit();
         }
-        
+
     }
 
     ventana.on("close", function() {
@@ -78,15 +81,15 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         } else {
             gui.App.quit();
         }
-        
+
     });
-    
-    
+
+
     var ModalExportarCtrl = function($scope, $modalInstance, proyecto) {
         $scope.pagina = "preferencias";
         $scope.proyecto = proyecto;
         $scope.progreso_cantidad = 0;
-        
+
         $scope.formatos = [
             {nombre: "MP4",  identificador: "mpeg4", extension: ".mp4"},
             //{nombre: "GIF", identificador: "gif", extension: ".gif"}
@@ -97,29 +100,29 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
             {nombre: "50%",  identificador: 50},
             {nombre: "25%",  identificador: 25}
         ];
-        
+
         $scope.formato = $scope.formatos[0];
         $scope.size = $scope.sizes[0];
-        
+
         $scope.exportar_video = function(proyecto, formato) {
             var dialogo_exportar = document.getElementById('dialogo-exportar');
-            
+
             function abrir_dialogo_exportar(proyecto, formato) {
-                
+
                 var dialogo = document.getElementById('dialogo-exportar');
-                
+
                 // Itentando cambiar el nombre de archivo a grabar.
                 dialogo.setAttribute('accept', formato.extension);
                 dialogo.setAttribute('nwsaveas', 'ejemplo' + formato.extension);
-                
+
                 dialogo.click();
 
                 dialogo.onchange = function(evento) {
                     var archivo = this.value;
                     this.value = "";
-                    
+
                     var directorio_temporal = proyecto.exportar_imagenes();
-                    
+
                     var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
                                    .withVideoCodec(formato.identificador)
                                    .withFpsInput(proyecto.fps)
@@ -127,31 +130,31 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
                                    .onProgress(function(data, i) {
                                        $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
                                        $scope.$apply();
-                                   })  
+                                   })
                                    .saveToFile(archivo, function(stdout, stderr, err){
                                        $scope.progreso_cantidad = 100;
                                        $scope.pagina = "finalizado";
                                        $scope.$apply();
-                                   }); 
+                                   });
 
                     $scope.pagina = "progreso";
                     $scope.$apply();
                 }
             }
-                
+
             abrir_dialogo_exportar(proyecto, formato);
         }
 
         $scope.cancelar = function() {
             $modalInstance.close();
         }
-        
+
         $scope.cerrar = function() {
             $modalInstance.close();
         }
     }
-    
-    
+
+
 
     $scope.cuando_selecciona_exportar = function() {
 
@@ -214,8 +217,8 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
 
     $scope.directorio_destino = null;
     $scope.nombre_del_proyecto = null;
-		$scope.es_proyecto_nuevo = null;
-		$scope.cambios_sin_guardar = null;
+        $scope.es_proyecto_nuevo = null;
+        $scope.cambios_sin_guardar = null;
 
 
     $scope.fantasma = true;
@@ -426,7 +429,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
     //Proyecto.frame = $frame;
     //Proyecto.sly = $frame.data('sly');
 
-		Proyecto.definir_cuadros($frame);
+        Proyecto.definir_cuadros($frame);
 
     window.frame = Proyecto.frame;
     window.sly = Proyecto.sly;
@@ -449,7 +452,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
   key('n', function(){
       $scope.panel_visible = !$scope.panel_visible;
       $scope.$apply();
-			Paneles.alternar_panel_lateral();
+            Paneles.alternar_panel_lateral();
   });
 
     key('h', Paneles.alternar_ayuda);
@@ -509,13 +512,16 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
 
     window.abrir_proyecto_desde_ruta = function(archivo, ocultar_pantalla){
         Proyecto.abrir(archivo);
-        alert("TODO: limpiar sly");
-        
+
+        for (var i=0; i<Proyecto.sly.items.length; i++)
+            Proyecto.sly.remove(0);
+
+        Proyecto.sly.reload();
+
         if (ocultar_pantalla)
             ocultar_pantalla_inicial();
-        
+
         ajustar_capas();
-        $scope.$apply();
     }
 
     window.abrir_proyecto = function(success_callback) {
@@ -540,30 +546,30 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
 
         saveDialog.onchange = function(evento) {
             var archivo = this.value;
-						Proyecto.guardar(archivo);				
+                        Proyecto.guardar(archivo);
             Preferencias.agregar_proyecto_reciente(archivo);
             $scope.abrir_proyecto(archivo);
         }
     }
 
-		function ocultar_pantalla_inicial() {
+        function ocultar_pantalla_inicial() {
         jQuery('.panel-inicial').fadeOut();
-		}
-    
+        }
+
     $scope.ocultar_pantalla_incial = ocultar_pantalla_inicial;
 
     var boton_iniciar_proyecto = document.getElementById('boton_iniciar_proyecto');
 
     boton_iniciar_proyecto.onclick = function() {
-			ocultar_pantalla_inicial();
-			iniciar_nuevo_proyecto();
-		}
+            ocultar_pantalla_inicial();
+            iniciar_nuevo_proyecto();
+        }
 
     var boton_abrir_proyecto = document.getElementById('boton_abrir_proyecto');
 
     boton_abrir_proyecto.onclick = function() {
-			abrir_proyecto(ocultar_pantalla_inicial);
-		}
+            abrir_proyecto(ocultar_pantalla_inicial);
+        }
 
     var config = require('./package.json');
 

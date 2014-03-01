@@ -21,18 +21,21 @@
         <!-- CUADROS DE DIALOGO PARA ABRIR Y GUARDAR PROYECTOS -->
         <input style="display:none;" id="open-dialog" type="file" accept=".hmotion"/>
         <input style="display:none;" id="save-dialog" type="file" nwsaveas="proyecto.hmotion" accept=".hmotion"/>
-        
+
         <input style="display:none;" id="dialogo-exportar" type="file" nwsaveas="proyecto.mpg" accept=".mpg"/>
 
         <!-- PANEL INICIAL -->
         <div class='panel-inicial'>
             <p>
+                <img src="images/logo.png" alt="">
+            </p>
+            <p>
                 Hola, bienvenido a huayra-stopmotion.
             </p>
 
             <ul class='asistente'>
-                <li class='asistente-item'><a id='boton_iniciar_proyecto' href='#'><i class="icon-edit"></i> Iniciar un proyecto</a></li>
-                <li class='asistente-item'><a id='boton_abrir_proyecto' href='#'><i class="icon-folder-open"></i> Abrir un proyecto existente</a></li>
+                <li class='asistente-item btn'><a id='boton_iniciar_proyecto' href='#'><i class="icon-edit"></i> Iniciar un proyecto nuevo</a></li>
+                <li class='asistente-item btn'><a id='boton_abrir_proyecto' href='#'><i class="icon-folder-open"></i> Abrir un proyecto existente</a></li>
             </ul>
 
             <div class='proyectos-recientes'>
@@ -54,10 +57,6 @@
             </div>
 
         </div>
-
-
-
-
 
 
         <!-- PANEL DE AYUDA -->
@@ -105,13 +104,9 @@
             <div class="content-body" id='content-body'>
                 <div class='contenedor-izquierdo'>
 
-
                     <div class='contenedor-layers' id='contenedor-layers'>
 
-
-
                         <div  class='contenedor-scroll'>
-
                             <div class="contenedor" id='contenedor_interno'>
                                 <!-- capa cebolla -->
 
@@ -130,38 +125,21 @@
                                 <canvas ng-show='fantasma' id='canvas' width=640 height=480></canvas>
 
                                 <!-- el cuadro remoto -->
-                                <img ng-show='camara_seleccionada == 2'  id='imagen_remota'></img>
+                                <img ng-show='camara_seleccionada == 2'  id='imagen_remota'>
 
-                            <!-- el video capturado de la camara -->
-                            <video ng-show='camara_seleccionada == 1' id='video' autoplay loop="true"></video>
+                                <!-- el video capturado de la camara -->
+                                <video ng-show='camara_seleccionada == 1' id='video' autoplay loop="true"></video>
 
-                            <canvas ng-show='camara_seleccionada == 0' id='previsualizado' width=640 height=480></video>
+                                <canvas ng-show='camara_seleccionada == 0' id='previsualizado' width=640 height=480></canvas>
+                            </div>
 
+                        </div> <!-- FIN contenedor-scroll -->
 
-
-
-
-                        </div>
-                    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    </div> <!-- FIN contenedor-layers -->
                 </div>
-            </div>
 
-            <!-- PANEL CON BOTONES DEBAJO DEL VIDEO -->
-            <div id="contenedor-controles">
+                <!-- PANEL CON BOTONES DEBAJO DEL VIDEO -->
+                <div id="contenedor-controles">
 
                 <!-- Botones para reproducir y previsualizar -->
                 <div ng-show='camara_seleccionada == 0'>
@@ -173,9 +151,10 @@
                 <div ng-hide='camara_seleccionada == 0'>
                     <button class='btn btn-danger' ng-click='capturar()'> <span class="icon-plus icon-white"></span> Capturar un cuadro</button>
                 </div>
+
             </div>
 
-        </div>
+            </div>
 
         <!-- PANEL LATERAR CON OPCIONES DE PROYECTO, EFECTOS Y CAPAS -->
         <aside id='panel-lateral' class="side-right">
@@ -229,7 +208,7 @@
                         <div class="control-group">
                             <label class="control-label" for="capa_circulo_opacidad">Opacidad de la capa de cebolla</label>
                             <div class="controls">
-                                <input ng-disabled='cuadros.length == 0' type='range' step="5" min="0" max="100" ng-model="fantasma_opacidad"></input>
+                                <input type='range' step="5" min="0" max="100" ng-model="fantasma_opacidad"></input>
                             <span class='nota'>{{fantasma_opacidad}}</span>
                         </div>
 
@@ -345,7 +324,7 @@
 
 
     <div class="wrap">
-        
+
         <div class="scrollbar">
             <div class="handle">
                 <div class="mousearea"></div>
