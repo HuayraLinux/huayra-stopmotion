@@ -35,6 +35,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
     $scope.contraste = 50;
     $scope.borrosidad = 0;
     $scope.saturacion = 0;
+    $scope.capturar_habilitado = true;
 
     $scope.tab_seleccionado = "tab1";
     $scope.titulo = "Sin título";
@@ -307,6 +308,13 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
     var contador_item = 0;
 
     $scope.capturar = function() {
+
+        // Deshabilitando temporalmente la captura de cuadros nuevos (por medio segundo).
+        if (! $scope.capturar_habilitado) {return;}
+        $scope.capturar_habilitado = false;
+        setTimeout(function() {$scope.capturar_habilitado = true;}, 500);
+
+
         contador_item += 1;
         $scope.cuadro_seleccionado = contador_item;
 
