@@ -507,22 +507,11 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
 
     window.abrir_proyecto_desde_ruta = function(archivo, ocultar_pantalla){
         /* Si hay cuadros cargados limpia todo */
+        var cantidad_de_cuadros = Proyecto.sly.items.length;
 
-        for (var i=0; i<Proyecto.sly.items.length; i++) {
+        for (var i=0; i<cantidad_de_cuadros; i++) {
             Proyecto.sly.remove(0);
         }
-
-        // FIXME: el for anterior debería limpiar todos los cuadros, pero
-        //        algo falla porque siempre quedan 1 o 2 cuadros. Por eso
-        //        borro los dos con estas lineas.
-        Proyecto.sly.remove(0);
-        Proyecto.sly.remove(0);
-
-        console.log("ahora hay " + Proyecto.sly.items.length + " cuadros");
-
-
-
-        Proyecto.sly.reload();
 
         /* Inicia la carga del archivo */
         Proyecto.abrir(archivo);

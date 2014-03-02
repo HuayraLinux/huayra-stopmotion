@@ -81,6 +81,9 @@ app.service('Proyecto', function(Menu) {
             fs.mkdir(ruta_carpeta_imagenes);
         }
 
+        /*
+         VERSION ANTERIOR QUE MOVIA LAS IMAGENES CON MARCA 'en_curso'
+
         if (this.es_proyecto_nuevo) {
             var rutas_a_imagenes_origen = this.obtener_imagenes_desde_sly();
             this.mover_imagenes(rutas_a_imagenes_origen, ruta_carpeta_imagenes);
@@ -96,6 +99,10 @@ app.service('Proyecto', function(Menu) {
 
             this.mover_imagenes(imagenes_en_curso, ruta_carpeta_imagenes);
         }
+        */
+
+        var rutas_a_imagenes_origen = this.obtener_imagenes_desde_sly();
+        this.mover_imagenes(rutas_a_imagenes_origen, ruta_carpeta_imagenes);
 
         this._crear_archivo(ruta_destino, this.contenido_hmotion);
 
@@ -123,7 +130,10 @@ app.service('Proyecto', function(Menu) {
             var ruta_imagen_destino = path.join(ruta_carpeta_destino, nombre_imagen);
 
             try {
-                fs.renameSync(ruta_imagen, ruta_imagen_destino);
+                if (ruta_imagen != ruta_imagen_destino) {
+                    fs.renameSync(ruta_imagen, ruta_imagen_destino);
+                    //fs.createReadStream(ruta_imagen).pipe(fs.createWriteStream(ruta_imagen_destino));
+                }
             } catch(err) {
                 console.log(err);
             }
@@ -155,13 +165,13 @@ app.service('Proyecto', function(Menu) {
     }
 
     this.agregar_cuadro = function(ruta_a_imagen) {
-        var position = this.sly.rel.activeItem;
+        //var position = this.sly.rel.activeItem;
         var acciones = "<div class='accion' onclick='borrar()'><i class='icon icon-trash icon-white'></i></div>";
         var image = '<li><img src="' + ruta_a_imagen + '"></img>' + acciones + '</li>';
         var a = this.sly.add(image);
 
-        this.sly.moveBefore(-1, position +1);
-        this.sly.activate(position);
+        //this.sly.moveBefore(-1, position +1);
+        //this.sly.activate(position);
         this.seleccionar_ultimo_cuadro();
 
         this.cambios_sin_guardar = true;
@@ -194,8 +204,8 @@ app.service('Proyecto', function(Menu) {
         if (this.es_proyecto_nuevo) {
             var ruta_imagen = path.join(this.directorio_destino, nombre_imagen);
         } else {
-          // Guarda la imagen en el directorio del proyecto pero con un _ al principio.
-              var nombre_carpeta_imagenes = this.nombre_del_proyecto + ".imagenes";
+            // Guarda la imagen en el directorio del proyecto pero con un _ al principio.
+            var nombre_carpeta_imagenes = this.nombre_del_proyecto + ".imagenes";
             var ruta_imagen = path.join(this.directorio_destino, nombre_carpeta_imagenes, nombre_imagen);
         }
 
