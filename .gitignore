@@ -5,3 +5,4 @@ node_modules
 src/tmp/*
 dist/*
 src/bower_components/
+src/app/bower_components
