@@ -53,9 +53,10 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         Proyecto.definir_fps($scope.fps);
     });
 
-    Menu.agregar_a_ventana(ventana, function() {
-        $scope.cuando_selecciona_exportar()
-    });
+    Menu.agregar_a_ventana(ventana,
+                           function(){$scope.cuando_selecciona_exportar()},
+                           function(){$scope.cuando_selecciona_acerca_de()}
+                           );
 
     var ModalCerrarCtrl = function($scope, $modalInstance) {
 
@@ -92,6 +93,11 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
 
     });
 
+    var ModalAcercaDeCtrl = function($scope, $modalInstance) {
+        $scope.cerrar = function() {
+            $modalInstance.close();
+        }
+    }
 
     var ModalExportarCtrl = function($scope, $modalInstance, proyecto) {
         $scope.pagina = "preferencias";
@@ -175,6 +181,17 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         });
 
     }
+
+    $scope.cuando_selecciona_acerca_de = function() {
+
+        var modalInstance = $modal.open({
+            templateUrl: 'partials/modal_acerca_de.html',
+            controller: ModalAcercaDeCtrl
+        });
+
+    }
+
+
 
          setTimeout(function() {
 
