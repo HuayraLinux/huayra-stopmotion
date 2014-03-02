@@ -265,7 +265,7 @@ div.panel-inicial {
 .frame ul li {
     float: left;
     width: 80px;
-    height: 100px;
+    height: 65px;
     margin: 0 4px 0 0;
     padding: 0;
     background: #333;
@@ -273,25 +273,21 @@ div.panel-inicial {
     text-align: center;
     cursor: pointer;
     position: relative;
-
-}
-
-.frame .cuadro-eliminando {
-    display: inline-block;
-    border: 1px solid red;
+    border: 1px solid #333;
 }
 
 .frame ul li.active {
     color: #fff;
     background: #0099FF;
-
+    border: 1px solid #0099FF;
 }
 
 .frame ul li.cargando {
     background-color: white;
     background-image: url('../img/spinner-2.gif');
     background-repeat: no-repeat;
-    background-position: 50% 30%;
+    background-position: 50% 50%;
+    border: 1px solid gray;
 }
 
 .frame ul li.active img {
