@@ -1,7 +1,9 @@
-function Menu(gui) {
-    var self= this;
-    this.menubar = new gui.Menu({type: 'menubar'});
+var app = angular.module('app');
+var gui = require('nw.gui');
 
+app.service('Menu', function() {
+    var self = this;
+    this.menubar = new gui.Menu({type: 'menubar'});
     this.menu_archivo = new gui.Menu();
 
     this.item_abrir = new gui.MenuItem({
@@ -12,6 +14,13 @@ function Menu(gui) {
     });
 
     this.item_guardar = new gui.MenuItem({
+        label: 'Guardar',
+        click: function() {
+            window.guardar_proyecto();
+        }
+    });
+
+    this.item_guardar_como = new gui.MenuItem({
         label: 'Guardar como ...',
         click: function() {
             window.guardar_proyecto_como();
@@ -32,10 +41,22 @@ function Menu(gui) {
         }
     });
 
+
+    this.alternar_ayuda = function() {
+        panel_ayuda.classList.toggle('ayuda-invisible');
+    }
+
+
+    this.deshabilitar_guardado = function() {
+        this.item_guardar.enabled = false;
+        this.item_guardar_como.enabled = false;
+    }
+
     this.deshabilitar_guardado();
 
     this.menu_archivo.append(this.item_abrir);
     this.menu_archivo.append(this.item_guardar);
+    this.menu_archivo.append(this.item_guardar_como);
     this.menu_archivo.append(new gui.MenuItem({type: 'separator'}));
     this.menu_archivo.append(this.item_generar_video);
     this.menu_archivo.append(new gui.MenuItem({type: 'separator'}));
@@ -45,23 +66,14 @@ function Menu(gui) {
         label: 'Archivo',
         submenu: this.menu_archivo
     }));
-}
 
-Menu.prototype.agregar_a_ventana = function(ventana, funcion_exportar) {
-    ventana.menu = this.menubar;
-    this.funcion_exportar = funcion_exportar;
-    console.log("hey");
-}
+    this.agregar_a_ventana = function(ventana, funcion_exportar) {
+        ventana.menu = this.menubar;
+        this.funcion_exportar = funcion_exportar;
+    }
 
-
-Menu.prototype.habilitar_guardado = function() {
-    this.item_guardar.enabled = true;
-}
-
-Menu.prototype.deshabilitar_guardado = function() {
-    this.item_guardar.enabled = false;
-}
-
-
-
-module.exports = Menu;
+    this.habilitar_guardado = function() {
+        this.item_guardar.enabled = true;
+        this.item_guardar_como.enabled = true;
+    }
+});

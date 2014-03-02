@@ -6,7 +6,6 @@ var gui = require('nw.gui');
 var fs = require('fs');
 var path = require('path');
 var ffmpeg = require('fluent-ffmpeg');
-var Menu = require('./js/menu');
 var utils = require('./js/utils');
 
 var mostrar_herramientas_de_desarrollo = function() {
@@ -19,7 +18,7 @@ var ventana = gui.Window.get();
 
 
 
-app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proyecto) {
+app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proyecto, Menu) {
     $scope.proyectos_recientes = Preferencias.data.proyectos_recientes;
 
     $scope.brillo = 50;
@@ -43,9 +42,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         Proyecto.definir_fps($scope.fps);
     });
 
-    var menu = new Menu(gui);
-
-    menu.agregar_a_ventana(ventana, function() {
+    Menu.agregar_a_ventana(ventana, function() {
         $scope.cuando_selecciona_exportar()
     });
 
@@ -312,7 +309,6 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         var imagen = convertCanvasToImage(canvas);
 
         Proyecto.guardar_cuadro(imagen.src);
-        menu.habilitar_guardado();
 
         // Reproduce el sonido de captura de pantalla.
         if ($scope.sonido_habilitado) {
@@ -501,22 +497,35 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
     }
 
     window.borrar = function() {
-        Proyecto.sly.remove(Proyecto.sly.rel.activeItem);
+        Proyecto.borrar_cuadro_actual();
     }
 
 
     window.iniciar_nuevo_proyecto = function() {
         Proyecto.iniciar();
-        menu.habilitar_guardado();
     }
 
     window.abrir_proyecto_desde_ruta = function(archivo, ocultar_pantalla){
-        Proyecto.abrir(archivo);
+        /* Si hay cuadros cargados limpia todo */
 
-        for (var i=0; i<Proyecto.sly.items.length; i++)
+        for (var i=0; i<Proyecto.sly.items.length; i++) {
             Proyecto.sly.remove(0);
+        }
+
+        // FIXME: el for anterior debería limpiar todos los cuadros, pero
+        //        algo falla porque siempre quedan 1 o 2 cuadros. Por eso
+        //        borro los dos con estas lineas.
+        Proyecto.sly.remove(0);
+        Proyecto.sly.remove(0);
+
+        console.log("ahora hay " + Proyecto.sly.items.length + " cuadros");
+
+
 
         Proyecto.sly.reload();
+
+        /* Inicia la carga del archivo */
+        Proyecto.abrir(archivo);
 
         if (ocultar_pantalla)
             ocultar_pantalla_inicial();
@@ -536,9 +545,20 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
     }
 
     $scope.guardar_proyecto = function() {
-        guardar_proyecto_como();
+        window.guardar_proyecto();
     }
 
+    window.guardar_proyecto = function() {
+        if (Proyecto.es_proyecto_nuevo) {
+            guardar_proyecto_como();
+        } else {
+            var archivo = path.join(Proyecto.directorio_destino, Proyecto.nombre_del_proyecto + ".hmotion");
+
+            Proyecto.guardar(archivo);
+            Preferencias.agregar_proyecto_reciente(archivo);
+            $scope.abrir_proyecto(archivo);
+        }
+    }
 
     window.guardar_proyecto_como = function() {
         var saveDialog = document.getElementById('save-dialog');
@@ -546,15 +566,16 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
 
         saveDialog.onchange = function(evento) {
             var archivo = this.value;
-                        Proyecto.guardar(archivo);
+            this.value = '';
+            Proyecto.guardar(archivo);
             Preferencias.agregar_proyecto_reciente(archivo);
             $scope.abrir_proyecto(archivo);
         }
     }
 
-        function ocultar_pantalla_inicial() {
+    function ocultar_pantalla_inicial() {
         jQuery('.panel-inicial').fadeOut();
-        }
+    }
 
     $scope.ocultar_pantalla_incial = ocultar_pantalla_inicial;
 
