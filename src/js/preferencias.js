@@ -12,11 +12,18 @@ app.service('Preferencias', function() {
         if (fs.existsSync(self.ruta)) {
             var tmp_data = fs.readFileSync(self.ruta);
             self.data = JSON.parse(tmp_data);
+            self.data.proyectos_recientes = self.filtrar_proyectos_existentes(self.data.proyectos_recientes);
         }
         else {
             self.data = {proyectos_recientes: []};
             self.guardar();
         }
+    }
+
+    this.filtrar_proyectos_existentes = function(listado) {
+        return listado.filter(function(e) {
+            return fs.existsSync(e.ruta);
+        });
     }
 
     this.guardar = function (){

@@ -5,6 +5,7 @@ app.service('Menu', function() {
     var self = this;
     this.menubar = new gui.Menu({type: 'menubar'});
     this.menu_archivo = new gui.Menu();
+    this.menu_ayuda = new gui.Menu();
 
     this.item_abrir = new gui.MenuItem({
         label: 'Abrir',
@@ -41,11 +42,16 @@ app.service('Menu', function() {
         }
     });
 
+    this.item_acerca_de = new gui.MenuItem({
+        label: 'Acerca de ...',
+        click: function() {
+            self.funcion_acerca_de.call(this);
+        }
+    });
 
     this.alternar_ayuda = function() {
         panel_ayuda.classList.toggle('ayuda-invisible');
     }
-
 
     this.deshabilitar_guardado = function() {
         this.item_guardar.enabled = false;
@@ -62,14 +68,22 @@ app.service('Menu', function() {
     this.menu_archivo.append(new gui.MenuItem({type: 'separator'}));
     this.menu_archivo.append(this.item_salir);
 
+    this.menu_ayuda.append(this.item_acerca_de);
+
     this.menubar.append(new gui.MenuItem({
         label: 'Archivo',
         submenu: this.menu_archivo
     }));
 
-    this.agregar_a_ventana = function(ventana, funcion_exportar) {
+    this.menubar.append(new gui.MenuItem({
+        label: 'Ayuda',
+        submenu: this.menu_ayuda
+    }));
+
+    this.agregar_a_ventana = function(ventana, funcion_exportar, funcion_acerca_de) {
         ventana.menu = this.menubar;
         this.funcion_exportar = funcion_exportar;
+        this.funcion_acerca_de = funcion_acerca_de;
     }
 
     this.habilitar_guardado = function() {

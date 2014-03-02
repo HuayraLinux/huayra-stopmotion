@@ -651,6 +651,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
 
                 var buffer = data.data;
                 imagen_remota.src = buffer;
+                socket.emit("capturaSuccess", {ok: true});
             });
         });
     }

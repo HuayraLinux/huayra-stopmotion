@@ -34,8 +34,8 @@ app.service('Proyecto', function(Menu) {
     }
 
     this.iniciar = function() {
-        // es un numero entre 1000 y 2000.
-        var tmp_id = parseInt(Math.random()* 1000 + 1000, 10);
+        // es un numero entre 1000 y 10000.
+        var tmp_id = parseInt(Math.random()* 10000 + 1000, 10);
 
         this.directorio_destino = "/tmp/" + tmp_id + "/";
         this.nombre_del_proyecto = tmp_id;

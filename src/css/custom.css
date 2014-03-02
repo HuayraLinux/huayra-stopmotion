@@ -305,7 +305,7 @@ div.panel-inicial {
 
 .eliminando {
     width: 0px !important;
-    transition: width .5s;
+    transition: width .5s ease-out;
 }
 
 .frame ul li.active img {
@@ -568,10 +568,9 @@ canvas#previsualizado {
 }
 
 
-
 .lista-proyectos-recientes {
     display: none;
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 102px;
 }
 
