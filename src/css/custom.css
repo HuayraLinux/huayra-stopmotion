@@ -570,3 +570,8 @@ canvas#previsualizado {
 .modal  {
     z-index: 5500 !important;
 }
+
+
+.item-proyecto-reciente:hover {
+    color: #0088cc;
+}
