@@ -115,10 +115,23 @@ app.service('Proyecto', function(Menu) {
     }
 
     this.borrar_cuadro_actual = function() {
-        this.sly.remove(this.sly.rel.activeItem);
-        this.cambios_sin_guardar = true;
-        Menu.habilitar_guardado();
-        this._definir_titulo();
+        var index = this.sly.rel.activeItem;
+        var elemento = this.sly.getPos(index);
+        var self = this;
+
+        // Haciendo invisible la imagen del cuadro actual.
+        elemento.el.classList.add('eliminando')
+        elemento.el.children[0].classList.add('invisible')
+        elemento.el.removeChild(elemento.el.children[1]);
+        elemento.el.innerHTML += "<img src='img/explosion.gif' class='img-explosion'>"
+
+        setTimeout(function() {
+            self.sly.remove(index);
+
+            self.cambios_sin_guardar = true;
+            Menu.habilitar_guardado();
+            self._definir_titulo();
+        }, 400);
     }
 
     this.mover_imagenes = function(lista_a_imagenes, ruta_carpeta_destino) {
@@ -167,7 +180,7 @@ app.service('Proyecto', function(Menu) {
     this.agregar_cuadro = function(ruta_a_imagen) {
         //var position = this.sly.rel.activeItem;
         var acciones = "<div class='accion' onclick='borrar()'><i class='icon icon-trash icon-white'></i></div>";
-        var image = '<li><img src="' + ruta_a_imagen + '"></img>' + acciones + '</li>';
+        var image = '<li class="cargando"><img onload="mostrar(this); return false" class="img-invisible" src="' + ruta_a_imagen + '"></img>' + acciones + '</li>';
         var a = this.sly.add(image);
 
         //this.sly.moveBefore(-1, position +1);

@@ -17,6 +17,16 @@ var app = angular.module('app', ['ngAnimate', 'ui.bootstrap']);
 var ventana = gui.Window.get();
 
 
+window.mostrar = function(elemento) {
+    /* Se ejecuta cuando la imagen del timeline está lista para ser mostrada. */
+
+    setTimeout(function() {
+        elemento.classList.remove('img-invisible');
+        elemento.classList.add('img-visible');
+        elemento.parentElement.classList.remove('cargando');
+    }, 300);
+}
+
 
 app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proyecto, Menu) {
     $scope.proyectos_recientes = Preferencias.data.proyectos_recientes;
@@ -231,6 +241,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
 
     $scope.deshabilitar_capas = function() {
         $scope.capa_grilla_opacidad = 0;
+        $scope.fantasma_opacidad = 0;
     }
 
     $scope.$watch('capa_grilla_opacidad', function() {
@@ -599,8 +610,15 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
             var os = require("os");
 
             console.log("Comenzando a escuchar en el puerto: " + app.get('port'));
+
             $scope.puerto_remoto = app.get('port');
             $scope.host = os.hostname();
+
+            // Si el hostname no dice '.local' lo agrega.
+            // (esto surge en linux, en mac el hostname ya tiene '.local')
+            if ($scope.host.search('.local') == -1)
+                $scope.host += ".local";
+
             $scope.$apply();
         });
 
