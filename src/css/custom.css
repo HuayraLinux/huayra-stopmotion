@@ -305,7 +305,7 @@ div.panel-inicial {
 
 .eliminando {
     width: 0px !important;
-    transition: width .5s ease-out;
+    transition: width .6s ease-out;
 }
 
 .frame ul li.active img {
@@ -607,4 +607,19 @@ canvas#previsualizado {
 
 .item-proyecto-reciente:hover {
     color: #0088cc;
+}
+
+.modal-acerca-de {
+    font-size: 14px;
+    line-height: 1.7;
+    text-align: justify;
+}
+
+.modal-acerca-de img {
+    padding: 5px;
+}
+
+
+.modal-acerca-de a {
+    color: blue !important;
 }

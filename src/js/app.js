@@ -7,6 +7,7 @@ var fs = require('fs');
 var path = require('path');
 var ffmpeg = require('fluent-ffmpeg');
 var utils = require('./js/utils');
+var exec = require('child_process').exec;
 
 var mostrar_herramientas_de_desarrollo = function() {
     var w = gui.Window.get();
@@ -106,7 +107,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
 
         $scope.formatos = [
             {nombre: "MP4",  identificador: "mpeg4", extension: ".mp4"},
-            //{nombre: "GIF", identificador: "gif", extension: ".gif"}
+            {nombre: "GIF", identificador: "gif", extension: ".gif"}
         ];
 
         $scope.sizes = [
@@ -118,7 +119,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         $scope.formato = $scope.formatos[0];
         $scope.size = $scope.sizes[0];
 
-        $scope.exportar_video = function(proyecto, formato) {
+        $scope.exportar_video = function(proyecto, formato, size) {
             var dialogo_exportar = document.getElementById('dialogo-exportar');
 
             function abrir_dialogo_exportar(proyecto, formato) {
@@ -137,19 +138,49 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
 
                     var directorio_temporal = proyecto.exportar_imagenes();
 
-                    var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
-                                   .withVideoCodec(formato.identificador)
-                                   .withFpsInput(proyecto.fps)
-                                   .withFps(30)
-                                   .onProgress(function(data, i) {
-                                       $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
-                                       $scope.$apply();
-                                   })
-                                   .saveToFile(archivo, function(stdout, stderr, err){
-                                       $scope.progreso_cantidad = 100;
-                                       $scope.pagina = "finalizado";
-                                       $scope.$apply();
-                                   });
+                    switch (formato.nombre) {
+                            case "MP4":
+                                var tamano = size.identificador + '%';
+                                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                                       .withVideoCodec(formato.identificador)
+                                       .withFpsInput(proyecto.fps)
+                                       .withFps(30)
+                                       //.withSize('50x50')
+                                       .onProgress(function(data, i) {
+                                           $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                                           $scope.$apply();
+                                       })
+                                       .saveToFile(archivo, function(stdout, stderr, err){
+                                           $scope.progreso_cantidad = 100;
+                                           $scope.pagina = "finalizado";
+                                           $scope.$apply();
+                                       });
+                            break;
+
+                            case "GIF":
+                                $scope.progreso_cantidad = 10;
+                                var delay = Math.floor(100 / proyecto.fps);
+                                var archivos = proyecto.obtener_imagenes_desde_sly().join(" ");
+                                var comando = 'convert -delay ' + delay + ' -loop 0 -resize "' + size.identificador + '%" ' + archivos + ' ' + archivo;
+
+                                exec(comando, function(error, stdout, stderr) {
+                                    $scope.progreso_cantidad = 100;
+                                    $scope.pagina = "finalizado";
+                                    $scope.$apply();
+
+                                    //console.log('stdout: ' + stdout);
+                                    //console.log('stderr: ' + stderr);
+
+                                    if (error !== null) {
+                                        alert(error);
+                                    }
+                                });
+                            break;
+
+                            default:
+                                alert("ERROR, el formato " + $scope.formato.nombre + " no está implementado");
+                            break;
+                    }
 
                     $scope.pagina = "progreso";
                     $scope.$apply();
@@ -348,9 +379,9 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
 
         // Reproduce el sonido de captura de pantalla.
         if ($scope.sonido_habilitado) {
-            var sonido = window.document.getElementById('audio_foto');
-            sonido.currentTime=0;
-            sonido.play();
+            var sonido_foto = window.document.getElementById('audio_foto');
+            sonido_foto.currentTime=0;
+            sonido_foto.play();
         }
     };
 
@@ -534,6 +565,13 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
 
     window.borrar = function() {
         Proyecto.borrar_cuadro_actual();
+
+        // Reproduce el sonido de borrado de cuadro.
+        if ($scope.sonido_habilitado) {
+            var sonido = window.document.getElementById('audio_borrar');
+            sonido.currentTime=0;
+            sonido.play();
+        }
     }
 
 
@@ -652,13 +690,15 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         io.sockets.on('connection', function (socket) {
 
             $scope.camaras.push({
-                indice: 2,
+                indice: $scope.camaras.length + 1,
                 socket: socket,
+                id: socket.id,
             });
 
             $scope.$apply();
 
             socket.on('disconnect', function() {
+                alert("TODO: buscar la camara");
                 $scope.camaras.splice(0, 1);
                 $scope.$apply();
             });
@@ -668,6 +708,9 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
 
                 var buffer = data.data;
                 imagen_remota.src = buffer;
+
+                // Avisa que la captura llegó correctamente, así el navegador
+                // le puede enviar la siguiente captura.
                 socket.emit("capturaSuccess", {ok: true});
             });
         });

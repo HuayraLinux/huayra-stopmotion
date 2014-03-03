@@ -1,5 +1,4 @@
 var app = angular.module('app');
-
 var fs = require('fs');
 
 app.service('Proyecto', function(Menu) {
@@ -14,7 +13,7 @@ app.service('Proyecto', function(Menu) {
 
     this.contenido_hmotion = {
         titulo: 'Titulo del proyecto',
-          cuadros: []
+        cuadros: []
     };
 
     this.definir_fps = function(fps) {
@@ -185,6 +184,7 @@ app.service('Proyecto', function(Menu) {
 
         //this.sly.moveBefore(-1, position +1);
         //this.sly.activate(position);
+
         this.seleccionar_ultimo_cuadro();
 
         this.cambios_sin_guardar = true;

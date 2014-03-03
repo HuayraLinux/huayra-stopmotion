@@ -11,21 +11,21 @@
 
              <div class="controls">
                  <select ng-model="formato" id="formato" ng-options="c.nombre for c in formatos"></select>
-             </div> 
+             </div>
         </div>
 
          <div class="control-group">
              <label class="control-label" for="size">Tamaño</label>
 
              <div class="controls">
-                 <select disabled ng-model="size" id="size" ng-options="s.nombre for s in sizes"></select>
+                 <select ng-model="size" id="size" ng-options="s.nombre for s in sizes"></select>
              </div>
 
         </div>
     </div>
-    
+
     <div class="modal-footer">
-        <button class="btn btn-success" ng-click="exportar_video(proyecto, formato)">Exportar video</button>
+        <button class="btn btn-success" ng-click="exportar_video(proyecto, formato, size)">Exportar video</button>
         <button class="btn btn-warning" ng-click="cancelar()">Cancelar</button>
     </div>
 </div>
@@ -35,33 +35,33 @@
 
     <div class="modal-body">
         <p>Generando el video ... </p>
-        
+
         <div class="progress progress-striped active">
             <div class="bar" style="width: {{progreso_cantidad}}%;"></div>
         </div>
-        
+
     </div>
 
     <div class="modal-footer">
         <button class="btn btn-warning" ng-click="cancelar()">Cancelar</button>
     </div>
-    
+
 </div>
 
 
 <div ng-show='pagina == "finalizado"'>
-    
+
     <div class="modal-body">
         <p>Ha finalizado la generación del video.</p>
-        
+
         <div class="progress">
             <div class="bar" style="width: {{progreso_cantidad}}%;"></div>
         </div>
-        
+
     </div>
 
     <div class="modal-footer">
         <button class="btn btn-success" ng-click="cerrar()">Cerrar</button>
     </div>
-    
+
 </div>
