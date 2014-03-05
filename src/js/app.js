@@ -54,10 +54,23 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         Proyecto.definir_fps($scope.fps);
     });
 
+    $scope.menu_captura = [
+        {demora:  2, titulo: "Capturar cada 2 segundos"},
+        {demora:  5, titulo: "Capturar cada 5 segundos"},
+        {demora: 20, titulo: "Capturar cada 20 segundos"},
+        {demora: 60, titulo: "Capturar cada 1 minuto"},
+    ];
+
+    $scope.iniciar_captura_con_intervalo = function(demora_en_segundos) {
+        alert("iniciar captura cada " + demora_en_segundos + " segundos...");
+    }
+
+
     Menu.agregar_a_ventana(ventana,
                            function(){$scope.cuando_selecciona_exportar()},
                            function(){$scope.cuando_selecciona_acerca_de()}
                            );
+
 
     var ModalCerrarCtrl = function($scope, $modalInstance) {
 

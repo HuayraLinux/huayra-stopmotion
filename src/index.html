@@ -157,9 +157,16 @@
                     <button ng-show='!en_reproduccion' class='btn btn-success' ng-click='reproducir()'> <span class="icon-play icon-white"></span> Reproducir</button>
                     <button ng-show='en_reproduccion' class='btn btn-success' ng-click='detener()'> <span class="icon-stop icon-white"></span> Detener</button>
 
-                    <div class="btn-group">
+                    <div class="btn-group dropdown">
                         <button class='btn btn-danger' ng-click='capturar()'><span class="icon-plus icon-white"></span> Capturar cuadro</button>
-                        <button class='btn btn-danger btn-xs' ng-click='capturar()'><span class="icon-time icon-white"></span></button>
+                        <button class='dropdown-toggle btn btn-danger btn-xs'><span class="icon-time icon-white"></span></button>
+
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="item in menu_captura">
+                                <a ng-click='iniciar_captura_con_intervalo(item.demora)'>{{item.titulo}}</a>
+                            </li>
+                        </ul>
+
                     </div>
                 </div>
 

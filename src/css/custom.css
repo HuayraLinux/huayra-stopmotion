@@ -623,3 +623,14 @@ canvas#previsualizado {
 .modal-acerca-de a {
     color: blue !important;
 }
+
+
+.dropdown-menu {
+    top: 3%;
+    left: 95%;
+}
+
+
+.dropdown-menu li {
+    cursor: pointer;
+}
