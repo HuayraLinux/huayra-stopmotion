@@ -31,15 +31,17 @@ Luego tenes que asegurarte de tener instalado node.js, por ejemplo la versión 0
 	v0.10.18
 	
 Si no tenés node, tendrías que instalarlo antes. Hay unas recetas de instalación en
-esta web:
+estas webs:
 
+- [Como instalar nodejs en huayra-linux](http://examplelab.com.ar/como-instalar-nodejs-en-huayra-linux/)
 - [how-to-install-nodejs](http://howtonode.org/how-to-install-nodejs)
 	
 Luego de tener nodejs, hay que instalar todas las dependencias de la aplicación
-usando **npm install**:
+usando estos comandos:
 
+	➤ sudo npm install bower
 	➤ cd huayra-stopmotion
-	➤ npm install
+	➤ make init
 	
 por último, usando el comando **make** vas a ver las opciones de lanzamiento:
 
