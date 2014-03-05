@@ -39,7 +39,7 @@ estas webs:
 Luego de tener nodejs, hay que instalar todas las dependencias de la aplicación
 usando estos comandos:
 
-	➤ sudo npm install bower
+	➤ sudo npm install bower -g
 	➤ cd huayra-stopmotion
 	➤ make init
 	
