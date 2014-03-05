@@ -1,7 +1,8 @@
 var onFailSoHard = function(e) {
   var video = document.querySelector('video');
-  //video.src = 'media/error_camara.webm';
+  video.src = 'media/error_camara.webm';
   video.play();
+  console.log("Error al capturar la camara.");
 };
 
 window.URL = window.URL || window.webkitURL;
@@ -15,5 +16,7 @@ if (navigator.getUserMedia) {
     video.src = window.URL.createObjectURL(stream);
   }, onFailSoHard);
 } else {
+  console.log("No se puede obtener getusermedia.");
   video.src = 'media/error_camara.webm';
+  video.play();
 }
