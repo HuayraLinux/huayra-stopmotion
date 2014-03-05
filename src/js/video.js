@@ -5,15 +5,26 @@ var onFailSoHard = function(e) {
   console.log("Error al capturar la camara.");
   
   
-  var Camelot = require('camelot.js');
+  var Camelot = require('camelot');
 
   var camelot = new Camelot( {
+		device : '/dev/video1',
     'rotate' : '180',
-    'flip' : 'v'
+    'flip' : 'v',
+		controls: {
+			focus: 0
+		}
   });
 
   camelot.on('frame', function (image) {
     console.log('frame received!');
+    
+  	require('fs').writeFile('./pepe.png', image, function (err) {
+      if (err)
+        throw err;
+      console.log('saved!');
+    });
+    
   });
 
   camelot.on('error', function (err) {
@@ -23,7 +34,10 @@ var onFailSoHard = function(e) {
   camelot.grab( {
     'title' : 'Camelot',
     'font' : 'Arial:24',
-    'frequency' : 1
+    'frequency' : 1,
+    controls: {
+      focus: 0,
+    }
   });
   
   
