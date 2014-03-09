@@ -1,5 +1,6 @@
 all:
 	@echo "init           Instala todas las dependencias necesarias."
+	@echo "test           Prueba la aplicación usando nodewebkit."
 	@echo "test_mac       Prueba la aplicacion usando nodewebkit en mac osx."
 	@echo "instalar       Instala node webkit para linux."
 	@echo "instalar_mac   Instala node webkit para mac osx."
@@ -16,9 +17,14 @@ build:
 	rm -f -r webkitbuilds/releases/
 	grunt nodewebkit
 
+# puede eliminarse y usar make test, ya que instala automágicamente node webkit.
 test_mac:
 	@echo "Cuidado - se está usando la version de nodewebkit del sistema."
 	open -a /Applications/node-webkit.app src
+
+test:
+	@echo "Iniciando node webkit..."
+	npm test
 
 instalar:
 	cd dist; wget https://s3.amazonaws.com/node-webkit/v0.7.3/node-webkit-v0.7.3-linux-ia32.tar.gz
