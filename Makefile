@@ -16,9 +16,14 @@ build:
 	rm -f -r webkitbuilds/releases/
 	grunt nodewebkit
 
+# puede eliminarse y usar make test, ya que instala automágicamente node webkit.
 test_mac:
 	@echo "Cuidado - se está usando la version de nodewebkit del sistema."
 	open -a /Applications/node-webkit.app src
+
+test:
+	@echo "Iniciando node webkit..."
+	npm test
 
 instalar:
 	cd dist; wget https://s3.amazonaws.com/node-webkit/v0.7.3/node-webkit-v0.7.3-linux-ia32.tar.gz
