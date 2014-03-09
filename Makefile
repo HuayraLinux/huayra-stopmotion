@@ -1,5 +1,6 @@
 all:
 	@echo "init           Instala todas las dependencias necesarias."
+	@echo "test           Prueba la aplicación usando nodewebkit."
 	@echo "test_mac       Prueba la aplicacion usando nodewebkit en mac osx."
 	@echo "instalar       Instala node webkit para linux."
 	@echo "instalar_mac   Instala node webkit para mac osx."
