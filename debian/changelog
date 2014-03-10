@@ -1,3 +1,55 @@
+huayra-stopmotion (0.18) unstable; urgency=low
+
+  * Agregando capturador de camara con temporizador.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Mon, 10 Mar 2014 22:05:13 +0100
+
+huayra-stopmotion (0.17) unstable; urgency=low
+
+  * Mejorando el modo exportar.
+  * Reparando el modo guarda.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 05 Mar 2014 19:33:35 +0100
+
+huayra-stopmotion (0.15) unstable; urgency=low
+
+  * Agregando el modulo async.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Thu, 20 Feb 2014 20:22:55 +0100
+
+huayra-stopmotion (0.14) unstable; urgency=low
+
+  * Mejorando la informacion de las dependencias.
+  * Haciendo que el paquete sea independiente de arquitectura.
+  * Reduciendo la cantidad de dependencias de nodejs incluidas.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Thu, 20 Feb 2014 16:46:23 +0100
+
+huayra-stopmotion (0.13) unstable; urgency=low
+
+  * Generando la exportación de video.
+  * Agregando dialogo modal para evitar que se cierre la aplicación sin guardar.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Thu, 20 Feb 2014 16:02:05 +0100
+
+huayra-stopmotion (0.12) unstable; urgency=low
+
+  * Definiendo la ruta para la aplicación en el menú. 
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 12 Feb 2014 21:00:05 +0100
+
+huayra-stopmotion (0.11) unstable; urgency=low
+
+  * Cambiando la URL para acceder a compartir la cámara.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Mon, 10 Feb 2014 20:55:15 +0100
+
+huayra-stopmotion (0.10) unstable; urgency=low
+
+  * Arreglos menores.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Thu, 06 Feb 2014 20:35:51 +0100
+
 huayra-stopmotion (0.9) unstable; urgency=low
 
   * Creando un icono en el lanzador del menu.

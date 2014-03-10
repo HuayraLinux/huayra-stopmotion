@@ -22,7 +22,7 @@ test_mac:
 	@echo "Cuidado - se está usando la version de nodewebkit del sistema."
 	open -a /Applications/node-webkit.app src
 
-test:
+test_npm:
 	@echo "Iniciando node webkit..."
 	npm test
 

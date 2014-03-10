@@ -5,4 +5,4 @@ Exec=/usr/bin/huayra-motion
 Terminal=false
 Type=Application
 Icon=huayra-motion
-Categories=GNOME;GTK;System;
+Categories=GNOME;GTK;Huayra;AudioVideo;
