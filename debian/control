@@ -1,5 +1,5 @@
 Source: huayra-stopmotion
-Section: unknown
+Section: video
 Priority: extra
 Maintainer: Hugo Ruscitti <hugoruscitti@gmail.com>
 Depends: node-webkit, libc6, libgcc1, libstdc++6, g++, gcc, fswebcam, libc6-dev
@@ -10,7 +10,7 @@ Homepage: http://github.com/HuayraLinux/huayra-stopmotion
 #Vcs-Browser: http://git.debian.org/?p=collab-maint/huayra-stopmotion.git;a=summary
 
 Package: huayra-stopmotion
-Architecture: any
+Architecture: all
 #Depends: ${shlibs:Depends}, ${misc:Depends}, node-webkit, libc6, libgcc1, libstdc++6, g++, gcc, libc6-dev
 Depends: ${misc:Depends}, node-webkit, libc6, libgcc1, libstdc++6, g++, gcc, libc6-dev
 Description: Permite realizar animaciones de stopmotion
