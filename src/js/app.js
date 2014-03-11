@@ -49,6 +49,8 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
     $scope.en_reproduccion = false;
     $scope.fps = 10;
     $scope.cargado = false;
+    $scope.modo_captura_con_intervalo = false;
+
 
     $scope.$watch('fps', function() {
         Proyecto.definir_fps($scope.fps);
@@ -61,8 +63,12 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         {demora: 60, titulo: "Capturar cada 1 minuto"},
     ];
 
+    $scope.detener_captura_con_intervalo = function() {
+        $scope.modo_captura_con_intervalo = false;
+    }
+
     $scope.iniciar_captura_con_intervalo = function(demora_en_segundos) {
-        alert("iniciar captura cada " + demora_en_segundos + " segundos...");
+        $scope.modo_captura_con_intervalo = true;
     }
 
 
