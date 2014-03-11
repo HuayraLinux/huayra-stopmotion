@@ -1,7 +1,14 @@
 src/* usr/share/huayra-stopmotion/src
 public/* usr/share/huayra-stopmotion/public
 bin/huayra-motion usr/bin/
-node_modules/* usr/share/huayra-stopmotion/node_modules
+node_modules/express/* usr/share/huayra-stopmotion/node_modules/express
+node_modules/fluent-ffmpeg/* usr/share/huayra-stopmotion/node_modules/fluent-ffmpeg
+node_modules/gaze/* usr/share/huayra-stopmotion/node_modules/gaze
+node_modules/jsonfile/* usr/share/huayra-stopmotion/node_modules/jsonfile
+node_modules/q/* usr/share/huayra-stopmotion/node_modules/q
+node_modules/socket.io/* usr/share/huayra-stopmotion/node_modules/socket.io
+node_modules/async/* usr/share/huayra-stopmotion/node_modules/async
+node_modules/camelot/* usr/share/huayra-stopmotion/node_modules/camelot
 debian/huayra-motion.desktop /usr/share/applications
 debian/huayra-motion.svg /usr/share/icons/hicolor/scalable/apps
 
