@@ -634,3 +634,11 @@ canvas#previsualizado {
 .dropdown-menu li {
     cursor: pointer;
 }
+
+.contador {
+    color: gray;
+    font-size: x-small;
+    float: right;
+    padding-top: 4px;
+    padding-right: 9px;
+}
