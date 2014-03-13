@@ -24,12 +24,16 @@ window.mostrar = function(elemento) {
     setTimeout(function() {
         elemento.classList.remove('img-invisible');
         elemento.classList.add('img-visible');
-        elemento.parentElement.classList.remove('cargando');
+        try {
+            elemento.parentElement.classList.remove('cargando');
+        } catch(e) {
+            console.error(e);
+        }
     }, 300);
 }
 
 
-app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proyecto, Menu) {
+app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proyecto, Menu, $timeout) {
     $scope.proyectos_recientes = Preferencias.data.proyectos_recientes;
 
     $scope.brillo = 50;
@@ -49,6 +53,9 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
     $scope.en_reproduccion = false;
     $scope.fps = 10;
     $scope.cargado = false;
+    $scope.modo_captura_con_intervalo = false;
+    $scope.contador_intervalo = 0;
+
 
     $scope.$watch('fps', function() {
         Proyecto.definir_fps($scope.fps);
@@ -61,9 +68,31 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         {demora: 60, titulo: "Capturar cada 1 minuto"},
     ];
 
-    $scope.iniciar_captura_con_intervalo = function(demora_en_segundos) {
-        alert("iniciar captura cada " + demora_en_segundos + " segundos...");
+    $scope.detener_captura_con_intervalo = function() {
+        $scope.modo_captura_con_intervalo = false;
     }
+
+    $scope.iniciar_captura_con_intervalo = function(demora_en_segundos) {
+        $scope.modo_captura_con_intervalo = true;
+
+        var actualizar_temporizador = function() {
+            if ($scope.modo_captura_con_intervalo) {
+                $scope.contador_intervalo -= 1;
+
+                if ($scope.contador_intervalo < 1) {
+                    $scope.capturar();
+                    $scope.contador_intervalo = demora_en_segundos;
+                }
+
+                $timeout(actualizar_temporizador, 1000);
+            }
+        }
+
+        $scope.contador_intervalo = demora_en_segundos;
+        $timeout(actualizar_temporizador, 1000);
+    }
+
+
 
 
     Menu.agregar_a_ventana(ventana,

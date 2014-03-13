@@ -48,7 +48,7 @@
 .control-mode > .navigate-mode{
     margin: 2px 0px;
     padding: 0px;
-    
+
 }
 .control-mode > .navigate-mode > a{
     padding: 2px 5px;
@@ -597,7 +597,7 @@ ul.dropdown-notification > li.dropdown-header:hover{
     white-space: nowrap;
 }
 .side-contact ul.contact-list .contact-search{
-    
+
 }
 .side-contact .contact-control ul li{
     font-size: .9em;
@@ -1110,7 +1110,7 @@ ul.dropdown-notification > li.dropdown-header:hover{
 /* end content-header */
 
 /* content-breadcrumb */
-.content-breadcrumb, 
+.content-breadcrumb,
 .content-breadcrumb > .breadcrumb-nav,
 .content-breadcrumb > .breadcrumb-nav > li{
     margin: 0px;
@@ -1351,51 +1351,51 @@ ul.dropdown-notification > li.dropdown-header:hover{
 }
 
 .bar-gradient > span {
-    box-shadow: 
-        0 5px 5px rgba(255,255,255,0.6) inset, 
+    box-shadow:
+        0 5px 5px rgba(255,255,255,0.6) inset,
         0 -5px 7px rgba(0, 0, 0, 0.4) inset;
-    -moz-box-shadow: 
-        0 5px 5px rgba(255,255,255,0.6) inset, 
+    -moz-box-shadow:
+        0 5px 5px rgba(255,255,255,0.6) inset,
         0 -5px 7px rgba(0, 0, 0, 0.4) inset;
-    -webkit-box-shadow: 
-        0 5px 5px rgba(255,255,255,0.6) inset, 
+    -webkit-box-shadow:
+        0 5px 5px rgba(255,255,255,0.6) inset,
         0 -5px 7px rgba(0, 0, 0, 0.4) inset;
-    filter: progid:DXImageTransform.Microsoft.gradient( 
-        startColorstr='#33ffffff', 
+    filter: progid:DXImageTransform.Microsoft.gradient(
+        startColorstr='#33ffffff',
         endColorstr='#33000000',
         GradientType=0 );
 }
 
 .bar-gloss > span {
-    background-image: -moz-linear-gradient(top, 
-        rgba(255,255,255,0.2) 0%, 
-        rgba(255,255,255,0.1) 45%, 
-        rgba(0,0,0,0.2) 55%, 
+    background-image: -moz-linear-gradient(top,
+        rgba(255,255,255,0.2) 0%,
+        rgba(255,255,255,0.1) 45%,
+        rgba(0,0,0,0.2) 55%,
         rgba(0,0,0,0.1) 100%);
-    background-image: -webkit-gradient(linear, left top, left bottom, 
-        color-stop(0%,rgba(255,255,255,0.2)), 
-        color-stop(45%,rgba(255,255,255,0.1)), 
-        color-stop(55%,rgba(0,0,0,0.2)), 
+    background-image: -webkit-gradient(linear, left top, left bottom,
+        color-stop(0%,rgba(255,255,255,0.2)),
+        color-stop(45%,rgba(255,255,255,0.1)),
+        color-stop(55%,rgba(0,0,0,0.2)),
         color-stop(100%,rgba(0,0,0,0.1)));
-    background-image: -webkit-linear-gradient(top, 
-        rgba(255,255,255,0.5) 0%, 
-        rgba(255,255,255,0.1) 45%, 
-        rgba(0,0,0,0.2) 55%, 
+    background-image: -webkit-linear-gradient(top,
+        rgba(255,255,255,0.5) 0%,
+        rgba(255,255,255,0.1) 45%,
+        rgba(0,0,0,0.2) 55%,
         rgba(0,0,0,0.1) 100%);
-    background-image: -o-linear-gradient(top, 
-        rgba(255,255,255,0.2) 0%, 
-        rgba(255,255,255,0.1) 45%, 
-        rgba(0,0,0,0.2) 55%, 
+    background-image: -o-linear-gradient(top,
+        rgba(255,255,255,0.2) 0%,
+        rgba(255,255,255,0.1) 45%,
+        rgba(0,0,0,0.2) 55%,
         rgba(0,0,0,0.1) 100%);
-    background-image: -ms-linear-gradient(top, 
-        rgba(255,255,255,0.2) 0%, 
-        rgba(255,255,255,0.1) 45%, 
-        rgba(0,0,0,0.2) 55%, 
+    background-image: -ms-linear-gradient(top,
+        rgba(255,255,255,0.2) 0%,
+        rgba(255,255,255,0.1) 45%,
+        rgba(0,0,0,0.2) 55%,
         rgba(0,0,0,0.1) 100%);
-    background-image: linear-gradient(to bottom, 
-        rgba(255,255,255,0.2) 0%, 
-        rgba(255,255,255,0.1) 45%, 
-        rgba(0,0,0,0.2) 55%, 
+    background-image: linear-gradient(to bottom,
+        rgba(255,255,255,0.2) 0%,
+        rgba(255,255,255,0.1) 45%,
+        rgba(0,0,0,0.2) 55%,
         rgba(0,0,0,0.1) 100%);
 }
 
@@ -1405,25 +1405,25 @@ ul.dropdown-notification > li.dropdown-header:hover{
     -webkit-background-size:30px 30px;
     -o-background-size:30px 30px;
 
-    background-image: -moz-linear-gradient(-45deg, 
-        rgba(255,255,255,0.15) 0%, 
-        rgba(255,255,255,0.15) 25%, 
-        rgba(255,255,255,0) 25%, 
-        rgba(255,255,255,0) 50%, 
-        rgba(255,255,255,0.15) 50%, 
-        rgba(255,255,255,0.15) 75%, 
-        rgba(255,255,255,0) 75%, 
+    background-image: -moz-linear-gradient(-45deg,
+        rgba(255,255,255,0.15) 0%,
+        rgba(255,255,255,0.15) 25%,
+        rgba(255,255,255,0) 25%,
+        rgba(255,255,255,0) 50%,
+        rgba(255,255,255,0.15) 50%,
+        rgba(255,255,255,0.15) 75%,
+        rgba(255,255,255,0) 75%,
         rgba(255,255,255,0) 100%);
-    background-image: -webkit-gradient(linear, left top, right bottom, 
-        color-stop(0%,rgba(255,255,255,0.2)), 
-        color-stop(25%,rgba(255,255,255,0.2)), 
-        color-stop(25%,rgba(255,255,255,0)), 
-        color-stop(50%,rgba(255,255,255,0)), 
-        color-stop(50%,rgba(255,255,255,0.2)), 
+    background-image: -webkit-gradient(linear, left top, right bottom,
+        color-stop(0%,rgba(255,255,255,0.2)),
+        color-stop(25%,rgba(255,255,255,0.2)),
+        color-stop(25%,rgba(255,255,255,0)),
+        color-stop(50%,rgba(255,255,255,0)),
+        color-stop(50%,rgba(255,255,255,0.2)),
         color-stop(75%,rgba(255,255,255,0.2)),
         color-stop(75%,rgba(255,255,255,0)),
         color-stop(100%,rgba(255,255,255,0)));
-    background-image: -webkit-linear-gradient(-45deg, 
+    background-image: -webkit-linear-gradient(-45deg,
         rgba(255,255,255,0.3) 0%,
         rgba(255,255,255,0.3) 25%,
         rgba(255,255,255,0) 25%,
@@ -1432,7 +1432,7 @@ ul.dropdown-notification > li.dropdown-header:hover{
         rgba(255,255,255,0.3) 75%,
         rgba(255,255,255,0) 75%,
         rgba(255,255,255,0) 100%);
-    background-image: -o-linear-gradient(-45deg, 
+    background-image: -o-linear-gradient(-45deg,
         rgba(255,255,255,0.15) 0%,
         rgba(255,255,255,0.15) 25%,
         rgba(255,255,255,0) 25%,
@@ -1441,7 +1441,7 @@ ul.dropdown-notification > li.dropdown-header:hover{
         rgba(255,255,255,0.15) 75%,
         rgba(255,255,255,0) 75%,
         rgba(255,255,255,0) 100%);
-    background-image: -ms-linear-gradient(-45deg, 
+    background-image: -ms-linear-gradient(-45deg,
         rgba(255,255,255,0.15) 0%,
         rgba(255,255,255,0.15) 25%,
         rgba(255,255,255,0) 25%,
@@ -1450,7 +1450,7 @@ ul.dropdown-notification > li.dropdown-header:hover{
         rgba(255,255,255,0.15) 75%,
         rgba(255,255,255,0) 75%,
         rgba(255,255,255,0) 100%);
-    background-image: linear-gradient(135deg, 
+    background-image: linear-gradient(135deg,
         rgba(255,255,255,0.15) 0%,
         rgba(255,255,255,0.15) 25%,
         rgba(255,255,255,0) 25%,
@@ -1462,142 +1462,142 @@ ul.dropdown-notification > li.dropdown-header:hover{
 }
 
 .bar-ext-rotate > span {
-    background-size: 10px 60px; 
+    background-size: 10px 60px;
     background-position: 0;
-    background-image: -moz-radial-gradient(center, ellipse cover, 
+    background-image: -moz-radial-gradient(center, ellipse cover,
         rgba(255,255,255,.9) 0%,
         rgba(255,255,255,.2) 20%,
         transparent 40%);
-    background-image: -webkit-gradient( radial, center center, 0, center center, 60, 
-        color-stop(0, rgba(255,255,255,.9)), 
-        color-stop(20%, rgba(255,255,255,.2)), 
+    background-image: -webkit-gradient( radial, center center, 0, center center, 60,
+        color-stop(0, rgba(255,255,255,.9)),
+        color-stop(20%, rgba(255,255,255,.2)),
         color-stop(40%, rgba(255,255,255,0)),
         color-stop(100%, rgba(255,255,255,0)));
-    background-image: -webkit-radial-gradient(center, ellipse cover, 
+    background-image: -webkit-radial-gradient(center, ellipse cover,
         rgba(255,255,255,.9) 0%,
         rgba(255,255,255,.2) 20%,
         transparent 40%);
-    background-image: -o-radial-gradient(center, ellipse cover, 
+    background-image: -o-radial-gradient(center, ellipse cover,
         rgba(255,255,255,.9) 0%,
         rgba(255,255,255,.2) 20%,
         transparent 40%);
-    background-image: -ms-radial-gradient(center, ellipse cover, 
+    background-image: -ms-radial-gradient(center, ellipse cover,
         rgba(255,255,255,.9) 0%,
         rgba(255,255,255,.2) 20%,
         transparent 40%);
-    background-image: radial-gradient(ellipse at center, 
+    background-image: radial-gradient(ellipse at center,
         rgba(255,255,255,.9) 0%,
         rgba(255,255,255,.2) 20%,
-        transparent 40%);	
+        transparent 40%);
 }
 
 .bar-ext-stuning > span {
     background-size: 13px, 29px, 37px, 53px;
-    background-image: 
-        -moz-linear-gradient(left, 
-        rgba(255,255,255,0.07) 0%, 
-        rgba(255,255,255,0.07) 50%, 
+    background-image:
+        -moz-linear-gradient(left,
+        rgba(255,255,255,0.07) 0%,
+        rgba(255,255,255,0.07) 50%,
         transparent 50%),
-        -moz-linear-gradient(left, 
-        rgba(255,255,255,0.13) 0%, 
-        rgba(255,255,255,0.13) 50%, 
+        -moz-linear-gradient(left,
+        rgba(255,255,255,0.13) 0%,
+        rgba(255,255,255,0.13) 50%,
         transparent 50%),
-        -moz-linear-gradient(left, 
-        transparent 0%, 
-        transparent 50%, 
+        -moz-linear-gradient(left,
+        transparent 0%,
+        transparent 50%,
         rgba(255,255,255,0.17) 50%),
-        -moz-linear-gradient(left, 
-        transparent 0%, 
-        transparent 50%, 
+        -moz-linear-gradient(left,
+        transparent 0%,
+        transparent 50%,
         rgba(255,255,255,0.19) 50%);
-    background-image: 
-        -webkit-linear-gradient(left, 
-        rgba(255,255,255,0.07) 0%, 
-        rgba(255,255,255,0.07) 50%, 
+    background-image:
+        -webkit-linear-gradient(left,
+        rgba(255,255,255,0.07) 0%,
+        rgba(255,255,255,0.07) 50%,
         transparent 50%),
-        -webkit-linear-gradient(left, 
-        rgba(255,255,255,0.13) 0%, 
-        rgba(255,255,255,0.13) 50%, 
+        -webkit-linear-gradient(left,
+        rgba(255,255,255,0.13) 0%,
+        rgba(255,255,255,0.13) 50%,
         transparent 50%),
-        -webkit-linear-gradient(left, 
-        transparent 0%, 
-        transparent 50%, 
+        -webkit-linear-gradient(left,
+        transparent 0%,
+        transparent 50%,
         rgba(255,255,255,0.17) 50%),
-        -webkit-linear-gradient(left, 
-        transparent 0%, 
-        transparent 50%, 
+        -webkit-linear-gradient(left,
+        transparent 0%,
+        transparent 50%,
         rgba(255,255,255,0.19) 50%);
-    background-image: 
-        -webkit-gradient(linear, left top, right top, 
-        color-stop(0%,rgba(255,255,255,.07)), 
-        color-stop(50%,rgba(255,255,255,.07)), 
+    background-image:
+        -webkit-gradient(linear, left top, right top,
+        color-stop(0%,rgba(255,255,255,.07)),
+        color-stop(50%,rgba(255,255,255,.07)),
         color-stop(50%,rgba(255,255,255,0)),
         color-stop(50%,rgba(255,255,255,0))),
-        -webkit-gradient(linear, left top, right top, 
-        color-stop(0%,rgba(255,255,255,.13)), 
-        color-stop(50%,rgba(255,255,255,.13)), 
+        -webkit-gradient(linear, left top, right top,
+        color-stop(0%,rgba(255,255,255,.13)),
+        color-stop(50%,rgba(255,255,255,.13)),
         color-stop(50%,rgba(255,255,255,0)),
         color-stop(50%,rgba(255,255,255,0))),
-        -webkit-gradient(linear, left top, right top, 
-        color-stop(0%,rgba(255,255,255,0)), 
-        color-stop(50%,rgba(255,255,255,0)), 
+        -webkit-gradient(linear, left top, right top,
+        color-stop(0%,rgba(255,255,255,0)),
+        color-stop(50%,rgba(255,255,255,0)),
         color-stop(50%,rgba(255,255,255,0.17)),
         color-stop(50%,rgba(255,255,255,0.17))),
-        -webkit-gradient(linear, left top, right top, 
-        color-stop(0%,rgba(255,255,255,0)), 
-        color-stop(50%,rgba(255,255,255,0)), 
+        -webkit-gradient(linear, left top, right top,
+        color-stop(0%,rgba(255,255,255,0)),
+        color-stop(50%,rgba(255,255,255,0)),
         color-stop(50%,rgba(255,255,255,0.19)),
         color-stop(50%,rgba(255,255,255,0.19)));
-    background-image: 
-        -o-linear-gradient(left, 
-        rgba(255,255,255,0.07) 0%, 
-        rgba(255,255,255,0.07) 50%, 
+    background-image:
+        -o-linear-gradient(left,
+        rgba(255,255,255,0.07) 0%,
+        rgba(255,255,255,0.07) 50%,
         transparent 50%),
-        -o-linear-gradient(left, 
-        rgba(255,255,255,0.13) 0%, 
-        rgba(255,255,255,0.13) 50%, 
+        -o-linear-gradient(left,
+        rgba(255,255,255,0.13) 0%,
+        rgba(255,255,255,0.13) 50%,
         transparent 50%),
-        -o-linear-gradient(left, 
-        transparent 0%, 
-        transparent 50%, 
+        -o-linear-gradient(left,
+        transparent 0%,
+        transparent 50%,
         rgba(255,255,255,0.17) 50%),
-        -o-linear-gradient(left, 
-        transparent 0%, 
-        transparent 50%, 
+        -o-linear-gradient(left,
+        transparent 0%,
+        transparent 50%,
         rgba(255,255,255,0.19) 50%);
-    background-image: 
-        -ms-linear-gradient(left, 
-        rgba(255,255,255,0.07) 0%, 
-        rgba(255,255,255,0.07) 50%, 
+    background-image:
+        -ms-linear-gradient(left,
+        rgba(255,255,255,0.07) 0%,
+        rgba(255,255,255,0.07) 50%,
         transparent 50%),
-        -ms-linear-gradient(left, 
-        rgba(255,255,255,0.13) 0%, 
-        rgba(255,255,255,0.13) 50%, 
+        -ms-linear-gradient(left,
+        rgba(255,255,255,0.13) 0%,
+        rgba(255,255,255,0.13) 50%,
         transparent 50%),
-        -ms-linear-gradient(left, 
-        transparent 0%, 
-        transparent 50%, 
+        -ms-linear-gradient(left,
+        transparent 0%,
+        transparent 50%,
         rgba(255,255,255,0.17) 50%),
-        -ms-linear-gradient(left, 
-        transparent 0%, 
-        transparent 50%, 
+        -ms-linear-gradient(left,
+        transparent 0%,
+        transparent 50%,
         rgba(255,255,255,0.19) 50%);
-    background-image: 
-        linear-gradient(to right, 
-        rgba(255,255,255,0.07) 0%, 
-        rgba(255,255,255,0.07) 50%, 
+    background-image:
+        linear-gradient(to right,
+        rgba(255,255,255,0.07) 0%,
+        rgba(255,255,255,0.07) 50%,
         transparent 50%),
-        linear-gradient(to right, 
-        rgba(255,255,255,0.13) 0%, 
-        rgba(255,255,255,0.13) 50%, 
+        linear-gradient(to right,
+        rgba(255,255,255,0.13) 0%,
+        rgba(255,255,255,0.13) 50%,
         transparent 50%),
-        linear-gradient(to right, 
-        transparent 0%, 
-        transparent 50%, 
+        linear-gradient(to right,
+        transparent 0%,
+        transparent 50%,
         rgba(255,255,255,0.17) 50%),
-        linear-gradient(to right, 
-        transparent 0%, 
-        transparent 50%, 
+        linear-gradient(to right,
+        transparent 0%,
+        transparent 50%,
         rgba(255,255,255,0.19) 50%);
 }
 .bar-ext-stuning > span > span {
@@ -1610,29 +1610,29 @@ ul.dropdown-notification > li.dropdown-header:hover{
     -webkit-border-radius:5px;
     background-size: 12px;
 
-    background-image: -moz-linear-gradient(left, 
-        rgba(255,255,255,0.1) 0%, 
-        rgba(255,255,255,0.1) 50%, 
+    background-image: -moz-linear-gradient(left,
+        rgba(255,255,255,0.1) 0%,
+        rgba(255,255,255,0.1) 50%,
         transparent 50%);
-    background-image: -webkit-gradient(linear, left top, right top, 
-        color-stop(0%,rgba(255,255,255,0.1)), 
-        color-stop(50%,rgba(255,255,255,0.1)), 
+    background-image: -webkit-gradient(linear, left top, right top,
+        color-stop(0%,rgba(255,255,255,0.1)),
+        color-stop(50%,rgba(255,255,255,0.1)),
         color-stop(50%,rgba(255,255,255,0)));
-    background-image: -webkit-linear-gradient(left, 
-        rgba(255,255,255,0.1) 0%, 
-        rgba(255,255,255,0.1) 50%, 
+    background-image: -webkit-linear-gradient(left,
+        rgba(255,255,255,0.1) 0%,
+        rgba(255,255,255,0.1) 50%,
         transparent 50%);
-    background-image: -o-linear-gradient(left, 
-        rgba(255,255,255,0.1) 0%, 
-        rgba(255,255,255,0.1) 50%, 
+    background-image: -o-linear-gradient(left,
+        rgba(255,255,255,0.1) 0%,
+        rgba(255,255,255,0.1) 50%,
         transparent 50%);
-    background-image: -ms-linear-gradient(left, 
-        rgba(255,255,255,0.1) 0%, 
-        rgba(255,255,255,0.1) 50%, 
-        transparent 50%);	
-    background-image: linear-gradient(to right, 
-        rgba(255,255,255,0.1) 0%, 
-        rgba(255,255,255,0.1) 50%, 
+    background-image: -ms-linear-gradient(left,
+        rgba(255,255,255,0.1) 0%,
+        rgba(255,255,255,0.1) 50%,
+        transparent 50%);
+    background-image: linear-gradient(to right,
+        rgba(255,255,255,0.1) 0%,
+        rgba(255,255,255,0.1) 50%,
         transparent 50%);
 }
 
@@ -1686,7 +1686,7 @@ to {
 }
 
 .bar-st > span {
-    background-color: #2E8DEF;        
+    background-color: #2E8DEF;
 }
 
 
@@ -1725,8 +1725,8 @@ to {
 }
 
 /* sliders */
-.ui-slider { 
-    position: relative; text-align: left; 
+.ui-slider {
+    position: relative; text-align: left;
     border: 1px solid #CDCDCD;
     border-radius: 2px;
     font-size: 8px;
@@ -1763,7 +1763,7 @@ to {
 
 }
 .ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: 1.2em; height: 1.2em; cursor: default; }
-.ui-slider .ui-slider-range { 
+.ui-slider .ui-slider-range {
     position: absolute; z-index: 1; font-size: .7em; display: block; border: 0; background-position: 0 0;
 
     color: #ffffff;
@@ -1801,14 +1801,14 @@ to {
     display: table;   /* Allow the centering to work */
     margin: 0 auto;
 }
-ul.a-btn-group, 
+ul.a-btn-group,
 ul.b-btn-group{
     list-style: none;
     text-align: center;
-    
+
 }
 
-ul.a-btn-group li, 
+ul.a-btn-group li,
 ul.b-btn-group li{
     display: inline-block;
     margin: 0 auto;
@@ -1856,7 +1856,7 @@ ul.b-btn-group li{
     -o-transition:all 0.3s linear;
     transition:all 0.3s linear;
 }
-.a-btn span:nth-child(1), 
+.a-btn span:nth-child(1),
 .a-btn span:nth-child(3){
     position:absolute;
     top:0px;
@@ -1877,14 +1877,14 @@ ul.b-btn-group li{
     padding: 2px 5px 2px 5px;
 }
 .a-btn:hover{
-    
+
 }
 .a-btn:hover span:nth-child(3){
     opacity:1;
     color: #999999;
 }
 .a-btn:hover span:nth-child(2){
-    opacity: 0; 
+    opacity: 0;
     -webkit-transform: scale(0);
     -moz-transform: scale(0);
     transform: scale(0);
@@ -1899,7 +1899,7 @@ ul.b-btn-group li{
     -webkit-box-shadow:0px 0px 5px 0px rgba(238, 238, 238, 0.5) inset, 0px -1px 5px 4px rgba(221, 221, 221, 0.2) inset, 0px 0px 0px 7px #F1F1F1,  0px 0px 1px 8px rgba(241, 241, 241, 0.4), 0px 0px 0px 9px #F1F1F1;
     -moz-box-shadow:0px 0px 5px 0px rgba(238, 238, 238, 0.5) inset, 0px -1px 5px 4px rgba(221, 221, 221, 0.2) inset, 0px 0px 0px 7px #F1F1F1,  0px 0px 1px 8px rgba(241, 241, 241, 0.4), 0px 0px 0px 9px #F1F1F1;
     box-shadow:0px 0px 5px 0px rgba(238, 238, 238, 0.5) inset, 0px -1px 5px 4px rgba(221, 221, 221, 0.2) inset, 0px 0px 0px 7px #F1F1F1,  0px 0px 1px 8px rgba(241, 241, 241, 0.4), 0px 0px 0px 9px #F1F1F1;
-    
+
 }
 .a-btn:active span:nth-child(3){
     color: #999999;
@@ -2171,12 +2171,12 @@ ul.b-btn-group li{
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .invoice-table{
-    margin-top: 20px; 
+    margin-top: 20px;
 }
 
 .invoice thead{
     background: #EEEEEE;
-    
+
 }
 .invoice thead tr th{
     text-align: center;
@@ -2227,11 +2227,11 @@ ul.b-btn-group li{
     position: absolute;
     top: 0px; left: 0px;
     display: table;
-    
+
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    
+
     /*Hover effect - default state*/
     opacity: 0;
     transition: all 0.5s;
@@ -2241,11 +2241,11 @@ ul.b-btn-group li{
     background: rgba(0, 0, 0, 0.5);
     font-size: 20px;
     text-align: center;
-    
+
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    
+
     /*Vertical center align*/
     display: table-cell;
     vertical-align: middle;
@@ -2518,7 +2518,7 @@ a[rel=to-top]{
     display: none;
     cursor:pointer;
     font-size: 2em;
-    
+
     -webkit-transition:all 0.3s linear;
     -moz-transition:all 0.3s linear;
     -o-transition:all 0.3s linear;
@@ -2600,7 +2600,7 @@ a[rel=to-top]:hover{
   position:fixed;
   bottom:100px;
   text-align: center;
-  right: 440px;
+  right: 400px;
   left: 0px;
   z-index: 30;
 }

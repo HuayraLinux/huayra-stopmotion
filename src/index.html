@@ -153,7 +153,7 @@
                 </div>
 
                 <!-- Capturar cuadro de animación -->
-                <div ng-hide='camara_seleccionada == 0'>
+                <div ng-show='modo_captura_con_intervalo === false' ng-hide='camara_seleccionada == 0'>
                     <button ng-show='!en_reproduccion' class='btn btn-success' ng-click='reproducir()'> <span class="icon-play icon-white"></span> Reproducir</button>
                     <button ng-show='en_reproduccion' class='btn btn-success' ng-click='detener()'> <span class="icon-stop icon-white"></span> Detener</button>
 
@@ -169,6 +169,12 @@
 
                     </div>
                 </div>
+
+                <div ng-show='modo_captura_con_intervalo === true && camara_seleccionada !== 0'>
+                    <button class='btn btn-warning' ng-click='detener_captura_con_intervalo()'> <span class="icon-stop icon-white"></span> Detener capturas</button>
+                    <span class='contador'>Capturando en {{contador_intervalo}} ...</span>
+                </div>
+
 
             </div>
 

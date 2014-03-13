@@ -12,6 +12,7 @@
       "min_height": 500,
       "width": 750,
       "height": 500,
+      "icon": "huayra-motion.png",
       "position": "center"
     }
 }
