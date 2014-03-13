@@ -2,9 +2,10 @@
     "name": "stop motion",
     "main": "index.html",
     "version": "0.1",
-    "livereload": true,
+    "livereload": false,
     "single-instance": false,
     "compartir": true,
+    "chromium-args": "--ignore-certificate-errors --enable-threaded-compositing",
     "window": {
       "toolbar": false,
       "min_width": 750,
