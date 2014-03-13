@@ -615,6 +615,10 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
             sonido.play();
         }
     }
+    
+    window.abrir_web = function(url) {
+        gui.Shell.openExternal(url);
+    }
 
 
     window.iniciar_nuevo_proyecto = function() {
