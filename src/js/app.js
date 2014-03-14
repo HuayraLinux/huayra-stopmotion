@@ -33,7 +33,7 @@ window.mostrar = function(elemento) {
 }
 
 
-app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proyecto, Menu, $timeout) {
+app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias, Proyecto, Menu, $timeout) {
     $scope.proyectos_recientes = Preferencias.data.proyectos_recientes;
 
     $scope.brillo = 50;
@@ -57,6 +57,9 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
     $scope.contador_intervalo = 0;
     $scope.modo = "html5";
 
+    Video.iniciar(function(modo) {
+        alert(modo);
+    });
 
     $scope.$watch('fps', function() {
         Proyecto.definir_fps($scope.fps);
