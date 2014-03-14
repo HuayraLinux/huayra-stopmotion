@@ -17,7 +17,8 @@ app.service('Video', function() {
             var img = document.getElementById("imagen_uvc");
 
             if (img) {
-                img.src = ruta;
+                var d = new Date();
+                img.src = ruta + "?" + d.getTime();
             }
         }
 
