@@ -23,7 +23,6 @@ function CapturadorUVC() {
         console.log("iniciando");
 
         function capturar() {
-            console.log("capturando...");
 
             exec('uvccapture -m', function(error, stdout, stderr) {
                 self.cuando_obtiene_captura('snap.jpg');
