@@ -55,10 +55,11 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.cargado = false;
     $scope.modo_captura_con_intervalo = false;
     $scope.contador_intervalo = 0;
-    $scope.modo = "html5";
+    $scope.modo = undefined;
 
     Video.iniciar(function(modo) {
-        alert(modo);
+    		$scope.modo = modo;
+        $scope.$apply();
     });
 
     $scope.$watch('fps', function() {
@@ -96,14 +97,10 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         $timeout(actualizar_temporizador, 1000);
     }
 
-
-
-
     Menu.agregar_a_ventana(ventana,
                            function(){$scope.cuando_selecciona_exportar()},
                            function(){$scope.cuando_selecciona_acerca_de()}
-                           );
-
+                          );
 
     var ModalCerrarCtrl = function($scope, $modalInstance) {
 
