@@ -14,16 +14,14 @@ app.service('Video', function() {
         var self = this;
 
         this.cuando_obtiene_captura = function(ruta) {
-            var img = document.getElementsByTagName("img")[3];
+            var img = document.getElementById("imagen_uvc");
 
             if (img) {
                 img.src = ruta;
             }
-
         }
 
         this.iniciar = function() {
-            console.log("iniciando");
 
             function capturar() {
 

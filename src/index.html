@@ -134,6 +134,7 @@
 
                                 <!-- el video capturado de la camara -->
                                 <video ng-show='camara_seleccionada == 1 && modo=="html5"' id='video' autoplay loop="true"></video>
+                                <img   ng-show='camara_seleccionada == 1 && modo=="uvc"'   id='imagen_uvc'>
 
                                 <canvas ng-show='en_reproduccion' id='previsualizado' width=640 height=480></canvas>
                             </div>
