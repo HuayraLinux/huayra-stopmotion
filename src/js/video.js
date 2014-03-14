@@ -29,7 +29,7 @@ app.service('Video', function() {
                 exec('uvccapture -m', function(error, stdout, stderr) {
                     self.cuando_obtiene_captura('snap.jpg');
                     console.log(error, stdout, stderr);
-                    setTimeout(capturar, 1000);
+                    setTimeout(capturar, 10);
                 });
             }
 

@@ -464,6 +464,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         var canvas = document.getElementById('canvas');
         var table = document.getElementById('table');
         var imagen_remota = document.getElementById('imagen_remota');
+        var imagen_uvc = document.getElementById('imagen_uvc');
 
         var size = calculateAspectRatioFit(canvas.width, canvas.height, contenedor_interno.clientWidth, contenedor_interno.clientHeight);
 
@@ -501,6 +502,11 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         imagen_remota.style.width = table.style.width;
         imagen_remota.style.height = table.style.height;
         imagen_remota.style.marginLeft = table.style.marginLeft;
+        
+        imagen_uvc.style.left = table.style.left;
+        imagen_uvc.style.width = table.style.width;
+        imagen_uvc.style.height = table.style.height;
+        imagen_uvc.style.marginLeft = table.style.marginLeft;
     }
 
     window.onresize = function() {
