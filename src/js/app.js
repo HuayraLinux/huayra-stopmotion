@@ -55,6 +55,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
     $scope.cargado = false;
     $scope.modo_captura_con_intervalo = false;
     $scope.contador_intervalo = 0;
+    $scope.modo = "html5";
 
 
     $scope.$watch('fps', function() {

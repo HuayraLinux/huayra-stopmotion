@@ -133,7 +133,7 @@
                                 <img ng-show='camara_seleccionada == 2'  id='imagen_remota'>
 
                                 <!-- el video capturado de la camara -->
-                                <video ng-show='camara_seleccionada == 1' id='video' autoplay loop="true"></video>
+                                <video ng-show='camara_seleccionada == 1 && modo=="html5"' id='video' autoplay loop="true"></video>
 
                                 <canvas ng-show='en_reproduccion' id='previsualizado' width=640 height=480></canvas>
                             </div>
