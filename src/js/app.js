@@ -412,8 +412,14 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         var canvas = document.getElementById("canvas");
         var previsualizado = document.getElementById("previsualizado");
 
-        dibujar_imagen_sobre_canvas(video, canvas);
-        dibujar_imagen_sobre_canvas(video, previsualizado);
+        if ($scope.modo === 'html5') {
+            dibujar_imagen_sobre_canvas(video, canvas);
+            dibujar_imagen_sobre_canvas(video, previsualizado);
+        } else {
+            var imagen_uvc = document.getElementById('imagen_uvc');
+            dibujar_imagen_sobre_canvas(imagen_uvc, canvas);
+            dibujar_imagen_sobre_canvas(imagen_uvc, previsualizado);
+        }
 
         // TODO: Canvas de la camara activa
         var imagen = convertCanvasToImage(canvas);
