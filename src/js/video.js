@@ -23,12 +23,13 @@ app.service('Video', function() {
         }
 
         this.iniciar = function() {
+            exec('uvcdynctrl -s "Exposure, Auto" 1', function(error, stdout, stderr) {
+                console.log("Resultado de uvcdynctrl", error, stdout, stderr);
+            });
 
             function capturar() {
-
                 exec('uvccapture -m', function(error, stdout, stderr) {
                     self.cuando_obtiene_captura('snap.jpg');
-                    console.log(error, stdout, stderr);
                     setTimeout(capturar, 10);
                 });
             }
