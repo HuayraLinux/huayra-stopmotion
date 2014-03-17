@@ -1,3 +1,9 @@
+huayra-stopmotion (0.22) unstable; urgency=low
+
+  * Cambiando la ruta al archivo de intercambio de uvccapture. 
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Mon, 17 Mar 2014 19:14:28 +0100
+
 huayra-stopmotion (0.21) unstable; urgency=low
 
   * Haciendo que funcionen los deslizadores en Tango Point.
