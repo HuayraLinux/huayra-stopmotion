@@ -5,6 +5,7 @@ app.service('Video', function() {
     var prefijo = Math.random();
     var video = document.querySelector('video');
     var exec = require('child_process').exec;
+    var capturador = undefined;
     
     /**
      * Capturador de video que se utiliza si el equipo
@@ -12,6 +13,8 @@ app.service('Video', function() {
      */
     function CapturadorUVC() {
         var self = this;
+        self.brillo = 5;
+        self.contraste = 5;
 
         this.cuando_obtiene_captura = function(ruta) {
             var img = document.getElementById("imagen_uvc");
@@ -22,13 +25,21 @@ app.service('Video', function() {
             }
         }
 
+        this.definir_brillo = function(brillo) {
+            self.brillo = Math.floor(brillo);
+        }
+
+        this.definir_contraste = function(contraste) {
+            self.contraste = Math.floor(contraste);
+        }
+
         this.iniciar = function() {
             exec('uvcdynctrl -s "Exposure, Auto" 1', function(error, stdout, stderr) {
                 console.log("Resultado de uvcdynctrl", error, stdout, stderr);
             });
 
             function capturar() {
-                exec('uvccapture -m', function(error, stdout, stderr) {
+                exec('uvccapture -m -x800 -y600 -q100 -B' + self.brillo + ' -C' + self.contraste, function(error, stdout, stderr) {
                     self.cuando_obtiene_captura('snap.jpg');
                     setTimeout(capturar, 10);
                 });
@@ -39,6 +50,18 @@ app.service('Video', function() {
 
     }
 
+    this.definir_brillo = function(brillo) {
+        if (capturador)
+            capturador.definir_brillo(brillo);
+    }
+
+    this.definir_contraste = function(contraste) {
+        if (capturador)
+            capturador.definir_contraste(contraste);
+    }
+
+
+
     this.iniciar = function(callback_respuesta) {
         
         function cuando_falla(error) {
@@ -47,7 +70,7 @@ app.service('Video', function() {
           //video.src = 'media/error_camara.webm';
           //video.play();
 
-          var capturador = new CapturadorUVC(); 
+          capturador = new CapturadorUVC(); 
           capturador.iniciar();
           callback_respuesta("uvc");
         }

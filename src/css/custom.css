@@ -84,7 +84,7 @@ footer .row {
 
 .contenedor-layers img {
     position: absolute;
-    z-index: 2;
+    z-index: 0;
     height: 100%;
     width: auto;
 }

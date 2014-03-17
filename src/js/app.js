@@ -373,6 +373,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         var contraste = "contrast(" + $scope.contraste / 50 + ") ";
         //var saturacion = "saturate(" + $scope.saturacion / 50 + ") ";
 
+        Video.definir_brillo($scope.brillo / 10);
+        Video.definir_contraste($scope.contraste / 10);
         video.style.webkitFilter = borrosidad + brillo + contraste;
         //+ saturacion;
     }
