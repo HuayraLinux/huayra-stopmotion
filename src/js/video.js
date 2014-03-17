@@ -39,8 +39,8 @@ app.service('Video', function() {
             });
 
             function capturar() {
-                exec('uvccapture -m -x800 -y600 -q100 -B' + self.brillo + ' -C' + self.contraste, function(error, stdout, stderr) {
-                    self.cuando_obtiene_captura('snap.jpg');
+                exec('uvccapture -m -o/tmp/snap.jpg -x800 -y600 -q100 -B' + self.brillo + ' -C' + self.contraste, function(error, stdout, stderr) {
+                    self.cuando_obtiene_captura('/tmp/snap.jpg');
                     setTimeout(capturar, 10);
                 });
             }
