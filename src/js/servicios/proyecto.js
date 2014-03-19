@@ -159,7 +159,9 @@ app.service('Proyecto', function(Menu) {
     this.obtener_imagenes_desde_sly = function() {
         // Retorna la ruta a cada imagen dentro del timeline de sly.
         return this.sly.items.map(function(imagen) {
-            return imagen.el.children[0].src.replace('file://', '');
+            var ruta = imagen.el.children[0].src.replace('file://', '');
+            ruta = ruta.replace('%20', ' ');
+            return ruta;
         });
     }
 
