@@ -33,7 +33,7 @@ window.mostrar = function(elemento) {
 }
 
 
-app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proyecto, Menu, $timeout) {
+app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias, Proyecto, Menu, $timeout) {
     $scope.proyectos_recientes = Preferencias.data.proyectos_recientes;
 
     $scope.brillo = 50;
@@ -55,7 +55,12 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
     $scope.cargado = false;
     $scope.modo_captura_con_intervalo = false;
     $scope.contador_intervalo = 0;
+    $scope.modo = undefined;
 
+    Video.iniciar(function(modo) {
+    		$scope.modo = modo;
+        $scope.$apply();
+    });
 
     $scope.$watch('fps', function() {
         Proyecto.definir_fps($scope.fps);
@@ -92,14 +97,10 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         $timeout(actualizar_temporizador, 1000);
     }
 
-
-
-
     Menu.agregar_a_ventana(ventana,
                            function(){$scope.cuando_selecciona_exportar()},
                            function(){$scope.cuando_selecciona_acerca_de()}
-                           );
-
+                          );
 
     var ModalCerrarCtrl = function($scope, $modalInstance) {
 
@@ -372,6 +373,8 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         var contraste = "contrast(" + $scope.contraste / 50 + ") ";
         //var saturacion = "saturate(" + $scope.saturacion / 50 + ") ";
 
+        Video.definir_brillo($scope.brillo / 10);
+        Video.definir_contraste($scope.contraste / 10);
         video.style.webkitFilter = borrosidad + brillo + contraste;
         //+ saturacion;
     }
@@ -411,8 +414,14 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         var canvas = document.getElementById("canvas");
         var previsualizado = document.getElementById("previsualizado");
 
-        dibujar_imagen_sobre_canvas(video, canvas);
-        dibujar_imagen_sobre_canvas(video, previsualizado);
+        if ($scope.modo === 'html5') {
+            dibujar_imagen_sobre_canvas(video, canvas);
+            dibujar_imagen_sobre_canvas(video, previsualizado);
+        } else {
+            var imagen_uvc = document.getElementById('imagen_uvc');
+            dibujar_imagen_sobre_canvas(imagen_uvc, canvas);
+            dibujar_imagen_sobre_canvas(imagen_uvc, previsualizado);
+        }
 
         // TODO: Canvas de la camara activa
         var imagen = convertCanvasToImage(canvas);
@@ -463,6 +472,7 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         var canvas = document.getElementById('canvas');
         var table = document.getElementById('table');
         var imagen_remota = document.getElementById('imagen_remota');
+        var imagen_uvc = document.getElementById('imagen_uvc');
 
         var size = calculateAspectRatioFit(canvas.width, canvas.height, contenedor_interno.clientWidth, contenedor_interno.clientHeight);
 
@@ -500,6 +510,11 @@ app.controller('AppCtrl', function ($scope, $modal, Paneles, Preferencias, Proye
         imagen_remota.style.width = table.style.width;
         imagen_remota.style.height = table.style.height;
         imagen_remota.style.marginLeft = table.style.marginLeft;
+        
+        imagen_uvc.style.left = table.style.left;
+        imagen_uvc.style.width = table.style.width;
+        imagen_uvc.style.height = table.style.height;
+        imagen_uvc.style.marginLeft = table.style.marginLeft;
     }
 
     window.onresize = function() {
