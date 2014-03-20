@@ -1,3 +1,15 @@
+huayra-stopmotion (0.24) unstable; urgency=low
+
+  * Arreglos menores. 
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Thu, 20 Mar 2014 17:59:13 +0100
+
+huayra-stopmotion (0.23) unstable; urgency=low
+
+  * Reparando el bug al exportar un video desde una carpeta con espacios.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 19 Mar 2014 17:05:08 +0100
+
 huayra-stopmotion (0.22) unstable; urgency=low
 
   * Cambiando la ruta al archivo de intercambio de uvccapture. 
