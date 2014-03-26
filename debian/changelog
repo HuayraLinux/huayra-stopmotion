@@ -1,3 +1,15 @@
+huayra-stopmotion (0.26) unstable; urgency=low
+
+  * Eliminando el directorio public. 
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 26 Mar 2014 19:01:45 +0100
+
+huayra-stopmotion (0.25) unstable; urgency=low
+
+  * Reparando el modo pantalla remota.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 26 Mar 2014 18:59:21 +0100
+
 huayra-stopmotion (0.24) unstable; urgency=low
 
   * Arreglos menores. 
