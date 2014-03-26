@@ -99,7 +99,7 @@
                     <ul class="sr-control-item">
 
                         <li class="active"><a ng-click="seleccionar_camara(1)" href="#" data-toggle="tab"><i class="icon-camera"></i> Cámara 1</a></li>
-                        <li ng-repeat='c in camaras'><a ng-click="seleccionar_camara(c.indice)" href="#" data-toggle="tab"><i class="icon-camera"></i> Cámara {{c.indice}}</a></li>
+                        <li ng-repeat='c in camaras'><a ng-click="seleccionar_camara(c.indice + 1)" href="#" data-toggle="tab"><i class="icon-camera"></i> Cámara {{c.indice}}</a></li>
 
                     </ul>
                 </div>
@@ -130,7 +130,7 @@
                                 <canvas ng-show='fantasma' id='canvas' width=640 height=480></canvas>
 
                                 <!-- el cuadro remoto -->
-                                <img ng-show='camara_seleccionada == 2'  id='imagen_remota'>
+                                <img ng-show='camara_seleccionada > 1'  id='imagen_remota'>
 
                                 <!-- el video capturado de la camara -->
                                 <video ng-show='camara_seleccionada == 1 && modo=="html5"' id='video' autoplay loop="true"></video>
@@ -321,7 +321,7 @@
                     <div class="control-group">
                         <label class="control-label" for="desarrollo">Compartir cámara</label>
                         <div class="controls">
-													Para compartir cámara, abrí un navegador en otra netbook y colocá
+                                                    Para compartir cámara, abrí un navegador en otra netbook y colocá
                           esta dirección: <a ng-click='abrir_pantalla_compartida_en_el_navegador()' href=''><code>http://{{host}}:{{puerto_remoto}}</code></a>
                         </div>
                     </div>

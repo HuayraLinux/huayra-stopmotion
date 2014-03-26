@@ -2,7 +2,7 @@
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
-        <title>Index</title>
+        <title>Huayra-Motion</title>
         <style type="text/css" media="all">
             body {
                 font-family: sans-serif;
@@ -46,12 +46,16 @@
 
             function convertCanvasToImage(canvas) {
                 var image = new Image();
-                image.src = canvas.toDataURL("image/png");
+                image.src = canvas.toDataURL("image/jpeg");
                 return image;
             }
 
             function iniciar_sockets_y_transmision() {
                 var socket = io.connect();
+
+                socket.on('disconnect', function() {
+                    alert("Se perdió la conexión con huayra-motion. Se re-intentará nuevamente.");
+                });
 
                 socket.on('connect', function () {
 
@@ -69,7 +73,7 @@
                     socket.on("capturaSuccess", function() {
                         // Solo cuando recibe la señal exitosa desde el servidor
                         // se asegura enviar la siguiente.
-                        setTimeout(capturar_pantalla_y_emitir, 5000);
+                        setTimeout(capturar_pantalla_y_emitir, 1000);
                     });
                 });
 

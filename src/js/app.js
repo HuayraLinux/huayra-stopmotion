@@ -58,7 +58,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.modo = undefined;
 
     Video.iniciar(function(modo) {
-    		$scope.modo = modo;
+            $scope.modo = modo;
         $scope.$apply();
     });
 
@@ -414,14 +414,21 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         var canvas = document.getElementById("canvas");
         var previsualizado = document.getElementById("previsualizado");
 
-        if ($scope.modo === 'html5') {
-            dibujar_imagen_sobre_canvas(video, canvas);
-            dibujar_imagen_sobre_canvas(video, previsualizado);
+        if ($scope.camara_seleccionada == 1) {
+            if ($scope.modo === 'html5') {
+                dibujar_imagen_sobre_canvas(video, canvas);
+                dibujar_imagen_sobre_canvas(video, previsualizado);
+            } else {
+                var imagen_uvc = document.getElementById('imagen_uvc');
+                dibujar_imagen_sobre_canvas(imagen_uvc, canvas);
+                dibujar_imagen_sobre_canvas(imagen_uvc, previsualizado);
+            }
         } else {
-            var imagen_uvc = document.getElementById('imagen_uvc');
-            dibujar_imagen_sobre_canvas(imagen_uvc, canvas);
-            dibujar_imagen_sobre_canvas(imagen_uvc, previsualizado);
+            var imagen_remota = document.getElementById('imagen_remota');
+            dibujar_imagen_sobre_canvas(imagen_remota, canvas);
+            dibujar_imagen_sobre_canvas(imagen_remota, previsualizado);
         }
+
 
         // TODO: Canvas de la camara activa
         var imagen = convertCanvasToImage(canvas);
@@ -510,7 +517,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         imagen_remota.style.width = table.style.width;
         imagen_remota.style.height = table.style.height;
         imagen_remota.style.marginLeft = table.style.marginLeft;
-        
+
         imagen_uvc.style.left = table.style.left;
         imagen_uvc.style.width = table.style.width;
         imagen_uvc.style.height = table.style.height;
@@ -630,7 +637,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
             sonido.play();
         }
     }
-    
+
     window.abrir_web = function(url) {
         gui.Shell.openExternal(url);
     }
@@ -750,6 +757,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         });
 
         var io = require("socket.io").listen(server);
+        io.set('log level', 1);
 
         io.sockets.on('connection', function (socket) {
 
@@ -762,12 +770,24 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
             $scope.$apply();
 
             socket.on('disconnect', function() {
-                alert("TODO: buscar la camara");
-                $scope.camaras.splice(0, 1);
+                var indice = -1;
+
+                console.log("Se desconecto el socket: ", socket.id);
+
+                for (var i=0; i<$scope.camaras.length; i++) {
+                    if ($scope.camaras[i].id == socket.id)
+                        indice = i;
+                }
+
+                if (indice !== -1) {
+                    $scope.camaras.splice(indice, 1);
+                }
+
                 $scope.$apply();
             });
 
             socket.on("captura", function(data) {
+                console.log("Se recibió una imagen, informando al navegador que llego correctamente", socket.id);
                 var imagen_remota = document.getElementById('imagen_remota');
 
                 var buffer = data.data;
