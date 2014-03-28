@@ -57,6 +57,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.modo_captura_con_intervalo = false;
     $scope.contador_intervalo = 0;
     $scope.modo = undefined;
+    $scope.online = true;
 
     Video.iniciar(function(modo) {
             $scope.modo = modo;
@@ -298,8 +299,14 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         $scope.en_reproduccion = false;
     }
 
-    $scope.abrir_pantalla_compartida_en_el_navegador = function() {
-        var url = 'http://' + $scope.host + ':' + $scope.puerto_remoto;
+    $scope.abrir_pantalla_compartida_en_el_navegador = function(usar_ip) {
+        var url = undefined;
+
+        if (usar_ip)
+            url = 'http://' + $scope.ip + ':' + $scope.puerto_remoto;
+        else
+            url = 'http://' + $scope.host + ':' + $scope.puerto_remoto;
+
         gui.Shell.openExternal(url);
     }
 
@@ -331,10 +338,12 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.capa_grilla_opacidad = 50;
     $scope.capa_grilla_cantidad_filas = 2;
     $scope.capa_grilla_cantidad_columnas = 2;
+    $scope.capa_dibujo = 0;
 
     $scope.deshabilitar_capas = function() {
         $scope.capa_grilla_opacidad = 0;
         $scope.fantasma_opacidad = 0;
+        $scope.capa_dibujo = 0;
     }
 
     $scope.$watch('capa_grilla_opacidad', function() {
@@ -346,6 +355,126 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         var canvas = document.getElementById('canvas');
         canvas.style.opacity = $scope.fantasma_opacidad / 100;
     });
+
+    $scope.$watch('capa_dibujo', function() {
+        var dibujo = document.getElementById('dibujo');
+        var controles = document.getElementById('controles_dibujo');
+        var nivel = $scope.capa_dibujo / 100;
+
+        var opacidad = 0;
+        var zindex = 0;
+
+        if (nivel > 0.1) {
+            opacidad = nivel;
+            zindex = 5000;
+            controles.style.opacity = 1;
+        } else {
+            controles.style.opacity = 0;
+        }
+
+
+        dibujo.style.zIndex = zindex;
+        dibujo.style.opacity = nivel;
+
+        controles.style.zIndex = zindex + 2;
+    });
+
+    $scope.definir_color = function(c) {
+        color = c;
+    }
+
+    $scope.limpiar_dibujo = function() {
+        var context = document.getElementById('dibujo').getContext("2d");
+        context.clearRect(0, 0, 640, 480);
+
+        clickX = new Array();
+        clickY = new Array();
+        clickDrag = new Array();
+        clickColor = new Array();
+    }
+
+    var clickX = new Array();
+    var clickY = new Array();
+    var clickDrag = new Array();
+    var clickColor = new Array();
+    var color = 'red';
+
+    function crear_canvas_de_dibujo() {
+        var context = document.getElementById('dibujo').getContext("2d");
+        var paint = false;
+
+        function get_pos(canvas, e) {
+            var escala = 640 / canvas.getBoundingClientRect().width;
+            var rect = canvas.getBoundingClientRect();
+            var pos = {
+                        x: (e.clientX - rect.left) * escala,
+                        y: (e.clientY - rect.top) * escala,
+                      }
+
+            return pos;
+        }
+
+
+        $('#dibujo').mousedown(function(e) {
+            var pos = get_pos(this, e);
+
+            var mouseX = pos.x;
+            var mouseY = pos.y;
+
+            paint = true;
+            addClick(pos.x, pos.y);
+            redraw();
+        });
+
+        $('#dibujo').mousemove(function(e) {
+            var pos = get_pos(this, e);
+
+            if (paint){
+                addClick(pos.x, pos.y, true);
+                redraw();
+            }
+        });
+
+        $('#dibujo').mouseup(function(e) {
+            paint = false;
+        });
+
+        $('#dibujo').mouseleave(function(e){
+              paint = false;
+        });
+
+        function addClick(x, y, dragging) {
+            clickX.push(x);
+            clickY.push(y);
+            clickDrag.push(dragging);
+            clickColor.push(color);
+        }
+
+        function redraw(){
+            context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
+
+            context.lineJoin = "round";
+            context.lineWidth = 5;
+
+            for(var i=0; i < clickX.length; i++) {
+                context.beginPath();
+
+                if (clickDrag[i] && i) {
+                    context.moveTo(clickX[i-1], clickY[i-1]);
+                } else {
+                    context.moveTo(clickX[i]-1, clickY[i]);
+                }
+
+                context.strokeStyle = clickColor[i];
+                context.lineTo(clickX[i], clickY[i]);
+                context.closePath();
+                context.stroke();
+            }
+        }
+    }
+
+    crear_canvas_de_dibujo();
+
 
     $scope.restaurar = function () {
         $scope.brillo = 50;
@@ -483,6 +612,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         var contenedor_interno = document.getElementById('contenedor_interno');
         var previsualizar = document.getElementById('previsualizado');
         var canvas = document.getElementById('canvas');
+        var dibujo = document.getElementById('dibujo');
         var table = document.getElementById('table');
         var imagen_remota = document.getElementById('imagen_remota');
         var imagen_uvc = document.getElementById('imagen_uvc');
@@ -518,6 +648,11 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         canvas.style.width = table.style.width;
         canvas.style.height = table.style.height;
         canvas.style.marginLeft = table.style.marginLeft;
+
+        dibujo.style.left = table.style.left;
+        dibujo.style.width = table.style.width;
+        dibujo.style.height = table.style.height;
+        dibujo.style.marginLeft = table.style.marginLeft;
 
         imagen_remota.style.left = table.style.left;
         imagen_remota.style.width = table.style.width;
@@ -622,9 +757,11 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     });
 
     key("x", function() {
-        Proyecto.borrar_cuadro_actual();
-        $scope.cuando_borra_cuadro();
-        $scope.$apply();
+        if (Proyecto.sly.items.length > 0) {
+            Proyecto.borrar_cuadro_actual();
+            $scope.cuando_borra_cuadro();
+            $scope.$apply();
+        }
     });
 
 
@@ -661,6 +798,9 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     window.abrir_proyecto_desde_ruta = function(archivo, ocultar_pantalla){
         /* Si hay cuadros cargados limpia todo */
         var cantidad_de_cuadros = Proyecto.sly.items.length;
+
+        if (cantidad_de_cuadros > 0)
+            $scope.sin_cuadros = false;
 
 
         for (var i=0; i<cantidad_de_cuadros; i++) {
@@ -759,6 +899,19 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
             $scope.puerto_remoto = app.get('port');
             $scope.host = os.hostname();
+            $scope.ip = "!@#!@#";
+
+            var interfaces = os.networkInterfaces();
+
+            for (var nombre in interfaces) {
+
+                for (var i=0; i<interfaces[nombre].length; i++) {
+                    var elemento = interfaces[nombre][i];
+
+                    if (elemento.family == 'IPv4' && elemento.internal == false)
+                        $scope.ip = elemento.address;
+                }
+            }
 
             // Si el hostname no dice '.local' lo agrega.
             // (esto surge en linux, en mac el hostname ya tiene '.local')
