@@ -1,3 +1,15 @@
+huayra-stopmotion (0.28) unstable; urgency=low
+
+  * Reparando el bug de la webcam con resolucion menor a 640x480.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Fri, 28 Mar 2014 18:04:47 +0100
+
+huayra-stopmotion (0.27) unstable; urgency=low
+
+  * Agregando el modo dibujado sobre la pantalla.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Fri, 28 Mar 2014 17:20:28 +0100
+
 huayra-stopmotion (0.26) unstable; urgency=low
 
   * Eliminando el directorio public. 
