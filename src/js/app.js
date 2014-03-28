@@ -543,6 +543,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     function dibujar_imagen_sobre_canvas(image, canvas) {
         var contexto = canvas.getContext('2d');
         contexto.drawImage(image, 0, 0);
+        console.log("dibuando imagen");
     }
 
     var contador_item = 0;
@@ -555,10 +556,11 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         $scope.sin_cuadros = false;
 
         // Deshabilitando temporalmente la captura de cuadros nuevos (por medio segundo).
-        if (! $scope.capturar_habilitado) {return;}
+        if (!$scope.capturar_habilitado)
+            return;
+
         $scope.capturar_habilitado = false;
         setTimeout(function() {$scope.capturar_habilitado = true;}, 500);
-
 
         contador_item += 1;
         $scope.cuadro_seleccionado = contador_item;
@@ -581,8 +583,6 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
             dibujar_imagen_sobre_canvas(imagen_remota, previsualizado);
         }
 
-
-        // TODO: Canvas de la camara activa
         var imagen = convertCanvasToImage(canvas);
 
         Proyecto.guardar_cuadro(imagen.src);
