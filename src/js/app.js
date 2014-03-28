@@ -481,6 +481,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         $scope.contraste = 50;
         $scope.borrosidad = 0;
         $scope.saturacion = 0;
+        $scope.efecto_espejado_horizontal = false;
+        $scope.efecto_espejado_vertical = false;
     }
 
     $scope.seleccionar_tab = function (numero) {
@@ -501,11 +503,24 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         var borrosidad = "blur(" + $scope.borrosidad / 10.0 + "px) ";
         var brillo = "brightness(" + $scope.brillo / 50 + ") ";
         var contraste = "contrast(" + $scope.contraste / 50 + ") ";
-        //var saturacion = "saturate(" + $scope.saturacion / 50 + ") ";
+        var espejado_vertical = " ";
+        var espejado_horizontal = " ";
 
+        if ($scope.efecto_espejado_horizontal)
+            espejado_horizontal = "rotateY(180deg) ";
+        else
+            espejado_horizontal = "rotateY(0deg) ";
+
+        if ($scope.efecto_espejado_vertical)
+            espejado_vertical = "rotateZ(180deg) ";
+        else
+            espejado_vertical = "rotateZ(0deg) ";
+
+        //var saturacion = "saturate(" + $scope.saturacion / 50 + ") ";
         Video.definir_brillo($scope.brillo / 10);
         Video.definir_contraste($scope.contraste / 10);
         video.style.webkitFilter = borrosidad + brillo + contraste;
+        video.style.webkitTransform = espejado_horizontal + espejado_vertical;
         //+ saturacion;
     }
 
@@ -513,6 +528,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.$watch('brillo', actualizar_efectos);
     $scope.$watch('contraste', actualizar_efectos);
     $scope.$watch('saturacion', actualizar_efectos);
+    $scope.$watch('efecto_espejado_vertical', actualizar_efectos);
+    $scope.$watch('efecto_espejado_horizontal', actualizar_efectos);
 
     $scope.cuadros = [
     ];
