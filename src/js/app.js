@@ -542,7 +542,12 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
     function dibujar_imagen_sobre_canvas(image, canvas) {
         var contexto = canvas.getContext('2d');
-        contexto.drawImage(image, 0, 0, 640, 480);
+
+        var escala = 640 / image.videoWidth;
+        var w = image.videoWidth * escala;
+        var h = image.videoHeight * escala;
+
+        contexto.drawImage(image, 0, 0, w, h);
     }
 
     var contador_item = 0;
