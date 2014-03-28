@@ -35,6 +35,7 @@ window.mostrar = function(elemento) {
 
 app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias, Proyecto, Menu, $timeout) {
     $scope.proyectos_recientes = Preferencias.data.proyectos_recientes;
+    $scope.sin_cuadros = true;
 
     $scope.brillo = 50;
     $scope.contraste = 50;
@@ -400,7 +401,12 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
     var contador_item = 0;
 
+    $scope.cuando_borra_cuadro = function() {
+        $scope.sin_cuadros = (Proyecto.sly.items.length === 1)
+    }
+
     $scope.capturar = function() {
+        $scope.sin_cuadros = false;
 
         // Deshabilitando temporalmente la captura de cuadros nuevos (por medio segundo).
         if (! $scope.capturar_habilitado) {return;}
@@ -616,7 +622,9 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     });
 
     key("x", function() {
-        Proyecto.sly.remove(Proyecto.sly.rel.activeItem);
+        Proyecto.borrar_cuadro_actual();
+        $scope.cuando_borra_cuadro();
+        $scope.$apply();
     });
 
 
@@ -636,6 +644,9 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
             sonido.currentTime=0;
             sonido.play();
         }
+
+        $scope.cuando_borra_cuadro();
+        $scope.$apply();
     }
 
     window.abrir_web = function(url) {
@@ -650,6 +661,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     window.abrir_proyecto_desde_ruta = function(archivo, ocultar_pantalla){
         /* Si hay cuadros cargados limpia todo */
         var cantidad_de_cuadros = Proyecto.sly.items.length;
+
 
         for (var i=0; i<cantidad_de_cuadros; i++) {
             Proyecto.sly.remove(0);
