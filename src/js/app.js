@@ -372,7 +372,6 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
             controles.style.opacity = 0;
         }
 
-
         dibujo.style.zIndex = zindex;
         dibujo.style.opacity = nivel;
 
@@ -508,14 +507,14 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         var espejado_horizontal = " ";
 
         if ($scope.efecto_espejado_horizontal)
-            espejado_horizontal = "rotateY(180deg) ";
+            espejado_horizontal = "scaleX(-1) ";
         else
-            espejado_horizontal = "rotateY(0deg) ";
+            espejado_horizontal = "scaleX(1) ";
 
         if ($scope.efecto_espejado_vertical)
-            espejado_vertical = "rotateZ(180deg) ";
+            espejado_vertical = "scaleY(-1) ";
         else
-            espejado_vertical = "rotateZ(0deg) ";
+            espejado_vertical = "scaleY(1) ";
 
         //var saturacion = "saturate(" + $scope.saturacion / 50 + ") ";
         Video.definir_brillo($scope.brillo / 10);
