@@ -451,6 +451,7 @@ table.grilla {
 
 table.grilla td {
     border: 1px solid white;
+    line-height: 1px;
 }
 
 
