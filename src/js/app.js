@@ -549,7 +549,10 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         var w = image.videoWidth * escala;
         var h = image.videoHeight * escala;
 
-        contexto.drawImage(image, 0, 0, w, h);
+        if (w > 0 && h > 0)
+            contexto.drawImage(image, 0, 0, w, h);
+        else
+            contexto.drawImage(image, 0, 0);
     }
 
     var contador_item = 0;
