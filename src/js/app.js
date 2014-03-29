@@ -503,6 +503,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         var borrosidad = "blur(" + $scope.borrosidad / 10.0 + "px) ";
         var brillo = "brightness(" + $scope.brillo / 50 + ") ";
         var contraste = "contrast(" + $scope.contraste / 50 + ") ";
+        var capa_cebolla = document.getElementById('canvas');
         var espejado_vertical = " ";
         var espejado_horizontal = " ";
 
@@ -521,6 +522,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         Video.definir_contraste($scope.contraste / 10);
         video.style.webkitFilter = borrosidad + brillo + contraste;
         video.style.webkitTransform = espejado_horizontal + espejado_vertical;
+        capa_cebolla.style.webkitTransform = espejado_horizontal + espejado_vertical;
         //+ saturacion;
     }
 
