@@ -364,9 +364,9 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         var opacidad = 0;
         var zindex = 0;
 
-        if (nivel > 0.1) {
+        if (nivel > 0) {
             opacidad = nivel;
-            zindex = 5000;
+            zindex = 2300;
             controles.style.opacity = 1;
         } else {
             controles.style.opacity = 0;
