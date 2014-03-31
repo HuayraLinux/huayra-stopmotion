@@ -364,14 +364,13 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         var opacidad = 0;
         var zindex = 0;
 
-        if (nivel > 0.1) {
+        if (nivel > 0) {
             opacidad = nivel;
-            zindex = 5000;
+            zindex = 2300;
             controles.style.opacity = 1;
         } else {
             controles.style.opacity = 0;
         }
-
 
         dibujo.style.zIndex = zindex;
         dibujo.style.opacity = nivel;
@@ -503,24 +502,26 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         var borrosidad = "blur(" + $scope.borrosidad / 10.0 + "px) ";
         var brillo = "brightness(" + $scope.brillo / 50 + ") ";
         var contraste = "contrast(" + $scope.contraste / 50 + ") ";
+        var capa_cebolla = document.getElementById('canvas');
         var espejado_vertical = " ";
         var espejado_horizontal = " ";
 
         if ($scope.efecto_espejado_horizontal)
-            espejado_horizontal = "rotateY(180deg) ";
+            espejado_horizontal = "scaleX(-1) ";
         else
-            espejado_horizontal = "rotateY(0deg) ";
+            espejado_horizontal = "scaleX(1) ";
 
         if ($scope.efecto_espejado_vertical)
-            espejado_vertical = "rotateZ(180deg) ";
+            espejado_vertical = "scaleY(-1) ";
         else
-            espejado_vertical = "rotateZ(0deg) ";
+            espejado_vertical = "scaleY(1) ";
 
         //var saturacion = "saturate(" + $scope.saturacion / 50 + ") ";
         Video.definir_brillo($scope.brillo / 10);
         Video.definir_contraste($scope.contraste / 10);
         video.style.webkitFilter = borrosidad + brillo + contraste;
         video.style.webkitTransform = espejado_horizontal + espejado_vertical;
+        capa_cebolla.style.webkitTransform = espejado_horizontal + espejado_vertical;
         //+ saturacion;
     }
 
@@ -542,7 +543,15 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
     function dibujar_imagen_sobre_canvas(image, canvas) {
         var contexto = canvas.getContext('2d');
-        contexto.drawImage(image, 0, 0, 640, 480);
+
+        var escala = 640 / image.videoWidth;
+        var w = image.videoWidth * escala;
+        var h = image.videoHeight * escala;
+
+        if (w > 0 && h > 0)
+            contexto.drawImage(image, 0, 0, w, h);
+        else
+            contexto.drawImage(image, 0, 0);
     }
 
     var contador_item = 0;
