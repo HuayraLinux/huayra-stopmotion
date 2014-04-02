@@ -1,4 +1,5 @@
 'use strict';
+window.VERSION = "0.2";
 
 window.onerror = function(e) {alert(e)};
 
@@ -58,6 +59,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.contador_intervalo = 0;
     $scope.modo = undefined;
     $scope.online = true;
+    $scope.version = window.VERSION;
 
     Video.iniciar(function(modo) {
             $scope.modo = modo;
@@ -139,7 +141,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
     });
 
-    var ModalAcercaDeCtrl = function($scope, $modalInstance) {
+    var ModalAcercaDeCtrl = function($scope, $modalInstance, version) {
+        $scope.version = window.VERSION;
         $scope.cerrar = function() {
             $modalInstance.close();
         }
@@ -262,7 +265,10 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
         var modalInstance = $modal.open({
             templateUrl: 'partials/modal_acerca_de.html',
-            controller: ModalAcercaDeCtrl
+            controller: ModalAcercaDeCtrl,
+            resolve: {
+              version: window.VERSION,
+            }
         });
 
     }
