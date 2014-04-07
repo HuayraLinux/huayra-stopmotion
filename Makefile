@@ -49,7 +49,7 @@ upload: build
 	@echo "Empaquetando para mac ..."
 	zip -r dist/huayra-stopmotion_mac.zip webkitbuilds/releases/stop\ motion/mac
 	@echo ""
-	scp dist/* digitalocean:~/dev-losersjuegos.com.ar/stopmotion
+	scp dist/* digitalocean:~/dev-losersjuegos.com.ar/descargas/huayra-motion
 
 install:
 	echo "haciendo make install..."
