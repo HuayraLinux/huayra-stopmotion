@@ -704,3 +704,9 @@ div#controles_dibujo {
     background-color: rgb(27, 37, 255);
     border: 1px solid rgb(0, 13, 168);
 }
+
+.r-version {
+  float: right;
+  margin-top: 5px;
+  color: gray;
+}
