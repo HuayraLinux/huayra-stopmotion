@@ -41,8 +41,11 @@ app.service('Proyecto', function(Menu) {
         this.es_proyecto_nuevo = true;
         this.cambios_sin_guardar = false;
         this._definir_titulo();
+        
+        if (!fs.existsSync('/tmp'))
+            fs.mkdirSync('/tmp');
 
-        fs.mkdir(this.directorio_destino);
+        fs.mkdirSync(this.directorio_destino);
     }
 
     this.abrir = function(archivo) {

@@ -3,7 +3,14 @@ var app = angular.module('app');
 var fs = require('fs');
 
 app.service('Preferencias', function() {
-    this.ruta = process.env.HOME + '/.huayra-motion';
+    var prefijo = "";
+    
+    if (process.env.HOME)
+        prefijo = process.env.HOME + "/";
+    else
+        prefijo = "";
+        
+    this.ruta = prefijo + ".huayra-motion";
     this.data = null;
 
     this.abrir = function (){
