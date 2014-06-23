@@ -59,7 +59,6 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.contador_intervalo = 0;
     $scope.modo = undefined;
     $scope.online = true;
-    $scope.version = window.VERSION;
 
     Video.iniciar(function(modo) {
             $scope.modo = modo;
@@ -141,8 +140,17 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
     });
 
-    var ModalAcercaDeCtrl = function($scope, $modalInstance, version) {
-        $scope.version = window.VERSION;
+    var ModalAcercaDeCtrl = function($scope, $modalInstance) {
+
+
+      var version = require('../version.json');
+      $scope.version += " (ver " + version.commit + " " + version.fecha + ")";
+
+      $scope.version = window.VERSION;
+      $scope.commit = version.commit.slice(0, 20) + '...';
+      $scope.fecha = version.fecha;
+      $scope.version = version.fecha.split(" ").slice(0,3).join(' ');
+
         $scope.cerrar = function() {
             $modalInstance.close();
         }
