@@ -1,3 +1,22 @@
+huayra-stopmotion (0.4) unstable; urgency=low
+
+  * Actualizando el indicador de versión.
+  * Actualizaciones generales.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Mon, 23 Jun 2014 17:33:36 +0200
+
+huayra-stopmotion (0.30) unstable; urgency=low
+
+  * Actualizando iconos y mostrando la versión. 
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Fri, 11 Apr 2014 23:32:20 +0200
+
+huayra-stopmotion (0.29) unstable; urgency=low
+
+  * Actualizando los efectos sobre el canvas.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Mon, 31 Mar 2014 20:19:57 +0200
+
 huayra-stopmotion (0.28) unstable; urgency=low
 
   * Reparando el bug de la webcam con resolucion menor a 640x480.
