@@ -143,7 +143,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     var ModalAcercaDeCtrl = function($scope, $modalInstance) {
 
 
-      var version = require('../version.json');
+      var version = require('./version.json');
       $scope.version += " (ver " + version.commit + " " + version.fecha + ")";
 
       $scope.version = window.VERSION;

@@ -1,4 +1,16 @@
-huayra-stopmotion (0.4) unstable; urgency=low
+huayra-stopmotion (0.42) unstable; urgency=low
+
+  * Arreglo menor. 
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Thu, 26 Jun 2014 15:27:30 +0200
+
+huayra-stopmotion (0.41) unstable; urgency=low
+
+  * Agregando archivo de versión.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Mon, 23 Jun 2014 20:36:18 +0200
+
+huayra-stopmotion (0.40) unstable; urgency=low
 
   * Actualizando el indicador de versión.
   * Actualizaciones generales.
