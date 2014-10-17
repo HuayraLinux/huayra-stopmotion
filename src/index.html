@@ -248,10 +248,19 @@
                         <div class="control-group">
                             <label class="control-label" for="capa_circulo_opacidad">Opacidad de la capa de cebolla</label>
                             <div class="controls">
-                                <input type='range' step="5" min="0" max="100" ng-model="fantasma_opacidad"></input>
+                                <input ng-disabled="capas_atras == 0 && capas_adelante == 0" type='range' step="5" min="0" max="100" ng-model="fantasma_opacidad"></input>
                             <span class='nota'>{{fantasma_opacidad}}</span>
                         </div>
-
+						<div class='inner-control'>
+		                    <div class="control-group">
+		                        Atrás
+		                        <input type='number' step="1" min="0" max="8" ng-model="capas_atras" id="capa_cantidad_atras"></input>
+		                        
+		                        Adelante
+		                        <input type='number' step="1" min="0" max="8" ng-model="capas_adelante" id="capa_cantidad_adelante" ></input>
+		                        
+		                    </div>
+						</div>
                     </div>
 
 

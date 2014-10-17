@@ -429,6 +429,10 @@ input[type='range']::-webkit-slider-thumb {
     width: 20px;
 }
 
+input[type="number"] {
+	width: 25px;
+}
+
 .controls {
     padding: 10px;
 }
