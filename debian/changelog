@@ -1,3 +1,9 @@
+huayra-stopmotion (0.43) unstable; urgency=low
+
+  * Incorporando libav-tools como paquete opcional a ffmpeg.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Fri, 17 Oct 2014 15:55:53 +0200
+
 huayra-stopmotion (0.42) unstable; urgency=low
 
   * Arreglo menor. 
