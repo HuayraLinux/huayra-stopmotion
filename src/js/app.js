@@ -59,7 +59,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.contador_intervalo = 0;
     $scope.modo = undefined;
     $scope.online = true;
-	$scope.capas_adelante = 0;
+	$scope.capas_adelante = 1;
 	$scope.capas_atras = 0;
 
     Video.iniciar(function(modo) {
