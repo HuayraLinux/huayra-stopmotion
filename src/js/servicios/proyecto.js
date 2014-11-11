@@ -146,8 +146,8 @@ app.service('Proyecto', function(Menu) {
 
             try {
                 if (ruta_imagen != ruta_imagen_destino) {
-                    fs.renameSync(ruta_imagen, ruta_imagen_destino);
-                    //fs.createReadStream(ruta_imagen).pipe(fs.createWriteStream(ruta_imagen_destino));
+                    //fs.renameSync(ruta_imagen, ruta_imagen_destino);
+                    fs.createReadStream(ruta_imagen).pipe(fs.createWriteStream(ruta_imagen_destino));
                 }
             } catch(err) {
                 console.log(err);
