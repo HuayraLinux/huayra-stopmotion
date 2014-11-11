@@ -141,6 +141,7 @@ app.service('Proyecto', function(Menu) {
         this.contenido_hmotion.cuadros = [];
 
         lista_a_imagenes.map(function(ruta_imagen, index) {
+            ruta_imagen = ruta_imagen.split('?')[0];
             var nombre_imagen = "imagen_" + index + ".png";
             var ruta_imagen_destino = path.join(ruta_carpeta_destino, nombre_imagen);
 
@@ -184,6 +185,7 @@ app.service('Proyecto', function(Menu) {
     this.agregar_cuadro = function(ruta_a_imagen) {
         //var position = this.sly.rel.activeItem;
         var acciones = "<div class='accion' onclick='borrar()'><i class='icon icon-trash icon-white'></i></div>";
+        ruta_a_imagen += '?nocache=' + parseInt(Math.random()* 1000 + 1000, 10);
         var image = '<li class="cargando"><img onload="mostrar(this); return false" class="img-invisible" src="' + ruta_a_imagen + '"></img>' + acciones + '</li>';
         var a = this.sly.add(image);
 
@@ -253,6 +255,7 @@ app.service('Proyecto', function(Menu) {
         fs.mkdirSync(directorio_temporal);
 
         rutas_a_imagenes_origen.map(function(ruta_imagen, index) {
+            ruta_imagen = ruta_imagen.split('?')[0];
             var nombre_imagen = index + ".png";
             var ruta_imagen_destino = path.join(directorio_temporal, nombre_imagen);
 
