@@ -1,7 +1,7 @@
 var app = angular.module('app');
 var fs = require('fs');
 
-app.service('Proyecto', function(Menu) {
+app.service('Proyecto', function(Menu, $q) {
     this.frame = null;
     this.sly = null;
     this.fps = 1;
@@ -41,7 +41,7 @@ app.service('Proyecto', function(Menu) {
         this.es_proyecto_nuevo = true;
         this.cambios_sin_guardar = false;
         this._definir_titulo();
-        
+
         if (!fs.existsSync('/tmp'))
             fs.mkdirSync('/tmp');
 
@@ -73,35 +73,20 @@ app.service('Proyecto', function(Menu) {
     }
 
     this.guardar = function(ruta_destino) {
+        var deferred = $q.defer();
         var nombre_carpeta_imagenes = path.basename(ruta_destino, '.hmotion') + ".imagenes";          /*   ejemplo:  prueba.imagenes    */
         var ruta_carpeta_imagenes = path.join(path.dirname(ruta_destino), nombre_carpeta_imagenes);   /*   ejemplo:  /home/hugo..../prueba.imagenes/ */
 
         /* Si el directorio no existe lo genera. */
         try {
-            fs.statSync(ruta_carpeta_imagenes);
+          fs.statSync(ruta_carpeta_imagenes);
         } catch(err) {
-            fs.mkdir(ruta_carpeta_imagenes);
+          try {
+            fs.mkdirSync(ruta_carpeta_imagenes);
+          } catch(err) {
+            alert("Imposible guardar el proyecto en esa carpeta.");
+          }
         }
-
-        /*
-         VERSION ANTERIOR QUE MOVIA LAS IMAGENES CON MARCA 'en_curso'
-
-        if (this.es_proyecto_nuevo) {
-            var rutas_a_imagenes_origen = this.obtener_imagenes_desde_sly();
-            this.mover_imagenes(rutas_a_imagenes_origen, ruta_carpeta_imagenes);
-        } else {
-            var rutas_a_imagenes_origen = this.obtener_imagenes_desde_sly();
-            var imagenes_en_curso = [];
-
-            rutas_a_imagenes_origen.map(function(ruta_imagen) {
-                var ruta_imagen_en_curso = ruta_imagen + "_en_curso";
-                fs.renameSync(ruta_imagen, ruta_imagen_en_curso);
-                imagenes_en_curso.push(ruta_imagen_en_curso);
-            });
-
-            this.mover_imagenes(imagenes_en_curso, ruta_carpeta_imagenes);
-        }
-        */
 
         var rutas_a_imagenes_origen = this.obtener_imagenes_desde_sly();
         this.mover_imagenes(rutas_a_imagenes_origen, ruta_carpeta_imagenes);
