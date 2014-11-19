@@ -19,18 +19,20 @@ var app = angular.module('app', ['ngAnimate', 'ui.bootstrap']);
 var ventana = gui.Window.get();
 
 
-window.mostrar = function(elemento) {
+window.mostrar = function(elemento, ruta_a_imagen) {
     /* Se ejecuta cuando la imagen del timeline está lista para ser mostrada. */
 
     setTimeout(function() {
         elemento.classList.remove('img-invisible');
         elemento.classList.add('img-visible');
+        elemento.src = ruta_a_imagen;
+
         try {
             elemento.parentElement.classList.remove('cargando');
         } catch(e) {
             console.error(e);
         }
-    }, 300);
+    }, 2000);
 }
 
 
