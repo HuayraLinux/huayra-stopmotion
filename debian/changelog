@@ -1,3 +1,19 @@
+huayra-stopmotion (0.45) unstable; urgency=low
+
+  * Resolviendo el bug que mostraba imagenes por la mitad. 
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 19 Nov 2014 17:17:20 +0100
+
+huayra-stopmotion (0.44) unstable; urgency=low
+
+  * Reparando el problema de guardado de proyectos cuando las particiones /tmp
+    y destino están en diferentes particiones.
+  * Simplificando el uso de multiples capas.
+  * Reparando el problema de cache que originaba que se vieran imágenes que ya
+    habían sido eliminadas.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 12 Nov 2014 16:18:50 +0100
+
 huayra-stopmotion (0.43) unstable; urgency=low
 
   * Incorporando libav-tools como paquete opcional a ffmpeg.
