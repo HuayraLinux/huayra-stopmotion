@@ -61,8 +61,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.contador_intervalo = 0;
     $scope.modo = undefined;
     $scope.online = true;
-	$scope.capas_adelante = 1;
-	$scope.capas_atras = 0;
+    $scope.capas_adelante = 1;
+    $scope.capas_atras = 0;
 
     Video.iniciar(function(modo) {
             $scope.modo = modo;
@@ -167,6 +167,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
         $scope.formatos = [
             {nombre: "MP4",  identificador: "mpeg4", extension: ".mp4"},
+            {nombre: "YouTube 640x480",  identificador: "libx264", extension: ".mp4"},
             {nombre: "GIF", identificador: "gif", extension: ".gif"}
         ];
 
@@ -203,9 +204,27 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
                                 var tamano = size.identificador + '%';
                                 var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
                                        .withVideoCodec(formato.identificador)
-                                       .withFpsInput(proyecto.fps)
-                                       .withFps(30)
+                                       //.withFpsInput(proyecto.fps)
+                                       .withFps(proyecto.fps)
                                        //.withSize('50x50')
+                                       .onProgress(function(data, i) {
+                                           $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                                           $scope.$apply();
+                                       })
+                                       .saveToFile(archivo, function(stdout, stderr, err){
+                                           $scope.progreso_cantidad = 100;
+                                           $scope.pagina = "finalizado";
+                                           $scope.$apply();
+                                       });
+                            break;
+
+                            case "YouTube 640x480":
+                                var tamano = size.identificador + '%';
+                                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                                       .withVideoCodec(formato.identificador)
+                                       .withFps(proyecto.fps)
+                                       .withVideoBitrate('2500k')
+                                       .withSize('640x480')
                                        .onProgress(function(data, i) {
                                            $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
                                            $scope.$apply();
