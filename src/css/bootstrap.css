@@ -27,7 +27,7 @@ video {
   display: inline-block;
   *display: inline;
   *zoom: 1;
-  
+
 }
 
 audio:not([controls]) {
@@ -3095,10 +3095,6 @@ table th[class*="span"],
 
 .fade {
   opacity: 0;
-  -webkit-transition: opacity 0.15s linear;
-     -moz-transition: opacity 0.15s linear;
-       -o-transition: opacity 0.15s linear;
-          transition: opacity 0.15s linear;
 }
 
 .fade.in {
@@ -5131,10 +5127,6 @@ input[type="submit"].btn.btn-mini {
 
 .modal.fade {
   top: -25%;
-  -webkit-transition: opacity 0.3s linear, top 0.3s ease-out;
-     -moz-transition: opacity 0.3s linear, top 0.3s ease-out;
-       -o-transition: opacity 0.3s linear, top 0.3s ease-out;
-          transition: opacity 0.3s linear, top 0.3s ease-out;
 }
 
 .modal.fade.in {
@@ -6029,4 +6021,3 @@ a.badge:hover {
 .show {
   display: block;
 }
-
