@@ -168,13 +168,19 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         $scope.formatos = [
             {nombre: "MP4",  identificador: "mpeg4", extension: ".mp4"},
             {nombre: "YouTube 640x480",  identificador: "libx264", extension: ".mp4"},
+            {nombre: "Vimeo 640x480",  identificador: "libx264", extension: ".mp4"},
+            {nombre: "WebM",  identificador: "libvpx", extension: ".webm"},
+            {nombre: "MPEG 2",  identificador: "mpeg2video", extension: ".mpg"},
+            {nombre: "XVid4",  identificador: "libxvid", extension: ".avi"},
+            {nombre: "H264 Sin Pérdida (lento)",  identificador: "libx264", extension: ".mkv"},
+            {nombre: "H264 Sin Pérdida (rápido)",  identificador: "libx264", extension: ".mkv"},
             {nombre: "GIF", identificador: "gif", extension: ".gif"}
         ];
 
         $scope.sizes = [
-            {nombre: "100%", identificador: 100},
-            {nombre: "50%",  identificador: 50},
-            {nombre: "25%",  identificador: 25}
+            {nombre: "100%", identificador: 1},
+            {nombre: "50%",  identificador: 2},
+            {nombre: "25%",  identificador: 4}
         ];
 
         $scope.formato = $scope.formatos[0];
@@ -201,12 +207,12 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
                     switch (formato.nombre) {
                             case "MP4":
-                                var tamano = size.identificador + '%';
+                                var tamano = size.identificador;
                                 var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
                                        .withVideoCodec(formato.identificador)
-                                       //.withFpsInput(proyecto.fps)
                                        .withFps(proyecto.fps)
-                                       //.withSize('50x50')
+                                       .withVideoBitrate('12000k')
+                                       .addOptions(['-vf scale=iw/' + tamano + ':-1'])
                                        .onProgress(function(data, i) {
                                            $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
                                            $scope.$apply();
@@ -235,7 +241,122 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
                                            $scope.$apply();
                                        });
                             break;
-
+                            
+                            case "Vimeo 640x480":
+                                var tamano = size.identificador + '%';
+                                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                                       .withVideoCodec(formato.identificador)
+                                       .withFps(proyecto.fps)
+                                       .withVideoBitrate('3000k')
+                                       .withSize('640x480')
+                                       .addOptions(['-flags', 'cgop'])
+                                       .onProgress(function(data, i) {
+                                           $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                                           $scope.$apply();
+                                       })
+                                       .saveToFile(archivo, function(stdout, stderr, err){
+                                           $scope.progreso_cantidad = 100;
+                                           $scope.pagina = "finalizado";
+                                           $scope.$apply();
+                                       });
+                            break;
+                            
+                            case "WebM":
+                                var tamano = size.identificador;
+                                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                                       .withVideoCodec(formato.identificador)
+                                       .withFps(proyecto.fps)
+                                       .withVideoBitrate('8000k')
+                                       .addOptions(['-vf scale=iw/' + tamano + ':-1'])
+                                       .onProgress(function(data, i) {
+                                           $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                                           $scope.$apply();
+                                       })
+                                       .saveToFile(archivo, function(stdout, stderr, err){
+                                           $scope.progreso_cantidad = 100;
+                                           $scope.pagina = "finalizado";
+                                           $scope.$apply();
+                                       });
+                            break;
+                            
+							case "MPEG 2":
+                                var tamano = size.identificador;
+                                // Si el proyecto está seteado a menos de 24fps lo llevamos ahi porque MPEG 2 solo soporta 24, 25 y 30 fps.
+                                // Cualquier valor mayor a 26 fps lo redondea solo al valor soportado mas cercano.
+                                if (proyecto.fps <= 23) { 
+									console.log('El fps del proyecto es: ' + proyecto.fps + ' y este codec no lo soporta. Configurando al mas cercano.');
+									proyecto.fps = 24;
+									console.log('Nuevo fps: ' + proyecto.fps);
+								} 
+                                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                                       .withVideoCodec(formato.identificador)
+                                       .withFps(proyecto.fps) 
+                                       .withVideoBitrate('12000k')
+                                       .addOptions(['-vf scale=iw/' + tamano + ':-1'])
+                                       .onProgress(function(data, i) {
+                                           $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                                           $scope.$apply();
+                                       })
+                                       .saveToFile(archivo, function(stdout, stderr, err){
+                                           $scope.progreso_cantidad = 100;
+                                           $scope.pagina = "finalizado";
+                                           $scope.$apply();
+                                       });
+                            break;
+                            
+							case "XVid4":
+                                var tamano = size.identificador;
+                                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                                       .withVideoCodec(formato.identificador)
+                                       .withFps(proyecto.fps)
+                                       .withVideoBitrate('8000k')
+                                       .withAspect('4:3') // A Xvid es necesario especificarle el aspecto. Por ahora fijo en 4:3 pero habría que sacar la info de la imagen.
+                                       .addOptions(['-vf scale=iw/' + tamano + ':-1', '-vtag xvid', '-pix_fmt yuv420p'])
+                                       .onProgress(function(data, i) {
+                                           $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                                           $scope.$apply();
+                                       })
+                                       .saveToFile(archivo, function(stdout, stderr, err){
+                                           $scope.progreso_cantidad = 100;
+                                           $scope.pagina = "finalizado";
+                                           $scope.$apply();
+                                       });
+                            break;
+                            
+                            case "H264 Sin Pérdida (lento)":
+                                var tamano = size.identificador;
+                                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                                       .withVideoCodec(formato.identificador)
+                                       .withFps(proyecto.fps)
+                                       .addOptions(['-vf scale=iw/' + tamano + ':-1', '-pix_fmt yuv420p', '-qp 0', '-preset veryslow'])
+                                       .onProgress(function(data, i) {
+                                           $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                                           $scope.$apply();
+                                       })
+                                       .saveToFile(archivo, function(stdout, stderr, err){
+                                           $scope.progreso_cantidad = 100;
+                                           $scope.pagina = "finalizado";
+                                           $scope.$apply();
+                                       });
+                            break;
+                            
+                            case "H264 Sin Pérdida (rápido)":
+                                var tamano = size.identificador;
+                                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                                       .withVideoCodec(formato.identificador)
+                                       .withFps(proyecto.fps)
+                                       .addOptions(['-vf scale=iw/' + tamano + ':-1', '-pix_fmt yuv420p', '-qp 0', '-preset veryslow'])
+                                       .onProgress(function(data, i) {
+                                           $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                                           $scope.$apply();
+                                       })
+                                       .saveToFile(archivo, function(stdout, stderr, err){
+                                           $scope.progreso_cantidad = 100;
+                                           $scope.pagina = "finalizado";
+                                           $scope.$apply();
+                                       });
+                            break;
+                            
                             case "GIF":
                                 $scope.progreso_cantidad = 10;
                                 var delay = Math.floor(100 / proyecto.fps);
