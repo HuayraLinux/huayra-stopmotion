@@ -44,7 +44,7 @@ app.service('Proyecto', function(Menu, $q) {
 
         if (!fs.existsSync('/tmp'))
             fs.mkdirSync('/tmp');
-
+            
         fs.mkdirSync(this.directorio_destino);
     }
 
@@ -132,7 +132,7 @@ app.service('Proyecto', function(Menu, $q) {
             var nombre_thumb = "imagen_thumb_" + index + ".png";
             var ruta_imagen_destino = path.join(ruta_carpeta_destino, nombre_imagen);
             var ruta_thumb_destino = path.join(ruta_carpeta_destino, nombre_thumb);
-
+            
             try {
                 if (ruta_imagen != ruta_imagen_destino) {
                     //fs.renameSync(ruta_imagen, ruta_imagen_destino);
@@ -223,7 +223,7 @@ app.service('Proyecto', function(Menu, $q) {
                 console.log('exec error: ' + error);
             }
         };
-
+        
         if (this.es_proyecto_nuevo) {
             var ruta_imagen = path.join(this.directorio_destino, nombre_imagen);
             var ruta_thumb = path.join(this.directorio_destino, nombre_thumb);
@@ -241,9 +241,8 @@ app.service('Proyecto', function(Menu, $q) {
                 throw err;
 
             // Convertir imagen a thumbnail.
-            var convert_imagen = 'convert -resize 160 ' + ruta_imagen + " " + ruta_thumb;
+            var convert_imagen = 'convert -resize 120 -quality 87 ' + ruta_imagen + " " + ruta_thumb;
             exec(convert_imagen, exec_log);
-
             self.agregar_cuadro(ruta_imagen, ruta_thumb);
         });
 
