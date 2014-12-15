@@ -40,8 +40,18 @@ app.service('Video', function() {
 
             function capturar() {
                 exec('uvccapture -m -o/tmp/snap.jpg -x800 -y600 -q100 -B' + self.brillo + ' -C' + self.contraste, function(error, stdout, stderr) {
-                    self.cuando_obtiene_captura('/tmp/snap.jpg');
-                    setTimeout(capturar, 10);
+                    if( error && error.code == 1 ){
+                        //alert("No es posible capturar imagenes.\nEsta la camara funcionando?");
+
+                        jQuery('.asistente, .proyectos-recientes, .mensaje-hola').fadeOut().remove();
+                        jQuery('.mensaje-oops').fadeIn();
+
+                        return;
+                    }
+                    else{
+                        self.cuando_obtiene_captura('/tmp/snap.jpg');
+                        setTimeout(capturar, 10);
+                    }
                 });
             }
 
