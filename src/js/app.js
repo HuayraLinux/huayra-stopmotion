@@ -9,6 +9,8 @@ var path = require('path');
 var ffmpeg = require('fluent-ffmpeg');
 var utils = require('./js/utils');
 var exec = require('child_process').exec;
+var nn;
+
 
 var mostrar_herramientas_de_desarrollo = function() {
     var w = gui.Window.get();
@@ -51,6 +53,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.sonido_habilitado = true;
     $scope.camaras = [];
     $scope.camara_seleccionada = 1;
+    $scope.camara_seleccionada_obj = {};
     $scope.panel_visible = true;
     $scope.puerto_remoto = "???";
     $scope.host = "";
@@ -646,11 +649,26 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         $scope.tab_seleccionado = "tab" + numero;
     }
 
-    $scope.seleccionar_camara = function (numero) {
+    $scope.seleccionar_camara = function (numero, socket_id) {
+        var indice = -1;
         if (numero)
             $scope.detener();
 
         $scope.camara_seleccionada = numero;
+
+        alert(socket_id);
+
+        if( socket_id !== undefined ){
+            for (var i=0; i<$scope.camaras.length; i++) {
+                if ($scope.camaras[i].id == socket_id){
+                    $scope.camara_seleccionada_obj = $scope.camaras[i]
+                    break;
+                }
+            }
+        }
+        else{
+            $scope.camara_seleccionada_obj = $scope.camaras[nn];
+        }
     }
 
     $scope.seleccionar_camara(1);
@@ -1135,11 +1153,17 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
             });
 
             socket.on("captura", function(data) {
-                console.log("Se recibió una imagen, informando al navegador que llego correctamente", socket.id);
+                console.log("Se recibió una imagen, informando al navegador que llego correctamente", socket.id, socket);
                 var imagen_remota = document.getElementById('imagen_remota');
 
-                var buffer = data.data;
-                imagen_remota.src = buffer;
+                console.log( $scope.camara_seleccionada_obj );
+
+                if( $scope.camara_seleccionada_obj !== undefined ){
+                    if( socket.id == $scope.camara_seleccionada_obj.id ){
+                        var buffer = data.data;
+                        imagen_remota.src = buffer;
+                    }
+                }
 
                 // Avisa que la captura llegó correctamente, así el navegador
                 // le puede enviar la siguiente captura.

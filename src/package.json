@@ -7,7 +7,7 @@
     "compartir": true,
     "chromium-args": "--ignore-certificate-errors --enable-threaded-compositing",
     "window": {
-      "toolbar": false,
+      "toolbar": true,
       "min_width": 750,
       "min_height": 500,
       "width": 750,
