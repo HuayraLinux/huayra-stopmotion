@@ -656,8 +656,6 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
         $scope.camara_seleccionada = numero;
 
-        alert(socket_id);
-
         if( socket_id !== undefined ){
             for (var i=0; i<$scope.camaras.length; i++) {
                 if ($scope.camaras[i].id == socket_id){
@@ -1155,8 +1153,6 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
             socket.on("captura", function(data) {
                 console.log("Se recibió una imagen, informando al navegador que llego correctamente", socket.id, socket);
                 var imagen_remota = document.getElementById('imagen_remota');
-
-                console.log( $scope.camara_seleccionada_obj );
 
                 if( $scope.camara_seleccionada_obj !== undefined ){
                     if( socket.id == $scope.camara_seleccionada_obj.id ){
