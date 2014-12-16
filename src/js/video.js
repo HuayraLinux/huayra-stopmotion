@@ -16,9 +16,11 @@ app.service('Video', function() {
         self.brillo = 5;
         self.contraste = 5;
 
-        this.abortar = function(){
+        this.abortar = function(msg){
             jQuery('.asistente, .proyectos-recientes, .mensaje-hola').fadeOut().remove();
-            jQuery('.mensaje-oops').fadeIn();
+            var oops = jQuery('.mensaje-oops');
+            oops.children('p').children('strong.msg').text(msg || "");
+            oops.fadeIn();
         }
 
         this.si_tenemos_camara = function(cb){
@@ -26,14 +28,14 @@ app.service('Video', function() {
 
             var resultado = exec(cmd, function(error, stdout, stderr) {
                 console.log("Resultado de si_tenemos_camara ERR", error);
-                console.log("Resultado de si_tenemos_camara STOUT", stdout);
+                console.log("Resultado de si_tenemos_camara STOUT", stdout, typeof(stdout), typeof(parseInt(stdout)), parseInt(stdout) == 0);
                 console.log("Resultado de si_tenemos_camara STERR", stderr);
-                if( parseInt(stdout) == 0 ){
-                    cb.call(this);
+                if( parseInt(stdout) == 1 ){
+                    self.abortar("esta prendida la camara?");
+                    return;
                 }
                 else{
-                    self.abortar();
-                    return;
+                    cb.call(this);
                 }
             });
         }
@@ -63,7 +65,8 @@ app.service('Video', function() {
             function capturar() {
                 exec('uvccapture -m -o/tmp/snap.jpg -x800 -y600 -q100 -B' + self.brillo + ' -C' + self.contraste, function(error, stdout, stderr) {
                     if( error && error.code == 1 ){
-                        self.abortar();
+                        console.log("Fallo al capturar", error);
+                        self.abortar("no pude capturar capturar imagenes desde la camara");
                         return;
                     }
                     else{

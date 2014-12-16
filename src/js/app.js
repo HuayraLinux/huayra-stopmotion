@@ -9,7 +9,6 @@ var path = require('path');
 var ffmpeg = require('fluent-ffmpeg');
 var utils = require('./js/utils');
 var exec = require('child_process').exec;
-var nn;
 
 
 var mostrar_herramientas_de_desarrollo = function() {
@@ -487,8 +486,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
     $scope.directorio_destino = null;
     $scope.nombre_del_proyecto = null;
-        $scope.es_proyecto_nuevo = null;
-        $scope.cambios_sin_guardar = null;
+    $scope.es_proyecto_nuevo = null;
+    $scope.cambios_sin_guardar = null;
 
 
     $scope.fantasma = true;
@@ -667,7 +666,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
             }
         }
         else{
-            $scope.camara_seleccionada_obj = $scope.camaras[nn];
+            $scope.camara_seleccionada_obj = $scope.camaras[numero];
         }
     }
 
