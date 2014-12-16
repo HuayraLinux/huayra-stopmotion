@@ -7,7 +7,9 @@ huayra-stopmotion (0.46) UNRELEASED; urgency=medium
     Vimeo).
   * Mejora en comando de miniaturas.
   [ Mauro ]
-  * 
+  * Soporta multiples camaras en red.
+  * Si no tenemos camara o la camara no funciona, nos notifica al 
+    iniciar la aplicacion.
 
  -- Mauro <mauro@sdf.org>  Fri, 12 Dec 2014 16:44:49 -0300
 

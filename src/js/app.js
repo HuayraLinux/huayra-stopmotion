@@ -107,10 +107,12 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         $timeout(actualizar_temporizador, 1000);
     }
 
-    Menu.agregar_a_ventana(ventana,
-                           function(){$scope.cuando_selecciona_exportar()},
-                           function(){$scope.cuando_selecciona_acerca_de()}
-                          );
+    if( gui.Window.get().menu === undefined ){
+        Menu.agregar_a_ventana(ventana,
+                               function(){$scope.cuando_selecciona_exportar()},
+                               function(){$scope.cuando_selecciona_acerca_de()}
+                              );
+    }
 
     var ModalCerrarCtrl = function($scope, $modalInstance) {
 
