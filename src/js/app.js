@@ -884,7 +884,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         startAt: 0,
         scrollBar: $wrap.find('.scrollbar'),
         scrollBy: 1,
-        pagesBar: $wrap.find('.pages'),
+        pagesBar: null, //$wrap.find('.pages'),
         activatePageOn: 'click',
         speed: 300,
         elasticBounds: 1,

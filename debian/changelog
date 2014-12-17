@@ -13,6 +13,7 @@ huayra-stopmotion (0.46) UNRELEASED; urgency=medium
   * Si no podemos capturar imagenes, tambien nos notifica.
   * Agrande un poquito la resolucion de la aplicacion porque no se
     lograban ver algunos botones.
+  * Escondo el paginador ya que no seria tan necesario.
 
  -- Mauro <mauro@sdf.org>  Fri, 12 Dec 2014 16:44:49 -0300
 
