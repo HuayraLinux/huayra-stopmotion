@@ -182,15 +182,16 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         ];
 
         $scope.sizes = [
-            {nombre: "100%", identificador: 1},
-            {nombre: "50%",  identificador: 2},
-            {nombre: "25%",  identificador: 4}
+            {nombre: "100%", identificador: 1, escala_gif: 100},
+            {nombre: "50%",  identificador: 2, escala_gif: 50},
+            {nombre: "25%",  identificador: 4, escala_gif: 25}
         ];
 
         $scope.formato = $scope.formatos[0];
         $scope.size = $scope.sizes[0];
 
         $scope.exportar_video = function(proyecto, formato, size) {
+
             var dialogo_exportar = document.getElementById('dialogo-exportar');
 
             function abrir_dialogo_exportar(proyecto, formato) {
@@ -366,7 +367,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
                                 var delay = Math.floor(100 / proyecto.fps);
                                 var ruta_archivos = proyecto.obtener_imagenes_desde_sly().map(function (e) {return e.substring(0, e.indexOf('?'))});
                                 var archivos = ruta_archivos.join(" ");
-                                var comando = 'convert -delay ' + delay + ' -loop 0 -resize "' + size.identificador + '%" ' + archivos + ' ' + archivo;
+                                var comando = 'convert -delay ' + delay + ' -loop 0 -resize "' + size.escala_gif + '%" ' + archivos + ' ' + archivo;
 
                                 exec(comando, function(error, stdout, stderr) {
                                     $scope.progreso_cantidad = 100;
