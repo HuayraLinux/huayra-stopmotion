@@ -364,7 +364,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
                             case "GIF":
                                 $scope.progreso_cantidad = 10;
                                 var delay = Math.floor(100 / proyecto.fps);
-                                var archivos = proyecto.obtener_imagenes_desde_sly().join(" ");
+                                var ruta_archivos = proyecto.obtener_imagenes_desde_sly().map(function (e) {return e.substring(0, e.indexOf('?'))});
+                                var archivos = ruta_archivos.join(" ");
                                 var comando = 'convert -delay ' + delay + ' -loop 0 -resize "' + size.identificador + '%" ' + archivos + ' ' + archivo;
 
                                 exec(comando, function(error, stdout, stderr) {
@@ -372,8 +373,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
                                     $scope.pagina = "finalizado";
                                     $scope.$apply();
 
-                                    //console.log('stdout: ' + stdout);
-                                    //console.log('stderr: ' + stderr);
+                                    console.log('stdout: ' + stdout);
+                                    console.log('stderr: ' + stderr);
 
                                     if (error !== null) {
                                         alert(error);
