@@ -174,7 +174,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
             {nombre: "YouTube 640x480",  identificador: "libx264", extension: ".mp4"},
             {nombre: "Vimeo 640x480",  identificador: "libx264", extension: ".mp4"},
             {nombre: "WebM",  identificador: "libvpx", extension: ".webm"},
-            {nombre: "MPEG 2",  identificador: "mpeg2video", extension: ".mpg"},
+            //{nombre: "MPEG 2",  identificador: "mpeg2video", extension: ".mpg"},
             {nombre: "XVid4",  identificador: "libxvid", extension: ".avi"},
             {nombre: "H264 Sin Pérdida (lento)",  identificador: "libx264", extension: ".mkv"},
             {nombre: "H264 Sin Pérdida (rápido)",  identificador: "libx264", extension: ".mkv"},
