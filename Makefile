@@ -83,3 +83,5 @@ ver_sync:
 	git push
 	git push --all
 	git push --tags
+
+.PHONY: changelog

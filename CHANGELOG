@@ -1,6 +1,20 @@
 Changelog
 =========
 
+%%version%% (unreleased)
+------------------------
+
+- Release 0.4.11. [Hugo Ruscitti]
+
+0.4.11 (2015-01-05)
+-------------------
+
+- Agregando un notificador de versión. [Hugo Ruscitti]
+
+- Actualizando changelog. [Hugo Ruscitti]
+
+- Release 0.4.10. [Hugo Ruscitti]
+
 0.4.10 (2015-01-05)
 -------------------
 
