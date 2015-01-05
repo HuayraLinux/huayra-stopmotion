@@ -1,0 +1,22 @@
+.zippy {
+}
+.zippy.opened > .title:before { content: '▼ '; }
+.zippy.opened > .body { display: block; }
+.zippy.closed > .title:before { content: '► '; }
+.zippy.closed > .body { display: none; }
+
+.zippy > .title {
+  cursor: pointer;
+  width: '100%';
+}
+
+.zippy > .body {
+}
+
+.zippy-body {
+    margin: 10px;
+    border: 1px solid rgb(216, 216, 216);
+    background-color: rgb(247, 247, 247);
+    padding: 10px;
+    border-radius: 10px;
+}

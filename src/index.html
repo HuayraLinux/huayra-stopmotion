@@ -15,20 +15,29 @@
         <link href="css/animate.css" rel="stylesheet" />
         <link href="css/uniform.default.css" rel="stylesheet" />
         <link href="css/custom.css" rel="stylesheet" />
+
+        <link href="css/directives/huayra-version.css" rel="stylesheet" />
+        <link href="css/directives/zippy.css" rel="stylesheet" />
     </head>
 
     <body ng-controller='AppCtrl'>
+
         <!-- CUADROS DE DIALOGO PARA ABRIR Y GUARDAR PROYECTOS -->
         <input style="display:none;" id="open-dialog" type="file" accept=".hmotion"/>
         <input style="display:none;" id="save-dialog" type="file" nwsaveas="proyecto.hmotion" accept=".hmotion"/>
 
         <input style="display:none;" id="dialogo-exportar" type="file" nwsaveas="proyecto.mpg" accept=".mpg"/>
 
+
         <!-- PANEL INICIAL -->
         <div class='panel-inicial'>
+            <!-- INDICACIÓN DE VERSIÓN -->
+            <huayra-version></huayra-version>
+
             <p>
                 <img src="images/logo.png" alt="">
             </p>
+
             <p class="mensaje-hola">
                 Hola, bienvenido a huayra-motion.
             </p>
@@ -263,10 +272,10 @@
 		                    <div class="control-group">
 		                        Atrás
 		                        <input type='number' disabled step="1" min="0" max="8" ng-model="capas_atras" id="capa_cantidad_atras"></input>
-		                        
+
 		                        Adelante
 		                        <input type='number' disabled step="1" min="0" max="8" ng-model="capas_adelante" id="capa_cantidad_adelante" ></input>
-		                        
+
 		                    </div>
 						</div>
                     </div>
@@ -430,9 +439,14 @@
 <script src='bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js'></script>
 <script src="js/keymaster.js"></script>
 <script src="js/app.js"></script>
+
 <script src="js/servicios/paneles.js"></script>
 <script src="js/servicios/proyecto.js"></script>
 <script src="js/servicios/menu.js"></script>
+
+<script src="js/directives/huayra-version.js"></script>
+<script src="js/directives/zippy.js"></script>
+
 <script src="js/preferencias.js"></script>
 <script src="js/filters.js"></script>
 <script src="js/video.js"></script>
