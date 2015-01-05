@@ -1,15 +1,31 @@
-all:
-	@echo "init           Instala todas las dependencias necesarias."
-	@echo "test           Prueba la aplicación usando nodewebkit."
-	@echo "test_mac       Prueba la aplicacion usando nodewebkit en mac osx."
-	@echo "instalar       Instala node webkit para linux."
-	@echo "instalar_mac   Instala node webkit para mac osx."
-	@echo "build          Genera las versiones compiladas."
-	@echo "upload         Genera las versiones compiladas y las sube a la web."
+VERSION=0.4.9
 
+N=[0m
+V=[01;32m
+A=[01;33m
+
+all:
+	@echo ""
+	@echo "Comando disponibles"
+	@echo ""
+	@echo "  $(A)De uso para desarrollo: $(N)"
+	@echo ""
+	@echo "   $(V)init$(N)           Instala todas las dependencias necesarias."
+	@echo "   $(V)test_linux$(N)     Prueba la aplicacion usando nodewebkit en linux."
+	@echo "   $(V)test_mac$(N)       Prueba la aplicacion usando nodewebkit en osx."
+	@echo ""
+	@echo "  $(A)Solo para publicar: $(N)"
+	@echo ""
+	@echo "   $(V)version$(N)        Genera la informacion de versión actualizada."
+	@echo "   $(V)ver_sync$(N)       Sube la nueva version al servidor."
+	@echo "   $(V)build$(N)          Genera las versiones compiladas."
+	@echo "   $(V)upload$(N)         Genera las versiones compiladas y las sube a la web."
+	@echo ""
 
 init:
 	npm install
+	sudo pip install bumpversion
+	sudo pip install gitchangelog
 	cd ./src/; bower install
 
 
@@ -22,17 +38,8 @@ test_mac:
 	@echo "Cuidado - se está usando la version de nodewebkit del sistema."
 	open -a /Applications/node-webkit.app src
 
-test_npm:
-	@echo "Iniciando node webkit..."
-	npm test
-
-instalar:
-	cd dist; wget https://s3.amazonaws.com/node-webkit/v0.7.3/node-webkit-v0.7.3-linux-ia32.tar.gz
-	cd dist; tar xf node-webkit-v0.7.3-linux-ia32.tar.gz 
-
-instalar_mac:
-	cd dist; wget https://s3.amazonaws.com/node-webkit/v0.7.5/node-webkit-v0.7.5-osx-ia32.zip
-	cd dist; unzip -d ./ node-webkit-v0.7.5-osx-ia32.zip
+test_linux:
+	nw src
 
 upload: build
 	@mkdir -p dist
@@ -56,3 +63,23 @@ install:
 
 clean:
 	echo "haciendo make clean...."
+
+
+version:
+	# patch || minor
+	@bumpversion patch --list --current-version ${VERSION} Makefile
+	@echo "Es recomendable escribir el comando que genera los tags y sube todo a github:"
+	@echo ""
+	@echo "make ver_sync"
+
+changelog:
+	gitchangelog > CHANGELOG
+
+ver_sync:
+	git tag '${VERSION}'
+	make changelog
+	python extras/generar_changelog_json.py
+	git commit -am 'release ${VERSION}'
+	git push
+	git push --all
+	git push --tags
