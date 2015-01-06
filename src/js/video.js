@@ -16,6 +16,30 @@ app.service('Video', function() {
         self.brillo = 5;
         self.contraste = 5;
 
+        this.abortar = function(msg){
+            jQuery('.asistente, .proyectos-recientes, .mensaje-hola').fadeOut().remove();
+            var oops = jQuery('.mensaje-oops');
+            oops.children('p').children('strong.msg').text(msg || "");
+            oops.fadeIn();
+        }
+
+        this.si_tenemos_camara = function(cb){
+            var cmd = 'LANG=C uvcdynctrl -l|grep "No devices found." > /dev/null 2>&1 && echo 1 || echo 0';
+
+            var resultado = exec(cmd, function(error, stdout, stderr) {
+                console.log("Resultado de si_tenemos_camara ERR", error);
+                console.log("Resultado de si_tenemos_camara STOUT", stdout, typeof(stdout), typeof(parseInt(stdout)), parseInt(stdout) == 0);
+                console.log("Resultado de si_tenemos_camara STERR", stderr);
+                if( parseInt(stdout) == 1 ){
+                    self.abortar("esta prendida la camara?");
+                    return;
+                }
+                else{
+                    cb.call(this);
+                }
+            });
+        }
+
         this.cuando_obtiene_captura = function(ruta) {
             var img = document.getElementById("imagen_uvc");
 
@@ -40,8 +64,15 @@ app.service('Video', function() {
 
             function capturar() {
                 exec('uvccapture -m -o/tmp/snap.jpg -x800 -y600 -q100 -B' + self.brillo + ' -C' + self.contraste, function(error, stdout, stderr) {
-                    self.cuando_obtiene_captura('/tmp/snap.jpg');
-                    setTimeout(capturar, 10);
+                    if( error && error.code == 1 ){
+                        console.log("Fallo al capturar", error);
+                        self.abortar("no pude capturar capturar imagenes desde la camara");
+                        return;
+                    }
+                    else{
+                        self.cuando_obtiene_captura('/tmp/snap.jpg');
+                        setTimeout(capturar, 10);
+                    }
                 });
             }
 
@@ -70,8 +101,9 @@ app.service('Video', function() {
           //video.src = 'media/error_camara.webm';
           //video.play();
 
-          capturador = new CapturadorUVC(); 
-          capturador.iniciar();
+          capturador = new CapturadorUVC();
+          capturador.si_tenemos_camara(capturador.iniciar)
+          //capturador.iniciar();
           callback_respuesta("uvc");
         }
 

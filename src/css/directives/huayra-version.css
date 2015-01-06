@@ -1,0 +1,38 @@
+.huayra-version {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: small;
+  color: gray;
+}
+
+.fecha {
+  color: gray;
+  margin-left: 20px;
+}
+
+.huayra-version-background {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.huayra-version-changelog {
+  font-size: small;
+
+  text-align: left;
+  position: absolute;
+  box-shadow: 0 0 10px;
+  overflow: scroll;
+  padding: 15px;
+  border: 1px solid gray;
+  background-color: white;
+
+  right: 20px;
+  top: 35px;
+  bottom: 120px;
+  width: 400px;
+}

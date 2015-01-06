@@ -10,4 +10,4 @@ node_modules/async/* usr/share/huayra-stopmotion/node_modules/async
 node_modules/camelot/* usr/share/huayra-stopmotion/node_modules/camelot
 debian/huayra-motion.desktop /usr/share/applications
 debian/huayra-motion.svg /usr/share/icons/hicolor/scalable/apps
-
+debian/text-hmotion.svg /usr/share/icons/hicolor/scalable/mimetypes

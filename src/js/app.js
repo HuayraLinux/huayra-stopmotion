@@ -10,6 +10,7 @@ var ffmpeg = require('fluent-ffmpeg');
 var utils = require('./js/utils');
 var exec = require('child_process').exec;
 
+
 var mostrar_herramientas_de_desarrollo = function() {
     var w = gui.Window.get();
     w.showDevTools();
@@ -51,6 +52,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.sonido_habilitado = true;
     $scope.camaras = [];
     $scope.camara_seleccionada = 1;
+    $scope.camara_seleccionada_obj = {};
     $scope.panel_visible = true;
     $scope.puerto_remoto = "???";
     $scope.host = "";
@@ -104,10 +106,12 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         $timeout(actualizar_temporizador, 1000);
     }
 
-    Menu.agregar_a_ventana(ventana,
-                           function(){$scope.cuando_selecciona_exportar()},
-                           function(){$scope.cuando_selecciona_acerca_de()}
-                          );
+    if( gui.Window.get().menu === undefined ){
+        Menu.agregar_a_ventana(ventana,
+                               function(){$scope.cuando_selecciona_exportar()},
+                               function(){$scope.cuando_selecciona_acerca_de()}
+                              );
+    }
 
     var ModalCerrarCtrl = function($scope, $modalInstance) {
 
@@ -168,19 +172,26 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         $scope.formatos = [
             {nombre: "MP4",  identificador: "mpeg4", extension: ".mp4"},
             {nombre: "YouTube 640x480",  identificador: "libx264", extension: ".mp4"},
+            {nombre: "Vimeo 640x480",  identificador: "libx264", extension: ".mp4"},
+            {nombre: "WebM",  identificador: "libvpx", extension: ".webm"},
+            //{nombre: "MPEG 2",  identificador: "mpeg2video", extension: ".mpg"},
+            {nombre: "XVid4",  identificador: "libxvid", extension: ".avi"},
+            {nombre: "H264 Sin Pérdida (lento)",  identificador: "libx264", extension: ".mkv"},
+            {nombre: "H264 Sin Pérdida (rápido)",  identificador: "libx264", extension: ".mkv"},
             {nombre: "GIF", identificador: "gif", extension: ".gif"}
         ];
 
         $scope.sizes = [
-            {nombre: "100%", identificador: 100},
-            {nombre: "50%",  identificador: 50},
-            {nombre: "25%",  identificador: 25}
+            {nombre: "100%", identificador: 1, escala_gif: 100},
+            {nombre: "50%",  identificador: 2, escala_gif: 50},
+            {nombre: "25%",  identificador: 4, escala_gif: 25}
         ];
 
         $scope.formato = $scope.formatos[0];
         $scope.size = $scope.sizes[0];
 
         $scope.exportar_video = function(proyecto, formato, size) {
+
             var dialogo_exportar = document.getElementById('dialogo-exportar');
 
             function abrir_dialogo_exportar(proyecto, formato) {
@@ -201,12 +212,12 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
                     switch (formato.nombre) {
                             case "MP4":
-                                var tamano = size.identificador + '%';
+                                var tamano = size.identificador;
                                 var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
                                        .withVideoCodec(formato.identificador)
-                                       //.withFpsInput(proyecto.fps)
                                        .withFps(proyecto.fps)
-                                       //.withSize('50x50')
+                                       .withVideoBitrate('12000k')
+                                       .addOptions(['-vf scale=iw/' + tamano + ':-1'])
                                        .onProgress(function(data, i) {
                                            $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
                                            $scope.$apply();
@@ -235,20 +246,136 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
                                            $scope.$apply();
                                        });
                             break;
-
+                            
+                            case "Vimeo 640x480":
+                                var tamano = size.identificador + '%';
+                                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                                       .withVideoCodec(formato.identificador)
+                                       .withFps(proyecto.fps)
+                                       .withVideoBitrate('3000k')
+                                       .withSize('640x480')
+                                       .addOptions(['-flags', 'cgop'])
+                                       .onProgress(function(data, i) {
+                                           $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                                           $scope.$apply();
+                                       })
+                                       .saveToFile(archivo, function(stdout, stderr, err){
+                                           $scope.progreso_cantidad = 100;
+                                           $scope.pagina = "finalizado";
+                                           $scope.$apply();
+                                       });
+                            break;
+                            
+                            case "WebM":
+                                var tamano = size.identificador;
+                                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                                       .withVideoCodec(formato.identificador)
+                                       .withFps(proyecto.fps)
+                                       .withVideoBitrate('8000k')
+                                       .addOptions(['-vf scale=iw/' + tamano + ':-1'])
+                                       .onProgress(function(data, i) {
+                                           $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                                           $scope.$apply();
+                                       })
+                                       .saveToFile(archivo, function(stdout, stderr, err){
+                                           $scope.progreso_cantidad = 100;
+                                           $scope.pagina = "finalizado";
+                                           $scope.$apply();
+                                       });
+                            break;
+                            
+							case "MPEG 2":
+                                var tamano = size.identificador;
+                                // Si el proyecto está seteado a menos de 24fps lo llevamos ahi porque MPEG 2 solo soporta 24, 25 y 30 fps.
+                                // Cualquier valor mayor a 26 fps lo redondea solo al valor soportado mas cercano.
+                                if (proyecto.fps <= 23) { 
+									console.log('El fps del proyecto es: ' + proyecto.fps + ' y este codec no lo soporta. Configurando al mas cercano.');
+									proyecto.fps = 24;
+									console.log('Nuevo fps: ' + proyecto.fps);
+								} 
+                                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                                       .withVideoCodec(formato.identificador)
+                                       .withFps(proyecto.fps) 
+                                       .withVideoBitrate('12000k')
+                                       .addOptions(['-vf scale=iw/' + tamano + ':-1'])
+                                       .onProgress(function(data, i) {
+                                           $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                                           $scope.$apply();
+                                       })
+                                       .saveToFile(archivo, function(stdout, stderr, err){
+                                           $scope.progreso_cantidad = 100;
+                                           $scope.pagina = "finalizado";
+                                           $scope.$apply();
+                                       });
+                            break;
+                            
+							case "XVid4":
+                                var tamano = size.identificador;
+                                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                                       .withVideoCodec(formato.identificador)
+                                       .withFps(proyecto.fps)
+                                       .withVideoBitrate('8000k')
+                                       .withAspect('4:3') // A Xvid es necesario especificarle el aspecto. Por ahora fijo en 4:3 pero habría que sacar la info de la imagen.
+                                       .addOptions(['-vf scale=iw/' + tamano + ':-1', '-vtag xvid', '-pix_fmt yuv420p'])
+                                       .onProgress(function(data, i) {
+                                           $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                                           $scope.$apply();
+                                       })
+                                       .saveToFile(archivo, function(stdout, stderr, err){
+                                           $scope.progreso_cantidad = 100;
+                                           $scope.pagina = "finalizado";
+                                           $scope.$apply();
+                                       });
+                            break;
+                            
+                            case "H264 Sin Pérdida (lento)":
+                                var tamano = size.identificador;
+                                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                                       .withVideoCodec(formato.identificador)
+                                       .withFps(proyecto.fps)
+                                       .addOptions(['-vf scale=iw/' + tamano + ':-1', '-pix_fmt yuv420p', '-qp 0', '-preset veryslow'])
+                                       .onProgress(function(data, i) {
+                                           $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                                           $scope.$apply();
+                                       })
+                                       .saveToFile(archivo, function(stdout, stderr, err){
+                                           $scope.progreso_cantidad = 100;
+                                           $scope.pagina = "finalizado";
+                                           $scope.$apply();
+                                       });
+                            break;
+                            
+                            case "H264 Sin Pérdida (rápido)":
+                                var tamano = size.identificador;
+                                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                                       .withVideoCodec(formato.identificador)
+                                       .withFps(proyecto.fps)
+                                       .addOptions(['-vf scale=iw/' + tamano + ':-1', '-pix_fmt yuv420p', '-qp 0', '-preset veryslow'])
+                                       .onProgress(function(data, i) {
+                                           $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                                           $scope.$apply();
+                                       })
+                                       .saveToFile(archivo, function(stdout, stderr, err){
+                                           $scope.progreso_cantidad = 100;
+                                           $scope.pagina = "finalizado";
+                                           $scope.$apply();
+                                       });
+                            break;
+                            
                             case "GIF":
                                 $scope.progreso_cantidad = 10;
                                 var delay = Math.floor(100 / proyecto.fps);
-                                var archivos = proyecto.obtener_imagenes_desde_sly().join(" ");
-                                var comando = 'convert -delay ' + delay + ' -loop 0 -resize "' + size.identificador + '%" ' + archivos + ' ' + archivo;
+                                var ruta_archivos = proyecto.obtener_imagenes_desde_sly().map(function (e) {return e.substring(0, e.indexOf('?'))});
+                                var archivos = ruta_archivos.join(" ");
+                                var comando = 'convert -delay ' + delay + ' -loop 0 -resize "' + size.escala_gif + '%" ' + archivos + ' ' + archivo;
 
                                 exec(comando, function(error, stdout, stderr) {
                                     $scope.progreso_cantidad = 100;
                                     $scope.pagina = "finalizado";
                                     $scope.$apply();
 
-                                    //console.log('stdout: ' + stdout);
-                                    //console.log('stderr: ' + stderr);
+                                    console.log('stdout: ' + stdout);
+                                    console.log('stderr: ' + stderr);
 
                                     if (error !== null) {
                                         alert(error);
@@ -361,8 +488,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
     $scope.directorio_destino = null;
     $scope.nombre_del_proyecto = null;
-        $scope.es_proyecto_nuevo = null;
-        $scope.cambios_sin_guardar = null;
+    $scope.es_proyecto_nuevo = null;
+    $scope.cambios_sin_guardar = null;
 
 
     $scope.fantasma = true;
@@ -525,11 +652,24 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         $scope.tab_seleccionado = "tab" + numero;
     }
 
-    $scope.seleccionar_camara = function (numero) {
+    $scope.seleccionar_camara = function (numero, socket_id) {
+        var indice = -1;
         if (numero)
             $scope.detener();
 
         $scope.camara_seleccionada = numero;
+
+        if( socket_id !== undefined ){
+            for (var i=0; i<$scope.camaras.length; i++) {
+                if ($scope.camaras[i].id == socket_id){
+                    $scope.camara_seleccionada_obj = $scope.camaras[i]
+                    break;
+                }
+            }
+        }
+        else{
+            $scope.camara_seleccionada_obj = $scope.camaras[numero];
+        }
     }
 
     $scope.seleccionar_camara(1);
@@ -746,7 +886,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         startAt: 0,
         scrollBar: $wrap.find('.scrollbar'),
         scrollBy: 1,
-        pagesBar: $wrap.find('.pages'),
+        pagesBar: null, //$wrap.find('.pages'),
         activatePageOn: 'click',
         speed: 300,
         elasticBounds: 1,
@@ -1014,11 +1154,15 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
             });
 
             socket.on("captura", function(data) {
-                console.log("Se recibió una imagen, informando al navegador que llego correctamente", socket.id);
+                console.log("Se recibió una imagen, informando al navegador que llego correctamente", socket.id, socket);
                 var imagen_remota = document.getElementById('imagen_remota');
 
-                var buffer = data.data;
-                imagen_remota.src = buffer;
+                if( $scope.camara_seleccionada_obj !== undefined ){
+                    if( socket.id == $scope.camara_seleccionada_obj.id ){
+                        var buffer = data.data;
+                        imagen_remota.src = buffer;
+                    }
+                }
 
                 // Avisa que la captura llegó correctamente, así el navegador
                 // le puede enviar la siguiente captura.

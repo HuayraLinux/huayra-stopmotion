@@ -1,3 +1,22 @@
+huayra-stopmotion (0.46) UNRELEASED; urgency=medium
+
+  [ Ivan Hoffmann ]
+  * Nuevos presets de exportación de video: Vimeo 640x480, WebM, MPEG 2,
+    XVid4, H264 Sin Pérdida (lento y rápido).
+  * Implementación de la opción de escala al exportar (excepto YouTube y
+    Vimeo).
+  * Mejora en comando de miniaturas.
+  [ Mauro ]
+  * Soporta multiples camaras en red.
+  * Si no tenemos camara o la camara no funciona, nos notifica al 
+    iniciar la aplicacion.
+  * Si no podemos capturar imagenes, tambien nos notifica.
+  * Agrande un poquito la resolucion de la aplicacion porque no se
+    lograban ver algunos botones.
+  * Escondo el paginador ya que no seria tan necesario.
+
+ -- Mauro <mauro@sdf.org>  Fri, 12 Dec 2014 16:44:49 -0300
+
 huayra-stopmotion (0.45) unstable; urgency=low
 
   * Resolviendo el bug que mostraba imagenes por la mitad. 

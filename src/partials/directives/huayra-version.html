@@ -1,0 +1,32 @@
+<div class='huayra-version'>
+   <a href='#' ng-click='show_changelog()'>versión: {{data.version}}</a>
+</div>
+
+<div ng-show='data.changelog_visible'>
+
+  <div class='huayra-version-background' ng-click='hide_changelog()'>
+  </div>
+
+  <div class='huayra-version-changelog'>
+
+    <h4><i class="icon icon-tag"></i> Historial de versiones</h4>
+
+    <p>Pulsá en alguna de las versiones para ver el
+      detalle de los cambios:</p>
+
+    <div ng-repeat='c in data.changelog_sorted'>
+
+      <div class="zippy" zippy-title="{{c.tag}}">
+
+        <p>Esta versión se realizó en la fecha <code>{{c.fecha}}</code>.</p>
+
+        <ul>
+          <li ng-repeat='cambio in c.changelog track by $index'>{{cambio}}</li>
+        </ul>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

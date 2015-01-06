@@ -15,21 +15,30 @@
         <link href="css/animate.css" rel="stylesheet" />
         <link href="css/uniform.default.css" rel="stylesheet" />
         <link href="css/custom.css" rel="stylesheet" />
+
+        <link href="css/directives/huayra-version.css" rel="stylesheet" />
+        <link href="css/directives/zippy.css" rel="stylesheet" />
     </head>
 
     <body ng-controller='AppCtrl'>
+
         <!-- CUADROS DE DIALOGO PARA ABRIR Y GUARDAR PROYECTOS -->
         <input style="display:none;" id="open-dialog" type="file" accept=".hmotion"/>
         <input style="display:none;" id="save-dialog" type="file" nwsaveas="proyecto.hmotion" accept=".hmotion"/>
 
         <input style="display:none;" id="dialogo-exportar" type="file" nwsaveas="proyecto.mpg" accept=".mpg"/>
 
+
         <!-- PANEL INICIAL -->
         <div class='panel-inicial'>
+            <!-- INDICACIÓN DE VERSIÓN -->
+            <huayra-version></huayra-version>
+
             <p>
                 <img src="images/logo.png" alt="">
             </p>
-            <p>
+
+            <p class="mensaje-hola">
                 Hola, bienvenido a huayra-motion.
             </p>
 
@@ -50,7 +59,15 @@
 
                     <div class='deshabilitado' ng-show="proyectos_recientes.length == 0">Sin proyectos aún</div>
                 </div>
+            </div>
 
+            <div class='mensaje-oops' style="display:none">
+              <p>
+                <strong style="font-size:1.666em">Ooops</strong><br/>
+                <strong class="msg"></strong>
+              </p>
+
+              <img src="images/carita.png" alt="Ooops (carita mareada)" />
 
             </div>
 
@@ -99,7 +116,7 @@
                     <ul class="sr-control-item">
 
                         <li class="active"><a ng-click="seleccionar_camara(1)" href="#" data-toggle="tab"><i class="icon-camera"></i> Cámara 1</a></li>
-                        <li ng-repeat='c in camaras'><a ng-click="seleccionar_camara(c.indice + 1)" href="#" data-toggle="tab"><i class="icon-camera"></i> Cámara {{c.indice}}</a></li>
+                        <li ng-repeat='c in camaras'><a ng-click="seleccionar_camara(c.indice + 1, c.id)" data-sid='{{ c.id }}' href="#" data-toggle="tab"><i class="icon-camera"></i> Cámara {{c.indice + 1}}</a></li>
 
                     </ul>
                 </div>
@@ -138,7 +155,7 @@
                                 <canvas ng-show='fantasma && !sin_cuadros' id='canvas' width=640 height=480></canvas>
 
                                 <!-- el cuadro remoto -->
-                                <img ng-show='camara_seleccionada > 1'  id='imagen_remota'>
+                                <img class='{{ camara_seleccionada_obj.id }}' ng-show='camara_seleccionada > 1'  id='imagen_remota'>
 
                                 <!-- el video capturado de la camara -->
                                 <video ng-show='camara_seleccionada == 1 && modo=="html5"' id='video' autoplay loop="true"></video>
@@ -255,10 +272,10 @@
 		                    <div class="control-group">
 		                        Atrás
 		                        <input type='number' disabled step="1" min="0" max="8" ng-model="capas_atras" id="capa_cantidad_atras"></input>
-		                        
+
 		                        Adelante
 		                        <input type='number' disabled step="1" min="0" max="8" ng-model="capas_adelante" id="capa_cantidad_adelante" ></input>
-		                        
+
 		                    </div>
 						</div>
                     </div>
@@ -422,9 +439,14 @@
 <script src='bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js'></script>
 <script src="js/keymaster.js"></script>
 <script src="js/app.js"></script>
+
 <script src="js/servicios/paneles.js"></script>
 <script src="js/servicios/proyecto.js"></script>
 <script src="js/servicios/menu.js"></script>
+
+<script src="js/directives/huayra-version.js"></script>
+<script src="js/directives/zippy.js"></script>
+
 <script src="js/preferencias.js"></script>
 <script src="js/filters.js"></script>
 <script src="js/video.js"></script>
