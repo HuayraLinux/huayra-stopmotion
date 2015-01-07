@@ -29,7 +29,7 @@ app.directive('huayraVersion', function() {
             continue;
 
           var item = result.data.changelog[tag_name];
-          $scope.data.changelog_sorted.unshift(item);
+          $scope.data.changelog_sorted.push(item);
         }
 
       });

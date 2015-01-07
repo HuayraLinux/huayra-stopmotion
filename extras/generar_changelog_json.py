@@ -3,6 +3,8 @@ import re
 import json
 import collections
 
+from distutils.version import StrictVersion
+
 RUTA_DESTINO_JSON = 'src/changelog.json'
 
 f = open('CHANGELOG', 'rt')
@@ -47,7 +49,12 @@ last_data = collections.OrderedDict()
 last_data['last'] = data.keys()[0]
 
 tags = data.keys()
-tags.sort()
+
+if 'current' in tags:
+    tags.remove('current')
+
+tags.sort(key=StrictVersion, reverse=True)
+print tags
 
 last_data['all_tags'] = tags
 last_data['changelog'] = data
