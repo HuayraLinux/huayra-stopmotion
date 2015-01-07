@@ -6,7 +6,7 @@ app.directive('huayraVersion', function() {
     transclude: true,
     controller: function($scope, $http) {
       $scope.data = {};
-      $scope.data.version = "0.4.11";
+      $scope.data.version = "0.4.12";
       $scope.data.changelog_sorted = [];
       $scope.data.changelog_visible = false;
 

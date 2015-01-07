@@ -3,6 +3,7 @@
     "all_tags": [
         "0.4.10", 
         "0.4.11", 
+        "0.4.12", 
         "0.4.9", 
         "current"
     ], 
@@ -10,7 +11,19 @@
         "current": {
             "fecha": "", 
             "tag": "current", 
+            "changelog": []
+        }, 
+        "0.4.12": {
+            "fecha": "2015-01-07-", 
+            "tag": "0.4.12", 
             "changelog": [
+                "Arreglo menor.", 
+                "Agregando manejador de argumentos para abrir proyectos directamente  desde consola.", 
+                "Corrigiendo mime type (no usar text/*** porque la busqueda del icono  termina buscando text-generic por todos los temas)", 
+                "El archivo debe llevar el nombre del paquete.", 
+                "Correccion del formato del archivo control y dependencias.", 
+                "Soporte de mime y asociacion para los archivos .hmotion.", 
+                "Actualizando changelog.", 
                 "Release 0.4.11."
             ]
         }, 
