@@ -1,2 +1,2 @@
 #!/bin/bash
-nw /usr/share/huayra-stopmotion/src $1
+nw /usr/share/huayra-stopmotion/src $@
