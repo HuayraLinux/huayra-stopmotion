@@ -1,17 +1,17 @@
 {
     "name": "stop motion",
     "main": "index.html",
-    "version": "0.1",
+    "version": "0.4.13",
     "livereload": false,
     "single-instance": false,
     "compartir": true,
     "chromium-args": "--ignore-certificate-errors --enable-threaded-compositing",
     "window": {
       "toolbar": false,
-      "min_width": 750,
-      "min_height": 700,
-      "width": 750,
-      "height": 700,
+      "min_width": 800,
+      "min_height": 600,
+      "width": 800,
+      "height": 600,
       "icon": "huayra-motion.png",
       "position": "center"
     }
