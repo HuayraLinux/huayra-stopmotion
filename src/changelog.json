@@ -1,6 +1,7 @@
 {
     "last": "current", 
     "all_tags": [
+        "0.4.14", 
         "0.4.13", 
         "0.4.12", 
         "0.4.11", 
@@ -12,6 +13,16 @@
             "fecha": "", 
             "tag": "current", 
             "changelog": []
+        }, 
+        "0.4.14": {
+            "fecha": "2015-01-07-", 
+            "tag": "0.4.14", 
+            "changelog": [
+                "Ordenando numero de versiones.", 
+                "Organizando archivos.", 
+                "Quitando la dependencia de bower.", 
+                "Release 0.4.13."
+            ]
         }, 
         "0.4.13": {
             "fecha": "2015-01-07-", 
