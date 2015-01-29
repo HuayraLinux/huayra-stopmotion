@@ -13,6 +13,7 @@ all:
 	@echo "   $(V)init$(N)           Instala todas las dependencias necesarias."
 	@echo "   $(V)test_linux$(N)     Prueba la aplicacion usando nodewebkit en linux."
 	@echo "   $(V)test_mac$(N)       Prueba la aplicacion usando nodewebkit en osx."
+	@echo "   $(V)watch$(N)          Recompila la aplicación constantemente."
 	@echo ""
 	@echo "  $(A)Solo para publicar: $(N)"
 	@echo ""
@@ -74,6 +75,9 @@ version:
 
 changelog:
 	gitchangelog > CHANGELOG
+
+watch:
+	grunt watch
 
 ver_sync:
 	git tag '${VERSION}'

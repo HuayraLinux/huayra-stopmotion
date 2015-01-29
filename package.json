@@ -14,7 +14,6 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "grunt": "~0.4.1",
-    "grunt-node-webkit-builder": "~0.1.14",
     "express": "~3.4.4",
     "socket.io": "~0.9.16",
     "fluent-ffmpeg": "~1.5.2",
@@ -22,7 +21,12 @@
     "gaze": "~0.4.3",
     "q": "~0.9.7",
     "async": "^0.2.10",
-    "camelot": "0.0.4",
-    "nodewebkit": "0.8.5"
+    "camelot": "0.0.4"
+  },
+  "devDependencies": {
+    "grunt-clear": "^0.2.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-jshint": "^0.11.0"
   }
 }
