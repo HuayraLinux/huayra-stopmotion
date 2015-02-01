@@ -714,3 +714,8 @@ div#controles_dibujo {
   margin-top: 5px;
   color: gray;
 }
+
+
+div.title:hover {
+  background-color: rgb(238, 238, 238);
+}

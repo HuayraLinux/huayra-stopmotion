@@ -6,7 +6,7 @@ app.directive('huayraVersion', function() {
     transclude: true,
     controller: function($scope, $http) {
       $scope.data = {};
-      $scope.data.version = "0.4.11";
+      $scope.data.version = "0.4.15";
       $scope.data.changelog_sorted = [];
       $scope.data.changelog_visible = false;
 
@@ -29,7 +29,7 @@ app.directive('huayraVersion', function() {
             continue;
 
           var item = result.data.changelog[tag_name];
-          $scope.data.changelog_sorted.unshift(item);
+          $scope.data.changelog_sorted.push(item);
         }
 
       });

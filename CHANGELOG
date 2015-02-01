@@ -1,8 +1,53 @@
 Changelog
 =========
 
-%%version%% (unreleased)
-------------------------
+0.4.15 (2015-01-07)
+-------------------
+
+- Arreglo menor. [Hugo Ruscitti]
+
+- Release 0.4.14. [Hugo Ruscitti]
+
+0.4.14 (2015-01-07)
+-------------------
+
+- Ordenando numero de versiones. [Hugo Ruscitti]
+
+- Organizando archivos. [Hugo Ruscitti]
+
+- Quitando la dependencia de bower. [Hugo Ruscitti]
+
+- Release 0.4.13. [Hugo Ruscitti]
+
+0.4.13 (2015-01-07)
+-------------------
+
+- Arreglo menor. [Hugo Ruscitti]
+
+- Comenzando a modularizar componentes. [Hugo Ruscitti]
+
+- Release 0.4.12. [Hugo Ruscitti]
+
+0.4.12 (2015-01-07)
+-------------------
+
+- Arreglo menor. [Hugo Ruscitti]
+
+- Agregando manejador de argumentos para abrir proyectos directamente
+  desde consola. [Hugo Ruscitti]
+
+- Corrigiendo mime type (no usar text/*** porque la busqueda del icono
+  termina buscando text-generic por todos los temas) [Fernando Toledo]
+
+- El archivo debe llevar el nombre del paquete. [Fernando Toledo]
+
+- Correccion del formato del archivo control y dependencias. [Fernando
+  Toledo]
+
+- Soporte de mime y asociacion para los archivos .hmotion. [Fernando
+  Toledo]
+
+- Actualizando changelog. [Hugo Ruscitti]
 
 - Release 0.4.11. [Hugo Ruscitti]
 

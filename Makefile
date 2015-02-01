@@ -1,4 +1,4 @@
-VERSION=0.4.11
+VERSION=0.4.15
 
 N=[0m
 V=[01;32m
@@ -13,6 +13,7 @@ all:
 	@echo "   $(V)init$(N)           Instala todas las dependencias necesarias."
 	@echo "   $(V)test_linux$(N)     Prueba la aplicacion usando nodewebkit en linux."
 	@echo "   $(V)test_mac$(N)       Prueba la aplicacion usando nodewebkit en osx."
+	@echo "   $(V)watch$(N)          Recompila la aplicación constantemente."
 	@echo ""
 	@echo "  $(A)Solo para publicar: $(N)"
 	@echo ""
@@ -36,7 +37,7 @@ build:
 # puede eliminarse y usar make test, ya que instala automágicamente node webkit.
 test_mac:
 	@echo "Cuidado - se está usando la version de nodewebkit del sistema."
-	open -a /Applications/node-webkit.app src
+	open -a /Applications/node-webkit.app --args /Users/hugoruscitti/proyectos/huayra-stopmotion/src
 
 test_linux:
 	nw src
@@ -67,13 +68,16 @@ clean:
 
 version:
 	# patch || minor
-	@bumpversion patch --list --current-version ${VERSION} Makefile src/js/directives/huayra-version.js
+	@bumpversion patch --list --current-version ${VERSION} Makefile src/js/directives/huayra-version.js src/package.json
 	@echo "Es recomendable escribir el comando que genera los tags y sube todo a github:"
 	@echo ""
 	@echo "make ver_sync"
 
 changelog:
 	gitchangelog > CHANGELOG
+
+watch:
+	grunt watch
 
 ver_sync:
 	git tag '${VERSION}'

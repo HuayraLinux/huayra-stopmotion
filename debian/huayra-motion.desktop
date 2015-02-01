@@ -7,4 +7,4 @@ Terminal=false
 Type=Application
 Icon=huayra-motion
 Categories=GNOME;GTK;Huayra;AudioVideo;
-MimeType=text/hmotion;
+MimeType=application/hmotion;
