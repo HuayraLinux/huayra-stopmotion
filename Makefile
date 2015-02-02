@@ -25,38 +25,13 @@ all:
 
 init:
 	npm install
-	sudo pip install bumpversion
-	sudo pip install gitchangelog
-	cd ./src/; bower install
+	bower install
 
-
-build:
-	rm -f -r webkitbuilds/releases/
-	grunt nodewebkit
-
-# puede eliminarse y usar make test, ya que instala automágicamente node webkit.
 test_mac:
 	/Applications/nwjs.app/Contents/MacOS/nwjs dist
 
 test_linux:
-	nw src
-
-upload: build
-	@mkdir -p dist
-	@echo ""
-	@echo "Empaquetando para windows..."
-	zip -r dist/huayra-stopmotion_windows.zip webkitbuilds/releases/stop\ motion/win/stop\ motion
-	@echo ""
-	@echo "Empaquetando para linux (32 bits)..."
-	zip -r dist/huayra-stopmotion_linux32.zip webkitbuilds/releases/stop\ motion/linux32/stop\ motion
-	@echo ""
-	@echo "Empaquetando para linux (64 bits)..."
-	zip -r dist/huayra-stopmotion_linux64.zip webkitbuilds/releases/stop\ motion/linux32/stop\ motion
-	@echo ""
-	@echo "Empaquetando para mac ..."
-	zip -r dist/huayra-stopmotion_mac.zip webkitbuilds/releases/stop\ motion/mac
-	@echo ""
-	scp dist/* digitalocean:~/dev-losersjuegos.com.ar/descargas/huayra-motion/
+	nw dist
 
 install:
 	echo "haciendo make install..."
