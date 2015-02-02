@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" ng-app='app'>
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="author" content="Hugo Ruscitti"/>
+
+  <title>Huayra Motion</title>
+
+  <!-- ESTILOS GENERALES -->
+  <link href="css/bootstrap.css" rel="stylesheet" />
+  <link href="css/theme.css" rel="stylesheet" />
+  <link href="css/theme-helper.css" rel="stylesheet" />
+  <link href="css/theme-icon.css" rel="stylesheet" />
+  <link href="css/font-awesome.css" rel="stylesheet" />
+  <link href="css/animate.css" rel="stylesheet" />
+
+  <!-- ESTILOS PERSONALIZADOS -->
+  <link href="css/uniform.default.css" rel="stylesheet" />
+  <link href="css/custom.css" rel="stylesheet" />
+  <link href="css/directives/huayra-version.css" rel="stylesheet" />
+  <link href="css/directives/zippy.css" rel="stylesheet" />
+
+  <!-- BIBLIOTECAS JAVASCRIPT -->
+  <script src="libs/jquery.js"></script>
+  <script src="libs/jquery.sortable.js"></script>
+  <script src="libs/keymaster.js"></script>
+  <script src="libs/sly.js"></script>
+  <script src="libs/plugins.js"></script>
+
+  <script src="libs/angular.js"></script>
+  <script src="libs/angular-animate.js"></script>
+  <script src="libs/bootstrap.js"></script>
+  <script src="libs/ui-bootstrap-tpls.js"></script>
+  <script src="libs/angular-route.js"></script>
+
+  <!-- JS CONCATENADO A PARTIR DE SRC/** -->
+  <script src="huayra-motion.js"></script>
+
+
+</head>
+
+<body ng-controller='MainCtrl'>
+
+  <!-- CUADROS DE DIALOGO PARA ABRIR Y GUARDAR PROYECTOS -->
+  <input style="display:none;" id="open-dialog" type="file" accept=".hmotion"/>
+  <input style="display:none;" id="save-dialog" type="file" nwsaveas="proyecto.hmotion" accept=".hmotion"/>
+  <input style="display:none;" id="dialogo-exportar" type="file" nwsaveas="proyecto.mpg" accept=".mpg"/>
+
+  <ng-view></ng-view>
+  
+</body>
+
+</html>
