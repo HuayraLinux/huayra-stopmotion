@@ -1,435 +1,426 @@
 <!DOCTYPE html>
 <html lang="en" ng-app='app'>
-    <head>
-        <meta charset="utf-8"/>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <meta name="author" content="Hugo Ruscitti"/>
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="author" content="Hugo Ruscitti"/>
 
-        <title>Huayra Motion</title>
+  <title>Huayra Motion</title>
 
-        <link href="css/bootstrap.css" rel="stylesheet" />
-        <link href="css/theme.css" rel="stylesheet" />
-        <link href="css/theme-helper.css" rel="stylesheet" />
-        <link href="css/theme-icon.css" rel="stylesheet" />
-        <link href="css/font-awesome.css" rel="stylesheet" />
-        <link href="css/animate.css" rel="stylesheet" />
-        <link href="css/uniform.default.css" rel="stylesheet" />
-        <link href="css/custom.css" rel="stylesheet" />
-
-        <link href="css/directives/huayra-version.css" rel="stylesheet" />
-        <link href="css/directives/zippy.css" rel="stylesheet" />
-
-        <script src="libs/jquery.js"></script>
-        <script src="libs/jquery.sortable.js"></script>
-        <script src="libs/bootstrap.js"></script>
-        <script src="libs/angular.js"></script>
-        <script src="libs/angular-animate.js"></script>
-        <script src="libs/ui-bootstrap-tpls.js"></script>
-        <script src="libs/keymaster.js"></script>
-        <script src="libs/sly.js"></script>
-        <script src="libs/plugins.js"></script>
-
-        <script src="js/app.js"></script>
-        <script src="js/controllers/appCtrl.js"></script>
-        <script src="js/utils.js"></script>
-
-        <script src="js/services/paneles.js"></script>
-        <script src="js/services/proyecto.js"></script>
-        <script src="js/services/menu.js"></script>
-        <script src="js/services/video.js"></script>
-
-        <script src="js/directives/huayra-version.js"></script>
-        <script src="js/directives/zippy.js"></script>
-
-        <script src="js/preferencias.js"></script>
-        <script src="js/filters.js"></script>
-        <script src="js/livereload.js"></script>
-
-    </head>
-
-    <body ng-controller='AppCtrl'>
-
-        <!-- CUADROS DE DIALOGO PARA ABRIR Y GUARDAR PROYECTOS -->
-        <input style="display:none;" id="open-dialog" type="file" accept=".hmotion"/>
-        <input style="display:none;" id="save-dialog" type="file" nwsaveas="proyecto.hmotion" accept=".hmotion"/>
-
-        <input style="display:none;" id="dialogo-exportar" type="file" nwsaveas="proyecto.mpg" accept=".mpg"/>
+  <!-- ESTILOS GENERALES -->
+  <link href="css/bootstrap.css" rel="stylesheet" />
+  <link href="css/theme.css" rel="stylesheet" />
+  <link href="css/theme-helper.css" rel="stylesheet" />
+  <link href="css/theme-icon.css" rel="stylesheet" />
+  <link href="css/font-awesome.css" rel="stylesheet" />
+  <link href="css/animate.css" rel="stylesheet" />
 
 
-        <!-- PANEL INICIAL -->
-        <div class='panel-inicial'>
-            <!-- INDICACIÓN DE VERSIÓN -->
-            <huayra-version></huayra-version>
+  <!-- ESTILOS PERSONALIZADOS -->
+  <link href="css/uniform.default.css" rel="stylesheet" />
+  <link href="css/custom.css" rel="stylesheet" />
+  <link href="css/directives/huayra-version.css" rel="stylesheet" />
+  <link href="css/directives/zippy.css" rel="stylesheet" />
 
-            <p>
-                <img src="images/logo.png" alt="">
-            </p>
+  <!-- BIBLIOTECAS JAVASCRIPT -->
+  <script src="libs/jquery.js"></script>
+  <script src="libs/jquery.sortable.js"></script>
+  <script src="libs/bootstrap.js"></script>
+  <script src="libs/angular.js"></script>
+  <script src="libs/angular-animate.js"></script>
+  <script src="libs/ui-bootstrap-tpls.js"></script>
+  <script src="libs/keymaster.js"></script>
+  <script src="libs/sly.js"></script>
+  <script src="libs/plugins.js"></script>
 
-            <p class="mensaje-hola">
-                Hola, bienvenido a huayra-motion.
-            </p>
+  <script src="huayra-motion.js"></script>
 
-            <ul class='asistente'>
-                <li class='asistente-item btn'><a id='boton_iniciar_proyecto' href='#'><i class="icon-edit"></i> Iniciar un proyecto nuevo</a></li>
-                <li class='asistente-item btn'><a id='boton_abrir_proyecto' href='#'><i class="icon-folder-open"></i> Abrir un proyecto existente</a></li>
+
+</head>
+
+<body ng-controller='AppCtrl'>
+
+  <!-- CUADROS DE DIALOGO PARA ABRIR Y GUARDAR PROYECTOS -->
+  <input style="display:none;" id="open-dialog" type="file" accept=".hmotion"/>
+  <input style="display:none;" id="save-dialog" type="file" nwsaveas="proyecto.hmotion" accept=".hmotion"/>
+
+  <input style="display:none;" id="dialogo-exportar" type="file" nwsaveas="proyecto.mpg" accept=".mpg"/>
+
+
+  <!-- PANEL INICIAL -->
+  <div class='panel-inicial'>
+    <!-- INDICACIÓN DE VERSIÓN -->
+    <huayra-version></huayra-version>
+
+    <p>
+      <img src="images/logo.png" alt="">
+    </p>
+
+    <p class="mensaje-hola">
+      Hola, bienvenido a huayra-motion.
+    </p>
+
+    <ul class='asistente'>
+      <li class='asistente-item btn'><a id='boton_iniciar_proyecto' href='#'><i class="icon-edit"></i> Iniciar un proyecto nuevo</a></li>
+      <li class='asistente-item btn'><a id='boton_abrir_proyecto' href='#'><i class="icon-folder-open"></i> Abrir un proyecto existente</a></li>
+    </ul>
+
+    <div class='proyectos-recientes'>
+      <p class='cabecera-proyectos'>Proyectos recientes:</p>
+
+      <div ng-class='{"invisible": cargado}'><img width="18" height="18" src='img/spinner-gris.gif'></div>
+
+      <div ng-class='{"visible": cargado}' class='lista-proyectos-recientes'>
+        <div class='cargando' ng-repeat='proyecto in proyectos_recientes|orderBy:"-indice"'>
+          <a class='item-proyecto-reciente' href ng-click='abrir_proyecto(proyecto.ruta, true)'>{{ proyecto.ruta.split('/').slice(-1)[0] }}</a>
+        </div>
+
+        <div class='deshabilitado' ng-show="proyectos_recientes.length == 0">Sin proyectos aún</div>
+      </div>
+    </div>
+
+    <div class='mensaje-oops' style="display:none">
+      <p>
+        <strong style="font-size:1.666em">Ooops</strong><br/>
+        <strong class="msg"></strong>
+      </p>
+
+      <img src="images/carita.png" alt="Ooops (carita mareada)" />
+
+    </div>
+
+    <div class='panel-depuracion-inicial'>
+      <i class='mini-icono icon-chevron-right' onclick="mostrar_herramientas_de_desarrollo()"></i>
+    </div>
+
+  </div>
+
+
+  <!-- PANEL DE AYUDA -->
+  <div class='ayuda ayuda-invisible' id='ayuda'>
+
+    <div class='ayuda-contenido'>
+      <h1>Atajos de teclado</h1>
+
+      <ul>
+        <li class='li-tecla'><div class='tecla'>h</div> Muestra esta ayuda.</li>
+        <li class='li-tecla'><div class='tecla'>n</div> Oculta el panel lateral.</li>
+        <li class='li-tecla'><div class='tecla'>Espacio</div> Captura un cuadro.</li>
+        <li class='li-tecla'><div class='tecla'>→</div> Avanzar un cuadro.</li>
+        <li class='li-tecla'><div class='tecla'>←</div> Retroceder un cuadro.</li>
+        <li class='li-tecla'><div class='tecla'>↓</div> Avanzar continuamente.</li>
+        <li class='li-tecla'><div class='tecla'>↑</div> Ir al primer cuadro.</li>
+        <li class='li-tecla'><div class='tecla'>x</div> Elimina el cuadro de animación actual.</li>
+      </ul>
+    </div>
+
+  </div>
+
+
+  <!-- SONIDOS -->
+  <audio id="audio_foto">
+    <source src="sonidos/foto.ogg" type="audio/ogg">
+    </audio>
+
+    <audio id="audio_borrar">
+      <source src="sonidos/borrar.ogg" type="audio/ogg">
+      </audio>
+
+      <section class="section">
+
+        <!-- SELECTOR DE CAMARAS -->
+        <div id='content' class="content">
+          <div class="sidebar-camara">
+            <ul class="sr-control-item">
+
+              <li class="active"><a ng-click="seleccionar_camara(1)" href="#" data-toggle="tab"><i class="icon-camera"></i> Cámara 1</a></li>
+              <li ng-repeat='c in camaras'><a ng-click="seleccionar_camara(c.indice + 1, c.id)" data-sid='{{ c.id }}' href="#" data-toggle="tab"><i class="icon-camera"></i> Cámara {{c.indice + 1}}</a></li>
+
             </ul>
-
-            <div class='proyectos-recientes'>
-                <p class='cabecera-proyectos'>Proyectos recientes:</p>
-
-                <div ng-class='{"invisible": cargado}'><img width="18" height="18" src='img/spinner-gris.gif'></div>
-
-                <div ng-class='{"visible": cargado}' class='lista-proyectos-recientes'>
-                    <div class='cargando' ng-repeat='proyecto in proyectos_recientes|orderBy:"-indice"'>
-                        <a class='item-proyecto-reciente' href ng-click='abrir_proyecto(proyecto.ruta, true)'>{{ proyecto.ruta.split('/').slice(-1)[0] }}</a>
-                    </div>
-
-                    <div class='deshabilitado' ng-show="proyectos_recientes.length == 0">Sin proyectos aún</div>
-                </div>
-            </div>
-
-            <div class='mensaje-oops' style="display:none">
-              <p>
-                <strong style="font-size:1.666em">Ooops</strong><br/>
-                <strong class="msg"></strong>
-              </p>
-
-              <img src="images/carita.png" alt="Ooops (carita mareada)" />
-
-            </div>
-
-            <div class='panel-depuracion-inicial'>
-                <i class='mini-icono icon-chevron-right' onclick="mostrar_herramientas_de_desarrollo()"></i>
-            </div>
-
+          </div>
         </div>
 
+        <!-- PANEL DE CONTENIDOS PRINCIPAL -->
+        <div class="content-body" id='content-body'>
+          <div class='contenedor-izquierdo'>
 
-        <!-- PANEL DE AYUDA -->
-        <div class='ayuda ayuda-invisible' id='ayuda'>
+            <div class='contenedor-layers' id='contenedor-layers'>
 
-            <div class='ayuda-contenido'>
-                <h1>Atajos de teclado</h1>
+              <div  class='contenedor-scroll'>
+                <div class="contenedor" id='contenedor_interno'>
+                  <div id='controles_dibujo'>
+                    <button class='btn' ng-click='definir_color("red")'> <span id='span-rojo'></span> </button>
+                    <button class='btn' ng-click='definir_color("green")'> <span id='span-verde'></span> </button>
+                    <button class='btn' ng-click='definir_color("blue")'> <span id='span-azul'></span> </button>
 
-                <ul>
-                    <li class='li-tecla'><div class='tecla'>h</div> Muestra esta ayuda.</li>
-                    <li class='li-tecla'><div class='tecla'>n</div> Oculta el panel lateral.</li>
-                    <li class='li-tecla'><div class='tecla'>Espacio</div> Captura un cuadro.</li>
-                    <li class='li-tecla'><div class='tecla'>→</div> Avanzar un cuadro.</li>
-                    <li class='li-tecla'><div class='tecla'>←</div> Retroceder un cuadro.</li>
-                    <li class='li-tecla'><div class='tecla'>↓</div> Avanzar continuamente.</li>
-                    <li class='li-tecla'><div class='tecla'>↑</div> Ir al primer cuadro.</li>
-                    <li class='li-tecla'><div class='tecla'>x</div> Elimina el cuadro de animación actual.</li>
+                    <button class='btn btn-info btn-sm' ng-click='limpiar_dibujo()'>Limpiar</button>
+                  </div>
+                  <!-- capa cebolla -->
+
+                  <div style='display: none' class='overlay'></div>
+
+                  <canvas id="dibujo" width=640 height=480></canvas>
+
+                  <!-- capa grilla -->
+                  <table id='table' class='grilla'>
+                    <tr ng-repeat="f in [] | range:0:capa_grilla_cantidad_filas">
+                      <td ng-repeat="c in [] | range:0:capa_grilla_cantidad_columnas"> &nbsp; </td>
+                    </tr>
+                  </table>
+
+
+                  <!-- cuadro capa de cebolla -->
+                  <canvas ng-show='fantasma && !sin_cuadros' id='canvas' width=640 height=480></canvas>
+
+                  <!-- el cuadro remoto -->
+                  <img class='{{ camara_seleccionada_obj.id }}' ng-show='camara_seleccionada > 1'  id='imagen_remota'>
+
+                  <!-- el video capturado de la camara -->
+                  <video ng-show='camara_seleccionada == 1 && modo=="html5"' id='video' autoplay loop="true"></video>
+                  <img   ng-show='camara_seleccionada == 1 && modo=="uvc"'   id='imagen_uvc'>
+
+                  <canvas ng-show='en_reproduccion' id='previsualizado' width=640 height=480></canvas>
+                </div>
+
+              </div> <!-- FIN contenedor-scroll -->
+
+            </div> <!-- FIN contenedor-layers -->
+          </div>
+
+          <!-- PANEL CON BOTONES DEBAJO DEL VIDEO -->
+          <div id="contenedor-controles">
+            <!-- Botones para reproducir y previsualizar -->
+            <div ng-show='camara_seleccionada == 0'>
+              <button ng-show='!en_reproduccion' class='btn btn-success' ng-click='reproducir()'> <span class="icon-play icon-white"></span> Reproducir</button>
+              <button ng-show='en_reproduccion' class='btn btn-success' ng-click='detener()'> <span class="icon-stop icon-white"></span> Detener</button>
+            </div>
+
+            <!-- Capturar cuadro de animación -->
+            <div ng-show='modo_captura_con_intervalo === false' ng-hide='camara_seleccionada == 0'>
+              <button ng-show='!en_reproduccion' class='btn btn-success' ng-click='reproducir()'> <span class="icon-play icon-white"></span> Reproducir</button>
+              <button ng-show='en_reproduccion' class='btn btn-success' ng-click='detener()'> <span class="icon-stop icon-white"></span> Detener</button>
+
+              <div class="btn-group dropdown">
+                <button class='btn btn-danger' ng-click='capturar()'><span class="icon-plus icon-white"></span> Capturar cuadro</button>
+                <button class='dropdown-toggle btn btn-danger btn-xs'><span class="icon-time icon-white"></span></button>
+
+                <ul class="dropdown-menu">
+                  <li ng-repeat="item in menu_captura">
+                    <a ng-click='iniciar_captura_con_intervalo(item.demora)'>{{item.titulo}}</a>
+                  </li>
                 </ul>
+
+              </div>
             </div>
+
+            <div ng-show='modo_captura_con_intervalo === true && camara_seleccionada !== 0'>
+              <button class='btn btn-warning' ng-click='detener_captura_con_intervalo()'> <span class="icon-stop icon-white"></span> Detener capturas</button>
+              <span class='contador'>Capturando en {{contador_intervalo}} ...</span>
+            </div>
+
+
+          </div>
 
         </div>
-
-
-        <!-- SONIDOS -->
-        <audio id="audio_foto">
-            <source src="sonidos/foto.ogg" type="audio/ogg">
-        </audio>
-
-        <audio id="audio_borrar">
-            <source src="sonidos/borrar.ogg" type="audio/ogg">
-        </audio>
-
-        <section class="section">
-
-            <!-- SELECTOR DE CAMARAS -->
-            <div id='content' class="content">
-                <div class="sidebar-camara">
-                    <ul class="sr-control-item">
-
-                        <li class="active"><a ng-click="seleccionar_camara(1)" href="#" data-toggle="tab"><i class="icon-camera"></i> Cámara 1</a></li>
-                        <li ng-repeat='c in camaras'><a ng-click="seleccionar_camara(c.indice + 1, c.id)" data-sid='{{ c.id }}' href="#" data-toggle="tab"><i class="icon-camera"></i> Cámara {{c.indice + 1}}</a></li>
-
-                    </ul>
-                </div>
-            </div>
-
-            <!-- PANEL DE CONTENIDOS PRINCIPAL -->
-            <div class="content-body" id='content-body'>
-                <div class='contenedor-izquierdo'>
-
-                    <div class='contenedor-layers' id='contenedor-layers'>
-
-                        <div  class='contenedor-scroll'>
-                            <div class="contenedor" id='contenedor_interno'>
-                                <div id='controles_dibujo'>
-                                    <button class='btn' ng-click='definir_color("red")'> <span id='span-rojo'></span> </button>
-                                    <button class='btn' ng-click='definir_color("green")'> <span id='span-verde'></span> </button>
-                                    <button class='btn' ng-click='definir_color("blue")'> <span id='span-azul'></span> </button>
-
-                                    <button class='btn btn-info btn-sm' ng-click='limpiar_dibujo()'>Limpiar</button>
-                                </div>
-                                <!-- capa cebolla -->
-
-                                <div style='display: none' class='overlay'></div>
-
-                                <canvas id="dibujo" width=640 height=480></canvas>
-
-                                <!-- capa grilla -->
-                                <table id='table' class='grilla'>
-                                    <tr ng-repeat="f in [] | range:0:capa_grilla_cantidad_filas">
-                                        <td ng-repeat="c in [] | range:0:capa_grilla_cantidad_columnas"> &nbsp; </td>
-                                    </tr>
-                                </table>
-
-
-                                <!-- cuadro capa de cebolla -->
-                                <canvas ng-show='fantasma && !sin_cuadros' id='canvas' width=640 height=480></canvas>
-
-                                <!-- el cuadro remoto -->
-                                <img class='{{ camara_seleccionada_obj.id }}' ng-show='camara_seleccionada > 1'  id='imagen_remota'>
-
-                                <!-- el video capturado de la camara -->
-                                <video ng-show='camara_seleccionada == 1 && modo=="html5"' id='video' autoplay loop="true"></video>
-                                <img   ng-show='camara_seleccionada == 1 && modo=="uvc"'   id='imagen_uvc'>
-
-                                <canvas ng-show='en_reproduccion' id='previsualizado' width=640 height=480></canvas>
-                            </div>
-
-                        </div> <!-- FIN contenedor-scroll -->
-
-                    </div> <!-- FIN contenedor-layers -->
-                </div>
-
-                <!-- PANEL CON BOTONES DEBAJO DEL VIDEO -->
-                <div id="contenedor-controles">
-                <!-- Botones para reproducir y previsualizar -->
-                <div ng-show='camara_seleccionada == 0'>
-                    <button ng-show='!en_reproduccion' class='btn btn-success' ng-click='reproducir()'> <span class="icon-play icon-white"></span> Reproducir</button>
-                    <button ng-show='en_reproduccion' class='btn btn-success' ng-click='detener()'> <span class="icon-stop icon-white"></span> Detener</button>
-                </div>
-
-                <!-- Capturar cuadro de animación -->
-                <div ng-show='modo_captura_con_intervalo === false' ng-hide='camara_seleccionada == 0'>
-                    <button ng-show='!en_reproduccion' class='btn btn-success' ng-click='reproducir()'> <span class="icon-play icon-white"></span> Reproducir</button>
-                    <button ng-show='en_reproduccion' class='btn btn-success' ng-click='detener()'> <span class="icon-stop icon-white"></span> Detener</button>
-
-                    <div class="btn-group dropdown">
-                        <button class='btn btn-danger' ng-click='capturar()'><span class="icon-plus icon-white"></span> Capturar cuadro</button>
-                        <button class='dropdown-toggle btn btn-danger btn-xs'><span class="icon-time icon-white"></span></button>
-
-                        <ul class="dropdown-menu">
-                            <li ng-repeat="item in menu_captura">
-                                <a ng-click='iniciar_captura_con_intervalo(item.demora)'>{{item.titulo}}</a>
-                            </li>
-                        </ul>
-
-                    </div>
-                </div>
-
-                <div ng-show='modo_captura_con_intervalo === true && camara_seleccionada !== 0'>
-                    <button class='btn btn-warning' ng-click='detener_captura_con_intervalo()'> <span class="icon-stop icon-white"></span> Detener capturas</button>
-                    <span class='contador'>Capturando en {{contador_intervalo}} ...</span>
-                </div>
-
-
-            </div>
-
-            </div>
 
         <!-- PANEL LATERAR CON OPCIONES DE PROYECTO, EFECTOS Y CAPAS -->
         <aside id='panel-lateral' class="side-right">
 
-            <div class="sidebar-right">
+          <div class="sidebar-right">
 
-                <!-- SELECTORES DE SECCIONES TIPO TABS -->
-                <div class="sidebar-right-control">
-                    <ul class="sr-control-item">
-                        <li class="active"><a href="#" ng-click="seleccionar_tab(1)" data-toggle="tab"><i class="icon-align-justify"></i> Capas</a></li>
-                        <li><a href="#" ng-click="seleccionar_tab(2)" data-toggle="tab"><i class="icon-eye-open"></i> Efectos</a></li>
-                        <li><a href="#" ng-click="seleccionar_tab(3)" data-toggle="tab"><i class="icon-wrench"></i> Opciones</a></li>
-                    </ul>
-                </div>
+            <!-- SELECTORES DE SECCIONES TIPO TABS -->
+            <div class="sidebar-right-control">
+              <ul class="sr-control-item">
+                <li class="active"><a href="#" ng-click="seleccionar_tab(1)" data-toggle="tab"><i class="icon-align-justify"></i> Capas</a></li>
+                <li><a href="#" ng-click="seleccionar_tab(2)" data-toggle="tab"><i class="icon-eye-open"></i> Efectos</a></li>
+                <li><a href="#" ng-click="seleccionar_tab(3)" data-toggle="tab"><i class="icon-wrench"></i> Opciones</a></li>
+              </ul>
+            </div>
 
-                <!-- CONTENIDO DEL PANEL LATERAL -->
-                <div class="sidebar-right-content">
-                    <div class="tab-content">
+            <!-- CONTENIDO DEL PANEL LATERAL -->
+            <div class="sidebar-right-content">
+              <div class="tab-content">
 
-                        <!-- TAB 1: CAPAS -->
-                        <div ng-class="{'oculto': tab_seleccionado != 'tab1'}">
-                            <div class="side-box">
-
-
-                                <div class="control-group">
-                                    <label class="control-label" for="capa_guia_opacidad">Grilla</label>
-
-                                    <div class="controls">
-                                        <input type='range' step="5" min="0" max="100" ng-model="capa_grilla_opacidad"/>
-                                        <span class='nota'>{{capa_grilla_opacidad}}</span>
-                                    </div>
+                <!-- TAB 1: CAPAS -->
+                <div ng-class="{'oculto': tab_seleccionado != 'tab1'}">
+                  <div class="side-box">
 
 
-                                    <div class='inner-control'>
-                                        <div class="control-group">
-                                            <span>Filas ({{capa_grilla_cantidad_filas | incrementar}}):</span>
-                                            <input ng-disabled='capa_grilla_opacidad == 0' ng-model='capa_grilla_cantidad_filas' type='range' step="1" min="0" max="100"></input>
-                                        </div>
+                    <div class="control-group">
+                      <label class="control-label" for="capa_guia_opacidad">Grilla</label>
 
-                                        <div class="control-group">
-                                            <span>Columnas ({{capa_grilla_cantidad_columnas | incrementar}}):</span>
-                                            <input ng-disabled='capa_grilla_opacidad == 0' ng-model='capa_grilla_cantidad_columnas' type='range' step="1" min="0" max="100"></input>
-                                        </div>
-                                    </div>
+                      <div class="controls">
+                        <input type='range' step="5" min="0" max="100" ng-model="capa_grilla_opacidad"/>
+                        <span class='nota'>{{capa_grilla_opacidad}}</span>
+                      </div>
 
 
-                                    <label class="control-label" for="capa_dibujo">Dibujo de referencia</label>
-
-                                    <div class="controls">
-                                        <input type='range' step="5" min="0" max="100" ng-model="capa_dibujo"/>
-                                        <span class='nota'>{{capa_dibujo}}</span>
-                                    </div>
-                            </div>
-
-
+                      <div class='inner-control'>
+                        <div class="control-group">
+                          <span>Filas ({{capa_grilla_cantidad_filas | incrementar}}):</span>
+                          <input ng-disabled='capa_grilla_opacidad == 0' ng-model='capa_grilla_cantidad_filas' type='range' step="1" min="0" max="100"></input>
                         </div>
-
 
                         <div class="control-group">
-                            <label class="control-label" for="capa_circulo_opacidad">Opacidad de la capa de cebolla</label>
-                            <div class="controls">
-                                <input ng-disabled="capas_atras == 0 && capas_adelante == 0" type='range' step="5" min="0" max="100" ng-model="fantasma_opacidad"></input>
-                            <span class='nota'>{{fantasma_opacidad}}</span>
+                          <span>Columnas ({{capa_grilla_cantidad_columnas | incrementar}}):</span>
+                          <input ng-disabled='capa_grilla_opacidad == 0' ng-model='capa_grilla_cantidad_columnas' type='range' step="1" min="0" max="100"></input>
                         </div>
-						<div class='inner-control'>
-		                    <div class="control-group">
-		                        Atrás
-		                        <input type='number' disabled step="1" min="0" max="8" ng-model="capas_atras" id="capa_cantidad_atras"></input>
+                      </div>
 
-		                        Adelante
-		                        <input type='number' disabled step="1" min="0" max="8" ng-model="capas_adelante" id="capa_cantidad_adelante" ></input>
 
-		                    </div>
-						</div>
+                      <label class="control-label" for="capa_dibujo">Dibujo de referencia</label>
+
+                      <div class="controls">
+                        <input type='range' step="5" min="0" max="100" ng-model="capa_dibujo"/>
+                        <span class='nota'>{{capa_dibujo}}</span>
+                      </div>
                     </div>
 
 
-                    <!-- Control para deshabilitar las capas -->
+                  </div>
 
-                    <div class="control-group">
-                        <br/>
-                        <div class="controls">
-                            <button class='btn' ng-click='deshabilitar_capas()'>Deshabilitar capas</button>
-                        </div>
+
+                  <div class="control-group">
+                    <label class="control-label" for="capa_circulo_opacidad">Opacidad de la capa de cebolla</label>
+                    <div class="controls">
+                      <input ng-disabled="capas_atras == 0 && capas_adelante == 0" type='range' step="5" min="0" max="100" ng-model="fantasma_opacidad"></input>
+                      <span class='nota'>{{fantasma_opacidad}}</span>
                     </div>
+                    <div class='inner-control'>
+                      <div class="control-group">
+                        Atrás
+                        <input type='number' disabled step="1" min="0" max="8" ng-model="capas_atras" id="capa_cantidad_atras"></input>
+
+                        Adelante
+                        <input type='number' disabled step="1" min="0" max="8" ng-model="capas_adelante" id="capa_cantidad_adelante" ></input>
+
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <!-- Control para deshabilitar las capas -->
+
+                  <div class="control-group">
+                    <br/>
+                    <div class="controls">
+                      <button class='btn' ng-click='deshabilitar_capas()'>Deshabilitar capas</button>
+                    </div>
+                  </div>
 
 
                 </div>
-            </div>
+              </div>
 
-            <!-- TAB 2: EFECTOS -->
-            <div ng-class="{'oculto': tab_seleccionado != 'tab2'}">
+              <!-- TAB 2: EFECTOS -->
+              <div ng-class="{'oculto': tab_seleccionado != 'tab2'}">
                 <div class="side-box">
 
-                    <div class="control-group">
-                        <label class="control-label" for="brillo">Brillo</label>
-                        <div class="controls">
-                            <input type='range' step="5" min="0" max="100" ng-model="brillo"/>
-                            <span class='nota'>{{brillo}}</span>
-                        </div>
+                  <div class="control-group">
+                    <label class="control-label" for="brillo">Brillo</label>
+                    <div class="controls">
+                      <input type='range' step="5" min="0" max="100" ng-model="brillo"/>
+                      <span class='nota'>{{brillo}}</span>
                     </div>
+                  </div>
 
-                    <div class="control-group">
-                        <label class="control-label" for="contraste">Contraste</label>
-                        <div class="controls">
-                            <input type='range' step="5" min="0" max="100" ng-model="contraste"/>
-                            <span class='nota'>{{contraste}}</span>
-                        </div>
+                  <div class="control-group">
+                    <label class="control-label" for="contraste">Contraste</label>
+                    <div class="controls">
+                      <input type='range' step="5" min="0" max="100" ng-model="contraste"/>
+                      <span class='nota'>{{contraste}}</span>
                     </div>
+                  </div>
 
-                    <div class="control-group">
-                        <label class="control-label" for="espejado">Espejado</label>
-                        <div class="controls">
-                            <button class='btn' ng-model="efecto_espejado_horizontal" btn-checkbox><i class='icon icon-resize-horizontal'></i> Horizontal</button>
-                            <button class='btn' ng-model="efecto_espejado_vertical" btn-checkbox><i class='icon icon-resize-vertical'></i> Vertical</button>
-                        </div>
+                  <div class="control-group">
+                    <label class="control-label" for="espejado">Espejado</label>
+                    <div class="controls">
+                      <button class='btn' ng-model="efecto_espejado_horizontal" btn-checkbox><i class='icon icon-resize-horizontal'></i> Horizontal</button>
+                      <button class='btn' ng-model="efecto_espejado_vertical" btn-checkbox><i class='icon icon-resize-vertical'></i> Vertical</button>
                     </div>
+                  </div>
 
-                    <!--
-                    <div class="control-group">
-                        <label class="control-label" for="borrosidad">Borrosidad</label>
-                        <div class="controls">
-                            <input type='range' step="5" min="0" max="100" ng-model="borrosidad"/>
-                            <span class='nota'>{{borrosidad}}</span>
-                        </div>
-                    </div>
-                    -->
-
-
-
-                    <div class="control-group">
-                        <br/>
-                        <div class="controls">
-                            <button class='btn' ng-click='restaurar()'>Restaurar valores iniciales</button>
-                        </div>
-                    </div>
+                  <!--
+                  <div class="control-group">
+                  <label class="control-label" for="borrosidad">Borrosidad</label>
+                  <div class="controls">
+                  <input type='range' step="5" min="0" max="100" ng-model="borrosidad"/>
+                  <span class='nota'>{{borrosidad}}</span>
                 </div>
+              </div>
+            -->
+
+
+
+            <div class="control-group">
+              <br/>
+              <div class="controls">
+                <button class='btn' ng-click='restaurar()'>Restaurar valores iniciales</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: OPCIONES -->
+        <div ng-class="{'oculto': tab_seleccionado != 'tab3'}">
+          <div class="side-box">
+            <div class="control-group">
+              <label class="control-label" for="fps">Cuadros por segundo (FPS)</label>
+              <div class="controls">
+                <input type='range' step="1" min="1" max="30" ng-model="fps"/>
+                <span class='nota'>{{fps}}</span>
+              </div>
             </div>
 
-            <!-- TAB 3: OPCIONES -->
-            <div ng-class="{'oculto': tab_seleccionado != 'tab3'}">
-                <div class="side-box">
-                    <div class="control-group">
-                        <label class="control-label" for="fps">Cuadros por segundo (FPS)</label>
-                        <div class="controls">
-                            <input type='range' step="1" min="1" max="30" ng-model="fps"/>
-                            <span class='nota'>{{fps}}</span>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="sonidos">Sonidos Habilitados</label>
-                        <div class="controls">
-                            <input ng-model='sonido_habilitado' type='checkbox'/>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="desarrollo">Modo desarrollador</label>
-                        <div class="controls">
-                            <button id='desarrollo' ng-click="abrir_modo_desarrollador()" class='btn btn-sucess'>Abrir modo desarrollador</button>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="desarrollo">Compartir cámara</label>
-                        <div class="controls" ng-show='online'>
-                          Para compartir cámara, abrí un navegador en otra netbook y colocá
-                          esta dirección: <a ng-click='abrir_pantalla_compartida_en_el_navegador(false)' href=''><code>http://{{host}}:{{puerto_remoto}}</code></a>
-                          o esta otra si no te funciona: <a ng-click='abrir_pantalla_compartida_en_el_navegador(true)' href=''><code>http://{{ip}}:{{puerto_remoto}}</code></a>
-                        </div>
-
-                        <div class="controls" ng-hide='online'>
-                          Parece que no estás conectado a una red... necesitas estar
-                          conectado a una red local para compartir la cámara, ya sea
-                          por cable o wi-fi.
-
-                          <p>
-                          Ah, y tenes que reiniciar este programa también :)
-                        </div>
-                    </div>
-
-
-                </div>
+            <div class="control-group">
+              <label class="control-label" for="sonidos">Sonidos Habilitados</label>
+              <div class="controls">
+                <input ng-model='sonido_habilitado' type='checkbox'/>
+              </div>
             </div>
+
+            <div class="control-group">
+              <label class="control-label" for="desarrollo">Modo desarrollador</label>
+              <div class="controls">
+                <button id='desarrollo' ng-click="abrir_modo_desarrollador()" class='btn btn-sucess'>Abrir modo desarrollador</button>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label" for="desarrollo">Compartir cámara</label>
+              <div class="controls" ng-show='online'>
+                Para compartir cámara, abrí un navegador en otra netbook y colocá
+                esta dirección: <a ng-click='abrir_pantalla_compartida_en_el_navegador(false)' href=''><code>http://{{host}}:{{puerto_remoto}}</code></a>
+                o esta otra si no te funciona: <a ng-click='abrir_pantalla_compartida_en_el_navegador(true)' href=''><code>http://{{ip}}:{{puerto_remoto}}</code></a>
+              </div>
+
+              <div class="controls" ng-hide='online'>
+                Parece que no estás conectado a una red... necesitas estar
+                conectado a una red local para compartir la cámara, ya sea
+                por cable o wi-fi.
+
+                <p>
+                  Ah, y tenes que reiniciar este programa también :)
+                </div>
+              </div>
+
+
+            </div>
+          </div>
 
 
         </div>
+      </div>
     </div>
-</div>
-</aside>
+  </aside>
 </section>
 
 
 
 
 <div class='toolbar'>
-    <button class='boton-plano' ng-click='pulsa_boton_alternar_ayuda()'><i class='icon icon-info-sign'></i></button>
-    <button class='boton-plano' ng-click='pulsa_boton_alternar_panel()' ng-model='panel_visible' ng-class="{'btn-pulsado': panel_visible, 'btn-normal': !panel_visible}"><i class='icon icon-tasks'></i></button>
+  <button class='boton-plano' ng-click='pulsa_boton_alternar_ayuda()'><i class='icon icon-info-sign'></i></button>
+  <button class='boton-plano' ng-click='pulsa_boton_alternar_panel()' ng-model='panel_visible' ng-class="{'btn-pulsado': panel_visible, 'btn-normal': !panel_visible}"><i class='icon icon-tasks'></i></button>
 </div>
 
 
@@ -439,22 +430,22 @@
 <footer>
 
 
-    <div class="wrap">
+  <div class="wrap">
 
-        <div class="scrollbar">
-            <div class="handle">
-                <div class="mousearea"></div>
-            </div>
-        </div>
-
-        <div class="frame" id="basic">
-            <ul class="clearfix">
-            </ul>
-        </div>
-
-        <ul class="pages"></ul>
-
+    <div class="scrollbar">
+      <div class="handle">
+        <div class="mousearea"></div>
+      </div>
     </div>
+
+    <div class="frame" id="basic">
+      <ul class="clearfix">
+      </ul>
+    </div>
+
+    <ul class="pages"></ul>
+
+  </div>
 
 </footer>
 

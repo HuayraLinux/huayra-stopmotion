@@ -26,9 +26,6 @@ app.directive('zippy', function(){
       }
 
       toggle();
-    },
-    controller:function($scope, $timeout) {
     }
-
-  }
+  };
 });
