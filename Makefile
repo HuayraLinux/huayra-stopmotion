@@ -10,7 +10,7 @@ all:
 	@echo ""
 	@echo "  $(A)De uso para desarrollo: $(N)"
 	@echo ""
-	@echo "   $(V)init$(N)           Instala todas las dependencias necesarias."
+	@echo "   $(V)iniciar$(N)           Instala todas las dependencias necesarias."
 	@echo "   $(V)test_linux$(N)     Prueba la aplicacion usando nodewebkit en linux."
 	@echo "   $(V)test_mac$(N)       Prueba la aplicacion usando nodewebkit en osx."
 	@echo "   $(V)watch$(N)          Recompila la aplicación constantemente."
@@ -23,7 +23,7 @@ all:
 	@echo "   $(V)upload$(N)         Genera las versiones compiladas y las sube a la web."
 	@echo ""
 
-init:
+iniciar:
 	npm install
 	sudo pip install bumpversion
 	sudo pip install gitchangelog
