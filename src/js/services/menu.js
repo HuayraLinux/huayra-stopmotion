@@ -51,12 +51,12 @@ app.service('Menu', function() {
 
     this.alternar_ayuda = function() {
         panel_ayuda.classList.toggle('ayuda-invisible');
-    }
+    };
 
     this.deshabilitar_guardado = function() {
         this.item_guardar.enabled = false;
         this.item_guardar_como.enabled = false;
-    }
+    };
 
     this.deshabilitar_guardado();
 
@@ -84,10 +84,10 @@ app.service('Menu', function() {
         ventana.menu = this.menubar;
         this.funcion_exportar = funcion_exportar;
         this.funcion_acerca_de = funcion_acerca_de;
-    }
+    };
 
     this.habilitar_guardado = function() {
         this.item_guardar.enabled = true;
         this.item_guardar_como.enabled = true;
-    }
+    };
 });

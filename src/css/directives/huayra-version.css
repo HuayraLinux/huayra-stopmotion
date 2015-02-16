@@ -4,6 +4,7 @@
   top: 20px;
   font-size: small;
   color: gray;
+  z-index: 7000 !important;
 }
 
 .fecha {

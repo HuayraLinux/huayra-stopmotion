@@ -2,7 +2,6 @@ var gui = require('nw.gui');
 var fs = require('fs');
 var path = require('path');
 var ffmpeg = require('fluent-ffmpeg');
-var utils = require('./js/utils');
 var exec = require('child_process').exec;
 
 var ventana = gui.Window.get();
@@ -48,15 +47,15 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
   });
 
   $scope.menu_captura = [
-  {demora:  2, titulo: "Capturar cada 2 segundos"},
-  {demora:  5, titulo: "Capturar cada 5 segundos"},
-  {demora: 20, titulo: "Capturar cada 20 segundos"},
-  {demora: 60, titulo: "Capturar cada 1 minuto"},
+    {demora:  2, titulo: "Capturar cada 2 segundos"},
+    {demora:  5, titulo: "Capturar cada 5 segundos"},
+    {demora: 20, titulo: "Capturar cada 20 segundos"},
+    {demora: 60, titulo: "Capturar cada 1 minuto"},
   ];
 
   $scope.detener_captura_con_intervalo = function() {
     $scope.modo_captura_con_intervalo = false;
-  }
+  };
 
   $scope.iniciar_captura_con_intervalo = function(demora_en_segundos) {
     $scope.modo_captura_con_intervalo = true;
@@ -72,16 +71,16 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
         $timeout(actualizar_temporizador, 1000);
       }
-    }
+    };
 
     $scope.contador_intervalo = demora_en_segundos;
     $timeout(actualizar_temporizador, 1000);
-  }
+  };
 
-  if( gui.Window.get().menu === undefined ){
+  if (gui.Window.get().menu === undefined) {
     Menu.agregar_a_ventana(ventana,
-      function(){$scope.cuando_selecciona_exportar()},
-      function(){$scope.cuando_selecciona_acerca_de()}
+      function() {$scope.cuando_selecciona_exportar();},
+      function() {$scope.cuando_selecciona_acerca_de();}
     );
   }
 
@@ -90,17 +89,17 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.guardar = function() {
       window.guardar_proyecto_como();
       $modalInstance.close();
-    }
+    };
 
     $scope.cancelar = function() {
       $modalInstance.close();
-    }
+    };
 
     $scope.salir = function() {
       gui.App.quit();
-    }
+    };
 
-  }
+  };
 
   ventana.on("close", function() {
 
@@ -133,8 +132,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
     $scope.cerrar = function() {
       $modalInstance.close();
-    }
-  }
+    };
+  };
 
   var ModalExportarCtrl = function($scope, $modalInstance, proyecto) {
     $scope.pagina = "preferencias";
@@ -178,14 +177,17 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
         dialogo.onchange = function(evento) {
           var archivo = this.value;
+          var tamano;
+          var proc;
+
           this.value = "";
 
           var directorio_temporal = proyecto.exportar_imagenes();
 
           switch (formato.nombre) {
           case "MP4":
-            var tamano = size.identificador;
-            var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+            tamano = size.identificador;
+            proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
             .withVideoCodec(formato.identificador)
             .withFps(proyecto.fps)
             .withVideoBitrate('12000k')
@@ -202,8 +204,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
             break;
 
           case "YouTube 640x480":
-            var tamano = size.identificador + '%';
-            var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+            tamano = size.identificador + '%';
+            proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
             .withVideoCodec(formato.identificador)
             .withFps(proyecto.fps)
             .withVideoBitrate('2500k')
@@ -220,8 +222,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
             break;
 
           case "Vimeo 640x480":
-            var tamano = size.identificador + '%';
-            var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+            tamano = size.identificador + '%';
+            proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
             .withVideoCodec(formato.identificador)
             .withFps(proyecto.fps)
             .withVideoBitrate('3000k')
@@ -239,8 +241,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
             break;
 
           case "WebM":
-            var tamano = size.identificador;
-            var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+            tamano = size.identificador;
+            proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
             .withVideoCodec(formato.identificador)
             .withFps(proyecto.fps)
             .withVideoBitrate('8000k')
@@ -257,7 +259,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
             break;
 
           case "MPEG 2":
-            var tamano = size.identificador;
+            tamano = size.identificador;
+
             // Si el proyecto está seteado a menos de 24fps lo llevamos ahi porque MPEG 2 solo soporta 24, 25 y 30 fps.
             // Cualquier valor mayor a 26 fps lo redondea solo al valor soportado mas cercano.
             if (proyecto.fps <= 23) {
@@ -265,7 +268,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
               proyecto.fps = 24;
               console.log('Nuevo fps: ' + proyecto.fps);
             }
-            var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+            proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
             .withVideoCodec(formato.identificador)
             .withFps(proyecto.fps)
             .withVideoBitrate('12000k')
@@ -282,8 +285,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
             break;
 
           case "XVid4":
-            var tamano = size.identificador;
-            var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+            tamano = size.identificador;
+            proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
             .withVideoCodec(formato.identificador)
             .withFps(proyecto.fps)
             .withVideoBitrate('8000k')
@@ -301,8 +304,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
             break;
 
           case "H264 Sin Pérdida (lento)":
-            var tamano = size.identificador;
-            var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+            tamano = size.identificador;
+            proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
             .withVideoCodec(formato.identificador)
             .withFps(proyecto.fps)
             .addOptions(['-vf scale=iw/' + tamano + ':-1', '-pix_fmt yuv420p', '-qp 0', '-preset veryslow'])
@@ -318,8 +321,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
             break;
 
           case "H264 Sin Pérdida (rápido)":
-            var tamano = size.identificador;
-            var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+            tamano = size.identificador;
+            proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
             .withVideoCodec(formato.identificador)
             .withFps(proyecto.fps)
             .addOptions(['-vf scale=iw/' + tamano + ':-1', '-pix_fmt yuv420p', '-qp 0', '-preset veryslow'])
@@ -337,7 +340,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
           case "GIF":
             $scope.progreso_cantidad = 10;
             var delay = Math.floor(100 / proyecto.fps);
-            var ruta_archivos = proyecto.obtener_imagenes_desde_sly().map(function (e) {return e.substring(0, e.indexOf('?'))});
+            var ruta_archivos = proyecto.obtener_imagenes_desde_sly().map(function (e) {return e.substring(0, e.indexOf('?'));});
             var archivos = ruta_archivos.join(" ");
             var comando = 'convert -delay ' + delay + ' -loop 0 -resize "' + size.escala_gif + '%" ' + archivos + ' ' + archivo;
 
@@ -362,20 +365,20 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
           $scope.pagina = "progreso";
           $scope.$apply();
-        }
+        };
       }
 
       abrir_dialogo_exportar(proyecto, formato);
-    }
+    };
 
     $scope.cancelar = function() {
       $modalInstance.close();
-    }
+    };
 
     $scope.cerrar = function() {
       $modalInstance.close();
-    }
-  }
+    };
+  };
 
 
 
@@ -385,11 +388,11 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
       templateUrl: 'partials/modal_exportar.html',
       controller: ModalExportarCtrl,
       resolve: {
-        proyecto: function() {return Proyecto}
+        proyecto: function() {return Proyecto;}
       }
     });
 
-  }
+  };
 
   $scope.cuando_selecciona_acerca_de = function() {
 
@@ -401,7 +404,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
       }
     });
 
-  }
+  };
 
 
 
@@ -415,7 +418,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
   $scope.abrir_proyecto = function(ruta, ocultar_pantalla) {
     window.abrir_proyecto_desde_ruta(ruta, ocultar_pantalla);
-  }
+  };
 
   $scope.reproducir = function() {
     $scope.en_reproduccion = true;
@@ -429,14 +432,14 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     }
 
     solicitar_siguiente_cuadro();
-  }
+  };
 
   $scope.detener = function() {
     $scope.en_reproduccion = false;
-  }
+  };
 
   $scope.abrir_pantalla_compartida_en_el_navegador = function(usar_ip) {
-    var url = undefined;
+    var url;
 
     if (usar_ip)
     url = 'http://' + $scope.ip + ':' + $scope.puerto_remoto;
@@ -444,7 +447,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     url = 'http://' + $scope.host + ':' + $scope.puerto_remoto;
 
     gui.Shell.openExternal(url);
-  }
+  };
 
   $scope.pulsa_boton_alternar_ayuda = Paneles.alternar_ayuda;
 
@@ -455,7 +458,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
   $scope.pulsa_boton_alternar_panel = function() {
     $scope.panel_visible = !$scope.panel_visible;
     Paneles.alternar_panel_lateral();
-  }
+  };
 
 
   $scope.directorio_destino = null;
@@ -469,7 +472,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
   $scope.getNumber = function(num) {
     return new Array(num);
-  }
+  };
 
   $scope.capa_grilla_opacidad = 50;
   $scope.capa_grilla_cantidad_filas = 2;
@@ -480,7 +483,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.capa_grilla_opacidad = 0;
     $scope.fantasma_opacidad = 0;
     $scope.capa_dibujo = 0;
-  }
+  };
 
   $scope.$watch('capa_grilla_opacidad', function() {
     var table = document.getElementById('table');
@@ -516,22 +519,22 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
   $scope.definir_color = function(c) {
     color = c;
-  }
+  };
 
   $scope.limpiar_dibujo = function() {
     var context = document.getElementById('dibujo').getContext("2d");
     context.clearRect(0, 0, 640, 480);
 
-    clickX = new Array();
-    clickY = new Array();
-    clickDrag = new Array();
-    clickColor = new Array();
-  }
+    clickX = [];
+    clickY = [];
+    clickDrag = [];
+    clickColor = [];
+  };
 
-  var clickX = new Array();
-  var clickY = new Array();
-  var clickDrag = new Array();
-  var clickColor = new Array();
+  var clickX = [];
+  var clickY = [];
+  var clickDrag = [];
+  var clickColor = [];
   var color = 'red';
 
   function crear_canvas_de_dibujo() {
@@ -544,7 +547,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
       var pos = {
         x: (e.clientX - rect.left) * escala,
         y: (e.clientY - rect.top) * escala,
-      }
+      };
 
       return pos;
     }
@@ -618,23 +621,25 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.saturacion = 0;
     $scope.efecto_espejado_horizontal = false;
     $scope.efecto_espejado_vertical = false;
-  }
+  };
 
   $scope.seleccionar_tab = function (numero) {
     $scope.tab_seleccionado = "tab" + numero;
-  }
+  };
 
   $scope.seleccionar_camara = function (numero, socket_id) {
     var indice = -1;
-    if (numero)
-    $scope.detener();
+
+    if (numero) {
+      $scope.detener();
+    }
 
     $scope.camara_seleccionada = numero;
 
     if( socket_id !== undefined ){
       for (var i=0; i<$scope.camaras.length; i++) {
         if ($scope.camaras[i].id == socket_id){
-          $scope.camara_seleccionada_obj = $scope.camaras[i]
+          $scope.camara_seleccionada_obj = $scope.camaras[i];
           break;
         }
       }
@@ -642,7 +647,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     else{
       $scope.camara_seleccionada_obj = $scope.camaras[numero];
     }
-  }
+  };
 
   $scope.seleccionar_camara(1);
 
@@ -656,14 +661,14 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     var espejado_horizontal = " ";
 
     if ($scope.efecto_espejado_horizontal)
-    espejado_horizontal = "scaleX(-1) ";
+      espejado_horizontal = "scaleX(-1) ";
     else
-    espejado_horizontal = "scaleX(1) ";
+      espejado_horizontal = "scaleX(1) ";
 
     if ($scope.efecto_espejado_vertical)
-    espejado_vertical = "scaleY(-1) ";
+      espejado_vertical = "scaleY(-1) ";
     else
-    espejado_vertical = "scaleY(1) ";
+      espejado_vertical = "scaleY(1) ";
 
     //var saturacion = "saturate(" + $scope.saturacion / 50 + ") ";
     Video.definir_brillo($scope.brillo / 10);
@@ -706,8 +711,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
   var contador_item = 0;
 
   $scope.cuando_borra_cuadro = function() {
-    $scope.sin_cuadros = (Proyecto.sly.items.length === 1)
-  }
+    $scope.sin_cuadros = (Proyecto.sly.items.length === 1);
+  };
 
   $scope.capturar = function() {
     $scope.sin_cuadros = false;
@@ -780,7 +785,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     ratio = Math.min(ratio[0], ratio[1]);
 
     return {width: Math.floor(srcWidth*ratio), height: Math.floor(srcHeight*ratio)};
-  }
+  };
 
   window.ajustar_capas = function() {
     var contenedor_interno = document.getElementById('contenedor_interno');
@@ -794,7 +799,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     var size = calculateAspectRatioFit(canvas.width, canvas.height, contenedor_interno.clientWidth, contenedor_interno.clientHeight);
 
     function calcularMitad(longitud, en_negativo) {
-      var en_negativo = en_negativo || false;
+      en_negativo = en_negativo || false;
       var longitud_como_numero = parseInt(longitud, 10) / 2;
 
       if (en_negativo)
@@ -837,12 +842,12 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     imagen_uvc.style.width = table.style.width;
     imagen_uvc.style.height = table.style.height;
     imagen_uvc.style.marginLeft = table.style.marginLeft;
-  }
+  };
 
   window.onresize = function() {
-    Proyecto.frame.sly('reload')
+    Proyecto.frame.sly('reload');
     ajustar_capas();
-  }
+  };
 
   setInterval(ajustar_capas, 100);
 
@@ -884,7 +889,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
     dibujar_imagen_sobre_canvas(imagen, canvas);
     dibujar_imagen_sobre_canvas(imagen, previsualizado);
-  })
+  });
 
 
   /*
@@ -944,7 +949,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     var gui = require('nw.gui');
     var w = gui.Window.get();
     w.showDevTools();
-  }
+  };
 
   window.borrar = function() {
     Proyecto.borrar_cuadro_actual();
@@ -958,16 +963,16 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
     $scope.cuando_borra_cuadro();
     $scope.$apply();
-  }
+  };
 
   window.abrir_web = function(url) {
     gui.Shell.openExternal(url);
-  }
+  };
 
 
   window.iniciar_nuevo_proyecto = function() {
     Proyecto.iniciar();
-  }
+  };
 
   window.abrir_proyecto_desde_ruta = function(archivo, ocultar_pantalla){
     /* Si hay cuadros cargados limpia todo */
@@ -988,7 +993,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     ocultar_pantalla_inicial();
 
     ajustar_capas();
-  }
+  };
 
   window.abrir_proyecto = function(success_callback) {
     var openDialog = document.getElementById('open-dialog');
@@ -998,12 +1003,12 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
       var archivo = this.value;
       this.value = ""; // Hace que se pueda seleccionar el archivo nuevamente.
       abrir_proyecto_desde_ruta(archivo, success_callback);
-    }
-  }
+    };
+  };
 
   $scope.guardar_proyecto = function() {
     window.guardar_proyecto();
-  }
+  };
 
   window.guardar_proyecto = function() {
     if (Proyecto.es_proyecto_nuevo) {
@@ -1015,7 +1020,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
       Preferencias.agregar_proyecto_reciente(archivo);
       $scope.abrir_proyecto(archivo);
     }
-  }
+  };
 
   window.guardar_proyecto_como = function() {
     var saveDialog = document.getElementById('save-dialog');
@@ -1027,8 +1032,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
       Proyecto.guardar(archivo);
       Preferencias.agregar_proyecto_reciente(archivo);
       $scope.abrir_proyecto(archivo);
-    }
-  }
+    };
+  };
 
   function ocultar_pantalla_inicial() {
     jQuery('.panel-inicial').fadeOut();
@@ -1041,13 +1046,13 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
   boton_iniciar_proyecto.onclick = function() {
     ocultar_pantalla_inicial();
     iniciar_nuevo_proyecto();
-  }
+  };
 
   var boton_abrir_proyecto = document.getElementById('boton_abrir_proyecto');
 
   boton_abrir_proyecto.onclick = function() {
     abrir_proyecto(ocultar_pantalla_inicial);
-  }
+  };
 
   var config = require('./package.json');
 
@@ -1082,7 +1087,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         for (var i=0; i<interfaces[nombre].length; i++) {
           var elemento = interfaces[nombre][i];
 
-          if (elemento.family == 'IPv4' && elemento.internal == false)
+          if (elemento.family === 'IPv4' && elemento.internal === false)
           $scope.ip = elemento.address;
         }
       }

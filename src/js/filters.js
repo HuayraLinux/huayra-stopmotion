@@ -12,6 +12,5 @@ app.filter('range', function() {
 app.filter('incrementar', function() {
   return function(input) {
     return parseInt(input, 10) + 1;
-    ;
   };
 });
