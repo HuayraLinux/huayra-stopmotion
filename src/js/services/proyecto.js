@@ -44,7 +44,7 @@ app.service('Proyecto', function(Menu, $q) {
 
         if (!fs.existsSync('/tmp'))
             fs.mkdirSync('/tmp');
-            
+
         fs.mkdirSync(this.directorio_destino);
     }
 
@@ -76,6 +76,8 @@ app.service('Proyecto', function(Menu, $q) {
         var deferred = $q.defer();
         var nombre_carpeta_imagenes = path.basename(ruta_destino, '.hmotion') + ".imagenes";          /*   ejemplo:  prueba.imagenes    */
         var ruta_carpeta_imagenes = path.join(path.dirname(ruta_destino), nombre_carpeta_imagenes);   /*   ejemplo:  /home/hugo..../prueba.imagenes/ */
+
+        debugger;
 
         /* Si el directorio no existe lo genera. */
         try {
@@ -127,17 +129,13 @@ app.service('Proyecto', function(Menu, $q) {
 
         lista_a_imagenes.map(function(ruta_imagen, index) {
             ruta_imagen = ruta_imagen.split('?')[0];
-            ruta_thumb = ruta_imagen.replace("_imagen_", "_imagen_thumb_");
+            ruta_imagen = decodeURI(ruta_imagen);
             var nombre_imagen = "imagen_" + index + ".png";
-            var nombre_thumb = "imagen_thumb_" + index + ".png";
             var ruta_imagen_destino = path.join(ruta_carpeta_destino, nombre_imagen);
-            var ruta_thumb_destino = path.join(ruta_carpeta_destino, nombre_thumb);
-            
+
             try {
                 if (ruta_imagen != ruta_imagen_destino) {
-                    //fs.renameSync(ruta_imagen, ruta_imagen_destino);
                     fs.createReadStream(ruta_imagen).pipe(fs.createWriteStream(ruta_imagen_destino));
-                    fs.createReadStream(ruta_thumb).pipe(fs.createWriteStream(ruta_thumb_destino));
                 }
             } catch(err) {
                 console.log(err);
@@ -171,14 +169,12 @@ app.service('Proyecto', function(Menu, $q) {
         this.sly = frame.data('sly');
     }
 
-    this.agregar_cuadro = function(ruta_a_imagen, ruta_a_thumb) {
+    this.agregar_cuadro = function(ruta_a_imagen) {
         //var position = this.sly.rel.activeItem;
         var acciones = "<div class='accion' onclick='borrar()'><i class='icon icon-trash icon-white'></i></div>";
         ruta_a_imagen += '?nocache=' + parseInt(Math.random()* 1000 + 1000, 10);
-        ruta_a_thumb += '?nocache=' + parseInt(Math.random()* 1000 + 1000, 10);
 
         var image = '<li class="cargando"><img onload="mostrar(this, \'RUTA\'); return false" class="img-invisible" src="img/divider.jpg"></img>ACCIONES</li>'.replace('RUTA', ruta_a_imagen).replace('ACCIONES', acciones);
-        var thumb = '<li class="cargando"><img onload="mostrar(this, \'RUTA\'); return false" class="img-invisible" src="img/divider.jpg"></img>ACCIONES</li>'.replace('RUTA', ruta_a_thumb).replace('ACCIONES', acciones);
         var a = this.sly.add(image);
 
         //this.sly.moveBefore(-1, position +1);
@@ -212,7 +208,6 @@ app.service('Proyecto', function(Menu, $q) {
         var image = this._decodeBase64Image(image_src);
 
         var nombre_imagen = '_imagen_' + (this.sly.items.length + 1) + '.png';
-        var nombre_thumb = '_imagen_thumb_' + (this.sly.items.length + 1) + '.png';
 
         // Carga child_process.exec para poder ejecutar comandos
         var exec = require('child_process').exec;
@@ -223,15 +218,13 @@ app.service('Proyecto', function(Menu, $q) {
                 console.log('exec error: ' + error);
             }
         };
-        
+
         if (this.es_proyecto_nuevo) {
             var ruta_imagen = path.join(this.directorio_destino, nombre_imagen);
-            var ruta_thumb = path.join(this.directorio_destino, nombre_thumb);
         } else {
             // Guarda la imagen en el directorio del proyecto pero con un _ al principio.
             var nombre_carpeta_imagenes = this.nombre_del_proyecto + ".imagenes";
             var ruta_imagen = path.join(this.directorio_destino, nombre_carpeta_imagenes, nombre_imagen);
-            var ruta_thumb = path.join(this.directorio_destino, nombre_carpeta_imagenes, nombre_thumb);
         }
 
         var self = this;
@@ -240,10 +233,7 @@ app.service('Proyecto', function(Menu, $q) {
             if (err)
                 throw err;
 
-            // Convertir imagen a thumbnail.
-            var convert_imagen = 'convert -resize 120 -quality 87 ' + ruta_imagen + " " + ruta_thumb;
-            exec(convert_imagen, exec_log);
-            self.agregar_cuadro(ruta_imagen, ruta_thumb);
+            self.agregar_cuadro(ruta_imagen);
         });
 
         this.cambios_sin_guardar = true;
