@@ -1,3 +1,12 @@
+huayra-stopmotion (1:0.4.17) unstable; urgency=low
+
+  * Reparando la exportación de videos.
+  * Quitando la generacion de thumbnails que daba problemas.
+  * Haciendo arraglos en las rutas que tienen espacios.
+  * Simplificando la directiva huayra-version. 
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 18 Feb 2015 16:05:48 +0100
+
 huayra-stopmotion (1:0.4.16) unstable; urgency=low
 
   * Arreglos menores.
