@@ -151,14 +151,16 @@ app.service('Proyecto', function(Menu, $q) {
         // Retorna la ruta a cada imagen dentro del timeline de sly.
         return this.sly.items.map(function(imagen) {
             var ruta = imagen.el.children[0].src.replace('file://', '');
-            ruta = ruta.replace('%20', ' ');
+            ruta = decodeURI(ruta);
             return ruta;
         });
     }
 
     this._crear_archivo = function(ruta_destino, contenido_json) {
         var data = JSON.stringify(contenido_json, null, 4);
-        var onerror = function(e) {console.log(e)};
+        var onerror = function(e) {
+          console.log("ERROR creando archivo " + ruta_destino + " : "+ e);
+        };
 
         fs.writeFile(ruta_destino, data, onerror);
     }

@@ -185,6 +185,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
           switch (formato.nombre) {
           case "MP4":
             var tamano = size.identificador;
+            
             var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
             .withVideoCodec(formato.identificador)
             .withFps(proyecto.fps)
