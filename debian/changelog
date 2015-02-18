@@ -1,4 +1,16 @@
-huayra-stopmotion (0.46) UNRELEASED; urgency=medium
+huayra-stopmotion (1:0.4.15) unstable; urgency=low
+
+  * Arreglos menores.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 07 Jan 2015 17:13:53 +0100
+
+huayra-stopmotion (1:0.4.13) unstable; urgency=low
+
+  * Arreglos menores. 
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 07 Jan 2015 16:39:25 +0100
+
+huayra-stopmotion (0.4.12) unstable; urgency=medium
 
   [ Ivan Hoffmann ]
   * Nuevos presets de exportación de video: Vimeo 640x480, WebM, MPEG 2,
@@ -15,7 +27,10 @@ huayra-stopmotion (0.46) UNRELEASED; urgency=medium
     lograban ver algunos botones.
   * Escondo el paginador ya que no seria tan necesario.
 
- -- Mauro <mauro@sdf.org>  Fri, 12 Dec 2014 16:44:49 -0300
+  [ Hugo Ruscitti ]
+  * 
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 07 Jan 2015 16:09:45 +0100
 
 huayra-stopmotion (0.45) unstable; urgency=low
 
