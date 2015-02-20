@@ -37,3 +37,7 @@
   bottom: 120px;
   width: 400px;
 }
+
+.huayra-version .link {
+  color: red;
+}

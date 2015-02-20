@@ -1,3 +1,24 @@
 <div class='huayra-version'>
-   versión: {{data.version}}
+
+  <span ng-show="data.status === 'query'">
+    <img src="../dist/images/version/procesando.gif"/>
+  </span>
+
+  <span ng-show="data.status === 'ok'">
+    <img src="../dist/images/version/actualizado.png"/>
+  </span>
+
+  <span ng-show="data.status === 'update'">
+    <img src="../dist/images/version/actualizacion.png"/>
+  </span>
+
+  <span ng-show="data.status === 'error'">
+  </span>
+
+   <span>versión: {{data.version}}</span>
+
+  <p ng-show="data.status === 'update'">
+    <a ng-click='abrir_link(data.info_url)' href=# class='link'>(existe actualización)</a>
+  </p>
+
 </div>
