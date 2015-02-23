@@ -33,7 +33,7 @@ app.directive('huayraVersion', function() {
 
 
       function consultar_version() {
-        $http.get('http://localhost:8080/archivos.json').
+        $http.get('http://devel.huayra.conectarigualdad.gob.ar/pkg/version/huayra-stopmotion').
           then(function(response) {
             var current_version = response.data.current_version;
             $scope.data.info_url = response.data.info_url;
