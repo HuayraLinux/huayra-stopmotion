@@ -1,3 +1,9 @@
+huayra-stopmotion (1:0.4.17-1) unstable; urgency=low
+
+  * Actualizando la url del WS para consultar la ultima version.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Mon, 23 Feb 2015 18:16:00 +0100
+
 huayra-stopmotion (1:0.4.17) unstable; urgency=low
 
   * Reparando la exportación de videos.
