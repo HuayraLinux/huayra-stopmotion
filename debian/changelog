@@ -1,3 +1,9 @@
+huayra-stopmotion (1:0.4.17-2) unstable; urgency=low
+
+  * arreglo menor.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Fri, 27 Feb 2015 18:22:37 +0100
+
 huayra-stopmotion (1:0.4.17-1) unstable; urgency=low
 
   * Actualizando la url del WS para consultar la ultima version.
