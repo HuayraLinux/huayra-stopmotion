@@ -17,7 +17,6 @@
     "grunt-node-webkit-builder": "~0.1.14",
     "express": "~3.4.4",
     "socket.io": "~0.9.16",
-    "fluent-ffmpeg": "~1.5.2",
     "jsonfile": "~1.1.1",
     "gaze": "~0.4.3",
     "q": "~0.9.7",
