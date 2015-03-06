@@ -31,7 +31,7 @@ app.service('Video', function() {
                 console.log("Resultado de si_tenemos_camara STOUT", stdout, typeof(stdout), typeof(parseInt(stdout)), parseInt(stdout) == 0);
                 console.log("Resultado de si_tenemos_camara STERR", stderr);
                 if( parseInt(stdout) == 1 ){
-                    self.abortar("esta prendida la camara?");
+                    self.abortar("¿Está prendida la cámara?");
                     return;
                 }
                 else{
