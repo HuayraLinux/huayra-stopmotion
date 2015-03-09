@@ -1,7 +1,6 @@
 src/* usr/share/huayra-stopmotion/src
 bin/huayra-motion usr/bin/
 node_modules/express/* usr/share/huayra-stopmotion/node_modules/express
-node_modules/fluent-ffmpeg/* usr/share/huayra-stopmotion/node_modules/fluent-ffmpeg
 node_modules/gaze/* usr/share/huayra-stopmotion/node_modules/gaze
 node_modules/jsonfile/* usr/share/huayra-stopmotion/node_modules/jsonfile
 node_modules/q/* usr/share/huayra-stopmotion/node_modules/q
