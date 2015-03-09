@@ -22,6 +22,7 @@
     "q": "~0.9.7",
     "async": "^0.2.10",
     "camelot": "0.0.4",
-    "nodewebkit": "0.8.5"
+    "nodewebkit": "0.8.5",
+    "bluebird": ">=2.9.13"
   }
 }
