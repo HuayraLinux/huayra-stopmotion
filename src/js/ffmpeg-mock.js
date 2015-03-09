@@ -40,6 +40,7 @@ Ffmpeg.prototype.onProgress = function(progressCallback) {
 };
 Ffmpeg.prototype.saveToFile = function(fileName, callback) {
   var options = [];
+  options = options.concat(['-f', 'image2']);
   options = options.concat(['-i', this._src]);
   if(this._bitRate) {
     options = options.concat(['-b', this._bitRate]);
@@ -63,7 +64,7 @@ Ffmpeg.prototype.saveToFile = function(fileName, callback) {
     callback(stdout, stderr, err);
   });
 
-  console.log('avconv -f image2 ' + options.join(' '));
+  console.log('avconv ' + options.join(' '));
 
   return this;
 };
