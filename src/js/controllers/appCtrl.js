@@ -1,74 +1,9 @@
 var gui = require('nw.gui');
 var fs = require('fs');
 var path = require('path');
+var ffmpeg = require('./js/ffmpeg-mock');
 var utils = require('./js/utils');
 var exec = require('child_process').exec;
-
-var ffmpeg = function(opts) {
-  this._src = opts.source;
-  this._options = [];
-};
-ffmpeg.prototype.withVideoCodec = function(codec) {
-  this._codec = codec;
-  return this;
-};
-ffmpeg.prototype.withFps = function(fps) {
-  this._fps = fps;
-  return this;
-};
-ffmpeg.prototype.withVideoBitrate = function(bitRate) {
-  this._bitRate = bitRate;
-  return this;
-};
-ffmpeg.prototype.withAspect = function(aspect) {
-  this._aspect = aspect;
-  return this;
-};
-ffmpeg.prototype.withSize = function(size) {
-  this._size = size;
-  return this;
-};
-ffmpeg.prototype.addOptions = function(optionsArr) {
-  this._options = this._options.concat(optionsArr.map(function(anOption) {
-    return anOption.split(' ');
-  }).reduce(function(total, chunks) {
-    return total.concat(chunks);
-  }, []));
-  return this;
-};
-ffmpeg.prototype.onProgress = function(progressCallback) {
-  // do nothing...
-  return this;
-};
-ffmpeg.prototype.saveToFile = function(fileName, callback) {
-  var options = [];
-  options = options.concat(['-i', this._src]);
-  if(this._bitRate) {
-    options = options.concat(['-b', this._bitRate]);
-  }
-  if(this._codec) {
-    options = options.concat(['-vcodec', this._codec]);
-  }
-  if(this._fps) {
-    options = options.concat(['-r', this._fps]);
-  }
-  if(this._aspect) {
-    options = options.concat(['-aspect', this._aspect]);
-  }
-  options = options.concat(this._options);
-  if(this._size) {
-    options = options.concat(['-s', this._size]);
-  }
-  options = options.concat(['-y', fileName]);
-
-  exec('avconv ' + options.join(' '), function(err, stdout, stderr) {
-    callback(stdout, stderr, err);
-  });
-
-  console.log('avconv ' + options.join(' '));
-
-  return this;
-};
 
 var ventana = gui.Window.get();
 
@@ -121,7 +56,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
   $scope.detener_captura_con_intervalo = function() {
     $scope.modo_captura_con_intervalo = false;
-  }
+  };
 
   $scope.iniciar_captura_con_intervalo = function(demora_en_segundos) {
     $scope.modo_captura_con_intervalo = true;
@@ -137,16 +72,16 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
         $timeout(actualizar_temporizador, 1000);
       }
-    }
+    };
 
     $scope.contador_intervalo = demora_en_segundos;
     $timeout(actualizar_temporizador, 1000);
-  }
+  };
 
   if( gui.Window.get().menu === undefined ){
     Menu.agregar_a_ventana(ventana,
-      function(){$scope.cuando_selecciona_exportar()},
-      function(){$scope.cuando_selecciona_acerca_de()}
+      function(){$scope.cuando_selecciona_exportar();},
+      function(){$scope.cuando_selecciona_acerca_de();}
     );
   }
 
@@ -155,17 +90,17 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.guardar = function() {
       window.guardar_proyecto_como();
       $modalInstance.close();
-    }
+    };
 
     $scope.cancelar = function() {
       $modalInstance.close();
-    }
+    };
 
     $scope.salir = function() {
       gui.App.quit();
-    }
+    };
 
-  }
+  };
 
   ventana.on("close", function() {
 
@@ -198,8 +133,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
     $scope.cerrar = function() {
       $modalInstance.close();
-    }
-  }
+    };
+  };
 
   var ModalExportarCtrl = function($scope, $modalInstance, proyecto) {
     $scope.pagina = "preferencias";
@@ -207,21 +142,21 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.progreso_cantidad = 0;
 
     $scope.formatos = [
-    {nombre: "MP4",  identificador: "mpeg4", extension: ".mp4"},
-    {nombre: "YouTube 640x480",  identificador: "libx264", extension: ".mp4"},
-    {nombre: "Vimeo 640x480",  identificador: "libx264", extension: ".mp4"},
-    {nombre: "WebM",  identificador: "libvpx", extension: ".webm"},
-    //{nombre: "MPEG 2",  identificador: "mpeg2video", extension: ".mpg"},
-    {nombre: "XVid4",  identificador: "libxvid", extension: ".avi"},
-    {nombre: "H264 Sin Pérdida (lento)",  identificador: "libx264", extension: ".mkv"},
-    {nombre: "H264 Sin Pérdida (rápido)",  identificador: "libx264", extension: ".mkv"},
-    {nombre: "GIF", identificador: "gif", extension: ".gif"}
+      {nombre: "MP4",  identificador: "mpeg4", extension: ".mp4"},
+      {nombre: "YouTube 640x480",  identificador: "libx264", extension: ".mp4"},
+      {nombre: "Vimeo 640x480",  identificador: "libx264", extension: ".mp4"},
+      {nombre: "WebM",  identificador: "libvpx", extension: ".webm"},
+      //{nombre: "MPEG 2",  identificador: "mpeg2video", extension: ".mpg"},
+      {nombre: "XVid4",  identificador: "libxvid", extension: ".avi"},
+      {nombre: "H264 Sin Pérdida (lento)",  identificador: "libx264", extension: ".mkv"},
+      {nombre: "H264 Sin Pérdida (rápido)",  identificador: "libx264", extension: ".mkv"},
+      {nombre: "GIF", identificador: "gif", extension: ".gif"}
     ];
 
     $scope.sizes = [
-    {nombre: "100%", identificador: 1, escala_gif: 100},
-    {nombre: "50%",  identificador: 2, escala_gif: 50},
-    {nombre: "25%",  identificador: 4, escala_gif: 25}
+      {nombre: "100%", identificador: 1, escala_gif: 100},
+      {nombre: "50%",  identificador: 2, escala_gif: 50},
+      {nombre: "25%",  identificador: 4, escala_gif: 25}
     ];
 
     $scope.formato = $scope.formatos[0];
@@ -242,206 +177,208 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         dialogo.click();
 
         dialogo.onchange = function(evento) {
+          var that = this;
           var archivo = this.value;
           this.value = "";
 
-          var directorio_temporal = proyecto.exportar_imagenes();
+          proyecto.exportar_imagenes().then(function(directorio_temporal) {
+            var tamano, proc;
+            switch (formato.nombre) {
+              case "MP4":
+                tamano = size.identificador;
+                
+                proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                  .withVideoCodec(formato.identificador)
+                  .withFps(proyecto.fps)
+                  .withVideoBitrate('12000k')
+                  .addOptions(['-vf scale=iw/' + tamano + ':-1'])
+                  .onProgress(function(data, i) {
+                    $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                    $scope.$apply();
+                  })
+                  .saveToFile(archivo, function(stdout, stderr, err){
+                    $scope.progreso_cantidad = 100;
+                    $scope.pagina = "finalizado";
+                    $scope.$apply();
+                  });
+                break;
 
-          switch (formato.nombre) {
-          case "MP4":
-            var tamano = size.identificador;
-            
-            var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
-            .withVideoCodec(formato.identificador)
-            .withFps(proyecto.fps)
-            .withVideoBitrate('12000k')
-            .addOptions(['-vf scale=iw/' + tamano + ':-1'])
-            .onProgress(function(data, i) {
-              $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
-              $scope.$apply();
-            })
-            .saveToFile(archivo, function(stdout, stderr, err){
-              $scope.progreso_cantidad = 100;
-              $scope.pagina = "finalizado";
-              $scope.$apply();
-            });
-            break;
+              case "YouTube 640x480":
+                tamano = size.identificador + '%';
+                proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                  .withVideoCodec(formato.identificador)
+                  .withFps(proyecto.fps)
+                  .withVideoBitrate('2500k')
+                  .withSize('640x480')
+                  .onProgress(function(data, i) {
+                    $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                    $scope.$apply();
+                  })
+                  .saveToFile(archivo, function(stdout, stderr, err){
+                    $scope.progreso_cantidad = 100;
+                    $scope.pagina = "finalizado";
+                    $scope.$apply();
+                  });
+                break;
 
-          case "YouTube 640x480":
-            var tamano = size.identificador + '%';
-            var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
-            .withVideoCodec(formato.identificador)
-            .withFps(proyecto.fps)
-            .withVideoBitrate('2500k')
-            .withSize('640x480')
-            .onProgress(function(data, i) {
-              $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
-              $scope.$apply();
-            })
-            .saveToFile(archivo, function(stdout, stderr, err){
-              $scope.progreso_cantidad = 100;
-              $scope.pagina = "finalizado";
-              $scope.$apply();
-            });
-            break;
+              case "Vimeo 640x480":
+                tamano = size.identificador + '%';
+                proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                  .withVideoCodec(formato.identificador)
+                  .withFps(proyecto.fps)
+                  .withVideoBitrate('3000k')
+                  .withSize('640x480')
+                  .addOptions(['-flags', 'cgop'])
+                  .onProgress(function(data, i) {
+                    $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                    $scope.$apply();
+                  })
+                  .saveToFile(archivo, function(stdout, stderr, err){
+                    $scope.progreso_cantidad = 100;
+                    $scope.pagina = "finalizado";
+                    $scope.$apply();
+                  });
+                break;
 
-          case "Vimeo 640x480":
-            var tamano = size.identificador + '%';
-            var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
-            .withVideoCodec(formato.identificador)
-            .withFps(proyecto.fps)
-            .withVideoBitrate('3000k')
-            .withSize('640x480')
-            .addOptions(['-flags', 'cgop'])
-            .onProgress(function(data, i) {
-              $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
-              $scope.$apply();
-            })
-            .saveToFile(archivo, function(stdout, stderr, err){
-              $scope.progreso_cantidad = 100;
-              $scope.pagina = "finalizado";
-              $scope.$apply();
-            });
-            break;
+              case "WebM":
+                tamano = size.identificador;
+                proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                  .withVideoCodec(formato.identificador)
+                  .withFps(proyecto.fps)
+                  .withVideoBitrate('8000k')
+                  .addOptions(['-vf scale=iw/' + tamano + ':-1'])
+                  .onProgress(function(data, i) {
+                    $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                    $scope.$apply();
+                  })
+                  .saveToFile(archivo, function(stdout, stderr, err){
+                    $scope.progreso_cantidad = 100;
+                    $scope.pagina = "finalizado";
+                    $scope.$apply();
+                  });
+                break;
 
-          case "WebM":
-            var tamano = size.identificador;
-            var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
-            .withVideoCodec(formato.identificador)
-            .withFps(proyecto.fps)
-            .withVideoBitrate('8000k')
-            .addOptions(['-vf scale=iw/' + tamano + ':-1'])
-            .onProgress(function(data, i) {
-              $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
-              $scope.$apply();
-            })
-            .saveToFile(archivo, function(stdout, stderr, err){
-              $scope.progreso_cantidad = 100;
-              $scope.pagina = "finalizado";
-              $scope.$apply();
-            });
-            break;
+              case "MPEG 2":
+                tamano = size.identificador;
+                // Si el proyecto está seteado a menos de 24fps lo llevamos ahi porque MPEG 2 solo soporta 24, 25 y 30 fps.
+                // Cualquier valor mayor a 26 fps lo redondea solo al valor soportado mas cercano.
+                if (proyecto.fps <= 23) {
+                  console.log('El fps del proyecto es: ' + proyecto.fps + ' y este codec no lo soporta. Configurando al mas cercano.');
+                  proyecto.fps = 24;
+                  console.log('Nuevo fps: ' + proyecto.fps);
+                }
+                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                .withVideoCodec(formato.identificador)
+                .withFps(proyecto.fps)
+                .withVideoBitrate('12000k')
+                .addOptions(['-vf scale=iw/' + tamano + ':-1'])
+                .onProgress(function(data, i) {
+                  $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                  $scope.$apply();
+                })
+                .saveToFile(archivo, function(stdout, stderr, err){
+                  $scope.progreso_cantidad = 100;
+                  $scope.pagina = "finalizado";
+                  $scope.$apply();
+                });
+                break;
 
-          case "MPEG 2":
-            var tamano = size.identificador;
-            // Si el proyecto está seteado a menos de 24fps lo llevamos ahi porque MPEG 2 solo soporta 24, 25 y 30 fps.
-            // Cualquier valor mayor a 26 fps lo redondea solo al valor soportado mas cercano.
-            if (proyecto.fps <= 23) {
-              console.log('El fps del proyecto es: ' + proyecto.fps + ' y este codec no lo soporta. Configurando al mas cercano.');
-              proyecto.fps = 24;
-              console.log('Nuevo fps: ' + proyecto.fps);
+              case "XVid4":
+                var tamano = size.identificador;
+                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                .withVideoCodec(formato.identificador)
+                .withFps(proyecto.fps)
+                .withVideoBitrate('8000k')
+                .withAspect('4:3') // A Xvid es necesario especificarle el aspecto. Por ahora fijo en 4:3 pero habría que sacar la info de la imagen.
+                .addOptions(['-vf scale=iw/' + tamano + ':-1', '-vtag xvid', '-pix_fmt yuv420p'])
+                .onProgress(function(data, i) {
+                  $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                  $scope.$apply();
+                })
+                .saveToFile(archivo, function(stdout, stderr, err){
+                  $scope.progreso_cantidad = 100;
+                  $scope.pagina = "finalizado";
+                  $scope.$apply();
+                });
+                break;
+
+              case "H264 Sin Pérdida (lento)":
+                var tamano = size.identificador;
+                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                .withVideoCodec(formato.identificador)
+                .withFps(proyecto.fps)
+                .addOptions(['-vf scale=iw/' + tamano + ':-1', '-pix_fmt yuv420p', '-qp 0', '-preset veryslow'])
+                .onProgress(function(data, i) {
+                  $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                  $scope.$apply();
+                })
+                .saveToFile(archivo, function(stdout, stderr, err){
+                  $scope.progreso_cantidad = 100;
+                  $scope.pagina = "finalizado";
+                  $scope.$apply();
+                });
+                break;
+
+              case "H264 Sin Pérdida (rápido)":
+                var tamano = size.identificador;
+                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                .withVideoCodec(formato.identificador)
+                .withFps(proyecto.fps)
+                .addOptions(['-vf scale=iw/' + tamano + ':-1', '-pix_fmt yuv420p', '-qp 0', '-preset veryslow'])
+                .onProgress(function(data, i) {
+                  $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                  $scope.$apply();
+                })
+                .saveToFile(archivo, function(stdout, stderr, err){
+                  $scope.progreso_cantidad = 100;
+                  $scope.pagina = "finalizado";
+                  $scope.$apply();
+                });
+                break;
+
+              case "GIF":
+                $scope.progreso_cantidad = 10;
+                var delay = Math.floor(100 / proyecto.fps);
+                var ruta_archivos = proyecto.obtener_imagenes_desde_sly().map(function (e) {return e.substring(0, e.indexOf('?'));});
+                var archivos = ruta_archivos.join(" ");
+                var comando = 'convert -delay ' + delay + ' -loop 0 -resize "' + size.escala_gif + '%" ' + archivos + ' ' + archivo;
+
+                exec(comando, function(error, stdout, stderr) {
+                  $scope.progreso_cantidad = 100;
+                  $scope.pagina = "finalizado";
+                  $scope.$apply();
+
+                  console.log('stdout: ' + stdout);
+                  console.log('stderr: ' + stderr);
+
+                  if (error !== null) {
+                    alert(error);
+                  }
+                });
+                break;
+
+              default:
+                alert("ERROR, el formato " + $scope.formato.nombre + " no está implementado");
+                break;
             }
-            var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
-            .withVideoCodec(formato.identificador)
-            .withFps(proyecto.fps)
-            .withVideoBitrate('12000k')
-            .addOptions(['-vf scale=iw/' + tamano + ':-1'])
-            .onProgress(function(data, i) {
-              $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
-              $scope.$apply();
-            })
-            .saveToFile(archivo, function(stdout, stderr, err){
-              $scope.progreso_cantidad = 100;
-              $scope.pagina = "finalizado";
-              $scope.$apply();
-            });
-            break;
 
-          case "XVid4":
-            var tamano = size.identificador;
-            var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
-            .withVideoCodec(formato.identificador)
-            .withFps(proyecto.fps)
-            .withVideoBitrate('8000k')
-            .withAspect('4:3') // A Xvid es necesario especificarle el aspecto. Por ahora fijo en 4:3 pero habría que sacar la info de la imagen.
-            .addOptions(['-vf scale=iw/' + tamano + ':-1', '-vtag xvid', '-pix_fmt yuv420p'])
-            .onProgress(function(data, i) {
-              $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
-              $scope.$apply();
-            })
-            .saveToFile(archivo, function(stdout, stderr, err){
-              $scope.progreso_cantidad = 100;
-              $scope.pagina = "finalizado";
-              $scope.$apply();
-            });
-            break;
-
-          case "H264 Sin Pérdida (lento)":
-            var tamano = size.identificador;
-            var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
-            .withVideoCodec(formato.identificador)
-            .withFps(proyecto.fps)
-            .addOptions(['-vf scale=iw/' + tamano + ':-1', '-pix_fmt yuv420p', '-qp 0', '-preset veryslow'])
-            .onProgress(function(data, i) {
-              $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
-              $scope.$apply();
-            })
-            .saveToFile(archivo, function(stdout, stderr, err){
-              $scope.progreso_cantidad = 100;
-              $scope.pagina = "finalizado";
-              $scope.$apply();
-            });
-            break;
-
-          case "H264 Sin Pérdida (rápido)":
-            var tamano = size.identificador;
-            var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
-            .withVideoCodec(formato.identificador)
-            .withFps(proyecto.fps)
-            .addOptions(['-vf scale=iw/' + tamano + ':-1', '-pix_fmt yuv420p', '-qp 0', '-preset veryslow'])
-            .onProgress(function(data, i) {
-              $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
-              $scope.$apply();
-            })
-            .saveToFile(archivo, function(stdout, stderr, err){
-              $scope.progreso_cantidad = 100;
-              $scope.pagina = "finalizado";
-              $scope.$apply();
-            });
-            break;
-
-          case "GIF":
-            $scope.progreso_cantidad = 10;
-            var delay = Math.floor(100 / proyecto.fps);
-            var ruta_archivos = proyecto.obtener_imagenes_desde_sly().map(function (e) {return e.substring(0, e.indexOf('?'))});
-            var archivos = ruta_archivos.join(" ");
-            var comando = 'convert -delay ' + delay + ' -loop 0 -resize "' + size.escala_gif + '%" ' + archivos + ' ' + archivo;
-
-            exec(comando, function(error, stdout, stderr) {
-              $scope.progreso_cantidad = 100;
-              $scope.pagina = "finalizado";
-              $scope.$apply();
-
-              console.log('stdout: ' + stdout);
-              console.log('stderr: ' + stderr);
-
-              if (error !== null) {
-                alert(error);
-              }
-            });
-            break;
-
-          default:
-            alert("ERROR, el formato " + $scope.formato.nombre + " no está implementado");
-            break;
-          }
-
-          $scope.pagina = "progreso";
-          $scope.$apply();
-        }
+            $scope.pagina = "progreso";
+            $scope.$apply();
+          });
+        };
       }
 
       abrir_dialogo_exportar(proyecto, formato);
-    }
+    };
 
     $scope.cancelar = function() {
       $modalInstance.close();
-    }
+    };
 
     $scope.cerrar = function() {
       $modalInstance.close();
-    }
-  }
+    };
+  };
 
 
 
@@ -451,11 +388,11 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
       templateUrl: 'partials/modal_exportar.html',
       controller: ModalExportarCtrl,
       resolve: {
-        proyecto: function() {return Proyecto}
+        proyecto: function() {return Proyecto;}
       }
     });
 
-  }
+  };
 
   $scope.cuando_selecciona_acerca_de = function() {
 
@@ -467,7 +404,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
       }
     });
 
-  }
+  };
 
 
 
@@ -481,7 +418,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
   $scope.abrir_proyecto = function(ruta, ocultar_pantalla) {
     window.abrir_proyecto_desde_ruta(ruta, ocultar_pantalla);
-  }
+  };
 
   $scope.reproducir = function() {
     $scope.en_reproduccion = true;
@@ -495,22 +432,24 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     }
 
     solicitar_siguiente_cuadro();
-  }
+  };
 
   $scope.detener = function() {
     $scope.en_reproduccion = false;
-  }
+  };
 
   $scope.abrir_pantalla_compartida_en_el_navegador = function(usar_ip) {
-    var url = undefined;
+    var url;
 
-    if (usar_ip)
-    url = 'http://' + $scope.ip + ':' + $scope.puerto_remoto;
-    else
-    url = 'http://' + $scope.host + ':' + $scope.puerto_remoto;
+    if (usar_ip) {
+      url = 'http://' + $scope.ip + ':' + $scope.puerto_remoto;
+    }
+    else {
+      url = 'http://' + $scope.host + ':' + $scope.puerto_remoto;
+    }
 
     gui.Shell.openExternal(url);
-  }
+  };
 
   $scope.pulsa_boton_alternar_ayuda = Paneles.alternar_ayuda;
 
@@ -521,7 +460,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
   $scope.pulsa_boton_alternar_panel = function() {
     $scope.panel_visible = !$scope.panel_visible;
     Paneles.alternar_panel_lateral();
-  }
+  };
 
 
   $scope.directorio_destino = null;
@@ -535,7 +474,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
   $scope.getNumber = function(num) {
     return new Array(num);
-  }
+  };
 
   $scope.capa_grilla_opacidad = 50;
   $scope.capa_grilla_cantidad_filas = 2;
@@ -546,7 +485,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.capa_grilla_opacidad = 0;
     $scope.fantasma_opacidad = 0;
     $scope.capa_dibujo = 0;
-  }
+  };
 
   $scope.$watch('capa_grilla_opacidad', function() {
     var table = document.getElementById('table');
@@ -582,7 +521,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
   $scope.definir_color = function(c) {
     color = c;
-  }
+  };
 
   $scope.limpiar_dibujo = function() {
     var context = document.getElementById('dibujo').getContext("2d");
@@ -592,7 +531,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     clickY = new Array();
     clickDrag = new Array();
     clickColor = new Array();
-  }
+  };
 
   var clickX = new Array();
   var clickY = new Array();
@@ -610,7 +549,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
       var pos = {
         x: (e.clientX - rect.left) * escala,
         y: (e.clientY - rect.top) * escala,
-      }
+      };
 
       return pos;
     }
@@ -684,11 +623,11 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.saturacion = 0;
     $scope.efecto_espejado_horizontal = false;
     $scope.efecto_espejado_vertical = false;
-  }
+  };
 
   $scope.seleccionar_tab = function (numero) {
     $scope.tab_seleccionado = "tab" + numero;
-  }
+  };
 
   $scope.seleccionar_camara = function (numero, socket_id) {
     var indice = -1;
@@ -700,7 +639,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     if( socket_id !== undefined ){
       for (var i=0; i<$scope.camaras.length; i++) {
         if ($scope.camaras[i].id == socket_id){
-          $scope.camara_seleccionada_obj = $scope.camaras[i]
+          $scope.camara_seleccionada_obj = $scope.camaras[i];
           break;
         }
       }
@@ -708,7 +647,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     else{
       $scope.camara_seleccionada_obj = $scope.camaras[numero];
     }
-  }
+  };
 
   $scope.seleccionar_camara(1);
 
@@ -772,8 +711,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
   var contador_item = 0;
 
   $scope.cuando_borra_cuadro = function() {
-    $scope.sin_cuadros = (Proyecto.sly.items.length === 1)
-  }
+    $scope.sin_cuadros = (Proyecto.sly.items.length === 1);
+  };
 
   $scope.capturar = function() {
     $scope.sin_cuadros = false;
@@ -903,12 +842,12 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     imagen_uvc.style.width = table.style.width;
     imagen_uvc.style.height = table.style.height;
     imagen_uvc.style.marginLeft = table.style.marginLeft;
-  }
+  };
 
   window.onresize = function() {
-    Proyecto.frame.sly('reload')
+    Proyecto.frame.sly('reload');
     ajustar_capas();
-  }
+  };
 
   setInterval(ajustar_capas, 100);
 
@@ -950,7 +889,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
     dibujar_imagen_sobre_canvas(imagen, canvas);
     dibujar_imagen_sobre_canvas(imagen, previsualizado);
-  })
+  });
 
 
   /*
@@ -1010,7 +949,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     var gui = require('nw.gui');
     var w = gui.Window.get();
     w.showDevTools();
-  }
+  };
 
   window.borrar = function() {
     Proyecto.borrar_cuadro_actual();
@@ -1024,16 +963,16 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
     $scope.cuando_borra_cuadro();
     $scope.$apply();
-  }
+  };
 
   window.abrir_web = function(url) {
     gui.Shell.openExternal(url);
-  }
+  };
 
 
   window.iniciar_nuevo_proyecto = function() {
     Proyecto.iniciar();
-  }
+  };
 
   window.abrir_proyecto_desde_ruta = function(archivo, ocultar_pantalla){
     /* Si hay cuadros cargados limpia todo */
@@ -1054,7 +993,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     ocultar_pantalla_inicial();
 
     ajustar_capas();
-  }
+  };
 
   window.abrir_proyecto = function(success_callback) {
     var openDialog = document.getElementById('open-dialog');
@@ -1064,12 +1003,12 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
       var archivo = this.value;
       this.value = ""; // Hace que se pueda seleccionar el archivo nuevamente.
       abrir_proyecto_desde_ruta(archivo, success_callback);
-    }
-  }
+    };
+  };
 
   $scope.guardar_proyecto = function() {
     window.guardar_proyecto();
-  }
+  };
 
   window.guardar_proyecto = function() {
     if (Proyecto.es_proyecto_nuevo) {
@@ -1081,7 +1020,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
       Preferencias.agregar_proyecto_reciente(archivo);
       $scope.abrir_proyecto(archivo);
     }
-  }
+  };
 
   window.guardar_proyecto_como = function() {
     var saveDialog = document.getElementById('save-dialog');
@@ -1093,8 +1032,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
       Proyecto.guardar(archivo);
       Preferencias.agregar_proyecto_reciente(archivo);
       $scope.abrir_proyecto(archivo);
-    }
-  }
+    };
+  };
 
   function ocultar_pantalla_inicial() {
     jQuery('.panel-inicial').fadeOut();
@@ -1107,13 +1046,13 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
   boton_iniciar_proyecto.onclick = function() {
     ocultar_pantalla_inicial();
     iniciar_nuevo_proyecto();
-  }
+  };
 
   var boton_abrir_proyecto = document.getElementById('boton_abrir_proyecto');
 
   boton_abrir_proyecto.onclick = function() {
     abrir_proyecto(ocultar_pantalla_inicial);
-  }
+  };
 
   var config = require('./package.json');
 
