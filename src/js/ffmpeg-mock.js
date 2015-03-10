@@ -46,7 +46,8 @@ Ffmpeg.prototype.saveToFile = function(fileName, callback) {
   }
   options = options.concat(['-i', this._src]);
   if(this._bitRate) {
-    options = options.concat(['-b', this._bitRate]);
+    // Se ignora el bitrate únicamente porque a veces trae problemas cuando se pasa un fps chico.
+    // options = options.concat(['-b', this._bitRate]);
   }
   if(this._codec) {
     options = options.concat(['-vcodec', this._codec]);

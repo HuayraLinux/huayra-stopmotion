@@ -267,73 +267,73 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
                   proyecto.fps = 24;
                   console.log('Nuevo fps: ' + proyecto.fps);
                 }
-                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
-                .withVideoCodec(formato.identificador)
-                .withFps(proyecto.fps)
-                .withVideoBitrate('12000k')
-                .addOptions(['-vf scale=iw/' + tamano + ':-1'])
-                .onProgress(function(data, i) {
-                  $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
-                  $scope.$apply();
-                })
-                .saveToFile(archivo, function(stdout, stderr, err){
-                  $scope.progreso_cantidad = 100;
-                  $scope.pagina = "finalizado";
-                  $scope.$apply();
-                });
+                proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                  .withVideoCodec(formato.identificador)
+                  .withFps(proyecto.fps)
+                  .withVideoBitrate('12000k')
+                  .addOptions(['-vf scale=iw/' + tamano + ':-1'])
+                  .onProgress(function(data, i) {
+                    $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                    $scope.$apply();
+                  })
+                  .saveToFile(archivo, function(stdout, stderr, err){
+                    $scope.progreso_cantidad = 100;
+                    $scope.pagina = "finalizado";
+                    $scope.$apply();
+                  });
                 break;
 
               case "XVid4":
-                var tamano = size.identificador;
-                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
-                .withVideoCodec(formato.identificador)
-                .withFps(proyecto.fps)
-                .withVideoBitrate('8000k')
-                .withAspect('4:3') // A Xvid es necesario especificarle el aspecto. Por ahora fijo en 4:3 pero habría que sacar la info de la imagen.
-                .addOptions(['-vf scale=iw/' + tamano + ':-1', '-vtag xvid', '-pix_fmt yuv420p'])
-                .onProgress(function(data, i) {
-                  $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
-                  $scope.$apply();
-                })
-                .saveToFile(archivo, function(stdout, stderr, err){
-                  $scope.progreso_cantidad = 100;
-                  $scope.pagina = "finalizado";
-                  $scope.$apply();
-                });
+                tamano = size.identificador;
+                proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                  .withVideoCodec(formato.identificador)
+                  .withFps(proyecto.fps)
+                  .withVideoBitrate('8000k')
+                  .withAspect('4:3') // A Xvid es necesario especificarle el aspecto. Por ahora fijo en 4:3 pero habría que sacar la info de la imagen.
+                  .addOptions(['-vf scale=iw/' + tamano + ':-1', '-vtag xvid', '-pix_fmt yuv420p'])
+                  .onProgress(function(data, i) {
+                    $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                    $scope.$apply();
+                  })
+                  .saveToFile(archivo, function(stdout, stderr, err){
+                    $scope.progreso_cantidad = 100;
+                    $scope.pagina = "finalizado";
+                    $scope.$apply();
+                  });
                 break;
 
               case "H264 Sin Pérdida (lento)":
-                var tamano = size.identificador;
-                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
-                .withVideoCodec(formato.identificador)
-                .withFps(proyecto.fps)
-                .addOptions(['-vf scale=iw/' + tamano + ':-1', '-pix_fmt yuv420p', '-qp 0', '-preset veryslow'])
-                .onProgress(function(data, i) {
-                  $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
-                  $scope.$apply();
-                })
-                .saveToFile(archivo, function(stdout, stderr, err){
-                  $scope.progreso_cantidad = 100;
-                  $scope.pagina = "finalizado";
-                  $scope.$apply();
-                });
+                tamano = size.identificador;
+                proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                  .withVideoCodec(formato.identificador)
+                  .withFps(proyecto.fps)
+                  .addOptions(['-vf scale=iw/' + tamano + ':-1', '-pix_fmt yuv420p', '-qp 0', '-preset veryslow'])
+                  .onProgress(function(data, i) {
+                    $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                    $scope.$apply();
+                  })
+                  .saveToFile(archivo, function(stdout, stderr, err){
+                    $scope.progreso_cantidad = 100;
+                    $scope.pagina = "finalizado";
+                    $scope.$apply();
+                  });
                 break;
 
               case "H264 Sin Pérdida (rápido)":
-                var tamano = size.identificador;
-                var proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
-                .withVideoCodec(formato.identificador)
-                .withFps(proyecto.fps)
-                .addOptions(['-vf scale=iw/' + tamano + ':-1', '-pix_fmt yuv420p', '-qp 0', '-preset veryslow'])
-                .onProgress(function(data, i) {
-                  $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
-                  $scope.$apply();
-                })
-                .saveToFile(archivo, function(stdout, stderr, err){
-                  $scope.progreso_cantidad = 100;
-                  $scope.pagina = "finalizado";
-                  $scope.$apply();
-                });
+                tamano = size.identificador;
+                proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
+                  .withVideoCodec(formato.identificador)
+                  .withFps(proyecto.fps)
+                  .addOptions(['-vf scale=iw/' + tamano + ':-1', '-pix_fmt yuv420p', '-qp 0', '-preset veryslow'])
+                  .onProgress(function(data, i) {
+                    $scope.progreso_cantidad = proyecto.calcular_porcentaje(data.frames);
+                    $scope.$apply();
+                  })
+                  .saveToFile(archivo, function(stdout, stderr, err){
+                    $scope.progreso_cantidad = 100;
+                    $scope.pagina = "finalizado";
+                    $scope.$apply();
+                  });
                 break;
 
               case "GIF":
