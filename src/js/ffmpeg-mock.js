@@ -41,15 +41,15 @@ Ffmpeg.prototype.onProgress = function(progressCallback) {
 Ffmpeg.prototype.saveToFile = function(fileName, callback) {
   var options = [];
   options = options.concat(['-f', 'image2']);
+  if(this._fps) {
+    options = options.concat(['-r', this._fps]);
+  }
   options = options.concat(['-i', this._src]);
   if(this._bitRate) {
     options = options.concat(['-b', this._bitRate]);
   }
   if(this._codec) {
     options = options.concat(['-vcodec', this._codec]);
-  }
-  if(this._fps) {
-    options = options.concat(['-r', this._fps]);
   }
   if(this._aspect) {
     options = options.concat(['-aspect', this._aspect]);
