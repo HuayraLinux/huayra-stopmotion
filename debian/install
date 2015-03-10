@@ -7,6 +7,7 @@ node_modules/q/* usr/share/huayra-stopmotion/node_modules/q
 node_modules/socket.io/* usr/share/huayra-stopmotion/node_modules/socket.io
 node_modules/async/* usr/share/huayra-stopmotion/node_modules/async
 node_modules/camelot/* usr/share/huayra-stopmotion/node_modules/camelot
+node_modules/bluebird/* usr/share/huayra-stopmotion/node_modules/bluebird
 debian/huayra-motion.desktop /usr/share/applications
 debian/huayra-motion.svg /usr/share/icons/hicolor/scalable/apps
 debian/application-hmotion.svg /usr/share/icons/hicolor/scalable/mimetypes

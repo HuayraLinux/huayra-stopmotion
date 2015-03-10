@@ -1,3 +1,15 @@
+huayra-stopmotion (1:0.4.22) unstable; urgency=medium
+
+  * Cambiada la versión
+
+ -- gonza <gonza@huayra>  Tue, 10 Mar 2015 12:42:29 -0300
+
+huayra-stopmotion (1:0.4.21) unstable; urgency=medium
+
+  * Agregada dependencia bluebird
+
+ -- gonza <gonza@huayra>  Tue, 10 Mar 2015 12:28:02 -0300
+
 huayra-stopmotion (1:0.4.20) unstable; urgency=medium
 
   * Exportando al fps correcto.
