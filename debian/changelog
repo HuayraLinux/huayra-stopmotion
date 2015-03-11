@@ -1,3 +1,9 @@
+huayra-stopmotion (1:0.4.23) unstable; urgency=low
+
+  * Empaquetando nuevamente para cambiar el tamaño inicial de la ventana. 
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 11 Mar 2015 19:24:15 +0100
+
 huayra-stopmotion (1:0.4.22) unstable; urgency=medium
 
   * Cambiada la versión
