@@ -9,9 +9,9 @@
     "window": {
       "toolbar": false,
       "min_width": 800,
-      "min_height": 600,
+      "min_height": 480,
       "width": 800,
-      "height": 600,
+      "height": 480,
       "icon": "huayra-motion.png",
       "position": "center"
     }
