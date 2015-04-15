@@ -18,6 +18,14 @@ Podés descargar las versiones binarias para *Linux*, *Mac OSX* o
 
 - [Descargar](http://dev-losersjuegos.com.ar/huayra-motion)
 
+
+## Tecnologías utilizadas
+
+* nodewebkit
+* angularjs
+* express.js
+* socket.io
+
 ¿Cómo compilar la aplicación completa?
 --------------------------------------
 
