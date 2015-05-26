@@ -544,18 +544,24 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     var paint = false;
 
     function get_pos(canvas, e) {
-      var escala = 640 / canvas.getBoundingClientRect().width;
       var rect = canvas.getBoundingClientRect();
+      var diffLeft = $(canvas).offset().left - $('#dibujo').offset().left;
+      var diffTop = $(canvas).offset().top - $('#dibujo').offset().top;
+      var escala = 640 / $('#dibujo').width();
       var pos = {
-        x: (e.clientX - rect.left) * escala,
-        y: (e.clientY - rect.top) * escala,
+        x: (e.clientX - rect.left + diffLeft) * escala,
+        y: (e.clientY - rect.top + diffTop) * escala,
       };
 
       return pos;
     }
 
 
-    $('#dibujo').mousedown(function(e) {
+    $('#contenedor-layers').mousedown(function(e) {
+      if(+$('#dibujo').css('opacity') <= 0) {
+        return;
+      }
+
       var pos = get_pos(this, e);
 
       var mouseX = pos.x;
@@ -566,7 +572,11 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
       redraw();
     });
 
-    $('#dibujo').mousemove(function(e) {
+    $('#contenedor-layers').mousemove(function(e) {
+      if(+$('#dibujo').css('opacity') <= 0) {
+        return;
+      }
+
       var pos = get_pos(this, e);
 
       if (paint){
@@ -575,11 +585,11 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
       }
     });
 
-    $('#dibujo').mouseup(function(e) {
+    $('#contenedor-layers').mouseup(function(e) {
       paint = false;
     });
 
-    $('#dibujo').mouseleave(function(e){
+    $('#contenedor-layers').mouseleave(function(e){
       paint = false;
     });
 
