@@ -1,6 +1,66 @@
 Changelog
 =========
 
+0.4.24 (2015-05-26)
+-------------------
+
+- Arreglada la capa de dibujo (no recibía eventos) [Gonza Gluzman]
+
+- Actualizando el paquete. [Hugo Ruscitti]
+
+- Actualizando version. [Hugo Ruscitti]
+
+- Actualizando version. [Hugo Ruscitti]
+
+- Actualizando el tamano de ventana. [Hugo Ruscitti]
+
+- Agregada la dependencia bluebird para el empaquetado y cambiada la
+  versión. [Gonza Gluzman]
+
+- Changelog. [Gonza Gluzman]
+
+- Quitado el bitrate de salida para evitar errores exportando con un fps
+  bajo. [Gonza Gluzman]
+
+- Corregida llamada a avconv, ahora genera un video con los fps
+  correctos. [Gonza Gluzman]
+
+- Changelog. [Gonza Gluzman]
+
+- Agregada la dependencia: bluebird. [Gonza Gluzman]
+
+- Agragando opción al avconv. [Gonza Gluzman]
+
+- Esperando a que se graben las imágenes antes de exportar el video.
+  [Gonza Gluzman]
+
+- Quitada una dependencia y actualizado el changelog. [Gonza Gluzman]
+
+- Quitada la dependencia fluent-ffmpeg. [Gonza Gluzman]
+
+- Quitada la dependencia de ffmpeg. [Gonza Gluzman]
+
+- Reemplazada fluent-ffmpeg por un mock que usa avconv. [Gonza Gluzman]
+
+- Subiendo el archivo bower.json. [Hugo Ruscitti]
+
+- Actualizando paquete. [Hugo Ruscitti]
+
+- Actualizando changelog. [Hugo Ruscitti]
+
+- Actualizando paquete. [Hugo Ruscitti]
+
+- Actualizando la url de consulta al ws de versiones. [Hugo Ruscitti]
+
+- Reparando rutas para el componente version. [Hugo Ruscitti]
+
+- Agregando consulta de última versión a través de un webservice. [Hugo
+  Ruscitti]
+
+- Actualizando paquete. [Hugo Ruscitti]
+
+- Release 0.4.17. [Hugo Ruscitti]
+
 0.4.17 (2015-02-18)
 -------------------
 

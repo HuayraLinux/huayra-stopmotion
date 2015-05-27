@@ -1,6 +1,7 @@
 {
     "last": "current", 
     "all_tags": [
+        "0.4.24", 
         "0.4.17", 
         "0.4.16", 
         "0.4.15", 
@@ -16,6 +17,38 @@
             "fecha": "", 
             "tag": "current", 
             "changelog": []
+        }, 
+        "0.4.24": {
+            "fecha": "2015-05-26-", 
+            "tag": "0.4.24", 
+            "changelog": [
+                "Arreglada la capa de dibujo (no recib\u00eda eventos)", 
+                "Actualizando el paquete.", 
+                "Actualizando version.", 
+                "Actualizando version.", 
+                "Actualizando el tamano de ventana.", 
+                "Agregada la dependencia bluebird para el empaquetado y cambiada la  versi\u00f3n.", 
+                "Changelog.", 
+                "Quitado el bitrate de salida para evitar errores exportando con un fps  bajo.", 
+                "Corregida llamada a avconv, ahora genera un video con los fps  correctos.", 
+                "Changelog.", 
+                "Agregada la dependencia: bluebird.", 
+                "Agragando opci\u00f3n al avconv.", 
+                "Esperando a que se graben las im\u00e1genes antes de exportar el video. ", 
+                "Quitada una dependencia y actualizado el changelog.", 
+                "Quitada la dependencia fluent-ffmpeg.", 
+                "Quitada la dependencia de ffmpeg.", 
+                "Reemplazada fluent-ffmpeg por un mock que usa avconv.", 
+                "Subiendo el archivo bower.json.", 
+                "Actualizando paquete.", 
+                "Actualizando changelog.", 
+                "Actualizando paquete.", 
+                "Actualizando la url de consulta al ws de versiones.", 
+                "Reparando rutas para el componente version.", 
+                "Agregando consulta de \u00faltima versi\u00f3n a trav\u00e9s de un webservice.", 
+                "Actualizando paquete.", 
+                "Release 0.4.17."
+            ]
         }, 
         "0.4.17": {
             "fecha": "2015-02-18-", 
