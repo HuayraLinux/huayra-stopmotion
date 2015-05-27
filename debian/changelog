@@ -1,3 +1,9 @@
+huayra-stopmotion (1:0.4.24) unstable; urgency=low
+
+  * Actualización del paquete para incluir arreglo de la capa dibujo.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 27 May 2015 15:33:03 -0300
+
 huayra-stopmotion (1:0.4.23) unstable; urgency=low
 
   * Empaquetando nuevamente para cambiar el tamaño inicial de la ventana. 
