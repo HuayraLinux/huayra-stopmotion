@@ -33,10 +33,13 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
   $scope.cargado = false;
   $scope.modo_captura_con_intervalo = false;
   $scope.contador_intervalo = 0;
-  $scope.modo = undefined;
+  $scope.modo = "html5";
   $scope.online = true;
   $scope.capas_adelante = 1;
   $scope.capas_atras = 0;
+
+
+
 
   Video.iniciar(function(modo) {
     $scope.modo = modo;
@@ -186,7 +189,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
             switch (formato.nombre) {
               case "MP4":
                 tamano = size.identificador;
-                
+
                 proc = new ffmpeg({ source: path.join(directorio_temporal, "%d.png"), nolog: true})
                   .withVideoCodec(formato.identificador)
                   .withFps(proyecto.fps)
