@@ -68,7 +68,7 @@ clean:
 
 version:
 	# patch || minor
-	@bumpversion patch --list --current-version ${VERSION} Makefile src/js/directives/huayra-version.js src/package.json
+	@bumpversion minor --list --current-version ${VERSION} Makefile src/js/directives/huayra-version.js src/package.json
 	@echo "Es recomendable escribir el comando que genera los tags y sube todo a github:"
 	@echo ""
 	@echo "make ver_sync"
