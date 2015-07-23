@@ -1,188 +1,39 @@
 Changelog
 =========
 
-0.4.24 (2015-05-26)
--------------------
-
-- Arreglada la capa de dibujo (no recibía eventos) [Gonza Gluzman]
-
-- Actualizando el paquete. [Hugo Ruscitti]
-
-- Actualizando version. [Hugo Ruscitti]
-
-- Actualizando version. [Hugo Ruscitti]
-
-- Actualizando el tamano de ventana. [Hugo Ruscitti]
-
-- Agregada la dependencia bluebird para el empaquetado y cambiada la
-  versión. [Gonza Gluzman]
-
-- Changelog. [Gonza Gluzman]
-
-- Quitado el bitrate de salida para evitar errores exportando con un fps
-  bajo. [Gonza Gluzman]
-
-- Corregida llamada a avconv, ahora genera un video con los fps
-  correctos. [Gonza Gluzman]
-
-- Changelog. [Gonza Gluzman]
-
-- Agregada la dependencia: bluebird. [Gonza Gluzman]
-
-- Agragando opción al avconv. [Gonza Gluzman]
-
-- Esperando a que se graben las imágenes antes de exportar el video.
-  [Gonza Gluzman]
-
-- Quitada una dependencia y actualizado el changelog. [Gonza Gluzman]
-
-- Quitada la dependencia fluent-ffmpeg. [Gonza Gluzman]
-
-- Quitada la dependencia de ffmpeg. [Gonza Gluzman]
-
-- Reemplazada fluent-ffmpeg por un mock que usa avconv. [Gonza Gluzman]
-
-- Subiendo el archivo bower.json. [Hugo Ruscitti]
-
-- Actualizando paquete. [Hugo Ruscitti]
-
-- Actualizando changelog. [Hugo Ruscitti]
-
-- Actualizando paquete. [Hugo Ruscitti]
-
-- Actualizando la url de consulta al ws de versiones. [Hugo Ruscitti]
-
-- Reparando rutas para el componente version. [Hugo Ruscitti]
-
-- Agregando consulta de última versión a través de un webservice. [Hugo
-  Ruscitti]
-
-- Actualizando paquete. [Hugo Ruscitti]
-
-- Release 0.4.17. [Hugo Ruscitti]
-
-0.4.17 (2015-02-18)
--------------------
-
-- Reparando la exportacion de videos. [Hugo Ruscitti]
-
-- Arreglos para evitar que se arrastren imágenes o se puedan soltar
-  archivos sobre la ventana de nodewebkit. [Hugo Ruscitti]
-
-- Quitando armado de thumbnails. [Hugo Ruscitti]
-
-- Simplificando la directiva huayra-version. [Hugo Ruscitti]
-
-- Actualizando paquete. [Hugo Ruscitti]
-
-- Release 0.4.16. [Hugo Ruscitti]
-
-0.4.16 (2015-01-07)
--------------------
-
-- Quitando animaciones de los diálogos. [Hugo Ruscitti]
-
-- Cambiando el zindex. [Hugo Ruscitti]
-
-- Actualizando. [Hugo Ruscitti]
-
-- Release 0.4.15. [Hugo Ruscitti]
-
-0.4.15 (2015-01-07)
--------------------
-
-- Arreglo menor. [Hugo Ruscitti]
-
-- Release 0.4.14. [Hugo Ruscitti]
-
-0.4.14 (2015-01-07)
--------------------
-
-- Ordenando numero de versiones. [Hugo Ruscitti]
-
-- Organizando archivos. [Hugo Ruscitti]
-
-- Quitando la dependencia de bower. [Hugo Ruscitti]
-
-- Release 0.4.13. [Hugo Ruscitti]
-
-0.4.13 (2015-01-07)
--------------------
-
-- Arreglo menor. [Hugo Ruscitti]
-
-- Comenzando a modularizar componentes. [Hugo Ruscitti]
-
-- Release 0.4.12. [Hugo Ruscitti]
-
-0.4.12 (2015-01-07)
--------------------
-
-- Arreglo menor. [Hugo Ruscitti]
-
-- Agregando manejador de argumentos para abrir proyectos directamente
-  desde consola. [Hugo Ruscitti]
-
-- Corrigiendo mime type (no usar text/*** porque la busqueda del icono
-  termina buscando text-generic por todos los temas) [Fernando Toledo]
-
-- El archivo debe llevar el nombre del paquete. [Fernando Toledo]
-
-- Correccion del formato del archivo control y dependencias. [Fernando
-  Toledo]
-
-- Soporte de mime y asociacion para los archivos .hmotion. [Fernando
-  Toledo]
-
-- Actualizando changelog. [Hugo Ruscitti]
-
-- Release 0.4.11. [Hugo Ruscitti]
-
-0.4.11 (2015-01-05)
--------------------
-
-- Agregando un notificador de versión. [Hugo Ruscitti]
-
-- Actualizando changelog. [Hugo Ruscitti]
-
-- Release 0.4.10. [Hugo Ruscitti]
-
-0.4.10 (2015-01-05)
--------------------
-
-- Generando comandos para automatizar releases. [Hugo Ruscitti]
-
-0.4.9 (2014-12-22)
+0.5.0 (2015-07-23)
 ------------------
 
-- Quitando soporte para exportar a mpeg2. [Hugo Ruscitti]
+- Arreglo incremento de version. [Hugo Ruscitti]
 
-- Reparando el bug de escalado de gif. [Hugo Ruscitti]
+- Habilitando 'guardar' incluso cuando se inicia el proyecto por primera
+  vez. [Hugo Ruscitti]
 
-- Reparando el problema de exportacion de  GIF. [Hugo Ruscitti]
+- Arreglo menor en el selector de cámara activa. [Hugo Ruscitti]
 
-- Escondo el paginador. [Mauro]
+- Arreglo menor. [Hugo Ruscitti]
 
-- Un cartelito un poco mas practico para reportar errores de videos-no-
-  html5. [Mauro]
+- Merge branch 'huayra-version-stable' [Hugo Ruscitti]
 
-- Mejore un poquito el manejo para verificar si tenemos cam o no.
-  [Mauro]
+- Revirtiendo cambios. [Hugo Ruscitti]
 
-- Saco alerts y consolelogs. [Mauro]
+- Merge branch 'master' of https://github.com/HuayraLinux/huayra-
+  stopmotion. [Hugo Ruscitti]
 
-- Soporta multiples camaras en red. MODO DEBUG, NO PRODUCCION. [Mauro]
+- Arreglo menor. [Hugo Ruscitti]
 
-- Agrego carita del mensaje de error. [Mauro]
+- Merge branch 'master' of https://github.com/HuayraLinux/huayra-
+  stopmotion. [Hugo Ruscitti]
 
-- Si no tenemos camara o la camara no funciona, nos notifica al iniciar
-  la aplicacion. [Mauro]
+- Arreglo menor. [Hugo Ruscitti]
 
-- Changelog. [Mauro]
+- Merge branch 'master' of https://github.com/HuayraLinux/huayra-
+  stopmotion. [Hugo Ruscitti]
 
-- Merge pull request #5 from digitalh/master. [Mauro]
+- Merge branch 'master' of https://github.com/HuayraLinux/huayra-
+  stopmotion. [Hugo Ruscitti]
 
-  Mas presets. Mejora en thumbs. Implementación de escalado al exportar.
+- Quitando animaciones diálogos modales. [Hugo Ruscitti]
 
 - Merge pull request #4 from digitalh/master. [Hugo Ruscitti]
 

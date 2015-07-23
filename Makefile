@@ -1,4 +1,4 @@
-VERSION=0.4.24
+VERSION=0.5.0
 
 N=[0m
 V=[01;32m

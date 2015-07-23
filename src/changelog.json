@@ -1,16 +1,7 @@
 {
     "last": "current", 
     "all_tags": [
-        "0.4.24", 
-        "0.4.17", 
-        "0.4.16", 
-        "0.4.15", 
-        "0.4.14", 
-        "0.4.13", 
-        "0.4.12", 
-        "0.4.11", 
-        "0.4.10", 
-        "0.4.9"
+        "0.5.0"
     ], 
     "changelog": {
         "current": {
@@ -18,133 +9,23 @@
             "tag": "current", 
             "changelog": []
         }, 
-        "0.4.24": {
-            "fecha": "2015-05-26-", 
-            "tag": "0.4.24", 
+        "0.5.0": {
+            "fecha": "2015-07-23", 
+            "tag": "0.5.0", 
             "changelog": [
-                "Arreglada la capa de dibujo (no recib\u00eda eventos)", 
-                "Actualizando el paquete.", 
-                "Actualizando version.", 
-                "Actualizando version.", 
-                "Actualizando el tamano de ventana.", 
-                "Agregada la dependencia bluebird para el empaquetado y cambiada la  versi\u00f3n.", 
-                "Changelog.", 
-                "Quitado el bitrate de salida para evitar errores exportando con un fps  bajo.", 
-                "Corregida llamada a avconv, ahora genera un video con los fps  correctos.", 
-                "Changelog.", 
-                "Agregada la dependencia: bluebird.", 
-                "Agragando opci\u00f3n al avconv.", 
-                "Esperando a que se graben las im\u00e1genes antes de exportar el video. ", 
-                "Quitada una dependencia y actualizado el changelog.", 
-                "Quitada la dependencia fluent-ffmpeg.", 
-                "Quitada la dependencia de ffmpeg.", 
-                "Reemplazada fluent-ffmpeg por un mock que usa avconv.", 
-                "Subiendo el archivo bower.json.", 
-                "Actualizando paquete.", 
-                "Actualizando changelog.", 
-                "Actualizando paquete.", 
-                "Actualizando la url de consulta al ws de versiones.", 
-                "Reparando rutas para el componente version.", 
-                "Agregando consulta de \u00faltima versi\u00f3n a trav\u00e9s de un webservice.", 
-                "Actualizando paquete.", 
-                "Release 0.4.17."
-            ]
-        }, 
-        "0.4.17": {
-            "fecha": "2015-02-18-", 
-            "tag": "0.4.17", 
-            "changelog": [
-                "Reparando la exportacion de videos.", 
-                "Arreglos para evitar que se arrastren im\u00e1genes o se puedan soltar  archivos sobre la ventana de nodewebkit.", 
-                "Quitando armado de thumbnails.", 
-                "Simplificando la directiva huayra-version.", 
-                "Actualizando paquete.", 
-                "Release 0.4.16."
-            ]
-        }, 
-        "0.4.16": {
-            "fecha": "2015-01-07-", 
-            "tag": "0.4.16", 
-            "changelog": [
-                "Quitando animaciones de los di\u00e1logos.", 
-                "Cambiando el zindex.", 
-                "Actualizando.", 
-                "Release 0.4.15."
-            ]
-        }, 
-        "0.4.15": {
-            "fecha": "2015-01-07-", 
-            "tag": "0.4.15", 
-            "changelog": [
+                "Arreglo incremento de version.", 
+                "Habilitando 'guardar' incluso cuando se inicia el proyecto por primera  vez.", 
+                "Arreglo menor en el selector de c\u00e1mara activa.", 
                 "Arreglo menor.", 
-                "Release 0.4.14."
-            ]
-        }, 
-        "0.4.14": {
-            "fecha": "2015-01-07-", 
-            "tag": "0.4.14", 
-            "changelog": [
-                "Ordenando numero de versiones.", 
-                "Organizando archivos.", 
-                "Quitando la dependencia de bower.", 
-                "Release 0.4.13."
-            ]
-        }, 
-        "0.4.13": {
-            "fecha": "2015-01-07-", 
-            "tag": "0.4.13", 
-            "changelog": [
+                "Merge branch 'huayra-version-stable'", 
+                "Revirtiendo cambios.", 
+                "Merge branch 'master' of https://github.com/HuayraLinux/huayra stopmotion.", 
                 "Arreglo menor.", 
-                "Comenzando a modularizar componentes.", 
-                "Release 0.4.12."
-            ]
-        }, 
-        "0.4.12": {
-            "fecha": "2015-01-07-", 
-            "tag": "0.4.12", 
-            "changelog": [
+                "Merge branch 'master' of https://github.com/HuayraLinux/huayra stopmotion.", 
                 "Arreglo menor.", 
-                "Agregando manejador de argumentos para abrir proyectos directamente  desde consola.", 
-                "Corrigiendo mime type (no usar text/*** porque la busqueda del icono  termina buscando text-generic por todos los temas)", 
-                "El archivo debe llevar el nombre del paquete.", 
-                "Correccion del formato del archivo control y dependencias.", 
-                "Soporte de mime y asociacion para los archivos .hmotion.", 
-                "Actualizando changelog.", 
-                "Release 0.4.11."
-            ]
-        }, 
-        "0.4.11": {
-            "fecha": "2015-01-05-", 
-            "tag": "0.4.11", 
-            "changelog": [
-                "Agregando un notificador de versi\u00f3n.", 
-                "Actualizando changelog.", 
-                "Release 0.4.10."
-            ]
-        }, 
-        "0.4.10": {
-            "fecha": "2015-01-05-", 
-            "tag": "0.4.10", 
-            "changelog": [
-                "Generando comandos para automatizar releases."
-            ]
-        }, 
-        "0.4.9": {
-            "fecha": "2014-12-22", 
-            "tag": "0.4.9", 
-            "changelog": [
-                "Quitando soporte para exportar a mpeg2.", 
-                "Reparando el bug de escalado de gif.", 
-                "Reparando el problema de exportacion de  GIF.", 
-                "Escondo el paginador.", 
-                "Un cartelito un poco mas practico para reportar errores de videos-no html5.", 
-                "Mejore un poquito el manejo para verificar si tenemos cam o no. ", 
-                "Saco alerts y consolelogs.", 
-                "Soporta multiples camaras en red. MODO DEBUG, NO PRODUCCION.", 
-                "Agrego carita del mensaje de error.", 
-                "Si no tenemos camara o la camara no funciona, nos notifica al iniciar  la aplicacion.", 
-                "Changelog.", 
-                "Merge pull request #5 from digitalh/master.", 
+                "Merge branch 'master' of https://github.com/HuayraLinux/huayra stopmotion.", 
+                "Merge branch 'master' of https://github.com/HuayraLinux/huayra stopmotion.", 
+                "Quitando animaciones di\u00e1logos modales.", 
                 "Merge pull request #4 from digitalh/master.", 
                 "Actualizando paquete debian.", 
                 "Reparando el bug de las im\u00e1genes que aparec\u00edan por la mitad.", 
