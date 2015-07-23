@@ -5,7 +5,7 @@ window.onerror = function(e) {
 window.mostrar_herramientas_de_desarrollo = function() {
   var w = gui.Window.get();
   w.showDevTools();
-};
+}
 
 window.mostrar = function(elemento, ruta_a_imagen) {
   /* Se ejecuta cuando la imagen del timeline está lista para ser mostrada. */
@@ -21,4 +21,4 @@ window.mostrar = function(elemento, ruta_a_imagen) {
       console.error(e);
     }
   }, 2000);
-};
+}

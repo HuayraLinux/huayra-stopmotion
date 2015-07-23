@@ -18,21 +18,19 @@ app.service('Proyecto', function(Menu, $q) {
 
     this.definir_fps = function(fps) {
         this.fps = fps;
-    };
+    }
 
     this._definir_titulo = function() {
-      var nuevo_titulo;
-
         if (this.es_proyecto_nuevo)
-            nuevo_titulo = "Sin título";
+            var nuevo_titulo = "Sin título";
         else
-            nuevo_titulo = this.nombre_del_proyecto;
+            var nuevo_titulo = this.nombre_del_proyecto;
 
         if (this.cambios_sin_guardar)
             nuevo_titulo = "* " + nuevo_titulo;
 
         document.title = nuevo_titulo;
-    };
+    }
 
     this.iniciar = function() {
         // es un numero entre 1000 y 10000.
@@ -46,9 +44,9 @@ app.service('Proyecto', function(Menu, $q) {
 
         if (!fs.existsSync('/tmp'))
             fs.mkdirSync('/tmp');
-
+            
         fs.mkdirSync(this.directorio_destino);
-    };
+    }
 
     this.abrir = function(archivo) {
         var self = this;
@@ -72,7 +70,7 @@ app.service('Proyecto', function(Menu, $q) {
             Menu.deshabilitar_guardado();
             self._definir_titulo();
         });
-    };
+    }
 
     this.guardar = function(ruta_destino) {
         var deferred = $q.defer();
@@ -85,7 +83,7 @@ app.service('Proyecto', function(Menu, $q) {
         } catch(err) {
           try {
             fs.mkdirSync(ruta_carpeta_imagenes);
-          } catch (err2) {
+          } catch(err) {
             alert("Imposible guardar el proyecto en esa carpeta.");
           }
         }
@@ -101,7 +99,7 @@ app.service('Proyecto', function(Menu, $q) {
         this.cambios_sin_guardar = false;
         Menu.deshabilitar_guardado();
         this._definir_titulo();
-    };
+    }
 
     this.borrar_cuadro_actual = function() {
         var index = this.sly.rel.activeItem;
@@ -109,10 +107,10 @@ app.service('Proyecto', function(Menu, $q) {
         var self = this;
 
         // Haciendo invisible la imagen del cuadro actual.
-        elemento.el.classList.add('eliminando');
-        elemento.el.children[0].classList.add('invisible');
+        elemento.el.classList.add('eliminando')
+        elemento.el.children[0].classList.add('invisible')
         elemento.el.removeChild(elemento.el.children[1]);
-        elemento.el.innerHTML += "<img src='img/explosion.gif' class='img-explosion'>";
+        elemento.el.innerHTML += "<img src='img/explosion.gif' class='img-explosion'>"
 
         setTimeout(function() {
             self.sly.remove(index);
@@ -121,7 +119,7 @@ app.service('Proyecto', function(Menu, $q) {
             Menu.habilitar_guardado();
             self._definir_titulo();
         }, 400);
-    };
+    }
 
     this.mover_imagenes = function(lista_a_imagenes, ruta_carpeta_destino) {
         var self = this;
@@ -134,7 +132,7 @@ app.service('Proyecto', function(Menu, $q) {
             var nombre_thumb = "imagen_thumb_" + index + ".png";
             var ruta_imagen_destino = path.join(ruta_carpeta_destino, nombre_imagen);
             var ruta_thumb_destino = path.join(ruta_carpeta_destino, nombre_thumb);
-
+            
             try {
                 if (ruta_imagen != ruta_imagen_destino) {
                     //fs.renameSync(ruta_imagen, ruta_imagen_destino);
@@ -148,8 +146,8 @@ app.service('Proyecto', function(Menu, $q) {
             self.contenido_hmotion.cuadros.push({
                 ruta: path.join(path.basename(ruta_carpeta_destino), nombre_imagen)
             });
-        });
-    };
+        })
+    }
 
     this.obtener_imagenes_desde_sly = function() {
         // Retorna la ruta a cada imagen dentro del timeline de sly.
@@ -158,20 +156,20 @@ app.service('Proyecto', function(Menu, $q) {
             ruta = ruta.replace('%20', ' ');
             return ruta;
         });
-    };
+    }
 
     this._crear_archivo = function(ruta_destino, contenido_json) {
         var data = JSON.stringify(contenido_json, null, 4);
-        var onerror = function(e) {console.log(e);};
+        var onerror = function(e) {console.log(e)};
 
         fs.writeFile(ruta_destino, data, onerror);
-    };
+    }
 
 
     this.definir_cuadros = function(frame) {
         this.frame = frame;
         this.sly = frame.data('sly');
-    };
+    }
 
     this.agregar_cuadro = function(ruta_a_imagen, ruta_a_thumb) {
         //var position = this.sly.rel.activeItem;
@@ -192,11 +190,11 @@ app.service('Proyecto', function(Menu, $q) {
         Menu.habilitar_guardado();
 
         this._definir_titulo();
-    };
+    }
 
     this.seleccionar_ultimo_cuadro = function() {
         this.sly.activate(sly.items.length - 1);
-    };
+    }
 
     this._decodeBase64Image = function(dataString) {
         var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/), response = {};
@@ -208,36 +206,32 @@ app.service('Proyecto', function(Menu, $q) {
         response.data = new Buffer(matches[2], 'base64');
 
         return response;
-    };
+    }
 
     this.guardar_cuadro = function(image_src) {
-        var ruta_imagen;
-        var ruta_thumb;
         var image = this._decodeBase64Image(image_src);
-        var nombre_carpeta_imagenes;
 
         var nombre_imagen = '_imagen_' + (this.sly.items.length + 1) + '.png';
         var nombre_thumb = '_imagen_thumb_' + (this.sly.items.length + 1) + '.png';
 
         // Carga child_process.exec para poder ejecutar comandos
         var exec = require('child_process').exec;
-
         function exec_log(error, stdout, stderr) {
             console.log('stdout: ' + stdout);
             console.log('stderr: ' + stderr);
             if (error !== null) {
                 console.log('exec error: ' + error);
             }
-        }
-
+        };
+        
         if (this.es_proyecto_nuevo) {
-            ruta_imagen = path.join(this.directorio_destino, nombre_imagen);
-            ruta_thumb = path.join(this.directorio_destino, nombre_thumb);
+            var ruta_imagen = path.join(this.directorio_destino, nombre_imagen);
+            var ruta_thumb = path.join(this.directorio_destino, nombre_thumb);
         } else {
             // Guarda la imagen en el directorio del proyecto pero con un _ al principio.
-            nombre_carpeta_imagenes = this.nombre_del_proyecto + ".imagenes";
-            ruta_imagen = path.join(this.directorio_destino, nombre_carpeta_imagenes, nombre_imagen);
-            ruta_thumb = path.join(this.directorio_destino, nombre_carpeta_imagenes, nombre_thumb);
+            var nombre_carpeta_imagenes = this.nombre_del_proyecto + ".imagenes";
+            var ruta_imagen = path.join(this.directorio_destino, nombre_carpeta_imagenes, nombre_imagen);
+            var ruta_thumb = path.join(this.directorio_destino, nombre_carpeta_imagenes, nombre_thumb);
         }
 
         var self = this;
@@ -254,12 +248,12 @@ app.service('Proyecto', function(Menu, $q) {
 
         this.cambios_sin_guardar = true;
         Menu.habilitar_guardado();
-    };
+    }
 
     this.calcular_porcentaje = function(frames) {
         var cantidad_imagenes = this.exportar_imagenes().length;
         return Math.round((frames/(cantidad_imagenes * 30)) * 100);
-    };
+    }
 
     this.exportar_imagenes = function() {
         var rutas_a_imagenes_origen = this.obtener_imagenes_desde_sly();
@@ -280,6 +274,6 @@ app.service('Proyecto', function(Menu, $q) {
         });
 
         return directorio_temporal;
-    };
+    }
 
 });

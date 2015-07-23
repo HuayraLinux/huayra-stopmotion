@@ -8,11 +8,11 @@ app.service('Paneles', function() {
 
     this.alternar_ayuda = function() {
         panel_ayuda.classList.toggle('ayuda-invisible');
-    };
-
+    }
+    
     this.alternar_panel_lateral = function() {
         panel.classList.toggle('panel-lateral-invisible');
         contenedor.classList.toggle('contenedor-layers-expandido');
         controles.classList.toggle('contenedor-controles-expandido');
-    };
+    }
 });

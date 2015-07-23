@@ -210,7 +210,7 @@ angular.module('ngAnimate', ['ng'])
     var rootAnimateState = {running:true};
     $provide.decorator('$animate', ['$delegate', '$injector', '$sniffer', '$rootElement', '$timeout', '$rootScope',
                             function($delegate,   $injector,   $sniffer,   $rootElement,   $timeout,   $rootScope) {
-
+        
       $rootElement.data(NG_ANIMATE_STATE, rootAnimateState);
 
       function lookup(name) {
