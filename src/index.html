@@ -168,7 +168,7 @@
 
                                 <div style='display: none' class='overlay'></div>
 
-                                <canvas id="dibujo" width=640 height=480></canvas>
+                                <canvas id="dibujo" width="640" height="480"></canvas>
 
                                 <!-- capa grilla -->
                                 <table id='table' class='grilla'>
@@ -458,6 +458,19 @@
 
 </footer>
 
+
+<script>
+document.body.addEventListener('dragover', function(e){
+  e.preventDefault();
+  e.stopPropagation();
+}, false);
+
+document.body.addEventListener('drop', function(e){
+  e.preventDefault();
+  e.stopPropagation();
+}, false);
+
+</script>
 
 </body>
 </html>

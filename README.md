@@ -55,6 +55,12 @@ por último, usando el comando **make** vas a ver las opciones de lanzamiento:
 	
 por ejemplo ``make test`` o ``make build``.
 
+## Tecnologías utilizadas
+
+* nodewebkit
+* angularjs
+* express.js
+* socket.io
 
 Colaboración
 ------------

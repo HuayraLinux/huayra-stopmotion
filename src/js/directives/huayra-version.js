@@ -4,35 +4,69 @@ app.directive('huayraVersion', function() {
   return {
     restrict: "E",
     transclude: true,
-    controller: function($scope, $http) {
+    controller: function($scope, $http, $timeout) {
       $scope.data = {};
-      $scope.data.version = "0.4.15";
-      $scope.data.changelog_sorted = [];
-      $scope.data.changelog_visible = false;
-
-      $scope.show_changelog = function() {
-        $scope.data.changelog_visible = true;
-      };
-
-      $scope.hide_changelog = function() {
-        $scope.data.changelog_visible = false;
-      };
+      $scope.data.version = "0.4.24";
+      $scope.data.info_url = "";
+      $scope.data.status = 'query'; // 'ok' 'update' 'error'
 
 
-      $http.get('./changelog.json').then(function(result) {
-        $scope.data.changelog = result.data;
+      function compare(left, right) {
+        if (typeof left + typeof right != 'stringstring')
+        return false;
 
-        for (var i=0; i<result.data.all_tags.length; i++) {
-          var tag_name = result.data.all_tags[i];
+        var a = left.split('.')
+        ,   b = right.split('.')
+        ,   i = 0, len = Math.max(a.length, b.length);
 
-          if (tag_name === 'current')
-            continue;
-
-          var item = result.data.changelog[tag_name];
-          $scope.data.changelog_sorted.push(item);
+        for (; i < len; i++) {
+          if ((a[i] && !b[i] && parseInt(a[i]) > 0) || (parseInt(a[i]) > parseInt(b[i]))) {
+            return 1;
+          } else if ((b[i] && !a[i] && parseInt(b[i]) > 0) || (parseInt(a[i]) < parseInt(b[i]))) {
+            return -1;
+          }
         }
 
-      });
+        return 0;
+      }
+
+
+
+      function consultar_version() {
+        $http.get('http://devel.huayra.conectarigualdad.gob.ar/pkg/version/huayra-stopmotion').
+          then(function(response) {
+            var current_version = response.data.current_version;
+            $scope.data.info_url = response.data.info_url;
+
+
+            var value = compare($scope.data.version, current_version);
+            console.log($scope.data.version, current_version, value);
+
+            console.log({
+              "version": $scope.data.version,
+              "current_version": current_version,
+              "value": value
+            });
+
+            if (value >= 0)
+              $scope.data.status = "ok";
+            else
+              $scope.data.status = "update";
+
+
+          }).
+          catch(function(response) {
+            console.error("error", response);
+            $scope.data.status = "error";
+          });
+      }
+
+      $scope.abrir_link = function(url) {
+        var gui = require('nw.gui');
+        gui.Shell.openExternal(url);
+      };
+
+      $timeout(consultar_version, 4000);
     },
     scope: {
       url_new_version: "&",

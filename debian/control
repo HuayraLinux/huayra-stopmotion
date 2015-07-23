@@ -10,7 +10,7 @@ Homepage: http://github.com/HuayraLinux/huayra-stopmotion
 
 Package: huayra-stopmotion
 Architecture: all
-Depends: ${misc:Depends}, node-webkit, ffmpeg | libav-tools , uvcdynctrl,
+Depends: ${misc:Depends}, node-webkit, libav-tools , uvcdynctrl,
  uvccapture, fswebcam
 Description: Permite realizar animaciones de stopmotion
  Huayra-motion permite crear películas y cortos animados

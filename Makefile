@@ -1,4 +1,4 @@
-VERSION=0.4.15
+VERSION=0.4.24
 
 N=[0m
 V=[01;32m
@@ -36,7 +36,7 @@ build:
 # puede eliminarse y usar make test, ya que instala automágicamente node webkit.
 test_mac:
 	@echo "Cuidado - se está usando la version de nodewebkit del sistema."
-	open -a /Applications/node-webkit.app src
+	/Applications/nwjs.app/Contents/MacOS/nwjs src
 
 test_linux:
 	nw src

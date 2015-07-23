@@ -719,3 +719,12 @@ div#controles_dibujo {
 div.title:hover {
   background-color: rgb(238, 238, 238);
 }
+
+
+canvas {
+  pointer-events: none;
+}
+
+img {
+  pointer-events: none;
+}

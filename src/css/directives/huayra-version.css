@@ -4,6 +4,7 @@
   top: 20px;
   font-size: small;
   color: gray;
+  z-index: 7000 !important;
 }
 
 .fecha {
@@ -35,4 +36,8 @@
   top: 35px;
   bottom: 120px;
   width: 400px;
+}
+
+.huayra-version .link {
+  color: red;
 }

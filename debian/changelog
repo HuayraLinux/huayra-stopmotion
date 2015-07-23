@@ -1,4 +1,91 @@
-huayra-stopmotion (0.46) UNRELEASED; urgency=medium
+huayra-stopmotion (1:0.4.24) unstable; urgency=low
+
+  * Actualización del paquete para incluir arreglo de la capa dibujo.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 27 May 2015 15:33:03 -0300
+
+huayra-stopmotion (1:0.4.23) unstable; urgency=low
+
+  * Empaquetando nuevamente para cambiar el tamaño inicial de la ventana. 
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 11 Mar 2015 19:24:15 +0100
+
+huayra-stopmotion (1:0.4.22) unstable; urgency=medium
+
+  * Cambiada la versión
+
+ -- gonza <gonza@huayra>  Tue, 10 Mar 2015 12:42:29 -0300
+
+huayra-stopmotion (1:0.4.21) unstable; urgency=medium
+
+  * Agregada dependencia bluebird
+
+ -- gonza <gonza@huayra>  Tue, 10 Mar 2015 12:28:02 -0300
+
+huayra-stopmotion (1:0.4.20) unstable; urgency=medium
+
+  * Exportando al fps correcto.
+
+ -- gonza <gonza@huayra>  Tue, 10 Mar 2015 11:03:43 -0300
+
+huayra-stopmotion (1:0.4.19) unstable; urgency=medium
+
+  * Espera a que se graben todas las imágenes antes de exportar.
+
+ -- gonza <gonza@huayra>  Mon, 09 Mar 2015 15:19:28 -0300
+
+huayra-stopmotion (1:0.4.18) unstable; urgency=medium
+
+  * Arreglado bug de que no dejaba exportar (reemplazado ffmpeg por avconv)
+
+ -- gonza <gonza@huayra>  Fri, 06 Mar 2015 14:31:40 -0300
+
+huayra-stopmotion (1:0.4.17-3) unstable; urgency=low
+
+  * actualizando paquete. 
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Mon, 02 Mar 2015 19:44:33 +0100
+
+huayra-stopmotion (1:0.4.17-2) unstable; urgency=low
+
+  * arreglo menor.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Fri, 27 Feb 2015 18:22:37 +0100
+
+huayra-stopmotion (1:0.4.17-1) unstable; urgency=low
+
+  * Actualizando la url del WS para consultar la ultima version.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Mon, 23 Feb 2015 18:16:00 +0100
+
+huayra-stopmotion (1:0.4.17) unstable; urgency=low
+
+  * Reparando la exportación de videos.
+  * Quitando la generacion de thumbnails que daba problemas.
+  * Haciendo arraglos en las rutas que tienen espacios.
+  * Simplificando la directiva huayra-version. 
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 18 Feb 2015 16:05:48 +0100
+
+huayra-stopmotion (1:0.4.16) unstable; urgency=low
+
+  * Arreglos menores.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 18 Feb 2015 14:34:34 +0100
+
+huayra-stopmotion (1:0.4.15) unstable; urgency=low
+
+  * Arreglos menores.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 07 Jan 2015 17:13:53 +0100
+
+huayra-stopmotion (1:0.4.13) unstable; urgency=low
+
+  * Arreglos menores. 
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 07 Jan 2015 16:39:25 +0100
+
+huayra-stopmotion (0.4.12) unstable; urgency=medium
 
   [ Ivan Hoffmann ]
   * Nuevos presets de exportación de video: Vimeo 640x480, WebM, MPEG 2,
@@ -15,7 +102,10 @@ huayra-stopmotion (0.46) UNRELEASED; urgency=medium
     lograban ver algunos botones.
   * Escondo el paginador ya que no seria tan necesario.
 
- -- Mauro <mauro@sdf.org>  Fri, 12 Dec 2014 16:44:49 -0300
+  [ Hugo Ruscitti ]
+  * 
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Wed, 07 Jan 2015 16:09:45 +0100
 
 huayra-stopmotion (0.45) unstable; urgency=low
 

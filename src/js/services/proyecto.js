@@ -1,5 +1,9 @@
+'use strict';
+
 var app = angular.module('app');
 var fs = require('fs');
+var Promise = require('bluebird');
+var path = require('path');
 
 app.service('Proyecto', function(Menu, $q) {
     this.frame = null;
@@ -18,19 +22,23 @@ app.service('Proyecto', function(Menu, $q) {
 
     this.definir_fps = function(fps) {
         this.fps = fps;
-    }
+    };
 
     this._definir_titulo = function() {
-        if (this.es_proyecto_nuevo)
-            var nuevo_titulo = "Sin título";
-        else
-            var nuevo_titulo = this.nombre_del_proyecto;
+        var nuevo_titulo;
+        if (this.es_proyecto_nuevo) {
+            nuevo_titulo = 'Sin título';
+        }
+        else {
+            nuevo_titulo = this.nombre_del_proyecto;
+        }
 
-        if (this.cambios_sin_guardar)
+        if (this.cambios_sin_guardar) {
             nuevo_titulo = "* " + nuevo_titulo;
+        }
 
         document.title = nuevo_titulo;
-    }
+    };
 
     this.iniciar = function() {
         // es un numero entre 1000 y 10000.
@@ -44,9 +52,9 @@ app.service('Proyecto', function(Menu, $q) {
 
         if (!fs.existsSync('/tmp'))
             fs.mkdirSync('/tmp');
-            
+
         fs.mkdirSync(this.directorio_destino);
-    }
+    };
 
     this.abrir = function(archivo) {
         var self = this;
@@ -70,7 +78,7 @@ app.service('Proyecto', function(Menu, $q) {
             Menu.deshabilitar_guardado();
             self._definir_titulo();
         });
-    }
+    };
 
     this.guardar = function(ruta_destino) {
         var deferred = $q.defer();
@@ -99,7 +107,7 @@ app.service('Proyecto', function(Menu, $q) {
         this.cambios_sin_guardar = false;
         Menu.deshabilitar_guardado();
         this._definir_titulo();
-    }
+    };
 
     this.borrar_cuadro_actual = function() {
         var index = this.sly.rel.activeItem;
@@ -110,7 +118,7 @@ app.service('Proyecto', function(Menu, $q) {
         elemento.el.classList.add('eliminando')
         elemento.el.children[0].classList.add('invisible')
         elemento.el.removeChild(elemento.el.children[1]);
-        elemento.el.innerHTML += "<img src='img/explosion.gif' class='img-explosion'>"
+        elemento.el.innerHTML += "<img src='img/explosion.gif' class='img-explosion'>";
 
         setTimeout(function() {
             self.sly.remove(index);
@@ -119,7 +127,7 @@ app.service('Proyecto', function(Menu, $q) {
             Menu.habilitar_guardado();
             self._definir_titulo();
         }, 400);
-    }
+    };
 
     this.mover_imagenes = function(lista_a_imagenes, ruta_carpeta_destino) {
         var self = this;
@@ -127,17 +135,13 @@ app.service('Proyecto', function(Menu, $q) {
 
         lista_a_imagenes.map(function(ruta_imagen, index) {
             ruta_imagen = ruta_imagen.split('?')[0];
-            ruta_thumb = ruta_imagen.replace("_imagen_", "_imagen_thumb_");
+            ruta_imagen = decodeURI(ruta_imagen);
             var nombre_imagen = "imagen_" + index + ".png";
-            var nombre_thumb = "imagen_thumb_" + index + ".png";
             var ruta_imagen_destino = path.join(ruta_carpeta_destino, nombre_imagen);
-            var ruta_thumb_destino = path.join(ruta_carpeta_destino, nombre_thumb);
-            
+
             try {
                 if (ruta_imagen != ruta_imagen_destino) {
-                    //fs.renameSync(ruta_imagen, ruta_imagen_destino);
                     fs.createReadStream(ruta_imagen).pipe(fs.createWriteStream(ruta_imagen_destino));
-                    fs.createReadStream(ruta_thumb).pipe(fs.createWriteStream(ruta_thumb_destino));
                 }
             } catch(err) {
                 console.log(err);
@@ -146,39 +150,39 @@ app.service('Proyecto', function(Menu, $q) {
             self.contenido_hmotion.cuadros.push({
                 ruta: path.join(path.basename(ruta_carpeta_destino), nombre_imagen)
             });
-        })
-    }
+        });
+    };
 
     this.obtener_imagenes_desde_sly = function() {
         // Retorna la ruta a cada imagen dentro del timeline de sly.
         return this.sly.items.map(function(imagen) {
             var ruta = imagen.el.children[0].src.replace('file://', '');
-            ruta = ruta.replace('%20', ' ');
+            ruta = decodeURI(ruta);
             return ruta;
         });
-    }
+    };
 
     this._crear_archivo = function(ruta_destino, contenido_json) {
         var data = JSON.stringify(contenido_json, null, 4);
-        var onerror = function(e) {console.log(e)};
+        var onerror = function(e) {
+          console.log("ERROR creando archivo " + ruta_destino + " : "+ e);
+        };
 
         fs.writeFile(ruta_destino, data, onerror);
-    }
+    };
 
 
     this.definir_cuadros = function(frame) {
         this.frame = frame;
         this.sly = frame.data('sly');
-    }
+    };
 
-    this.agregar_cuadro = function(ruta_a_imagen, ruta_a_thumb) {
+    this.agregar_cuadro = function(ruta_a_imagen) {
         //var position = this.sly.rel.activeItem;
         var acciones = "<div class='accion' onclick='borrar()'><i class='icon icon-trash icon-white'></i></div>";
         ruta_a_imagen += '?nocache=' + parseInt(Math.random()* 1000 + 1000, 10);
-        ruta_a_thumb += '?nocache=' + parseInt(Math.random()* 1000 + 1000, 10);
 
         var image = '<li class="cargando"><img onload="mostrar(this, \'RUTA\'); return false" class="img-invisible" src="img/divider.jpg"></img>ACCIONES</li>'.replace('RUTA', ruta_a_imagen).replace('ACCIONES', acciones);
-        var thumb = '<li class="cargando"><img onload="mostrar(this, \'RUTA\'); return false" class="img-invisible" src="img/divider.jpg"></img>ACCIONES</li>'.replace('RUTA', ruta_a_thumb).replace('ACCIONES', acciones);
         var a = this.sly.add(image);
 
         //this.sly.moveBefore(-1, position +1);
@@ -190,11 +194,11 @@ app.service('Proyecto', function(Menu, $q) {
         Menu.habilitar_guardado();
 
         this._definir_titulo();
-    }
+    };
 
     this.seleccionar_ultimo_cuadro = function() {
         this.sly.activate(sly.items.length - 1);
-    }
+    };
 
     this._decodeBase64Image = function(dataString) {
         var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/), response = {};
@@ -206,13 +210,13 @@ app.service('Proyecto', function(Menu, $q) {
         response.data = new Buffer(matches[2], 'base64');
 
         return response;
-    }
+    };
 
     this.guardar_cuadro = function(image_src) {
         var image = this._decodeBase64Image(image_src);
 
         var nombre_imagen = '_imagen_' + (this.sly.items.length + 1) + '.png';
-        var nombre_thumb = '_imagen_thumb_' + (this.sly.items.length + 1) + '.png';
+        var ruta_imagen;
 
         // Carga child_process.exec para poder ejecutar comandos
         var exec = require('child_process').exec;
@@ -222,38 +226,33 @@ app.service('Proyecto', function(Menu, $q) {
             if (error !== null) {
                 console.log('exec error: ' + error);
             }
-        };
-        
+        }
+
         if (this.es_proyecto_nuevo) {
-            var ruta_imagen = path.join(this.directorio_destino, nombre_imagen);
-            var ruta_thumb = path.join(this.directorio_destino, nombre_thumb);
+            ruta_imagen = path.join(this.directorio_destino, nombre_imagen);
         } else {
             // Guarda la imagen en el directorio del proyecto pero con un _ al principio.
             var nombre_carpeta_imagenes = this.nombre_del_proyecto + ".imagenes";
-            var ruta_imagen = path.join(this.directorio_destino, nombre_carpeta_imagenes, nombre_imagen);
-            var ruta_thumb = path.join(this.directorio_destino, nombre_carpeta_imagenes, nombre_thumb);
+            ruta_imagen = path.join(this.directorio_destino, nombre_carpeta_imagenes, nombre_imagen);
         }
 
         var self = this;
 
         fs.writeFile(ruta_imagen, image.data, function(err) {
-            if (err)
+            if (err) {
                 throw err;
-
-            // Convertir imagen a thumbnail.
-            var convert_imagen = 'convert -resize 120 -quality 87 ' + ruta_imagen + " " + ruta_thumb;
-            exec(convert_imagen, exec_log);
-            self.agregar_cuadro(ruta_imagen, ruta_thumb);
+            }
+            self.agregar_cuadro(ruta_imagen);
         });
 
         this.cambios_sin_guardar = true;
         Menu.habilitar_guardado();
-    }
+    };
 
     this.calcular_porcentaje = function(frames) {
-        var cantidad_imagenes = this.exportar_imagenes().length;
+        var cantidad_imagenes = this.obtener_imagenes_desde_sly().length;
         return Math.round((frames/(cantidad_imagenes * 30)) * 100);
-    }
+    };
 
     this.exportar_imagenes = function() {
         var rutas_a_imagenes_origen = this.obtener_imagenes_desde_sly();
@@ -262,18 +261,21 @@ app.service('Proyecto', function(Menu, $q) {
 
         fs.mkdirSync(directorio_temporal);
 
-        rutas_a_imagenes_origen.map(function(ruta_imagen, index) {
-            ruta_imagen = ruta_imagen.split('?')[0];
-            var nombre_imagen = index + ".png";
-            var ruta_imagen_destino = path.join(directorio_temporal, nombre_imagen);
+        return Promise.all(rutas_a_imagenes_origen.map(function(ruta_imagen, index) {
+            return new Promise(function(fulfill) {
+                var nombre_imagen = index + '.png',
+                    ruta_imagen_destino = path.join(directorio_temporal, nombre_imagen),
+                    is = fs.createReadStream(ruta_imagen.split('?')[0]),
+                    os = fs.createWriteStream(ruta_imagen_destino);
 
-            is = fs.createReadStream(ruta_imagen);
-            os = fs.createWriteStream(ruta_imagen_destino);
-
-            is.pipe(os);
+                is.pipe(os);
+                is.on('end', function() {
+                    os.end();
+                });
+                os.on('finish', fulfill);
+            });
+        })).then(function() {
+            return directorio_temporal;
         });
-
-        return directorio_temporal;
-    }
-
+    };
 });
