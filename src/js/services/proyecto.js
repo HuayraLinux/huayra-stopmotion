@@ -47,13 +47,14 @@ app.service('Proyecto', function(Menu, $q) {
         this.directorio_destino = "/tmp/" + tmp_id + "/";
         this.nombre_del_proyecto = tmp_id;
         this.es_proyecto_nuevo = true;
-        this.cambios_sin_guardar = false;
+        this.cambios_sin_guardar = true;
         this._definir_titulo();
 
         if (!fs.existsSync('/tmp'))
             fs.mkdirSync('/tmp');
 
         fs.mkdirSync(this.directorio_destino);
+        Menu.habilitar_guardado();
     };
 
     this.abrir = function(archivo) {
@@ -165,7 +166,9 @@ app.service('Proyecto', function(Menu, $q) {
     this._crear_archivo = function(ruta_destino, contenido_json) {
         var data = JSON.stringify(contenido_json, null, 4);
         var onerror = function(e) {
-          console.log("ERROR creando archivo " + ruta_destino + " : "+ e);
+          if (e) {
+            console.log("ERROR creando archivo " + ruta_destino + " : " + e);
+          }
         };
 
         fs.writeFile(ruta_destino, data, onerror);

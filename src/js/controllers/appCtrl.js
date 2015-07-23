@@ -469,7 +469,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
   $scope.directorio_destino = null;
   $scope.nombre_del_proyecto = null;
   $scope.es_proyecto_nuevo = null;
-  $scope.cambios_sin_guardar = null;
+  $scope.cambios_sin_guardar = true;
 
 
   $scope.fantasma = true;
