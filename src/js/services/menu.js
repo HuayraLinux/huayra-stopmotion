@@ -7,6 +7,13 @@ app.service('Menu', function() {
     this.menu_archivo = new gui.Menu();
     this.menu_ayuda = new gui.Menu();
 
+    this.item_nuevo = new gui.MenuItem({
+        label: 'Nuevo',
+        click: function() {
+            window.nuevo_proyecto();
+        }
+    });
+
     this.item_abrir = new gui.MenuItem({
         label: 'Abrir',
         click: function() {
@@ -31,7 +38,7 @@ app.service('Menu', function() {
     this.item_salir = new gui.MenuItem({
         label: 'Salir',
         click: function() {
-            gui.App.closeAllWindows();
+          window.on_close_motion();
         }
     });
 
@@ -60,6 +67,7 @@ app.service('Menu', function() {
 
     this.deshabilitar_guardado();
 
+    this.menu_archivo.append(this.item_nuevo);
     this.menu_archivo.append(this.item_abrir);
     this.menu_archivo.append(this.item_guardar);
     this.menu_archivo.append(this.item_guardar_como);

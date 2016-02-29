@@ -90,6 +90,16 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
   var ModalCerrarCtrl = function($scope, $modalInstance) {
 
+    $scope.nuevo = function() {
+      window.realmente_nuevo_proyecto();
+      $modalInstance.close();
+    };
+
+    $scope.abrir = function() {
+      window.realmente_abrir_proyecto();
+      $modalInstance.close();
+    };
+
     $scope.guardar = function() {
       window.guardar_proyecto_como();
       $modalInstance.close();
@@ -105,8 +115,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
   };
 
-  ventana.on("close", function() {
-
+  window.on_close_motion = function() {
     if (Proyecto.cambios_sin_guardar) {
 
       var modalInstance = $modal.open({
@@ -120,8 +129,9 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     } else {
       gui.App.quit();
     }
+  };
 
-  });
+  ventana.on("close", window.on_close_motion);
 
   var ModalAcercaDeCtrl = function($scope, $modalInstance) {
 
@@ -982,9 +992,29 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     gui.Shell.openExternal(url);
   };
 
-
-  window.iniciar_nuevo_proyecto = function() {
+  window.iniciar_nuevo_proyecto = function(){
     Proyecto.iniciar();
+    window.proyecto_motion = Proyecto;
+  };
+
+  window.realmente_nuevo_proyecto = function(){
+    window.location.reload(1);
+  };
+
+  window.nuevo_proyecto = function() {
+    if (Proyecto.cambios_sin_guardar) {
+
+      var modalInstance = $modal.open({
+        templateUrl: 'partials/modal_nuevo_sin_guardar.html',
+        controller: ModalCerrarCtrl,
+        resolve: {
+          es_proyecto_nuevo: $scope.es_proyecto_nuevo,
+        }
+      });
+    }
+    else{
+      window.realmente_nuevo_proyecto();
+    }
   };
 
   window.abrir_proyecto_desde_ruta = function(archivo, ocultar_pantalla){
@@ -1008,7 +1038,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     ajustar_capas();
   };
 
-  window.abrir_proyecto = function(success_callback) {
+  window.realmente_abrir_proyecto = function(success_callback){
     var openDialog = document.getElementById('open-dialog');
     openDialog.click();
 
@@ -1017,6 +1047,23 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
       this.value = ""; // Hace que se pueda seleccionar el archivo nuevamente.
       abrir_proyecto_desde_ruta(archivo, success_callback);
     };
+  }
+
+  window.abrir_proyecto = function(success_callback) {
+
+    if (Proyecto.cambios_sin_guardar) {
+
+      var modalInstance = $modal.open({
+        templateUrl: 'partials/modal_abrir_sin_guardar.html',
+        controller: ModalCerrarCtrl,
+        resolve: {
+          es_proyecto_nuevo: $scope.es_proyecto_nuevo,
+        }
+      });
+    }
+    else{
+      realmente_abrir_proyecto(success_callback);
+    }
   };
 
   $scope.guardar_proyecto = function() {
@@ -1046,25 +1093,6 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
       Preferencias.agregar_proyecto_reciente(archivo);
       $scope.abrir_proyecto(archivo);
     };
-  };
-
-  function ocultar_pantalla_inicial() {
-    jQuery('.panel-inicial').fadeOut();
-  }
-
-  $scope.ocultar_pantalla_incial = ocultar_pantalla_inicial;
-
-  var boton_iniciar_proyecto = document.getElementById('boton_iniciar_proyecto');
-
-  boton_iniciar_proyecto.onclick = function() {
-    ocultar_pantalla_inicial();
-    iniciar_nuevo_proyecto();
-  };
-
-  var boton_abrir_proyecto = document.getElementById('boton_abrir_proyecto');
-
-  boton_abrir_proyecto.onclick = function() {
-    abrir_proyecto(ocultar_pantalla_inicial);
   };
 
   var config = require('./package.json');
@@ -1162,3 +1190,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
   }
 
 });
+
+
+window.onready = function(){
+  window.iniciar_nuevo_proyecto();
+};
