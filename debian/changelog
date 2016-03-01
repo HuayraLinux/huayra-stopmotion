@@ -1,3 +1,16 @@
+huayra-stopmotion (1:0.5.1) unstable; urgency=low
+
+  * Actualizando a la versión 0.5.1.
+  * Actualizado el menu
+  * Permite crear una nueva sesion
+  * Al cambiar de pantalla (nuevo, abrir, cerrar)
+    consulta si queremos guardar el trabajo
+    antes de continuar
+  * La aplicacion directamente inicia en una sesion
+    nueva
+
+ -- Mauro <mauro@sdf.org>  Tue, 01 Mar 2016 16:04:59 -0300
+
 huayra-stopmotion (1:0.5.0) unstable; urgency=low
 
   * Actualizando a la versión 0.5.0.

@@ -86,6 +86,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
       function(){$scope.cuando_selecciona_exportar();},
       function(){$scope.cuando_selecciona_acerca_de();}
     );
+    Menu.actualizar_recientes(ventana, $scope.proyectos_recientes);
   }
 
   var ModalCerrarCtrl = function($scope, $modalInstance) {
@@ -1033,7 +1034,8 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     Proyecto.abrir(archivo);
 
     if (ocultar_pantalla)
-    ocultar_pantalla_inicial();
+    { console.log("Aca deberiamos ocultar la pantalla inicial que ya no existe mas"); }
+    //ocultar_pantalla_inicial();
 
     ajustar_capas();
   };
