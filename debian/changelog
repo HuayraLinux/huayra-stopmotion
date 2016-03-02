@@ -8,6 +8,8 @@ huayra-stopmotion (1:0.5.1) unstable; urgency=low
     antes de continuar
   * La aplicacion directamente inicia en una sesion
     nueva
+  * Desde el menu se puede acceder a las sesiones
+    nueva
 
  -- Mauro <mauro@sdf.org>  Tue, 01 Mar 2016 16:04:59 -0300
 

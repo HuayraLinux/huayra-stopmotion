@@ -4,6 +4,7 @@ var path = require('path');
 var ffmpeg = require('./js/ffmpeg-mock');
 var utils = require('./js/utils');
 var exec = require('child_process').exec;
+window.motion_ready = null;
 
 var ventana = gui.Window.get();
 
@@ -1196,4 +1197,5 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
 window.onready = function(){
   window.iniciar_nuevo_proyecto();
+  window.motion_ready = true;
 };
