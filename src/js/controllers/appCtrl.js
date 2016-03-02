@@ -398,7 +398,6 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
 
 
   $scope.cuando_selecciona_exportar = function() {
-
     var modalInstance = $modal.open({
       templateUrl: 'partials/modal_exportar.html',
       controller: ModalExportarCtrl,

@@ -133,6 +133,8 @@ app.service('Menu', function() {
     };
 
     this.agregar_a_ventana = function(ventana, funcion_exportar, funcion_acerca_de) {
+      console.log(funcion_exportar, funcion_acerca_de);
+
       ventana.menu = this.menubar;
       this.funcion_exportar = funcion_exportar;
       this.funcion_acerca_de = funcion_acerca_de;
