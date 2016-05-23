@@ -82,13 +82,11 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $timeout(actualizar_temporizador, 1000);
   };
 
-  if( gui.Window.get().menu === undefined ){
     Menu.agregar_a_ventana(ventana,
       function(){$scope.cuando_selecciona_exportar();},
       function(){$scope.cuando_selecciona_acerca_de();}
     );
     Menu.actualizar_recientes(ventana, $scope.proyectos_recientes);
-  }
 
   var ModalCerrarCtrl = function($scope, $modalInstance) {
 
@@ -999,7 +997,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
   };
 
   window.realmente_nuevo_proyecto = function(){
-    window.location.reload(1);
+    window.location.reload(true);
   };
 
   window.nuevo_proyecto = function() {
