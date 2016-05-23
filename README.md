@@ -13,10 +13,11 @@ huayra-motion
 
 Este software funciona sobre GNU/Linux, MacOSX y Windows.
 
-Podés descargar las versiones binarias para *Linux*, *Mac OSX* o
-*Windows?* aquí:
+Podés conseguir los binarios para Huayra/Gnu linux desde
+estas URL:
 
-- [Descargar](http://dev-losersjuegos.com.ar/huayra-motion)
+- [Descargar nwjs](http://devel.huayragnulinux.com.ar/packages.php?package=node-webkit)
+- [Descargar huayra-motion](http://devel.huayragnulinux.com.ar/packages.php?package=huayra-stopmotion)
 
 ¿Cómo compilar la aplicación completa?
 --------------------------------------
@@ -30,20 +31,20 @@ Luego tenes que asegurarte de tener instalado node.js, por ejemplo la versión 0
 
 	➤ node -v
 	v0.10.18
-	
+
 Si no tenés node, tendrías que instalarlo antes. Hay unas recetas de instalación en
 estas webs:
 
 - [Como instalar nodejs en huayra-linux](http://examplelab.com.ar/como-instalar-nodejs-en-huayra-linux/)
 - [how-to-install-nodejs](http://howtonode.org/how-to-install-nodejs)
-	
+
 Luego de tener nodejs, hay que instalar todas las dependencias de la aplicación
 usando estos comandos:
 
 	➤ sudo npm install bower -g
 	➤ cd huayra-stopmotion
 	➤ make init
-	
+
 por último, usando el comando **make** vas a ver las opciones de lanzamiento:
 
 	➤ make
@@ -52,7 +53,7 @@ por último, usando el comando **make** vas a ver las opciones de lanzamiento:
 	instalar       Instala node webkit para linux.
 	instalar_mac   Instala node webkit para mac osx.
 	build          Genera las versiones compiladas.
-	
+
 por ejemplo ``make test`` o ``make build``.
 
 ## Tecnologías utilizadas
