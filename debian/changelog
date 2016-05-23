@@ -1,3 +1,11 @@
+huayra-stopmotion (1:0.5.2.0) unstable; urgency=low
+
+  * Repararando el bug que impedia usar algunas opciones de menú luego de
+    reiniciar.
+
+ -- Hugo Ruscitti <hugoruscitti@gmail.com>  Mon, 23 May 2016 16:00:51 -0300
+
+
 huayra-stopmotion (1:0.5.1.1) unstable; urgency=low
 
   * Actualizando a la versión 0.5.1.1
