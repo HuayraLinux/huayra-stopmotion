@@ -61,6 +61,7 @@ upload: build
 
 install:
 	echo "haciendo make install..."
+	npm install
 
 clean:
 	echo "haciendo make clean...."
