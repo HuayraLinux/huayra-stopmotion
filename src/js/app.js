@@ -4,5 +4,5 @@ var app = angular.module('app', ['ngAnimate', 'ui.bootstrap']);
 var fs = require('fs');
 
 /* Hack para setear WM_CLASS */
-require('nwjs-hack').set_wmclass(null, "huayra-motion", true);
+require('nwjs-hack').set_wmclass("huayra-motion", true);
 fs.writeFileSync('/tmp/huayra-stopmotion.pid', process.pid);
