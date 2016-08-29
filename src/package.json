@@ -6,6 +6,7 @@
     "single-instance": false,
     "compartir": true,
     "chromium-args": "--ignore-certificate-errors --enable-threaded-compositing",
+    "node-main": "js/node-main.js",
     "window": {
       "toolbar": false,
       "min_width": 800,

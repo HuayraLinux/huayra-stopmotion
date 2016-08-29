@@ -13,6 +13,7 @@
   "author": "",
   "license": "BSD-2-Clause",
   "dependencies": {
+    "nwjs-hack": "iglosiggio/nwjs-hack",
     "grunt": "~0.4.1",
     "grunt-node-webkit-builder": "~0.1.14",
     "express": "~3.4.4",
