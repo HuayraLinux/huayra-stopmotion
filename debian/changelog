@@ -1,3 +1,9 @@
+huayra-stopmotion (1:0.5.3.0) unstable; urgency=medium
+
+  * Cambiada la forma en la que se genera el WM_CLASS
+
+ -- Ignacio Losiggio <iglosiggio@gmail.com>  Mon, 29 Aug 2016 15:03:45 -0300
+
 huayra-stopmotion (1:0.5.2.0) unstable; urgency=low
 
   * Repararando el bug que impedia usar algunas opciones de menú luego de
