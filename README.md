@@ -5,7 +5,6 @@ huayra-motion
 
 ![](img/preview3.png)
 ![](img/preview2.png)
-![](img/preview.png)
 
 
 ¿Cómo iniciar la aplicación?
