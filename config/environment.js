@@ -4,7 +4,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'huayra-stopmotion',
     environment: environment,
-    rootURL: null,
+    rootURL: '/',
     locationType: 'hash',
     EmberENV: {
       FEATURES: {
@@ -29,7 +29,7 @@ module.exports = function(environment) {
 
   if (environment === 'test') {
     // Testem prefers this...
-    
+
     ENV.locationType = 'none';
 
     // keep test console output quieter
