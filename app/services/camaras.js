@@ -15,6 +15,8 @@ export default Ember.Service.extend({
    * pueda comenzar a funcionar en el resto de la aplicación.
    */
   inicializar() {
+    this.set('camaraSeleccionada', null);
+
     return new Promise((success) => {
       this._inicializarCamaraDePrueba();
       console.log("Simulando una demora de 2 segundos en la inicialización del gestor de cámaras.");
@@ -23,7 +25,7 @@ export default Ember.Service.extend({
   },
 
   _inicializarCamaraDePrueba() {
-    this.get('camaras').pushObject({id: 1, nombre: 'Cámara de prueba'});
+    this.get('camaras').pushObject({id: 1, nombre: 'Cámara de prueba', camaraReal: false});
   },
 
 
@@ -34,8 +36,26 @@ export default Ember.Service.extend({
    * apagar la cámara anterior, encender la cámara nueva y apuntar todas las
    * propiedades a ese cámara.
    */
-  seleccionarCamara(/*indice, elementID*/) {
-    //return new Promise
+  seleccionarCamara(indice, elementID) {
+
+    if (!this.get('camaras')[indice]) {
+      throw new Error("No se puede encontrar la cámara índice " + indice);
+    }
+
+    let camaraSeleccionada = this.get('camaras')[indice];
+
+    if (camaraSeleccionada.camaraReal === false) {
+      this._activarCamaraDePrueba(elementID);
+    } else {
+      throw new Error("No se implementó una forma de inicializar esta cámara.");
+    }
+
+    this.set('camaraSeleccionada', camaraSeleccionada);
+  },
+
+  _activarCamaraDePrueba(elementID) {
+    let contenido = `<video id="video" src="video-camara-fallback.mp4" loop="true" autoplay="true" muted="muted"></video>`;
+    $(elementID).html(contenido);
   },
 
 
@@ -74,20 +94,27 @@ export default Ember.Service.extend({
    *
    */
   obtenerControles() {
+
   },
 
   /**
    * Retorna el valor de un control en particular.
    */
   obtenerValorDeControl(/*idControl*/) {
+
   },
 
   /**
    * Definr el valor de un control en particular.
    */
   definirValorDeControl(/*idControl, valor*/) {
+
   },
 
+  desactivarCamaraSeleccionada(elementID) {
+    $(elementID).html("desactivada...");
+    this.set('camaraSeleccionada', null);
+  },
 
   /**
    * Inicia la captura de uno solo frame.

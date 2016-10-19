@@ -1,7 +1,18 @@
-<h1>Camaras</h1>
-
-<p>Cantidad de cámaras: {{camaras.cantidadDeCamaras}}</p>
-
 <p>{{#link-to 'index' class="ui button"}}Regresar{{/link-to}}</p>
+
+<h1>Prueba de cámaras</h1>
+
+<p>Cantidad de cámaras disponibles: {{camaras.cantidadDeCamaras}}</p>
+
+{{#if hayCamaraSeleccionada}}
+  <p>Hay una cámara seleccionada <button {{action "apagarCamara"}}>Apagar la camara seleccionada</button></p>
+{{else}}
+  <button {{action "seleccionarCamara" 0}}>Inicializar camara 1</button>
+{{/if}}
+
+
+<div id='camara'>
+  Contenendor para la cámara.
+</div>
 
 {{outlet}}
