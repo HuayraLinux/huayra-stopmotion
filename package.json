@@ -1,6 +1,7 @@
 {
   "name": "huayra-stopmotion",
   "version": "0.0.0",
+  "main": "main.js",
   "description": "Small description for huayra-stopmotion goes here",
   "private": true,
   "directories": {
@@ -20,6 +21,7 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
+    "electron": "^1.4.3",
     "ember-ajax": "^2.0.1",
     "ember-cli": "2.7.0",
     "ember-cli-app-version": "^1.0.0",
