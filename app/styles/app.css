@@ -1,5 +1,29 @@
-#camara {
-  border: 1px solid #ccc;
-  width: 200px;
-  height: 200px;
+
+.contenedor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
+
+
+.vbox {
+  flex-grow: 1;
+}
+
+.vbox.header {
+  flex-grow: 0;
+  background-color: #ccc;
+}
+
+.vbox.timeline {
+  flex-grow: 0;
+  background-color: #ccc;
+  height: 100px;
+  padding: 1em;
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+
+
+body > .ember-view {
+  height: 100%;

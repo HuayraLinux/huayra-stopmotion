@@ -1,18 +1,29 @@
-<p>{{#link-to 'index' class="ui button"}}Regresar{{/link-to}}</p>
+<div class="contenedor">
 
-<h1>Prueba de cámaras</h1>
+  <div class="vbox header">
 
-<p>Cantidad de cámaras disponibles: {{camaras.cantidadDeCamaras}}</p>
+    <p>{{#link-to 'index' class="ui button"}}Regresar{{/link-to}}</p>
 
-{{#if hayCamaraSeleccionada}}
-  <p>Hay una cámara seleccionada <button {{action "apagarCamara"}}>Apagar la camara seleccionada</button></p>
-{{else}}
-  <button {{action "seleccionarCamara" 0}}>Inicializar camara 1</button>
-{{/if}}
+    <h1>Prueba de cámaras</h1>
 
+    <p>Cantidad de cámaras disponibles: {{camaras.cantidadDeCamaras}}</p>
 
-<div id='camara'>
-  Contenendor para la cámara.
+    {{#if hayCamaraSeleccionada}}
+      <p>Hay una cámara seleccionada <button {{action "apagarCamara"}}>Apagar la camara seleccionada</button></p>
+    {{else}}
+      <button {{action "seleccionarCamara" 0}}>Inicializar camara 1</button>
+    {{/if}}
+
+    {{outlet}}
+
+  </div>
+
+  <div class="vbox">
+    <div id='camara'>Contenendor para la cámara.</div>
+  </div>
+
+  <div class="vbox timeline">
+    Espacio reservado para el timeline.
+  </div>
+
 </div>
-
-{{outlet}}
