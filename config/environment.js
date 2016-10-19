@@ -5,6 +5,7 @@ module.exports = function(environment) {
     modulePrefix: 'huayra-stopmotion',
     environment: environment,
     //rootURL: '/',
+    electronLiveReload: true,
     locationType: 'hash',
     EmberENV: {
       FEATURES: {
@@ -31,6 +32,8 @@ module.exports = function(environment) {
     // Testem prefers this...
 
     ENV.locationType = 'none';
+    ENV.rootURL = '/';
+    ENV.electronLiveReload = false;
 
     // keep test console output quieter
     ENV.APP.LOG_ACTIVE_GENERATION = false;

@@ -2,7 +2,9 @@
   "predef": [
     "document",
     "window",
-    "-Promise"
+    "-Promise",
+    "requireNode",
+    "inElectron"
   ],
   "browser": true,
   "boss": true,
