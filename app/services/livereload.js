@@ -6,7 +6,7 @@ export default Ember.Service.extend({
 
   inicializar: Ember.on('init', function() {
 
-    if (config.electronLiveReload) {
+    if (config.electronLiveReload && window.inElectron) {
       console.warn("Se ha inicializado el modo livereload desde config/environment");
 
       let fs = requireNode('fs');

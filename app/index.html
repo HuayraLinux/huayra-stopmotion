@@ -4,7 +4,7 @@
 
     <script>
       window.module = undefined;
-      window.requireNode = require;
+      window.requireNode = window.require || null;
       window.inElectron = (window && window.process && window.process.type);
     </script>
 
