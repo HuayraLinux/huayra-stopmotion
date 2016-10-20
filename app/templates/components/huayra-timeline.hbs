@@ -1,0 +1,8 @@
+<div class="contenido-timeline">
+  {{#each capturas as |captura|}}
+    {{huayra-cuadro cuadro=captura}}
+  {{else}}
+    Espacio reservado para el timeline.
+    {{yield}}
+  {{/each}}
+</div>

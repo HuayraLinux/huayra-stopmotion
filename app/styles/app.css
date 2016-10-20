@@ -37,3 +37,7 @@ body > .ember-view {
 .contenido-timeline {
   padding: 1em;
 }
+
+.huayra-cuadro {
+  display: inline-block;
+}

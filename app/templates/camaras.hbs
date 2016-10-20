@@ -27,15 +27,7 @@
   </div>
 
   <div class="vbox timeline">
-
-    <div class="contenido-timeline">
-      {{#each capturas as |captura|}}
-        <img src={{captura.href}}/>
-      {{else}}
-        Espacio reservado para el timeline.
-      {{/each}}
-    </div>
-
+    {{huayra-timeline capturas=capturas}}
   </div>
 
 </div>
