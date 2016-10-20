@@ -49,4 +49,9 @@ version_major:
 	./node_modules/ember-cli/bin/ember release --major
 
 electron:
+	@echo ""
+	@echo "${G}CIUDADO, para que esto funcione tendrías que ejecutar previamente:${N}"
+	@echo ""
+	@echo "   ${G}make compilar o make compilar_live${N}"
+	@echo ""
 	node_modules/.bin/electron .

@@ -32,6 +32,7 @@ export default Ember.Route.extend({
 
   setupController(controller, model) {
     controller.set('model', model);
+    controller.set('capturas', []);
   }
 
 });

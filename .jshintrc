@@ -4,7 +4,8 @@
     "window",
     "-Promise",
     "requireNode",
-    "inElectron"
+    "inElectron",
+    "$"
   ],
   "browser": true,
   "boss": true,

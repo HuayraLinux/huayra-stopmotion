@@ -19,11 +19,21 @@
   flex-grow: 0;
   background-color: #ccc;
   height: 100px;
-  padding: 1em;
-  overflow-y: hidden;
-  overflow-x: scroll;
+  overflow: scroll;
+}
+
+.vbox.controles {
+  flex-grow: 0;
+  background-color: #ddd;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 
 body > .ember-view {
   height: 100%;
+}
+
+.contenido-timeline {
+  padding: 1em;
+}

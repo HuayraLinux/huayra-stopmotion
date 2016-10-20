@@ -22,8 +22,20 @@
     <div id='camara'>Contenendor para la cámara.</div>
   </div>
 
+  <div class="vbox controles">
+    <button class="ui button primary {{if hayCamaraSeleccionada '' 'disabled'}}" {{action "capturar"}}>Capturar</button>
+  </div>
+
   <div class="vbox timeline">
-    Espacio reservado para el timeline.
+
+    <div class="contenido-timeline">
+      {{#each capturas as |captura|}}
+        <img src={{captura.href}}/>
+      {{else}}
+        Espacio reservado para el timeline.
+      {{/each}}
+    </div>
+
   </div>
 
 </div>

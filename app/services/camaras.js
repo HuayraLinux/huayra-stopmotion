@@ -54,8 +54,9 @@ export default Ember.Service.extend({
   },
 
   _activarCamaraDePrueba(elementID) {
-    let contenido = `<video id="video" src="video-camara-fallback.mp4" loop="true" autoplay="true" muted="muted"></video>`;
+    let contenido = `<video id="video" src="video-camara-fallback.mp4" loop="true" autoplay="true" playback-rate=0.1 muted="muted"></video>`;
     $(elementID).html(contenido);
+    document.getElementById("video").playbackRate = 0.1;
   },
 
 
@@ -119,11 +120,105 @@ export default Ember.Service.extend({
   /**
    * Inicia la captura de uno solo frame.
    *
-   * Retorna una promesa que al cumplirse incluye un buffer de archivo PNG
-   * en la escala real de la cámara.
+   * Retorna una promesa que al cumplirse incluye la captura de pantalla
+   * en varios formatos, algo así:
+   *
+   *     {
+   *        captura:          base64 en formato png de la captura completa
+   *        miniatura:        base64 en formato png de la miniatura
+   *        ruta_captura:     path de sistema absoluto a la captura en el disco (solo electron)
+   *        ruta_miniatura:   path de sistema absoluto a la miniatura (solo electron)
+   *     }
    */
   capturarFrame() {
-    //return new Promise ...
+    let camaraSeleccionada = this.get('camaraSeleccionada');
+
+    return new Promise((success, reject) => {
+
+      if (camaraSeleccionada.camaraReal === false) {
+        let capturas = this._obtener_capturas_desde_camara_falsa();
+
+        let nombre_sugerido = this._obtener_numero_aleatorio(100000, 999999);
+
+        Promise.all([
+          this._guardar_base64_en_archivo(capturas.captura, `${nombre_sugerido}.png`),
+          this._guardar_base64_en_archivo(capturas.miniatura, `${nombre_sugerido}_miniatura.png`),
+        ]).then((resultados) => {
+          capturas.ruta_captura = resultados[0];
+          capturas.ruta_miniatura = resultados[1];
+          success(capturas);
+        });
+
+      } else {
+        reject("No se implementó la captura sobre una camara real");
+      }
+
+    });
+
+  },
+
+  /**
+   * Retorna un diccionaro con dos capturas de pantalla desde la cámara falsa.
+   *
+   * Una captura corresponde a lo que tomó exactamente desde la cámara, y
+   * otra captura es la miniatura.
+   *
+   * Los campos son {captura, miniatura}, las dos en formato base64.
+   */
+  _obtener_capturas_desde_camara_falsa() {
+
+    var video  = document.getElementById('video'); // TODO: debería conocer el id del elemento a capturar.
+    var canvas = document.createElement('canvas');
+    canvas.width  = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0);
+    let captura = canvas.toDataURL('image/png');
+
+
+    var canvasMiniatura = document.createElement('canvas');
+    canvasMiniatura.width  = video.videoWidth / 5;
+    canvasMiniatura.height = video.videoHeight / 5;
+
+    var ctxMiniatura = canvasMiniatura.getContext('2d');
+    ctxMiniatura.drawImage(video, 0, 0, canvasMiniatura.width, canvasMiniatura.height);
+    let capturaMiniatura = canvasMiniatura.toDataURL('image/png');
+
+    return {captura, miniatura: capturaMiniatura};
+
+  },
+
+  /**
+   * Genera un archivo en formato .png y lo guarda en el disco.
+   *
+   * Espera como argumento una imagen en formato base64 de tipo png y el
+   * nombre del archivo sugerido (en un path relativo o absoluto).
+   *
+   * La función retornará la ruta absoluta a la imagen en el sistema.
+   */
+  _guardar_base64_en_archivo(datos_base_64, nombre_de_archivo) {
+    return new Promise((success, reject) => {
+      var base64Data = datos_base_64.replace(/^data:image\/png;base64,/, "");
+      let path = requireNode('path');
+
+      requireNode("fs").writeFile(nombre_de_archivo, base64Data, 'base64', function(err) {
+        if (err) {
+          reject(err);
+        } else {
+          success(path.resolve(nombre_de_archivo));
+        }
+      });
+
+    });
+  },
+
+  /*
+   * Retorna un número aleatorio entre dos valores.
+   */
+  _obtener_numero_aleatorio(min, max) {
+    let valor = Math.floor(Math.random() * (max - min) + min);
+    return `${valor}`;
   }
 
 });
