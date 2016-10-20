@@ -1,5 +1,13 @@
 import Ember from 'ember';
 
+
+let Captura = Ember.Object.extend({
+  href_miniatura: null,       // miniatura cuando se usa electron
+  href: null,                 // ruta a la imagen cuando se usa electron
+  data_miniatura: null,       // miniatura si NO se usa electron (chrome, firefox, tests ...)
+  data: null,                 // imagen cuando NO se usa electro (chrome, firefox, tests ...)
+});
+
 export default Ember.Controller.extend({
   camaras: Ember.inject.service(),
   hayCamaraSeleccionada: Ember.computed.alias('camaras.camaraSeleccionada'),
@@ -23,10 +31,17 @@ export default Ember.Controller.extend({
 
       this.get('camaras').capturarFrame().then((fotos) => {
         this.set('capturandoFoto', false);
-        console.log("Desde el controlador llegan ", fotos);
+        let data = {};
 
-        this.get('capturas').pushObject({href: fotos.ruta_miniatura});
+        if (inElectron) {
+          data.href_miniatura = fotos.ruta_miniatura;
+          data.href = fotos.ruta_captura;
+        } else {
+          data.data_miniatura = fotos.miniatura;
+          data.data = fotos.captura;
+        }
 
+        this.get('capturas').pushObject(Captura.create(data));
 
       }, (error) => {
         this.set('capturandoFoto', false);

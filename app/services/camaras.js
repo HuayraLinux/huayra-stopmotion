@@ -140,14 +140,21 @@ export default Ember.Service.extend({
 
         let nombre_sugerido = this._obtener_numero_aleatorio(100000, 999999);
 
-        Promise.all([
-          this._guardar_base64_en_archivo(capturas.captura, `${nombre_sugerido}.png`),
-          this._guardar_base64_en_archivo(capturas.miniatura, `${nombre_sugerido}_miniatura.png`),
-        ]).then((resultados) => {
-          capturas.ruta_captura = resultados[0];
-          capturas.ruta_miniatura = resultados[1];
+        // Solo sobre electron intenta guardar las imagenes en archivos:
+        if (inElectron) {
+          Promise.all([
+            this._guardar_base64_en_archivo(capturas.captura, `${nombre_sugerido}.png`),
+            this._guardar_base64_en_archivo(capturas.miniatura, `${nombre_sugerido}_miniatura.png`),
+          ]).then((resultados) => {
+            capturas.ruta_captura = resultados[0];
+            capturas.ruta_miniatura = resultados[1];
+            success(capturas);
+          });
+        } else {
+          capturas.ruta_captura = null;
+          capturas.ruta_miniatura = null;
           success(capturas);
-        });
+        }
 
       } else {
         reject("No se implementó la captura sobre una camara real");
