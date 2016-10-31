@@ -40,7 +40,6 @@ function setBiggestRGB(camera) {
   var biggestRGB = camera.formats
     .filter((format) => format.formatName === 'RGB3')
     .reduce((acc, format) => format.width * format.height > acc.width * acc.height ? format : acc);
-  debugger;
   camera.configSet(biggestRGB);
 }
 

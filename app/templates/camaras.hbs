@@ -8,14 +8,16 @@
 
     <p>Cantidad de cámaras disponibles: {{camaras.cantidadDeCamaras}}</p>
 
-    <button {{action "seleccionarCamara" 0}}>Inicializar camara 1</button>
+    {{#each camaras.camaras as |camara id|}}
+    <button {{action "seleccionarCamara" id}}>{{camara.ID_V4L_PRODUCT}} ({{camara.DEVNAME}})</button>
+    {{/each}}
 
     {{outlet}}
 
   </div>
 
   <div class="vbox">
-    <canvas id='camara' width={{camaras.camaraSeleccionada.width}} height={{camaras.camaraSeleccionada.height}} />
+    <canvas id='camara' width={{width}} height={{height}} />
   </div>
 
   <div class="vbox controles">

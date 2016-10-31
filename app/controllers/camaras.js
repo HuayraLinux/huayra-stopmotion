@@ -26,6 +26,12 @@ export default Ember.Controller.extend({
   camaraSeleccionada: Ember.computed.alias('camaras.camaraSeleccionada'),
   capturandoFoto: false,
   capturas: [],
+  width: Ember.computed('camaraSeleccionada',function() {
+    return this.get('camaraSeleccionada').configGet().width;
+  }),
+  height: Ember.computed('camaraSeleccionada',function() {
+    return this.get('camaraSeleccionada').configGet().height;
+  }),
 
   init: Ember.on('init', function() {
     this.get('camaras').on('frame', (frame, width, height) => {
