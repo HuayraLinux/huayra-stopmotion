@@ -1,33 +1,101 @@
 import Ember from 'ember';
 const Promise = Ember.RSVP.Promise;
 
-export default Ember.Service.extend({
-  camaras: [],
-  camaraSeleccionada: null,
+var optionalImports;
 
+try {
+  optionalImports = {
+    v4l2: requireNode('v4l2camera'),
+    udev: requireNode('udev')
+  };
+  console.log('Cargadas las librerías nativas');
+} catch (e) { /* Debería catchear ÚNICAMENTE el caso de que falle el require */
+  optionalImports = {
+    v4l2: {},
+    udev: {
+      list() {
+        return [{
+          SUBSYSTEM: 'video4linux',
+          DEVNAME: '/dev/video0',
+          ID_V4L_CAPABILITIES: ':capture:'
+        }]; /* Cámara de prueba */
+      },
+
+      monitor() {
+        return { /* Fake monitor*/
+          on() {
+          }
+        };
+      }
+    }
+  };
+  console.log('No se pudieron cargar v4l2 y/o udev');
+}
+
+const v4l2 = optionalImports.v4l2;
+const udev = optionalImports.udev;
+const monitor = udev.monitor();
+
+function setBiggestRGB(camera) {
+  var biggestRGB = camera.formats
+    .filter((format) => format.formatName === 'RGB3')
+    .reduce((acc, format) => format.width * format.height > acc.width * acc.height ? format : acc);
+  debugger;
+  camera.configSet(biggestRGB);
+}
+
+export default Ember.Service.extend(Ember.Evented, {
+  idCamara: 0,
+  camaras: Ember.computed(function() {
+    return udev.list('video4linux').filter((dev) => /capture/.test(dev.ID_V4L_CAPABILITIES));
+  }),
   cantidadDeCamaras: Ember.computed('camaras', function() {
     return this.get('camaras.length');
   }),
+  camaraSeleccionada: Ember.computed('idCamara', 'camaras', function() {
+    var id = this.get('idCamara');
+    var pathCamara = this.get('camaras')[id].DEVNAME;
+    var camara = this.get('_openDevices')[pathCamara];
 
-  /**
-   * Inicializa el sistema de cámaras. Este método se llama al iniciar la
-   * aplicación, y debería pre-cargar cualquier información para que el sistema
-   * pueda comenzar a funcionar en el resto de la aplicación.
-   */
-  inicializar() {
-    this.set('camaraSeleccionada', null);
+    return camara;
+  }),
+  _openDevices: {
+  },
 
-    return new Promise((success) => {
-      this._inicializarCamaraDePrueba();
-      console.log("Simulando una demora de 2 segundos en la inicialización del gestor de cámaras.");
-      setTimeout(success, 2 * 1000);
+
+  init: Ember.on('init', function() {
+    /* Reportar cuando se agrega una cámara */
+    monitor.on('add', (dev) => {
+      if(dev.SUBSYSTEM === 'video4linux' && /capture/.test(dev.ID_V4L_CAPABILITIES)) {
+        /* CREATE CAMERA */
+        let camera = {dev: dev};
+        this.trigger('plugged', camera);
+        this.notifyPropertyChange('camaras');
+      }
     });
-  },
 
-  _inicializarCamaraDePrueba() {
-    this.get('camaras').pushObject({id: 1, nombre: 'Cámara de prueba', camaraReal: false});
-  },
+    /* Reportar cuando se quita una cámara */
+    monitor.on('remove', (dev) => {
+      if(dev.SUBSYSTEM === 'video4linux' && /capture/.test(dev.ID_V4L_CAPABILITIES)) {
+        /* CREATE CAMERA */
+        let camera = {dev: dev};
+        this.trigger('unplugged', camera);
+        /* CLOSE CAMERA FD */
+        this.notifyPropertyChange('camaras');
+      }
+    });
 
+    var defaultCamera = this.get('idCamara');
+    this.seleccionarCamara(defaultCamera);
+  }),
+
+  capturar(camara) {
+    var raw = camara.frameRaw();
+    var format = camara.configGet();
+
+    this.trigger('frame', raw, format.width, format.height);
+    camara.capture(() => this.capturar(camara));
+  },
 
   /**
    * Permite cambiar la cámara actual.
@@ -36,27 +104,29 @@ export default Ember.Service.extend({
    * apagar la cámara anterior, encender la cámara nueva y apuntar todas las
    * propiedades a ese cámara.
    */
-  seleccionarCamara(indice, elementID) {
+  seleccionarCamara(indice) {
+    var devname;
+    var _openDevices = this.get('_openDevices');
 
     if (!this.get('camaras')[indice]) {
       throw new Error("No se puede encontrar la cámara índice " + indice);
     }
 
-    let camaraSeleccionada = this.get('camaras')[indice];
-
-    if (camaraSeleccionada.camaraReal === false) {
-      this._activarCamaraDePrueba(elementID);
-    } else {
-      throw new Error("No se implementó una forma de inicializar esta cámara.");
+    devname = this.get('camaras')[indice].DEVNAME;
+    if(_openDevices[devname] === undefined) {
+      _openDevices[devname] = v4l2.Camera(devname);
     }
 
-    this.set('camaraSeleccionada', camaraSeleccionada);
-  },
+    this.get('camaraSeleccionada').stop(() => {
+      var camara;
 
-  _activarCamaraDePrueba(elementID) {
-    let contenido = `<video id="video" src="video-camara-fallback.mp4" loop="true" autoplay="true" playback-rate=0.1 muted="muted"></video>`;
-    $(elementID).html(contenido);
-    document.getElementById("video").playbackRate = 0.1;
+      this.set('idCamara', indice);
+
+      camara = this.get('camaraSeleccionada');
+      setBiggestRGB(camara);
+      camara.start();
+      camara.capture(() => this.capturar(camara));
+    });
   },
 
 
@@ -110,11 +180,6 @@ export default Ember.Service.extend({
    */
   definirValorDeControl(/*idControl, valor*/) {
 
-  },
-
-  desactivarCamaraSeleccionada(elementID) {
-    $(elementID).html("desactivada...");
-    this.set('camaraSeleccionada', null);
   },
 
   /**

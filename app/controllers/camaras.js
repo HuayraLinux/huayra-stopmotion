@@ -8,22 +8,40 @@ let Captura = Ember.Object.extend({
   data: null,                 // imagen cuando NO se usa electro (chrome, firefox, tests ...)
 });
 
+function rgb2rgba(rgb, rgba) {
+  var length = rgb.length / 3; /* RGB son 3 bytes por pixel */
+
+  for(var i = 0; i < length; i++) {
+    rgba[i * 4 + 0] = rgb[i * 3 + 0]; /* Rojo  */
+    rgba[i * 4 + 1] = rgb[i * 3 + 1]; /* Verde */
+    rgba[i * 4 + 2] = rgb[i * 3 + 2]; /* Azul  */
+    rgba[i * 4 + 3] = 255; /* Alpha: la imagen es opaca */
+  }
+
+  return rgba;
+}
+
 export default Ember.Controller.extend({
   camaras: Ember.inject.service(),
-  hayCamaraSeleccionada: Ember.computed.alias('camaras.camaraSeleccionada'),
-  camaraSeleccionada: null,
-  queryParams: ['camaraSeleccionada'],
+  camaraSeleccionada: Ember.computed.alias('camaras.camaraSeleccionada'),
   capturandoFoto: false,
   capturas: [],
 
+  init: Ember.on('init', function() {
+    this.get('camaras').on('frame', (frame, width, height) => {
+      var camara = document.getElementById('camara');
+      var ctx = camara.getContext('2d');
+      var imageData = ctx.createImageData(width, height);
+
+      rgb2rgba(frame, imageData.data); /* Modifico el buffer de data */
+
+      ctx.putImageData(imageData, 0, 0);
+    });
+  }),
+
   actions: {
     seleccionarCamara(indice) {
-      this.get('camaras').seleccionarCamara(indice, '#camara');
-      this.set('camaraSeleccionada', indice);
-    },
-
-    apagarCamara() {
-      this.get('camaras').desactivarCamaraSeleccionada('#camara');
+      this.get('camaras').seleccionarCamara(indice);
     },
 
     capturar() {
@@ -47,7 +65,6 @@ export default Ember.Controller.extend({
         this.set('capturandoFoto', false);
         alert(error);
       });
-
     }
   }
 });

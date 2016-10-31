@@ -8,18 +8,14 @@
 
     <p>Cantidad de cámaras disponibles: {{camaras.cantidadDeCamaras}}</p>
 
-    {{#if hayCamaraSeleccionada}}
-      <p>Hay una cámara seleccionada <button {{action "apagarCamara"}}>Apagar la camara seleccionada</button></p>
-    {{else}}
-      <button {{action "seleccionarCamara" 0}}>Inicializar camara 1</button>
-    {{/if}}
+    <button {{action "seleccionarCamara" 0}}>Inicializar camara 1</button>
 
     {{outlet}}
 
   </div>
 
   <div class="vbox">
-    <div id='camara'>Contenendor para la cámara.</div>
+    <canvas id='camara' width={{camaras.camaraSeleccionada.width}} height={{camaras.camaraSeleccionada.height}} />
   </div>
 
   <div class="vbox controles">
