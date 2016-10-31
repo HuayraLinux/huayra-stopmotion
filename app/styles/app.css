@@ -18,8 +18,18 @@
 .vbox.timeline {
   flex-grow: 0;
   background-color: #ccc;
-  height: 100px;
   overflow: scroll;
+  height: 88px;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.vbox.vbox-camara {
+  overflow: scroll;
+}
+
+body > .ember-view {
+  height: 100%;
 }
 
 .vbox.controles {
@@ -29,15 +39,35 @@
   padding-bottom: 5px;
 }
 
-
-body > .ember-view {
-  height: 100%;
+ul.huayra-timeline {
+  width: 10000000000000px;
+  padding: 0;
+  margin: 0;
 }
 
-.contenido-timeline {
-  padding: 1em;
-}
-
-.huayra-cuadro {
+li.huayra-cuadro {
   display: inline-block;
+  margin-left: 2px;
+  float: left;
+  border: 1px solid #777777;
+  background-color: #1b1c1d;
+  position: relative;
+}
+
+li.huayra-cuadro .huayra-cuadro-numero {
+  position:absolute;
+  color: white;
+  right: 4px;
+  top: 0;
+  text-shadow: 0 0 5px black;
+}
+
+
+li.huayra-cuadro.seleccionado {
+  opacity: 0.5;
+}
+
+
+#video {
+  width: 100%;
 }

@@ -15,6 +15,13 @@ export default Ember.Controller.extend({
   queryParams: ['camaraSeleccionada'],
   capturandoFoto: false,
   capturas: [],
+  intervaloSeleccion: [0, 0],
+
+  haySeleccion: Ember.computed('intervaloSeleccion', function() {
+    let seleccion = this.get('intervaloSeleccion');
+
+    return !(seleccion[0] === 0 && seleccion[1] === 0);
+  }),
 
   actions: {
     seleccionarCamara(indice) {
@@ -24,6 +31,19 @@ export default Ember.Controller.extend({
 
     apagarCamara() {
       this.get('camaras').desactivarCamaraSeleccionada('#camara');
+    },
+
+    eliminarCuadrosSeleccionados() {
+      let a = this.get('intervaloSeleccion')[0];
+      let b = this.get('intervaloSeleccion')[1];
+      let total = this.get('capturas.length');
+
+      let primer_parte = this.get('capturas').slice(0, a-1);
+      let segunda_parte = this.get('capturas').slice(b, total);
+
+      this.set('capturas', primer_parte.concat(segunda_parte).slice());
+
+      this.set('intervaloSeleccion', [0, 0]);
     },
 
     capturar() {

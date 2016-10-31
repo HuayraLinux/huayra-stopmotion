@@ -1,5 +1,6 @@
 import Ember from 'ember';
 const Promise = Ember.RSVP.Promise;
+const ANCHO_THUMBNAIL = 120;
 
 export default Ember.Service.extend({
   camaras: [],
@@ -54,7 +55,7 @@ export default Ember.Service.extend({
   },
 
   _activarCamaraDePrueba(elementID) {
-    let contenido = `<video id="video" src="video-camara-fallback.mp4" loop="true" autoplay="true" playback-rate=0.1 muted="muted"></video>`;
+    let contenido = `<video id="video" src="./video-camara-fallback.mp4" loop="true" autoplay="true" playback-rate=2 muted="muted"></video>`;
     $(elementID).html(contenido);
     document.getElementById("video").playbackRate = 0.1;
   },
@@ -185,8 +186,9 @@ export default Ember.Service.extend({
 
 
     var canvasMiniatura = document.createElement('canvas');
-    canvasMiniatura.width  = video.videoWidth / 5;
-    canvasMiniatura.height = video.videoHeight / 5;
+
+    canvasMiniatura.width  = ANCHO_THUMBNAIL;
+    canvasMiniatura.height = (video.videoHeight * ANCHO_THUMBNAIL) / video.videoWidth;
 
     var ctxMiniatura = canvasMiniatura.getContext('2d');
     ctxMiniatura.drawImage(video, 0, 0, canvasMiniatura.width, canvasMiniatura.height);

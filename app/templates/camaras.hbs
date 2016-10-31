@@ -18,16 +18,18 @@
 
   </div>
 
-  <div class="vbox">
+  <div class="vbox vbox-camara">
     <div id='camara'>Contenendor para la cámara.</div>
   </div>
 
   <div class="vbox controles">
     <button class="ui button primary {{if hayCamaraSeleccionada '' 'disabled'}}" {{action "capturar"}}>Capturar</button>
+    
+    <button class="ui button red {{if haySeleccion '' 'disabled'}}" {{action "eliminarCuadrosSeleccionados"}}>Eliminar cuadros seleccionados</button>
   </div>
 
   <div class="vbox timeline">
-    {{huayra-timeline capturas=capturas}}
+    {{huayra-timeline capturas=capturas intervaloSeleccion=intervaloSeleccion}}
   </div>
 
 </div>
