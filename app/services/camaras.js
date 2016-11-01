@@ -90,9 +90,8 @@ export default Ember.Service.extend(Ember.Evented, {
 
   capturar(camara) {
     var raw = camara.frameRaw();
-    var format = camara.configGet();
 
-    this.trigger('frame', raw, format.width, format.height);
+    this.trigger('frame', raw);
     camara.capture(() => this.capturar(camara));
   },
 
