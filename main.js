@@ -5,7 +5,13 @@ let win
 
 function createWindow () {
 
-  win = new BrowserWindow({width: 800, height: 600});
+  win = new BrowserWindow({
+    width: 850,
+    height: 720,
+    minWidth: 850,
+    minHeight: 720,
+    title: "Huayra stopmotion"
+  });
 
   const dirname = __dirname || path.resolve(path.dirname());
   const appLocation = `file://${__dirname}/dist/index.html`;
