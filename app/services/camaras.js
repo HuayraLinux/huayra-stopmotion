@@ -44,58 +44,81 @@ function setBiggestRGB(camera) {
 }
 
 const fakeCamClass = Ember.Object.extend({
-  video: document.createElement('video'),
-  ctx: document.createElement('canvas').getContext('2d'),
   DEVNAME: 'No hay cámara seleccionada',
   ID_V4L_PRODUCT: 'Sin cámara',
   controls: [],
-  formats: [{formatName: 'RGB3', width: 0, height: 0}],
+  formats: [{formatName: 'RGB3', width: 1280, height: 720}],
+  frames: [],
+  currentFrame: 0,
+
+  genFrames: Ember.on('init', function() {
+    var frames = this.get('frames');
+    var camara = new Image();
+    var prohibido = new Image();
+    var texto = new Image();
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    var width = this.configGet().width;
+    var height = this.configGet().height;
+
+    var fondoverde;
+    var textoycamara;
+    var textoycamaratachada;
+
+    var isNotAlpha = (value, index) => (index % 4) !== 3;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    camara.src = 'imagenes/camara.png';
+    prohibido.src = 'imagenes/prohibido.png';
+    texto.src = 'imagenes/advertencia.png';
+
+    ctx.fillStyle = "green";
+    ctx.fillRect(0, 0, width, height);
+    fondoverde = ctx.getImageData(0, 0, width, height).data.filter(isNotAlpha);
+    frames.push(fondoverde);
+    frames.push(fondoverde);
+
+    camara.onload = (() => prohibido.onload = (() => texto.onload = () => {
+      ctx.drawImage(camara, (width - camara.width) / 2, (height - camara.height) / 2);
+      ctx.drawImage(texto, (width - texto.width) / 2, height / 2 + camara.height + 35);
+
+      /* Cada frame es medio segundo, dos segundos de esto */
+      textoycamara = ctx.getImageData(0, 0, width, height).data.filter(isNotAlpha);
+      frames[0] = textoycamara;
+      frames[1] = textoycamara;
+
+      ctx.drawImage(prohibido, (width - prohibido.width) / 2, (height - prohibido.height) / 2);
+
+      /* Y uno de esto */
+      textoycamaratachada = ctx.getImageData(0, 0, width, height).data.filter(isNotAlpha);
+      frames.push(textoycamaratachada);
+      frames.push(textoycamaratachada);
+    }));
+  }),
 
   capture(cb) {
-    setTimeout(cb, 20);
+    setTimeout(cb, 500);
   },
   configSet() {},
   configGet() {
-    return {
-      width: 1280,//this.video.videoWidth,
-      height: 720//this.video.videoHeight
-    };
+    return this.get('formats')[0];
   },
   frameRaw() {
-    var imageData;
-    var width = this.video.videoWidth;
-    var height = this.video.videoHeight;
+    var frames = this.get('frames');
+    var frameIdx = this.get('currentFrame');
+    this.set('currentFrame', (frameIdx + 1) % frames.length);
 
-    this.ctx.canvas.width = width;
-    this.ctx.canvas.height = height;
-
-    this.ctx.drawImage(this.video, 0, 0, width, height);
-    imageData = this.ctx.getImageData(0, 0, width, height);
-
-    return imageData.data.filter((data, index) => index % 4 !== 3); /* Dropeo los valores de alpha */
+    return frames[frameIdx];
   },
   start() {
-    if(this.video.readyState === 4) {
-      this.video.play();
-    } else {
-      this.video.oncanplay = () => {
-        this.start();
-        this.notifyPropertyChange('video');
-        this.set('formats', [{formatName: 'RGB3', width: this.video.videoWidth, height: this.video.videoHeight}]);
-        this.video.oncanplay = undefined;
-      };
-    }
   },
   stop(cb) {
-    this.video.pause();
     cb();
-  },
-  init() {
-    this.video.loop = true;
-    this.video.src = this.get('source');
   }
 });
-const fakeCam = fakeCamClass.create({source: 'video-camara-fallback.mp4'});
+const fakeCam = fakeCamClass.create();
 const defaultCamera = 0;
 
 export default Ember.Service.extend(Ember.Evented, {
