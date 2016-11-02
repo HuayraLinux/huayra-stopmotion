@@ -44,4 +44,20 @@ export default Ember.Component.extend({
     this.sendAction('accionAlHacerClick', this.get('index'), event.shiftKey || event.metaKey);
   },
 
+  dragStart(event) {
+    return false;
+  },
+
+  mouseDown(event) {
+    event.preventDefault();
+  },
+
+  mouseMove(event) {
+    event.preventDefault();
+  },
+
+  mouseUp(event) {
+    event.preventDefault();
+  },
+
 });

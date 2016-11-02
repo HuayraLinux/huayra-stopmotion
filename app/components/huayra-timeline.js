@@ -4,6 +4,8 @@ export default Ember.Component.extend({
   classNames: ['huayra-timeline'],
   tagName: 'ul',
   intervaloSeleccion: [0, 0],
+  moverConMovimiento: false,
+  moverPosicionOriginalX: null,
 
   actions: {
     alSeleccionarCuadro(indiceDeCuadro, shift) {
@@ -32,5 +34,26 @@ export default Ember.Component.extend({
     }
 
     this.set('intervaloSeleccion', [intervalo[0], intervalo[1]]);
-  }
+  },
+
+  mouseDown(event) {
+    this.set('moverConMovimiento', true);
+    this.set('moverPosicionOriginalX', event.clientX);
+  },
+
+  mouseMove(event) {
+    if (this.get('moverConMovimiento')) {
+      let dx = event.clientX - this.get('moverPosicionOriginalX');
+
+      this.$('').parent()[0].scrollLeft -= dx;
+
+      this.set('moverPosicionOriginalX', event.clientX);
+    }
+  },
+
+  mouseUp() {
+    this.set('moverConMovimiento', false);
+  },
+
+
 });
