@@ -10,7 +10,7 @@ let Captura = Ember.Object.extend({
 
 export default Ember.Controller.extend({
   camaras: Ember.inject.service(),
-  camaraSeleccionada: Ember.computed.alias('camaras.camaraSeleccionada'),
+  seleccionada: Ember.computed.alias('camaras.seleccionada'),
   capturandoFoto: false,
   capturas: [],
 

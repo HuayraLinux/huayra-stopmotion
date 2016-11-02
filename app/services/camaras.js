@@ -43,23 +43,70 @@ function setBiggestRGB(camera) {
   camera.configSet(biggestRGB);
 }
 
+const fakeCam = {
+  video: document.createElement('video'),
+  ctx: document.createElement('canvas').getContext('2d'),
+  DEVNAME: 'No hay cámara seleccionada',
+  ID_V4L_PRODUCT: 'Sin cámara',
+  controls: [],
+  on: false,
+  capture(cb) {
+    if(this.on) {
+      setTimeout(cb, 32);
+    }
+  },
+  configSet() {},
+  configGet() {
+    return {
+      width: fakeCam.video.videoWidth,
+      height: fakeCam.video.videoHeight
+    };
+  },
+  frameRaw() {
+    var imageData;
+    var width = this.video.videoWidth;
+    var height = this.video.videoHeight;
+
+    this.ctx.canvas.width = width;
+    this.ctx.canvas.height = height;
+
+    this.ctx.drawImage(this.video, 0, 0, width, height);
+    imageData = this.ctx.getImageData(0, 0, width, height);
+
+    return imageData.data.filter((data, index) => index % 4 !== 3); /* Dropeo los valores de alpha */
+  },
+  start() {
+    this.video.play();
+    this.on = true;
+  },
+  stop(cb) {
+    this.video.pause();
+    this.on = false;
+    cb();
+  }
+};
+fakeCam.video.src = 'video-camara-fallback.mp4';
+fakeCam.video.loop = true;
+fakeCam.formats = [{formatName: 'RGB3', width: fakeCam.video.videoWidth, height: fakeCam.video.videoHeight}];
+const defaultCamera = 0;
+
 export default Ember.Service.extend(Ember.Evented, {
-  idCamara: 0,
   camaras: Ember.computed(function() {
-    return udev.list('video4linux').filter((dev) => /capture/.test(dev.ID_V4L_CAPABILITIES));
+    var realDevices = udev
+      .list('video4linux')
+      .filter((dev) => /capture/.test(dev.ID_V4L_CAPABILITIES)) /* Espero que sean dispositivos de captura */
+      .sort((a, b) => a.DEVNAME > b.DEVNAME); /* Los ordeno de video0 a videoN */
+
+    return [fakeCam].concat(realDevices);
   }),
   cantidadDeCamaras: Ember.computed('camaras', function() {
     return this.get('camaras.length');
   }),
-  camaraSeleccionada: Ember.computed('idCamara', 'camaras', function() {
-    var id = this.get('idCamara');
-    var pathCamara = this.get('camaras')[id].DEVNAME;
-    var camara = this.get('_openDevices')[pathCamara];
-
-    return camara;
-  }),
+  seleccionada: fakeCam,
   _openDevices: {
+    [fakeCam.DEVNAME]: fakeCam
   },
+  formatos: Ember.computed.alias('seleccionada.formats'),
 
 
   init: Ember.on('init', function() {
@@ -68,6 +115,8 @@ export default Ember.Service.extend(Ember.Evented, {
       if(dev.SUBSYSTEM === 'video4linux' && /capture/.test(dev.ID_V4L_CAPABILITIES)) {
         /* CREATE CAMERA */
         let camera = {dev: dev};
+        let seleccionada = this.get('seleccionada');
+
         this.trigger('plugged', camera);
         this.notifyPropertyChange('camaras');
       }
@@ -77,19 +126,33 @@ export default Ember.Service.extend(Ember.Evented, {
     monitor.on('remove', (dev) => {
       if(dev.SUBSYSTEM === 'video4linux' && /capture/.test(dev.ID_V4L_CAPABILITIES)) {
         /* CREATE CAMERA */
-        let camera = {dev: dev};
+        let devices = this.get('_openDevices');
+        let device = devices[dev.DEVNAME];
+        let camera = {dev: dev, camera: device};
+        let seleccionada = this.get('seleccionada');
+
         this.trigger('unplugged', camera);
-        /* CLOSE CAMERA FD */
         this.notifyPropertyChange('camaras');
+        /* CLOSE CAMERA FD */
+        // TODO: No hay forma de cerrar el FD con la librería, hay que reparar eso
+        devices[dev.DEVNAME] = undefined;
+
+        if(seleccionada.device === device.device) {
+          this.seleccionarCamara(defaultCamera);
+        }
       }
     });
 
-    var defaultCamera = this.get('idCamara');
     this.seleccionarCamara(defaultCamera);
   }),
 
   capturar(camara) {
     var raw = camara.frameRaw();
+
+    if(this.get('seleccionada') !== camara) {
+      /* Algo falló, abortemosssssssssssss */
+      return;
+    }
 
     this.trigger('frame', raw);
     camara.capture(() => this.capturar(camara));
@@ -104,6 +167,7 @@ export default Ember.Service.extend(Ember.Evented, {
    */
   seleccionarCamara(indice) {
     var devname;
+    var camara;
     var _openDevices = this.get('_openDevices');
 
     if (!this.get('camaras')[indice]) {
@@ -111,20 +175,26 @@ export default Ember.Service.extend(Ember.Evented, {
     }
 
     devname = this.get('camaras')[indice].DEVNAME;
+
     if(_openDevices[devname] === undefined) {
       _openDevices[devname] = v4l2.Camera(devname);
     }
 
-    this.get('camaraSeleccionada').stop(() => {
-      var camara;
+    camara = _openDevices[devname];
 
-      this.set('idCamara', indice);
+    try {
+      this.get('seleccionada').stop(() => this.cambiarCamara(camara));
+    } catch (e) { /* Tal vez dejó de existir la cámara */
+      this.cambiarCamara(camara);
+    }
+  },
 
-      camara = this.get('camaraSeleccionada');
-      setBiggestRGB(camara);
-      camara.start();
-      camara.capture(() => this.capturar(camara));
-    });
+  cambiarCamara(camara) {
+    this.set('seleccionada', camara);
+
+    setBiggestRGB(camara);
+    camara.start();
+    camara.capture(() => this.capturar(camara));
   },
 
 
@@ -194,11 +264,11 @@ export default Ember.Service.extend(Ember.Evented, {
    *     }
    */
   capturarFrame() {
-    let camaraSeleccionada = this.get('camaraSeleccionada');
+    let seleccionada = this.get('seleccionada');
 
     return new Promise((success, reject) => {
 
-      if (camaraSeleccionada.camaraReal === false) {
+      if (seleccionada.camaraReal === false) {
         let capturas = this._obtener_capturas_desde_camara_falsa();
 
         let nombre_sugerido = this._obtener_numero_aleatorio(100000, 999999);

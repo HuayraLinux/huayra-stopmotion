@@ -17,17 +17,15 @@ export default Ember.Component.extend({
 	camaras: Ember.inject.service(),
 	tagName: 'canvas',
 	attributeBindings: ['width', 'height'],
-  width: Ember.computed('camaras.camaraSeleccionada',function() {
-    return this.get('camaras.camaraSeleccionada').configGet().width;
+  width: Ember.computed('camaras.seleccionada',function() {
+    return this.get('camaras.seleccionada').configGet().width;
   }),
-  height: Ember.computed('camaras.camaraSeleccionada',function() {
-    return this.get('camaras.camaraSeleccionada').configGet().height;
+  height: Ember.computed('camaras.seleccionada',function() {
+    return this.get('camaras.seleccionada').configGet().height;
   }),
   imageData: Ember.computed('width', 'height', function() {
     var width = this.get('width');
     var height = this.get('height');
-
-console.log('CREADOBUFFER');
 
     var canvas = this.get('element');
     var ctx = canvas.getContext('2d');
