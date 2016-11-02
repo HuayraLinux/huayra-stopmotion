@@ -43,23 +43,22 @@ function setBiggestRGB(camera) {
   camera.configSet(biggestRGB);
 }
 
-const fakeCam = {
+const fakeCamClass = Ember.Object.extend({
   video: document.createElement('video'),
   ctx: document.createElement('canvas').getContext('2d'),
   DEVNAME: 'No hay cámara seleccionada',
   ID_V4L_PRODUCT: 'Sin cámara',
   controls: [],
-  on: false,
+  formats: [{formatName: 'RGB3', width: 0, height: 0}],
+
   capture(cb) {
-    if(this.on) {
-      setTimeout(cb, 32);
-    }
+    setTimeout(cb, 20);
   },
   configSet() {},
   configGet() {
     return {
-      width: fakeCam.video.videoWidth,
-      height: fakeCam.video.videoHeight
+      width: 1280,//this.video.videoWidth,
+      height: 720//this.video.videoHeight
     };
   },
   frameRaw() {
@@ -76,18 +75,27 @@ const fakeCam = {
     return imageData.data.filter((data, index) => index % 4 !== 3); /* Dropeo los valores de alpha */
   },
   start() {
-    this.video.play();
-    this.on = true;
+    if(this.video.readyState === 4) {
+      this.video.play();
+    } else {
+      this.video.oncanplay = () => {
+        this.start();
+        this.notifyPropertyChange('video');
+        this.set('formats', [{formatName: 'RGB3', width: this.video.videoWidth, height: this.video.videoHeight}]);
+        this.video.oncanplay = undefined;
+      };
+    }
   },
   stop(cb) {
     this.video.pause();
-    this.on = false;
     cb();
+  },
+  init() {
+    this.video.loop = true;
+    this.video.src = this.get('source');
   }
-};
-fakeCam.video.src = 'video-camara-fallback.mp4';
-fakeCam.video.loop = true;
-fakeCam.formats = [{formatName: 'RGB3', width: fakeCam.video.videoWidth, height: fakeCam.video.videoHeight}];
+});
+const fakeCam = fakeCamClass.create({source: 'video-camara-fallback.mp4'});
 const defaultCamera = 0;
 
 export default Ember.Service.extend(Ember.Evented, {
@@ -97,7 +105,12 @@ export default Ember.Service.extend(Ember.Evented, {
       .filter((dev) => /capture/.test(dev.ID_V4L_CAPABILITIES)) /* Espero que sean dispositivos de captura */
       .sort((a, b) => a.DEVNAME > b.DEVNAME); /* Los ordeno de video0 a videoN */
 
-    return [fakeCam].concat(realDevices);
+    /* Si no hay cámaras devuelvo la de prueba */
+    if(realDevices.length === 0) {
+      return [fakeCam];
+    } else {
+      return realDevices;
+    }
   }),
   cantidadDeCamaras: Ember.computed('camaras', function() {
     return this.get('camaras.length');
@@ -119,6 +132,11 @@ export default Ember.Service.extend(Ember.Evented, {
 
         this.trigger('plugged', camera);
         this.notifyPropertyChange('camaras');
+
+        /* Si no había cámaras ahora hay!!!!1111 */
+        if(seleccionada === fakeCam) {
+          this.seleccionarCamara(defaultCamera);
+        }
       }
     });
 
@@ -137,12 +155,14 @@ export default Ember.Service.extend(Ember.Evented, {
         // TODO: No hay forma de cerrar el FD con la librería, hay que reparar eso
         devices[dev.DEVNAME] = undefined;
 
+        /* Si saqué la cámara en uso pongo alguna otra */
         if(seleccionada.device === device.device) {
           this.seleccionarCamara(defaultCamera);
         }
       }
     });
 
+    /* Pongo alguna cámara a la vista */
     this.seleccionarCamara(defaultCamera);
   }),
 
