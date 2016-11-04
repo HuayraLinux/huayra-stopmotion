@@ -4,6 +4,8 @@ node_modules
 
 src/tmp/*
 dist/*
+bower_components/
+tmp/
 src/bower_components/
 src/app/bower_components
 proyecto*

@@ -14,8 +14,6 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "nwjs-hack": "iglosiggio/nwjs-hack",
-    "grunt": "~0.4.1",
-    "grunt-node-webkit-builder": "~0.1.14",
     "express": "~3.4.4",
     "socket.io": "~0.9.16",
     "jsonfile": "~1.1.1",
@@ -23,10 +21,14 @@
     "q": "~0.9.7",
     "async": "^0.2.10",
     "camelot": "0.0.4",
-    "nodewebkit": "0.8.5",
     "bytes": "0.2.1",
     "qs": "0.6.6",
     "active-x-obfuscator": "0.0.1",
     "uglify-js": "1.2.5"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-node-webkit-builder": "~0.1.14",
+    "nodewebkit": "0.8.5",
   }
 }
