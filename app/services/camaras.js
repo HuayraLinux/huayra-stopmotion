@@ -14,11 +14,7 @@ try {
     v4l2: {},
     udev: {
       list() {
-        return [{
-          SUBSYSTEM: 'video4linux',
-          DEVNAME: '/dev/video0',
-          ID_V4L_CAPABILITIES: ':capture:'
-        }]; /* Cámara de prueba */
+        return []; /* No hay cámaras */
       },
 
       monitor() {
@@ -35,12 +31,50 @@ try {
 const v4l2 = optionalImports.v4l2;
 const udev = optionalImports.udev;
 const monitor = udev.monitor();
+const ALTO_THUMBNAIL = 100;
 
 function setBiggestRGB(camera) {
   var biggestRGB = camera.formats
     .filter((format) => format.formatName === 'RGB3')
     .reduce((acc, format) => format.width * format.height > acc.width * acc.height ? format : acc);
   camera.configSet(biggestRGB);
+}
+
+function rgb2rgba(rgb, rgba) {
+  var length = rgb.length / 3; /* RGB son 3 bytes por pixel */
+
+  for(var i = 0; i < length; i++) {
+    rgba[i * 4 + 0] = rgb[i * 3 + 0]; /* Rojo  */
+    rgba[i * 4 + 1] = rgb[i * 3 + 1]; /* Verde */
+    rgba[i * 4 + 2] = rgb[i * 3 + 2]; /* Azul  */
+    rgba[i * 4 + 3] = 255; /* Alpha: la imagen es opaca */
+  }
+
+  return rgba;
+}
+
+/**
+ * Decodea un string en base64 y lo guarda como archivo
+ *
+ * Espera como argumento un archivo encodeado en base64 y el nombre del archivo
+ * sugerido (en un path relativo o absoluto).
+ *
+ * La función retornará la ruta absoluta a la imagen en el sistema.
+ */
+function guardar_base64_en_archivo(datos_base_64, nombre_de_archivo) {
+  return new Promise((success, reject) => {
+    var base64Data = datos_base_64.replace(/^data:[^,]+,/, "");
+    let path = requireNode('path');
+
+    requireNode("fs").writeFile(nombre_de_archivo, base64Data, 'base64', function(err) {
+      if (err) {
+        reject(err);
+      } else {
+        success(path.resolve(nombre_de_archivo));
+      }
+    });
+
+  });
 }
 
 const fakeCamClass = Ember.Object.extend({
@@ -82,7 +116,7 @@ const fakeCamClass = Ember.Object.extend({
 
     camara.onload = (() => prohibido.onload = (() => texto.onload = () => {
       ctx.drawImage(camara, (width - camara.width) / 2, (height - camara.height) / 2);
-      ctx.drawImage(texto, (width - texto.width) / 2, height / 2 + camara.height + 35);
+      ctx.drawImage(texto, (width - texto.width) / 2, height / 2 - camara.height - texto.height - 20);
 
       /* Cada frame es medio segundo, dos segundos de esto */
       textoycamara = ctx.getImageData(0, 0, width, height).data.filter(isNotAlpha);
@@ -143,6 +177,9 @@ export default Ember.Service.extend(Ember.Evented, {
     [fakeCam.DEVNAME]: fakeCam
   },
   formatos: Ember.computed.alias('seleccionada.formats'),
+  formato: Ember.computed('seleccionada', function() {
+    return this.get('seleccionada').configGet();
+  }),
 
 
   init: Ember.on('init', function() {
@@ -307,101 +344,57 @@ export default Ember.Service.extend(Ember.Evented, {
    *     }
    */
   capturarFrame() {
-    let seleccionada = this.get('seleccionada');
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext("2d");
 
-    return new Promise((success, reject) => {
+    /* TODO: Hacer esto más legible */
+    return new Promise((success, reject) => this.one('frame', (raw) => {
+      var formato = this.get('formato');
+      var frame = ctx.createImageData(formato.width, formato.height);
+      var thumbnail = {};
+      var framePNG;
+      var thumbnailPNG;
+      var now = Date.now();
 
-      if (seleccionada.camaraReal === false) {
-        let capturas = this._obtener_capturas_desde_camara_falsa();
+      rgb2rgba(raw, frame.data);
 
-        let nombre_sugerido = this._obtener_numero_aleatorio(100000, 999999);
+      canvas.width = formato.width;
+      canvas.height = formato.height;
 
-        // Solo sobre electron intenta guardar las imagenes en archivos:
-        if (inElectron) {
-          Promise.all([
-            this._guardar_base64_en_archivo(capturas.captura, `${nombre_sugerido}.png`),
-            this._guardar_base64_en_archivo(capturas.miniatura, `${nombre_sugerido}_miniatura.png`),
-          ]).then((resultados) => {
-            capturas.ruta_captura = resultados[0];
-            capturas.ruta_miniatura = resultados[1];
-            success(capturas);
-          });
-        } else {
-          capturas.ruta_captura = null;
-          capturas.ruta_miniatura = null;
-          success(capturas);
-        }
+      ctx.putImageData(frame, 0, 0, 0, 0, canvas.width, canvas.height);
 
-      } else {
-        reject("No se implementó la captura sobre una camara real");
-      }
+      framePNG = canvas.toDataURL('image/png');
 
-    });
+      /* Calculo el width del thumbnail (fijo el height a 100px)
+       *   Regla de tres simple:
+       *     height ------- width
+       *     100px  -------   ?
+       */
+      thumbnail.width = (ALTO_THUMBNAIL * formato.width) / formato.height;
+      thumbnail.height = ALTO_THUMBNAIL;
 
-  },
+      ctx.drawImage(canvas, 0, 0, thumbnail.width, thumbnail.height);
+      thumbnail.imageData = ctx.getImageData(0, 0, thumbnail.width, thumbnail.height);
 
-  /**
-   * Retorna un diccionaro con dos capturas de pantalla desde la cámara falsa.
-   *
-   * Una captura corresponde a lo que tomó exactamente desde la cámara, y
-   * otra captura es la miniatura.
-   *
-   * Los campos son {captura, miniatura}, las dos en formato base64.
-   */
-  _obtener_capturas_desde_camara_falsa() {
+      canvas.width = thumbnail.width;
+      canvas.height = thumbnail.height;
 
-    var video  = document.getElementById('video'); // TODO: debería conocer el id del elemento a capturar.
-    var canvas = document.createElement('canvas');
-    canvas.width  = video.videoWidth;
-    canvas.height = video.videoHeight;
+      ctx.putImageData(thumbnail.imageData, 0, 0);
 
-    var ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0);
-    let captura = canvas.toDataURL('image/png');
+      thumbnailPNG = canvas.toDataURL('image/png');
 
-
-    var canvasMiniatura = document.createElement('canvas');
-    canvasMiniatura.width  = video.videoWidth / 5;
-    canvasMiniatura.height = video.videoHeight / 5;
-
-    var ctxMiniatura = canvasMiniatura.getContext('2d');
-    ctxMiniatura.drawImage(video, 0, 0, canvasMiniatura.width, canvasMiniatura.height);
-    let capturaMiniatura = canvasMiniatura.toDataURL('image/png');
-
-    return {captura, miniatura: capturaMiniatura};
-
-  },
-
-  /**
-   * Genera un archivo en formato .png y lo guarda en el disco.
-   *
-   * Espera como argumento una imagen en formato base64 de tipo png y el
-   * nombre del archivo sugerido (en un path relativo o absoluto).
-   *
-   * La función retornará la ruta absoluta a la imagen en el sistema.
-   */
-  _guardar_base64_en_archivo(datos_base_64, nombre_de_archivo) {
-    return new Promise((success, reject) => {
-      var base64Data = datos_base_64.replace(/^data:image\/png;base64,/, "");
-      let path = requireNode('path');
-
-      requireNode("fs").writeFile(nombre_de_archivo, base64Data, 'base64', function(err) {
-        if (err) {
-          reject(err);
-        } else {
-          success(path.resolve(nombre_de_archivo));
-        }
-      });
-
-    });
-  },
-
-  /*
-   * Retorna un número aleatorio entre dos valores.
-   */
-  _obtener_numero_aleatorio(min, max) {
-    let valor = Math.floor(Math.random() * (max - min) + min);
-    return `${valor}`;
+      Promise.all([
+        guardar_base64_en_archivo(framePNG, now + '.png'),
+        guardar_base64_en_archivo(thumbnailPNG, now + '.thumbnail.png')
+      ]).then((archivos) => success({
+        captura: framePNG,
+        ruta_captura: archivos[0],
+        miniatura: thumbnailPNG,
+        ruta_miniatura: archivos[1]
+      }), (error) => reject({
+        texto: 'Hubo un error',
+        error: error
+      }));
+    }));
   }
-
 });

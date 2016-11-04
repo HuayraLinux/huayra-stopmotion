@@ -1,5 +1,6 @@
 import Ember from 'ember';
 
+/* Copia de services/camaras.js:42 */
 function rgb2rgba(rgb, rgba) {
   var length = rgb.length / 3; /* RGB son 3 bytes por pixel */
 
@@ -17,12 +18,8 @@ export default Ember.Component.extend({
 	camaras: Ember.inject.service(),
 	tagName: 'canvas',
 	attributeBindings: ['width', 'height'],
-  width: Ember.computed('camaras.seleccionada',function() {
-    return this.get('camaras.seleccionada').configGet().width;
-  }),
-  height: Ember.computed('camaras.seleccionada',function() {
-    return this.get('camaras.seleccionada').configGet().height;
-  }),
+  width: Ember.computed.alias('camaras.formato.width'),
+  height: Ember.computed.alias('camaras.formato.height'),
   imageData: Ember.computed('width', 'height', function() {
     var width = this.get('width');
     var height = this.get('height');
