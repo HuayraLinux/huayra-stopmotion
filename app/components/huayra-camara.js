@@ -30,16 +30,21 @@ export default Ember.Component.extend({
     return ctx.createImageData(width, height);
   }),
 
-  didInsertElement() {
+  processFrame(frame) {
     var canvas = this.get('element');
     var ctx = canvas.getContext('2d');
+    var imageData = this.get('imageData');
 
-    this.get('camaras').on('frame', (frame) => {
-      var imageData = this.get('imageData');
+    rgb2rgba(frame, imageData.data); /* Modifico el buffer de data */
 
-      rgb2rgba(frame, imageData.data); /* Modifico el buffer de data */
+    ctx.putImageData(imageData, 0, 0);
+  },
 
-      ctx.putImageData(imageData, 0, 0);
-    });
+  didInsertElement() {
+    this.get('camaras').on('frame', this, this.processFrame);
+  },
+
+  willDestroyElement() {
+    this.get('camaras').off('frame', this, this.processFrame);
   }
 });
