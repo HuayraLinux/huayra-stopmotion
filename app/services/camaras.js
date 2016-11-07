@@ -85,6 +85,12 @@ const fakeCamClass = Ember.Object.extend({
   frames: [],
   currentFrame: 0,
 
+  /**
+   *Actualmente el servicio nunca usa más de una llamada a captura por frame
+   * en esta imitación tomamos eso como requerimiento
+   */
+  timeout: undefined,
+
   genFrames: Ember.on('init', function() {
     var frames = this.get('frames');
     var camara = new Image();
@@ -133,7 +139,9 @@ const fakeCamClass = Ember.Object.extend({
   }),
 
   capture(cb) {
-    setTimeout(cb, 500);
+    var timeout = setTimeout(cb, 500);
+
+    this.set('timeout', timeout);
   },
   configSet() {},
   configGet() {
@@ -146,9 +154,9 @@ const fakeCamClass = Ember.Object.extend({
 
     return frames[frameIdx];
   },
-  start() {
-  },
+  start() {},
   stop(cb) {
+    clearTimeout(this.get('timeout'));
     cb();
   }
 });
@@ -212,7 +220,7 @@ export default Ember.Service.extend(Ember.Evented, {
         this.trigger('unplugged', camera);
         this.notifyPropertyChange('camaras');
         /* CLOSE CAMERA FD */
-        // TODO: No hay forma de cerrar el FD con la librería, hay que reparar eso
+        /* TODO: No hay forma de cerrar el FD con la librería, hay que reparar eso */
         devices[dev.DEVNAME] = undefined;
 
         /* Si saqué la cámara en uso pongo alguna otra */
