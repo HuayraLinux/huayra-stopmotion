@@ -17,4 +17,7 @@
 /libpeerconnection.log
 npm-debug.log
 testem.log
+
+# Agregar sólo los pngs de imágenes
 *.png
+!public/imagenes/*.png

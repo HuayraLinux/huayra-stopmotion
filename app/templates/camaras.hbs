@@ -8,22 +8,20 @@
 
     <p>Cantidad de cámaras disponibles: {{camaras.cantidadDeCamaras}}</p>
 
-    {{#if hayCamaraSeleccionada}}
-      <p>Hay una cámara seleccionada <button {{action "apagarCamara"}}>Apagar la camara seleccionada</button></p>
-    {{else}}
-      <button {{action "seleccionarCamara" 0}}>Inicializar camara 1</button>
-    {{/if}}
+    {{#each camaras.camaras as |camara id|}}
+    <button {{action "seleccionarCamara" id}}>{{camara.ID_V4L_PRODUCT}} ({{camara.DEVNAME}})</button>
+    {{/each}}
 
     {{outlet}}
 
   </div>
 
   <div class="vbox vbox-camara">
-    <div id='camara'>Contenendor para la cámara.</div>
+    {{huayra-camara}}
   </div>
 
   <div class="vbox controles">
-    <button class="ui button primary {{if hayCamaraSeleccionada '' 'disabled'}}" {{action "capturar"}}>Capturar</button>
+    <button class="ui button primary" {{action "capturar"}}>Capturar</button>
     
     <button class="ui button red {{if haySeleccion '' 'disabled'}}" {{action "eliminarCuadrosSeleccionados"}}>Eliminar cuadros seleccionados</button>
   </div>

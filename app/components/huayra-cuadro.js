@@ -44,7 +44,7 @@ export default Ember.Component.extend({
     this.sendAction('accionAlHacerClick', this.get('index'), event.shiftKey || event.metaKey);
   },
 
-  dragStart(event) {
+  dragStart(/*event*/) {
     return false;
   },
 

@@ -1,34 +1,242 @@
 import Ember from 'ember';
 const Promise = Ember.RSVP.Promise;
-const ANCHO_THUMBNAIL = 120;
 
-export default Ember.Service.extend({
-  camaras: [],
-  camaraSeleccionada: null,
+var optionalImports;
 
+try {
+  optionalImports = {
+    v4l2: requireNode('v4l2camera'),
+    udev: requireNode('udev')
+  };
+  console.log('Cargadas las librerías nativas');
+} catch (e) { /* Debería catchear ÚNICAMENTE el caso de que falle el require */
+  optionalImports = {
+    v4l2: {},
+    udev: {
+      list() {
+        return []; /* No hay cámaras */
+      },
+
+      monitor() {
+        return { /* Fake monitor*/
+          on() {
+          }
+        };
+      }
+    }
+  };
+  console.log('No se pudieron cargar v4l2 y/o udev');
+}
+
+const v4l2 = optionalImports.v4l2;
+const udev = optionalImports.udev;
+const monitor = udev.monitor();
+const ALTO_THUMBNAIL = 100;
+
+function setBiggestRGB(camera) {
+  var biggestRGB = camera.formats
+    .filter((format) => format.formatName === 'RGB3')
+    .reduce((acc, format) => format.width * format.height > acc.width * acc.height ? format : acc);
+  camera.configSet(biggestRGB);
+}
+
+function rgb2rgba(rgb, rgba) {
+  var length = rgb.length / 3; /* RGB son 3 bytes por pixel */
+
+  for(var i = 0; i < length; i++) {
+    rgba[i * 4 + 0] = rgb[i * 3 + 0]; /* Rojo  */
+    rgba[i * 4 + 1] = rgb[i * 3 + 1]; /* Verde */
+    rgba[i * 4 + 2] = rgb[i * 3 + 2]; /* Azul  */
+    rgba[i * 4 + 3] = 255; /* Alpha: la imagen es opaca */
+  }
+
+  return rgba;
+}
+
+/**
+ * Decodea un string en base64 y lo guarda como archivo
+ *
+ * Espera como argumento un archivo encodeado en base64 y el nombre del archivo
+ * sugerido (en un path relativo o absoluto).
+ *
+ * La función retornará la ruta absoluta a la imagen en el sistema.
+ */
+function guardar_base64_en_archivo(datos_base_64, nombre_de_archivo) {
+  return new Promise((success, reject) => {
+    var base64Data = datos_base_64.replace(/^data:[^,]+,/, "");
+    let path = requireNode('path');
+
+    requireNode("fs").writeFile(nombre_de_archivo, base64Data, 'base64', function(err) {
+      if (err) {
+        reject(err);
+      } else {
+        success(path.resolve(nombre_de_archivo));
+      }
+    });
+
+  });
+}
+
+const fakeCamClass = Ember.Object.extend({
+  DEVNAME: 'No hay cámara seleccionada',
+  ID_V4L_PRODUCT: 'Sin cámara',
+  controls: [],
+  formats: [{formatName: 'RGB3', width: 1280, height: 720}],
+  frames: [],
+  currentFrame: 0,
+
+  genFrames: Ember.on('init', function() {
+    var frames = this.get('frames');
+    var camara = new Image();
+    var prohibido = new Image();
+    var texto = new Image();
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    var width = this.configGet().width;
+    var height = this.configGet().height;
+
+    var fondoverde;
+    var textoycamara;
+    var textoycamaratachada;
+
+    var isNotAlpha = (value, index) => (index % 4) !== 3;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    camara.src = 'imagenes/camara.png';
+    prohibido.src = 'imagenes/prohibido.png';
+    texto.src = 'imagenes/advertencia.png';
+
+    ctx.fillStyle = "green";
+    ctx.fillRect(0, 0, width, height);
+    fondoverde = ctx.getImageData(0, 0, width, height).data.filter(isNotAlpha);
+    frames.push(fondoverde);
+    frames.push(fondoverde);
+
+    camara.onload = (() => prohibido.onload = (() => texto.onload = () => {
+      ctx.drawImage(camara, (width - camara.width) / 2, (height - camara.height) / 2);
+      ctx.drawImage(texto, (width - texto.width) / 2, height / 2 - camara.height - texto.height - 20);
+
+      /* Cada frame es medio segundo, dos segundos de esto */
+      textoycamara = ctx.getImageData(0, 0, width, height).data.filter(isNotAlpha);
+      frames[0] = textoycamara;
+      frames[1] = textoycamara;
+
+      ctx.drawImage(prohibido, (width - prohibido.width) / 2, (height - prohibido.height) / 2);
+
+      /* Y uno de esto */
+      textoycamaratachada = ctx.getImageData(0, 0, width, height).data.filter(isNotAlpha);
+      frames.push(textoycamaratachada);
+      frames.push(textoycamaratachada);
+    }));
+  }),
+
+  capture(cb) {
+    setTimeout(cb, 500);
+  },
+  configSet() {},
+  configGet() {
+    return this.get('formats')[0];
+  },
+  frameRaw() {
+    var frames = this.get('frames');
+    var frameIdx = this.get('currentFrame');
+    this.set('currentFrame', (frameIdx + 1) % frames.length);
+
+    return frames[frameIdx];
+  },
+  start() {
+  },
+  stop(cb) {
+    cb();
+  }
+});
+const fakeCam = fakeCamClass.create();
+const defaultCamera = 0;
+
+export default Ember.Service.extend(Ember.Evented, {
+  camaras: Ember.computed(function() {
+    var realDevices = udev
+      .list('video4linux')
+      .filter((dev) => /capture/.test(dev.ID_V4L_CAPABILITIES)) /* Espero que sean dispositivos de captura */
+      .sort((a, b) => a.DEVNAME > b.DEVNAME); /* Los ordeno de video0 a videoN */
+
+    /* Si no hay cámaras devuelvo la de prueba */
+    if(realDevices.length === 0) {
+      return [fakeCam];
+    } else {
+      return realDevices;
+    }
+  }),
   cantidadDeCamaras: Ember.computed('camaras', function() {
     return this.get('camaras.length');
   }),
+  seleccionada: fakeCam,
+  _openDevices: {
+    [fakeCam.DEVNAME]: fakeCam
+  },
+  formatos: Ember.computed.alias('seleccionada.formats'),
+  formato: Ember.computed('seleccionada', function() {
+    return this.get('seleccionada').configGet();
+  }),
 
-  /**
-   * Inicializa el sistema de cámaras. Este método se llama al iniciar la
-   * aplicación, y debería pre-cargar cualquier información para que el sistema
-   * pueda comenzar a funcionar en el resto de la aplicación.
-   */
-  inicializar() {
-    this.set('camaraSeleccionada', null);
 
-    return new Promise((success) => {
-      this._inicializarCamaraDePrueba();
-      console.log("Simulando una demora de 2 segundos en la inicialización del gestor de cámaras.");
-      setTimeout(success, 2 * 1000);
+  init: Ember.on('init', function() {
+    /* Reportar cuando se agrega una cámara */
+    monitor.on('add', (dev) => {
+      if(dev.SUBSYSTEM === 'video4linux' && /capture/.test(dev.ID_V4L_CAPABILITIES)) {
+        /* CREATE CAMERA */
+        let camera = {dev: dev};
+        let seleccionada = this.get('seleccionada');
+
+        this.trigger('plugged', camera);
+        this.notifyPropertyChange('camaras');
+
+        /* Si no había cámaras ahora hay!!!!1111 */
+        if(seleccionada === fakeCam) {
+          this.seleccionarCamara(defaultCamera);
+        }
+      }
     });
-  },
 
-  _inicializarCamaraDePrueba() {
-    this.get('camaras').pushObject({id: 1, nombre: 'Cámara de prueba', camaraReal: false});
-  },
+    /* Reportar cuando se quita una cámara */
+    monitor.on('remove', (dev) => {
+      if(dev.SUBSYSTEM === 'video4linux' && /capture/.test(dev.ID_V4L_CAPABILITIES)) {
+        /* CREATE CAMERA */
+        let devices = this.get('_openDevices');
+        let device = devices[dev.DEVNAME];
+        let camera = {dev: dev, camera: device};
+        let seleccionada = this.get('seleccionada');
 
+        this.trigger('unplugged', camera);
+        this.notifyPropertyChange('camaras');
+        /* CLOSE CAMERA FD */
+        // TODO: No hay forma de cerrar el FD con la librería, hay que reparar eso
+        devices[dev.DEVNAME] = undefined;
+
+        /* Si saqué la cámara en uso pongo alguna otra */
+        if(seleccionada.device === device.device) {
+          this.seleccionarCamara(defaultCamera);
+        }
+      }
+    });
+
+    /* Pongo alguna cámara a la vista */
+    this.seleccionarCamara(defaultCamera);
+  }),
+
+  capturar(camara) {
+    var raw = camara.frameRaw();
+
+    if(this.get('seleccionada') !== camara) {
+      /* Algo falló, abortemosssssssssssss */
+      return;
+    }
+
+    this.trigger('frame', raw);
+    camara.capture(() => this.capturar(camara));
+  },
 
   /**
    * Permite cambiar la cámara actual.
@@ -37,27 +245,36 @@ export default Ember.Service.extend({
    * apagar la cámara anterior, encender la cámara nueva y apuntar todas las
    * propiedades a ese cámara.
    */
-  seleccionarCamara(indice, elementID) {
+  seleccionarCamara(indice) {
+    var devname;
+    var camara;
+    var _openDevices = this.get('_openDevices');
 
     if (!this.get('camaras')[indice]) {
       throw new Error("No se puede encontrar la cámara índice " + indice);
     }
 
-    let camaraSeleccionada = this.get('camaras')[indice];
+    devname = this.get('camaras')[indice].DEVNAME;
 
-    if (camaraSeleccionada.camaraReal === false) {
-      this._activarCamaraDePrueba(elementID);
-    } else {
-      throw new Error("No se implementó una forma de inicializar esta cámara.");
+    if(_openDevices[devname] === undefined) {
+      _openDevices[devname] = v4l2.Camera(devname);
     }
 
-    this.set('camaraSeleccionada', camaraSeleccionada);
+    camara = _openDevices[devname];
+
+    try {
+      this.get('seleccionada').stop(() => this.cambiarCamara(camara));
+    } catch (e) { /* Tal vez dejó de existir la cámara */
+      this.cambiarCamara(camara);
+    }
   },
 
-  _activarCamaraDePrueba(elementID) {
-    let contenido = `<video id="video" src="./video-camara-fallback.mp4" loop="true" autoplay="true" playback-rate=2 muted="muted"></video>`;
-    $(elementID).html(contenido);
-    document.getElementById("video").playbackRate = 0.1;
+  cambiarCamara(camara) {
+    this.set('seleccionada', camara);
+
+    setBiggestRGB(camara);
+    camara.start();
+    camara.capture(() => this.capturar(camara));
   },
 
 
@@ -113,11 +330,6 @@ export default Ember.Service.extend({
 
   },
 
-  desactivarCamaraSeleccionada(elementID) {
-    $(elementID).html("desactivada...");
-    this.set('camaraSeleccionada', null);
-  },
-
   /**
    * Inicia la captura de uno solo frame.
    *
@@ -132,102 +344,57 @@ export default Ember.Service.extend({
    *     }
    */
   capturarFrame() {
-    let camaraSeleccionada = this.get('camaraSeleccionada');
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext("2d");
 
-    return new Promise((success, reject) => {
+    /* TODO: Hacer esto más legible */
+    return new Promise((success, reject) => this.one('frame', (raw) => {
+      var formato = this.get('formato');
+      var frame = ctx.createImageData(formato.width, formato.height);
+      var thumbnail = {};
+      var framePNG;
+      var thumbnailPNG;
+      var now = Date.now();
 
-      if (camaraSeleccionada.camaraReal === false) {
-        let capturas = this._obtener_capturas_desde_camara_falsa();
+      rgb2rgba(raw, frame.data);
 
-        let nombre_sugerido = this._obtener_numero_aleatorio(100000, 999999);
+      canvas.width = formato.width;
+      canvas.height = formato.height;
 
-        // Solo sobre electron intenta guardar las imagenes en archivos:
-        if (inElectron) {
-          Promise.all([
-            this._guardar_base64_en_archivo(capturas.captura, `${nombre_sugerido}.png`),
-            this._guardar_base64_en_archivo(capturas.miniatura, `${nombre_sugerido}_miniatura.png`),
-          ]).then((resultados) => {
-            capturas.ruta_captura = resultados[0];
-            capturas.ruta_miniatura = resultados[1];
-            success(capturas);
-          });
-        } else {
-          capturas.ruta_captura = null;
-          capturas.ruta_miniatura = null;
-          success(capturas);
-        }
+      ctx.putImageData(frame, 0, 0, 0, 0, canvas.width, canvas.height);
 
-      } else {
-        reject("No se implementó la captura sobre una camara real");
-      }
+      framePNG = canvas.toDataURL('image/png');
 
-    });
+      /* Calculo el width del thumbnail (fijo el height a 100px)
+       *   Regla de tres simple:
+       *     height ------- width
+       *     100px  -------   ?
+       */
+      thumbnail.width = (ALTO_THUMBNAIL * formato.width) / formato.height;
+      thumbnail.height = ALTO_THUMBNAIL;
 
-  },
+      ctx.drawImage(canvas, 0, 0, thumbnail.width, thumbnail.height);
+      thumbnail.imageData = ctx.getImageData(0, 0, thumbnail.width, thumbnail.height);
 
-  /**
-   * Retorna un diccionaro con dos capturas de pantalla desde la cámara falsa.
-   *
-   * Una captura corresponde a lo que tomó exactamente desde la cámara, y
-   * otra captura es la miniatura.
-   *
-   * Los campos son {captura, miniatura}, las dos en formato base64.
-   */
-  _obtener_capturas_desde_camara_falsa() {
+      canvas.width = thumbnail.width;
+      canvas.height = thumbnail.height;
 
-    var video  = document.getElementById('video'); // TODO: debería conocer el id del elemento a capturar.
-    var canvas = document.createElement('canvas');
-    canvas.width  = video.videoWidth;
-    canvas.height = video.videoHeight;
+      ctx.putImageData(thumbnail.imageData, 0, 0);
 
-    var ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0);
-    let captura = canvas.toDataURL('image/png');
+      thumbnailPNG = canvas.toDataURL('image/png');
 
-
-    var canvasMiniatura = document.createElement('canvas');
-
-    canvasMiniatura.width  = ANCHO_THUMBNAIL;
-    canvasMiniatura.height = (video.videoHeight * ANCHO_THUMBNAIL) / video.videoWidth;
-
-    var ctxMiniatura = canvasMiniatura.getContext('2d');
-    ctxMiniatura.drawImage(video, 0, 0, canvasMiniatura.width, canvasMiniatura.height);
-    let capturaMiniatura = canvasMiniatura.toDataURL('image/png');
-
-    return {captura, miniatura: capturaMiniatura};
-
-  },
-
-  /**
-   * Genera un archivo en formato .png y lo guarda en el disco.
-   *
-   * Espera como argumento una imagen en formato base64 de tipo png y el
-   * nombre del archivo sugerido (en un path relativo o absoluto).
-   *
-   * La función retornará la ruta absoluta a la imagen en el sistema.
-   */
-  _guardar_base64_en_archivo(datos_base_64, nombre_de_archivo) {
-    return new Promise((success, reject) => {
-      var base64Data = datos_base_64.replace(/^data:image\/png;base64,/, "");
-      let path = requireNode('path');
-
-      requireNode("fs").writeFile(nombre_de_archivo, base64Data, 'base64', function(err) {
-        if (err) {
-          reject(err);
-        } else {
-          success(path.resolve(nombre_de_archivo));
-        }
-      });
-
-    });
-  },
-
-  /*
-   * Retorna un número aleatorio entre dos valores.
-   */
-  _obtener_numero_aleatorio(min, max) {
-    let valor = Math.floor(Math.random() * (max - min) + min);
-    return `${valor}`;
+      Promise.all([
+        guardar_base64_en_archivo(framePNG, now + '.png'),
+        guardar_base64_en_archivo(thumbnailPNG, now + '.thumbnail.png')
+      ]).then((archivos) => success({
+        captura: framePNG,
+        ruta_captura: archivos[0],
+        miniatura: thumbnailPNG,
+        ruta_miniatura: archivos[1]
+      }), (error) => reject({
+        texto: 'Hubo un error',
+        error: error
+      }));
+    }));
   }
-
 });
