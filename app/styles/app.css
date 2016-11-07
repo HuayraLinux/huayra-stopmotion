@@ -20,6 +20,9 @@
   background-color: #ccc;
   padding-left: 2px;
   padding-right: 2px;
+  height: 110px;
+  overflow-x: scroll;
+  flex-shrink: 0;
 }
 
 .vbox.vbox-camara {
