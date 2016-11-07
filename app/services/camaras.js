@@ -31,7 +31,7 @@ try {
 const v4l2 = optionalImports.v4l2;
 const udev = optionalImports.udev;
 const monitor = udev.monitor();
-const ALTO_THUMBNAIL = 100;
+const ALTO_THUMBNAIL = 80;
 
 function setBiggestRGB(camera) {
   var biggestRGB = camera.formats

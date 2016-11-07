@@ -18,8 +18,6 @@
 .vbox.timeline {
   flex-grow: 0;
   background-color: #ccc;
-  overflow: scroll;
-  height: 88px;
   padding-left: 2px;
   padding-right: 2px;
 }
