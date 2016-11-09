@@ -242,8 +242,11 @@ export default Ember.Service.extend(Ember.Evented, {
       return;
     }
 
-    this.trigger('frame', raw);
-    camara.capture(() => this.capturar(camara));
+    /* Espero a que sea mi turno para decirle a todo el mundo que dibuje */
+    window.requestAnimationFrame(() => {
+      this.trigger('frame', raw);
+      camara.capture(() => this.capturar(camara));
+    });
   },
 
   /**
