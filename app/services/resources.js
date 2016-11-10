@@ -41,13 +41,13 @@ export default Ember.Service.extend({
     result = render(ctx);
 
     if(typeof(name) === 'string') {
-      this.registerResorce(name, result);
+      this.registerResource(name, result);
     }
 
     return result;
-  }
+  },
 
-  registerResorce(name, resorce) {
+  registerResource(name, resource) {
     var resources = this.get('_resourceMap');
     Ember.set(resources, name, resource);
   },

@@ -1,6 +1,5 @@
 import Ember from 'ember';
 
-
 let Captura = Ember.Object.extend({
   href_miniatura: null,       // miniatura cuando se usa electron
   href: null,                 // ruta a la imagen cuando se usa electron
@@ -14,6 +13,25 @@ export default Ember.Controller.extend({
   capturandoFoto: false,
   capturas: [],
   intervaloSeleccion: [0, 0],
+  cebolla: {
+    cuadros: 5,            /* Integer */
+    transparenciaIn: 0.7,  /* Integer */
+    transparenciaOut: 0.2, /* Integer */
+  },
+
+  frameContext: Ember.computed('cebolla', 'capturas.length', function() { /* Cambiar cuando exista el cursor de inserción */
+    var cuadros = this.get('cebolla.cuadros');
+    var capturas = this.get('capturas')
+      .slice(-cuadros)
+      .map((captura) => captura.href);
+
+    return {
+      type: capturas.length > 0 ? 'cebolla' : 'none',
+      firstFrameAlpha: this.get('cebolla.transparenciaIn'),
+      lastFrameAlpha: this.get('cebolla.transparenciaOut'),
+      frames: capturas /* Cambiar cuando exista cursor de inserción */
+    };
+  }),
 
   haySeleccion: Ember.computed('intervaloSeleccion', function() {
     let seleccion = this.get('intervaloSeleccion');
