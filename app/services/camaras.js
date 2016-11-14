@@ -1,5 +1,7 @@
 import Ember from 'ember';
 const Promise = Ember.RSVP.Promise;
+import ENV from "../config/environment";
+const IN_TESTS = ENV.environment === "test";
 
 var optionalImports;
 
@@ -116,9 +118,12 @@ const fakeCamClass = Ember.Object.extend({
 
     ctx.fillStyle = "green";
     ctx.fillRect(0, 0, width, height);
-    fondoverde = ctx.getImageData(0, 0, width, height).data.filter(isNotAlpha);
-    frames.push(fondoverde);
-    frames.push(fondoverde);
+
+    if (!IN_TESTS) {
+      fondoverde = ctx.getImageData(0, 0, width, height).data.filter(isNotAlpha);
+      frames.push(fondoverde);
+      frames.push(fondoverde);
+    }
 
     camara.onload = (() => prohibido.onload = (() => texto.onload = () => {
       ctx.drawImage(camara, (width - camara.width) / 2, (height - camara.height) / 2);
