@@ -80,3 +80,7 @@ li.huayra-cuadro.seleccionado {
  -ms-user-select: none;
  user-select: none;
 }
+
+.padding-top {
+  padding-top: 10px;
+}

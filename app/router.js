@@ -8,6 +8,10 @@ const Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('camaras');
+  this.route('debug', function() {
+    this.route('index');
+    this.route('timeline');
+  });
 });
 
 export default Router;
