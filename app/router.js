@@ -11,6 +11,7 @@ Router.map(function() {
   this.route('debug', function() {
     this.route('index');
     this.route('timeline');
+    this.route('modal');
   });
 });
 

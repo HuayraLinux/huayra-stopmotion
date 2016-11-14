@@ -1,0 +1,11 @@
+{{#ember-remodal forService=true name='modal-confirmar-salir'}}
+  <h1>¿Estás seguro de salir?</h1>
+
+  {{yield}}
+
+  <p>Hay cambios sin guardar en este proyecto, ¿Estás seguro de abandonar?.</p>
+
+  <button class="ui button red" {{action "aceptar"}}>Salir sin guardar</button>
+  <button class="ui button" {{action "cancelar"}}>Cancelar</button>
+
+{{/ember-remodal}}
