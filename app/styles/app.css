@@ -80,3 +80,16 @@ li.huayra-cuadro.seleccionado {
  -ms-user-select: none;
  user-select: none;
 }
+
+.vbox-camara {
+  position: relative;
+}
+
+.vbox-camara > .canvas-layer {
+  position: absolute;
+}
+
+.canvas-layer {
+  height: 450px;
+  background-color: transparent;
+}

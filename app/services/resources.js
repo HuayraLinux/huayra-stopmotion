@@ -15,7 +15,7 @@ export default Ember.Service.extend({
         accept(image);
 
         if(typeof(name) === 'string') {
-          this.registerResorce(name, image);
+          this.registerResource(name, image);
         }
       };
     });
