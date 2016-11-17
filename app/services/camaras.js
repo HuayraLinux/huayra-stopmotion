@@ -8,7 +8,8 @@ var optionalImports;
 try {
   optionalImports = {
     v4l2: requireNode('v4l2camera'),
-    udev: requireNode('udev')
+    udev: requireNode('udev'),
+    electron: requireNode('electron')
   };
   console.log('Cargadas las librerías nativas');
 } catch (e) { /* Debería catchear ÚNICAMENTE el caso de que falle el require */
@@ -25,6 +26,21 @@ try {
           }
         };
       }
+    },
+    electron: {
+      getCurrentWindow() {
+        return {
+          remote : {
+            isFocused() {
+              return true;
+            },
+            isMinimized() {
+              return false;
+            },
+            on() {}
+          }
+        };
+      }
     }
   };
   console.log('No se pudieron cargar v4l2 y/o udev');
@@ -32,6 +48,7 @@ try {
 
 const v4l2 = optionalImports.v4l2;
 const udev = optionalImports.udev;
+const electron_window = optionalImports.electron.remote.getCurrentWindow();
 const monitor = udev.monitor();
 const ALTO_THUMBNAIL = 80;
 
@@ -242,16 +259,23 @@ export default Ember.Service.extend(Ember.Evented, {
   capturar(camara) {
     var raw = camara.frameRaw();
 
+    var continuar = () => {
+      this.trigger('frame', raw);
+      camara.capture(() => this.capturar(camara));
+    };
+
     if(this.get('seleccionada') !== camara) {
       /* Algo falló, abortemosssssssssssss */
       return;
     }
 
-    /* Espero a que sea mi turno para decirle a todo el mundo que dibuje */
-    window.requestAnimationFrame(() => {
-      this.trigger('frame', raw);
-      camara.capture(() => this.capturar(camara));
-    });
+    if(electron_window.isMinimized()) {
+      electron_window.once('restore', continuar);
+    } else if(!electron_window.isFocused()) {
+      Ember.run.later(continuar, 100);
+    } else {
+      continuar();
+    }
   },
 
   /**
