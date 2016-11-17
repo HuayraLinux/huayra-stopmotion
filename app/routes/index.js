@@ -4,6 +4,9 @@ export default Ember.Route.extend({
   actions: {
     abrirPruebaDeCamaras() {
       this.transitionTo('camaras');
-    }
+    },
+    abrirPruebas() {
+      this.transitionTo('debug.index');
+    },
   }
 });
