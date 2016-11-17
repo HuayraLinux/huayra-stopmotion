@@ -10,16 +10,25 @@ export default Ember.Component.extend({
   width: Ember.computed.alias('camaras.formato.width'),
   height: Ember.computed.alias('camaras.formato.height'),
 
-  frames: [],     /* [ImageSources] from newer to older */
-  cameraFrame: 0, /* NO IMPLEMENTEADO (Integer) */
-  alphaIn: 1,     /* Integer */
-  alphaOut: 0,    /* Integer */
+  frames: [],       /* [ImageSources] from newer to older */
+  cebollaLength: 3, /* Integer */
+  cameraFrame: 0,   /* NO IMPLEMENTEADO (Integer) */
+  alphaIn: 1,       /* Integer */
+  alphaOut: 0,      /* Integer */
 
-  cebolla: Ember.observer('frames', 'alphaIn', 'alphaOut', function() {
+  framesCebolla: Ember.computed('cebollaLength', 'frames.[]', function() { /* Cambiar cuando exista el cursor de inserción */
+    var cuadros = this.get('cebollaLength');
+    return this.get('frames')
+      .slice(-cuadros)
+      .map((captura) => captura.href);
+  }),
+
+  /* Como framesCebolla es un computed no va a triggerear el evento automáticamente, así que voy a escuchar por él */
+  cebolla: Ember.observer('cebollaLength', 'frames.[]', /*'framesCebolla',*/ 'alphaIn', 'alphaOut', 'cameraFrame', function() {
     var resources = this.get('resources');
     var width = this.get('width');
     var height = this.get('height');
-    var frames = this.get('frames');
+    var frames = this.get('framesCebolla');
     var alphaIn = this.get('alphaIn');
     var alphaOut = this.get('alphaOut');
 

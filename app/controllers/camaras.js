@@ -14,8 +14,6 @@ export default Ember.Controller.extend({
   capturas: [],
   intervaloSeleccion: [0, 0],
 
-  /* BEGIN CEBOLLA */
-
   cebolla: {
     cuadros: 5,    /* Integer */
     in: 0.7,       /* Integer */
@@ -23,16 +21,7 @@ export default Ember.Controller.extend({
     frameWebcam: 0 /* NO IMPLEMENTADO (Integer) */ 
   },
 
-  framesCebolla: Ember.computed('cebolla.cuadros', 'capturas.[]', function() { /* Cambiar cuando exista el cursor de inserción */
-    var cuadros = this.get('cebolla.cuadros');
-    return this.get('capturas')
-      .slice(-cuadros)
-      .map((captura) => captura.href);
-  }),
-
-  /* END */
-
-  haySeleccion: Ember.computed('intervaloSeleccion', function() {
+  haySeleccion/* No, no llegamos a rusia */: Ember.computed('intervaloSeleccion', function() {
     let seleccion = this.get('intervaloSeleccion');
 
     return !(seleccion[0] === 0 && seleccion[1] === 0);
