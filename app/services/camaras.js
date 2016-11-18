@@ -28,9 +28,9 @@ try {
       }
     },
     electron: {
-      getCurrentWindow() {
-        return {
-          remote : {
+      remote : {
+        getCurrentWindow: function() {
+          return {
             isFocused() {
               return true;
             },
@@ -38,8 +38,8 @@ try {
               return false;
             },
             on() {}
-          }
-        };
+          };
+        }
       }
     }
   };
