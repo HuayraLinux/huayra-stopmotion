@@ -20,6 +20,7 @@ testem.log
 
 # Agregar sólo los pngs de imágenes
 *.png
+!public/capturas_de_ejemplo/*.png
 !public/imagenes/*.png
 
 # Archivos de proyecto de mltframework
