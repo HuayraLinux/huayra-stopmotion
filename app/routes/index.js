@@ -8,5 +8,8 @@ export default Ember.Route.extend({
     abrirPruebas() {
       this.transitionTo('debug.index');
     },
+    crearUnProyectoNuevo() {
+      this.transitionTo('editor.new');
+    },
   }
 });

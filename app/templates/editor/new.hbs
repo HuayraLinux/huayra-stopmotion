@@ -1,0 +1,43 @@
+{{outlet}}
+
+<div class="ui vertical stripe segment">
+  <div class="ui middle aligned grid container">
+    <div class="row">
+
+      <div class="twelve wide column center">
+
+        <div class="ui form">
+
+          <div class="fields">
+            <div class="ten wide field {{if mensajeNombreInvalido 'error'}}">
+              <label>Nombre</label>
+
+              {{input type="text" value=nombre placeholder="mi proyecto"}}
+            </div>
+          </div>
+
+
+          <div class="fields">
+            <div class="ten wide field {{if mensajeNombreInvalido 'error'}}">
+              <label>Ubicación</label>
+
+              {{input type="text" value=ubicacion readonly="" placeholder="¿Dónde se alojará?"}}
+              <button class="ui submit button mini">Cambiar</button>
+
+            </div>
+          </div>
+
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="center aligned column">
+        {{#link-to 'index' class="ui button"}}Cancelar{{/link-to}}
+      </div>
+    </div>
+
+  </div>
+</div>

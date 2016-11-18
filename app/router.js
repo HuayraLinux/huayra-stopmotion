@@ -14,6 +14,10 @@ Router.map(function() {
     this.route('modal');
     this.route('grilla');
   });
+
+  this.route('editor', function() {
+    this.route('new');
+  });
 });
 
 export default Router;
