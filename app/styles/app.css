@@ -87,3 +87,16 @@ li.huayra-cuadro.seleccionado {
 .margin-top {
   margin-top: 100px !important;
 }
+
+.vbox-camara {
+  position: relative;
+}
+
+.vbox-camara > .canvas-layer {
+  position: absolute;
+}
+
+.canvas-layer {
+  height: 450px;
+  background-color: transparent;
+}

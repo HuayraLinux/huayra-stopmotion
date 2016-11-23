@@ -16,7 +16,9 @@ function rgb2rgba(rgb, rgba) {
 
 export default Ember.Component.extend({
 	camaras: Ember.inject.service(),
+  resources: Ember.inject.service(),
 	tagName: 'canvas',
+  classNames: ['canvas-layer'],
 	attributeBindings: ['width', 'height'],
   width: Ember.computed.alias('camaras.formato.width'),
   height: Ember.computed.alias('camaras.formato.height'),

@@ -3,28 +3,57 @@ const Promise = Ember.RSVP.Promise;
 //import { Promise } from 'rsvp';
 
 export default Ember.Service.extend({
-    /* loadImage = (URL) => Promise<Image> */
-    loadImage(src) {
-        return new Promise((accept, reject) => {
-            var image = new Image();
-            image.src = src;
-            image.onload = accept;
-            image.onerror = reject;
-        });
-    },
-    /* renderOffscreen: ((Context2D) => ImageData, Integer, Integer) => Promise<ImageData> */
-    renderOffscreen(render, width, height) {
-        return new Promise((accept) =>{
-            var canvas = document.createElement('canvas');
-            var ctx = canvas.getContext('2d');
-            var result;
+  _resourceMap: {},
 
-            canvas.width = width;
-            canvas.height = height;
+  /* loadImage: (URL, Maybe<String>) => Promise<Image> */
+  loadImage(src, name) {
+    return new Promise((accept, reject) => {
+      var image = new Image();
+      image.src = src;
+      image.onerror = () => reject(image);
+      image.onload = () => {
+        accept(image);
 
-            result = render(ctx);
+        if(typeof(name) === 'string') {
+          this.registerResource(name, image);
+        }
+      };
+    });
+  },
 
-            accept(result);
-        });
+  /* renderOffscreen: ((Context2D) => ImageData, Integer, Integer, Maybe<String>) => Promise<ImageData> */
+  renderOffscreen(render, width, height, name) {
+    return new Promise((accept) => {
+      var imageData = this.renderOffscreenSync(render, width, height, name);
+      accept(imageData);
+    });
+  },
+
+  /* renderOffscreenSync: ((Context2D) => ImageData, Integer, Integer, Maybe<String>) => ImageData */
+  renderOffscreenSync(render, width, height, name) {
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    var result;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    result = render(ctx);
+
+    if(typeof(name) === 'string') {
+      this.registerResource(name, result);
     }
+
+    return result;
+  },
+
+  registerResource(name, resource) {
+    var resources = this.get('_resourceMap');
+    Ember.set(resources, name, resource);
+  },
+
+  unknownProperty(key) {
+    var resources = this.get('_resourceMap');
+    return Ember.get(resources, key);
+  }
 });

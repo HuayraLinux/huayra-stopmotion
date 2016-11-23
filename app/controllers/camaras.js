@@ -1,6 +1,5 @@
 import Ember from 'ember';
 
-
 let Captura = Ember.Object.extend({
   href_miniatura: null,       // miniatura cuando se usa electron
   href: null,                 // ruta a la imagen cuando se usa electron
@@ -15,7 +14,14 @@ export default Ember.Controller.extend({
   capturas: [],
   intervaloSeleccion: [0, 0],
 
-  haySeleccion: Ember.computed('intervaloSeleccion', function() {
+  cebolla: {
+    cuadros: 5,    /* Integer */
+    in: 0.7,       /* Integer */
+    out: 0.2,      /* Integer */
+    frameWebcam: 0 /* NO IMPLEMENTADO (Integer) */ 
+  },
+
+  haySeleccion/* No, no llegamos a rusia */: Ember.computed('intervaloSeleccion', function() {
     let seleccion = this.get('intervaloSeleccion');
 
     return !(seleccion[0] === 0 && seleccion[1] === 0);
