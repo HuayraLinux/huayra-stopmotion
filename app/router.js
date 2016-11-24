@@ -17,7 +17,9 @@ Router.map(function() {
 
   this.route('editor', function() {
     this.route('new');
+    this.route('editar', {path: 'editar/:ubicacion'});
   });
+
 });
 
 export default Router;

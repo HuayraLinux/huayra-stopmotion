@@ -100,3 +100,7 @@ li.huayra-cuadro.seleccionado {
   height: 450px;
   background-color: transparent;
 }
+
+.color_gray {
+  color: #ccc;
+}

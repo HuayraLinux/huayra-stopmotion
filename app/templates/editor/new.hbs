@@ -1,6 +1,6 @@
 {{outlet}}
 
-<div class="ui vertical stripe segment">
+<div class="ui vertical stripe segment margin-top">
   <div class="ui middle aligned grid container">
     <div class="row">
 
@@ -12,7 +12,7 @@
             <div class="ten wide field {{if mensajeNombreInvalido 'error'}}">
               <label>Nombre</label>
 
-              {{input type="text" value=nombre placeholder="mi proyecto"}}
+              {{input id="nombre" type="text" value=model.nombre placeholder="ingrese el nombre del proyecto"}}
             </div>
           </div>
 
@@ -21,8 +21,16 @@
             <div class="ten wide field {{if mensajeNombreInvalido 'error'}}">
               <label>Ubicación</label>
 
-              {{input type="text" value=ubicacion readonly="" placeholder="¿Dónde se alojará?"}}
-              <button class="ui submit button mini">Cambiar</button>
+              <p>
+                {{input id="ubicacion" type="text" value=model.ubicacion readonly="" placeholder="Pulse cambiar para elegir otra ruta"}}
+              </p>
+
+              <button class="ui submit button mini" disabled={{model.noPuedeCambiarRuta}}>Cambiar</button>
+
+              {{#if model.noPuedeCambiarRuta}}
+                <span id='mensaje-de-error' class='color_gray'>No se puede la ruta cambiar desde la versión web.</span>
+              {{/if}}
+
 
             </div>
           </div>
@@ -34,8 +42,17 @@
     </div>
 
     <div class="row">
-      <div class="center aligned column">
-        {{#link-to 'index' class="ui button"}}Cancelar{{/link-to}}
+      <div class="left aligned column">
+
+        {{#if contieneErrores}}
+          <div class="ui negative message">
+            <p>El formulario contiene algunos errores.</p>
+          </div>
+        {{/if}}
+
+        <button id="crear-proyecto" class="ui button primary" disabled={{contieneErrores}} {{action "crearProyecto"}}>Crear el proyecto</button>
+        {{#link-to 'index' id="cancelar" class="ui button"}}Cancelar{{/link-to}}
+
       </div>
     </div>
 
