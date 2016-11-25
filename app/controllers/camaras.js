@@ -7,18 +7,42 @@ let Captura = Ember.Object.extend({
   data: null,                 // imagen cuando NO se usa electro (chrome, firefox, tests ...)
 });
 
+function copyOnChange(what, where) {
+  return Ember.on('init', Ember.observer(what, function() {
+    return this.set(where, this.get(what));
+  }));
+}
+
 export default Ember.Controller.extend({
   camaras: Ember.inject.service(),
   seleccionada: Ember.computed.alias('camaras.seleccionada'),
   capturandoFoto: false,
   capturas: [],
   intervaloSeleccion: [0, 0],
+  cursor: 0, /* A IMPLEMENTAR, LO MODIFICA EL TIMELINE */
+
+  copiarCapturas: copyOnChange('capturas', 'cebolla.frames'),
+  copiarCursor: copyOnChange('cursor', 'cebolla.cameraFrame'),
 
   cebolla: {
-    cuadros: 5,    /* Integer */
-    in: 0.7,       /* Integer */
-    out: 0.2,      /* Integer */
-    frameWebcam: 0 /* NO IMPLEMENTADO (Integer) */ 
+    frames: [],       /* alias('capturas') */
+    cebollaLength: 3, /* Integer */
+    alphaIn: 0.2,     /* Integer */
+    alphaOut: 0.2,    /* Integer */
+    cameraFrame: 0    /* alias('cursor') | NO IMPLEMENTADO | Integer */
+  },
+
+  grilla: {
+    filas: 3,
+    columnas: 3,
+    lineWidth: 3,
+    style: 'black',
+    dashFormat: []
+  },
+
+  /* Aplica un changeset */
+  aplicar(cambios) {
+    cambios.save();
   },
 
   haySeleccion/* No, no llegamos a rusia */: Ember.computed('intervaloSeleccion', function() {

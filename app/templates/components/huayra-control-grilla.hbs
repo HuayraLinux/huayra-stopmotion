@@ -1,0 +1,10 @@
+{{!-- Debería enviar números en lugar de strings --}}
+Filas:
+  {{input type="text" value=(mut config.filas)}}
+Columnas:
+  {{input type="text" value=(mut config.columnas)}}
+Ancho:
+  {{input type="text" value=(mut config.lineWidth)}}
+Color:
+  {{input type="text" value=(mut config.style)}}
+<button {{action aplicar config}}>Aplicar</button>

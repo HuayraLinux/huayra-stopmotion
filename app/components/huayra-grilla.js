@@ -8,20 +8,22 @@ export default Ember.Component.extend({
   width: Ember.computed.alias('camaras.formato.width'),
   height: Ember.computed.alias('camaras.formato.height'),
 
-  filas: 3,       /* Integer */
-  columnas: 3,    /* NO IMPLEMENTEADO (Integer) */
-  style: 'black', /* Integer */
-  lineWidth: 2,   /* Integer */
-  dashFormat: [], /* https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash */
+  config: {
+    filas: 3,       /* Integer */
+    columnas: 3,    /* NO IMPLEMENTEADO (Integer) */
+    lineWidth: 2,   /* Integer */
+    style: 'black', /* Integer */
+    dashFormat: [], /* https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setLineDash */
+  },
 
-  grilla: Ember.observer('filas', 'columnas', 'style', 'lineWidth', 'dashFormat', function() {
+  grilla: Ember.observer('config.filas', 'config.columnas', 'config.style', 'config.lineWidth', 'config.dashFormat', function() {
     var width = this.get('width');
     var height = this.get('height');
-    var filas = this.get('filas');
-    var columnas = this.get('columnas');
-    var style = this.get('style');
-    var lineWidth = this.get('lineWidth');
-    var dashFormat = this.get('dashFormat');
+    var filas = this.get('config.filas');
+    var columnas = this.get('config.columnas');
+    var style = this.get('config.style');
+    var lineWidth = this.get('config.lineWidth');
+    var dashFormat = this.get('config.dashFormat');
 
     var canvas = this.get('element');
     var ctx = canvas.getContext('2d');

@@ -10,27 +10,31 @@ export default Ember.Component.extend({
   width: Ember.computed.alias('camaras.formato.width'),
   height: Ember.computed.alias('camaras.formato.height'),
 
-  frames: [],       /* [ImageSources] from newer to older */
-  cebollaLength: 3, /* Integer */
-  cameraFrame: 0,   /* NO IMPLEMENTEADO (Integer) */
-  alphaIn: 1,       /* Integer */
-  alphaOut: 0,      /* Integer */
+  /* Del formulario vienen strings en lugar de números, reparar eso */
+  config: {
+    frames: [],       /* [ImageSources] from newer to older */
+    cebollaLength: 3, /* Integer */
+    cameraFrame: 0,   /* NO IMPLEMENTEADO (Integer) */
+    alphaIn: 1,       /* Integer */
+    alphaOut: 0,      /* Integer */
+  },
 
-  framesCebolla: Ember.computed('cebollaLength', 'frames.[]', function() { /* Cambiar cuando exista el cursor de inserción */
-    var cuadros = this.get('cebollaLength');
-    return this.get('frames')
+  framesCebolla: Ember.computed('config.cebollaLength', 'config.frames.[]', function() { /* Cambiar cuando exista el cursor de inserción */
+    var cuadros = Number(this.get('config.cebollaLength'));
+    return this.get('config.frames')
       .slice(-cuadros)
-      .map((captura) => captura.href);
+      .map((captura) => captura.href)
+      .reverse();
   }),
 
   /* Como framesCebolla es un computed no va a triggerear el evento automáticamente, así que voy a escuchar por él */
-  cebolla: Ember.observer('cebollaLength', 'frames.[]', /*'framesCebolla',*/ 'alphaIn', 'alphaOut', 'cameraFrame', function() {
+  cebolla: Ember.observer('config.cebollaLength', 'config.frames.[]', /*'framesCebolla',*/ 'config.alphaIn', 'config.alphaOut', 'config.cameraFrame', function() {
     var resources = this.get('resources');
     var width = this.get('width');
     var height = this.get('height');
     var frames = this.get('framesCebolla');
-    var alphaIn = this.get('alphaIn');
-    var alphaOut = this.get('alphaOut');
+    var alphaIn = Number(this.get('config.alphaIn'));
+    var alphaOut = Number(this.get('config.alphaOut'));
 
     var canvas = this.get('element');
     var ctx = canvas.getContext('2d');
@@ -43,9 +47,9 @@ export default Ember.Component.extend({
         /* Interpolo linealmente:
          *   f(x) = ax + b
          *   f(0) = alphaIn
-         *   f(imagenes.length) = alphaOut
+         *   f(imagenes.length - 1) = alphaOut
          */
-        var a = (alphaOut - 1) / (imagenes.length);
+        var a = (alphaOut - alphaIn) / (imagenes.length - 1);
         var b = alphaIn;
         ctx.globalAlpha = a*x + b; /* x0 es el frame de la cámara*/
         ctx.drawImage(imagen, 0, 0);

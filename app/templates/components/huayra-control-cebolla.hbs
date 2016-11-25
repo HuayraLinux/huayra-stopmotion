@@ -1,0 +1,10 @@
+{{!-- Debería enviar números en lugar de strings --}}
+Tamaño:
+  {{input type="text" value=(mut config.cebollaLength)}}
+Cursor:
+  {{input type="text" value=(mut config.cameraFrame)}}
+Transparencia (entrada):
+  {{input type="text" value=(mut config.alphaIn)}}
+Transparencia (salida):
+  {{input type="text" value=(mut config.alphaOut)}}
+<button {{action aplicar config}}>Aplicar</button>
