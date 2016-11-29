@@ -363,7 +363,8 @@ export default Ember.Service.extend(Ember.Evented, {
         },
         set(key, value) {
           const id = this.get('id');
-          return camara.controlSet(id, value).controlGet(id);
+          /* Si bien hay controles no numéricos con esto debería cubrir todos los casos realistas */
+          return camara.controlSet(id, Number(value)).controlGet(id);
         }
       })
     });

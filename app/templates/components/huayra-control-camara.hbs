@@ -1,5 +1,18 @@
 {{#each controls as |control|}}
-	{{control.name}}: {{input type=control.type value=control.value}}
+  {{control.name}}:
+  {{#if (eq control.type "menu")}}
+    <select onchange={{action (mut control.value) value="target.value"}}>
+      {{#each control.menu as |option index|}}
+        {{#if option}}
+          <option value={{index}} selected={{eq control.value index}}>{{option}}</option>
+        {{/if}}
+      {{/each}}
+    </select>
+  {{else if (eq control.type "bool")}}
+    {{input type="checkbox" onclick=(action check control value="target.checked") checked=control.value}}
+  {{else}}
+    {{input type="text" value=(mut control.value)}}
+  {{/if}}
 {{/each}}
 
-<button {{action save controls}}>Aplicar</button>
+<button {{action save}}>Aplicar</button>
