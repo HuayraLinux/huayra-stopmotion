@@ -321,16 +321,12 @@ export default Ember.Service.extend(Ember.Evented, {
   /**
    * Obtener listado de formatos que soporta la cámara seleccionada.
    */
-  obtenerFormatos() {
-
-  },
+  obtenerFormatos() {},
 
   /**
    * Define el formato a usar por la cámara actual.
    */
-  definirFormato(/*indice*/) {
-
-  },
+  definirFormato(/* indice */) {},
 
 
   /**
@@ -342,7 +338,7 @@ export default Ember.Service.extend(Ember.Evented, {
    *
    *  [
    *    {
-   *      id: 'Contrast',
+   *      name: 'Contrast',
    *      min: 0,
    *      max: 100,
    *      step: 10,
@@ -352,23 +348,41 @@ export default Ember.Service.extend(Ember.Evented, {
    *  ]
    *
    */
-  obtenerControles() {
-
-  },
-
-  /**
-   * Retorna el valor de un control en particular.
-   */
-  obtenerValorDeControl(/*idControl*/) {
-
-  },
-
-  /**
-   * Definr el valor de un control en particular.
-   */
-  definirValorDeControl(/*idControl, valor*/) {
-
-  },
+  controls: Ember.computed('seleccionada', function() {
+    const camara = this.get('seleccionada');
+    const Control = Ember.Object.extend({
+      value: Ember.computed('id', 'writeOnly', {
+        get() {
+          const writeOnly = this.get('writeOnly');
+          const id = this.get('id');
+          if(writeOnly) {
+            return undefined;
+          } else {
+            return camara.controlGet(id);
+          }
+        },
+        set(key, value) {
+          const id = this.get('id');
+          return camara.controlSet(id, value).controlGet(id);
+        }
+      })
+    });
+    return camara.controls
+      .filter((control) => !control.flags.readOnly)
+      .map((control) => {
+        return Control.create({
+          id: control.id, /* Para la computed del value */
+          writeOnly: control.flags.writeOnly, /* Para la computed del value */
+          type: control.type,
+          name: control.name,
+          min: control.min,
+          max: control.max,
+          step: control.step,
+          default: control.default,
+          menu: control.menu
+        });
+    });
+  }),
 
   /**
    * Inicia la captura de uno solo frame.

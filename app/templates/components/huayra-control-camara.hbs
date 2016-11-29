@@ -1,0 +1,5 @@
+{{#each controls as |control|}}
+	{{control.name}}: {{input type=control.type value=control.value}}
+{{/each}}
+
+<button {{action save controls}}>Aplicar</button>

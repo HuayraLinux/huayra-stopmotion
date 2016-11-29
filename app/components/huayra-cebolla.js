@@ -16,7 +16,7 @@ export default Ember.Component.extend({
     cebollaLength: 3, /* Integer */
     cameraFrame: 0,   /* NO IMPLEMENTEADO (Integer) */
     alphaIn: 1,       /* Integer */
-    alphaOut: 0,      /* Integer */
+    alphaOut: 0       /* Integer */
   },
 
   framesCebolla: Ember.computed('config.cebollaLength', 'config.frames.[]', function() { /* Cambiar cuando exista el cursor de inserción */
