@@ -2,6 +2,8 @@ import Ember from 'ember';
 import Changeset from 'ember-changeset';
 
 export default Ember.Component.extend({
+	tagName: 'fieldset',
+	classNames: ['huayra-control'],
 	camaras: Ember.inject.service(),
 
 	controls: Ember.computed('camaras.controls', function() {

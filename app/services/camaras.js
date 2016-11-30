@@ -366,21 +366,17 @@ export default Ember.Service.extend(Ember.Evented, {
           /* Si bien hay controles no numéricos con esto debería cubrir todos los casos realistas */
           return camara.controlSet(id, Number(value)).controlGet(id);
         }
-      })
+      }),
+      unknownProperty(key) {
+        const control = this.get('control');
+        return Ember.get(control, key);
+      }
     });
     return camara.controls
       .filter((control) => !control.flags.readOnly)
       .map((control) => {
         return Control.create({
-          id: control.id, /* Para la computed del value */
-          writeOnly: control.flags.writeOnly, /* Para la computed del value */
-          type: control.type,
-          name: control.name,
-          min: control.min,
-          max: control.max,
-          step: control.step,
-          default: control.default,
-          menu: control.menu
+          control: control
         });
     });
   }),

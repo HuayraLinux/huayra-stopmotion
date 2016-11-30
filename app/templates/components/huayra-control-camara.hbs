@@ -1,5 +1,7 @@
+<legend>Cámara</legend>
 {{#each controls as |control|}}
-  {{control.name}}:
+  <p>
+  <label>{{control.name}}:</label>
   {{#if (eq control.type "menu")}}
     <select onchange={{action (mut control.value) value="target.value"}}>
       {{#each control.menu as |option index|}}
@@ -13,6 +15,6 @@
   {{else}}
     {{input type="text" value=(mut control.value)}}
   {{/if}}
+  </p>
 {{/each}}
-
-<button {{action save}}>Aplicar</button>
+<button {{action save}}>Aplicar cambios</button>

@@ -1,10 +1,9 @@
 {{!-- Debería enviar números en lugar de strings --}}
-Filas:
-  {{input type="text" value=(mut config.filas)}}
-Columnas:
-  {{input type="text" value=(mut config.columnas)}}
-Ancho:
-  {{input type="text" value=(mut config.lineWidth)}}
-Color:
-  {{input type="text" value=(mut config.style)}}
-<button {{action aplicar config}}>Aplicar</button>
+<fieldset class="huayra-control">
+  <legend>Grilla</legend>
+  <p><label>Filas:</label>{{input type="text" value=(mut config.filas)}}</p>
+  <p><label>Columnas: </label>{{input type="text" value=(mut config.columnas)}}</p>
+  <p><label>Ancho: </label>{{input type="text" value=(mut config.lineWidth)}}</p>
+  <p><label>Color: </label>{{input type="text" value=(mut config.style)}}</p>
+  <button {{action aplicar config}}>Aplicar cambios</button>
+</fieldset>

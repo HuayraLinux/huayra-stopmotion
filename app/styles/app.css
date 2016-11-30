@@ -100,3 +100,30 @@ li.huayra-cuadro.seleccionado {
   height: 450px;
   background-color: transparent;
 }
+
+/* Formularios de los controles */
+
+.huayra-control {
+    display: table;
+}
+
+.huayra-control p {
+    display: table-row;
+}
+
+.huayra-control input {
+    display: table-cell;
+}
+
+.huayra-control label {
+    display: table-cell;
+    text-align: right;
+    padding-right: 1em;
+}
+
+/* TEMPORAL (para probar controles) */
+
+.controles-camara {
+    height: 200px;
+    overflow-y: scroll;
+}
