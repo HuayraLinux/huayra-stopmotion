@@ -6,7 +6,7 @@
  */
 files = require('fs').readdirSync('.').filter((a) => /.png$/.test(a));
 producers = files.map((src) => `\t<producer id="frame_${src}"><property name="resource">${src}</property></producer>`).join('\n');
-playlist = files.map((src, idx) => `\t\t<entry producer="frame_${src}" in="${idx}" out="${idx}"/>`).join('\n');
+playlist = files.map((src, idx) => `\t\t<entry producer="frame_${src}" in="${idx * 2}" out="${idx * 2 + 1}"/>`).join('\n');
 xml = `<mlt>
 ${producers}
 	<playlist id="main">
