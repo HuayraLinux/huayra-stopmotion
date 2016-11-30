@@ -49,7 +49,7 @@ export default Ember.Component.extend({
          *   f(0) = alphaIn
          *   f(imagenes.length - 1) = alphaOut
          */
-        var a = (alphaOut - alphaIn) / (imagenes.length - 1);
+        var a = (alphaOut - alphaIn) / ((imagenes.length - 1) || 1); /* Si hay una imagen no se puede dividir por 0 */
         var b = alphaIn;
         ctx.globalAlpha = a*x + b; /* x0 es el frame de la cámara*/
         ctx.drawImage(imagen, 0, 0);
