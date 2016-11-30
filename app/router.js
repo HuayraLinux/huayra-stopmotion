@@ -13,6 +13,8 @@ Router.map(function() {
     this.route('timeline');
     this.route('modal');
     this.route('grilla');
+    this.route('camara');
+    this.route('cebolla');
   });
 });
 
