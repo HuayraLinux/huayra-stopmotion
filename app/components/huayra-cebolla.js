@@ -21,6 +21,12 @@ export default Ember.Component.extend({
 
   framesCebolla: Ember.computed('config.cebollaLength', 'config.frames.[]', function() { /* Cambiar cuando exista el cursor de inserción */
     var cuadros = Number(this.get('config.cebollaLength'));
+
+    /* Si es 0 o negativo supongo que no querés capa de cebolla */
+    if(cuadros <= 0) {
+      return [];
+    }
+
     return this.get('config.frames')
       .slice(-cuadros)
       .map((captura) => captura.href)
@@ -58,4 +64,8 @@ export default Ember.Component.extend({
 
     loadFrames.then(dibujar_cebolla);
   }),
+
+  didInsertElement() {
+    this.cebolla(); /* Init! */
+  }
 });
