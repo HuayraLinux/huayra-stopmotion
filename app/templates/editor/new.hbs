@@ -48,10 +48,28 @@
 
 
         {{#if contieneErrores}}
-          <div class="ui info message">
-            <p>Se tienen que completar algunos campos antes de iniciar
-              la creación del proyecto.</p>
-          </div>
+
+          {{#if model.errorRutaNoEscribible}}
+
+            <div class="ui error message">
+              Tiene que elegir una ruta que se pueda escribir por la aplicación.
+            </div>
+
+          {{else if model.errorProyectoExistente}}
+
+            <div class="ui error message">
+              Ya existe un proyecto en esta ruta.
+            </div>
+
+          {{else}}
+
+            <div class="ui info message">
+              <p>Se tienen que completar algunos campos antes de iniciar
+                la creación del proyecto.</p>
+            </div>
+
+          {{/if}}
+
         {{/if}}
 
       </div>

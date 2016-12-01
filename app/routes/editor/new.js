@@ -12,6 +12,9 @@ export default Ember.Route.extend({
     if (inElectron) {
       modeloInicial.noPuedeCambiarRuta = false;
       modeloInicial.ubicacion = undefined;
+
+      modeloInicial.errorRutaNoEscribible = false;
+      modeloInicial.errorProyectoExistente = false;
     }
 
     return modeloInicial;

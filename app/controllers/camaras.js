@@ -18,7 +18,7 @@ export default Ember.Controller.extend({
     cuadros: 5,    /* Integer */
     in: 0.7,       /* Integer */
     out: 0.2,      /* Integer */
-    frameWebcam: 0 /* NO IMPLEMENTADO (Integer) */ 
+    frameWebcam: 0 /* NO IMPLEMENTADO (Integer) */
   },
 
   haySeleccion/* No, no llegamos a rusia */: Ember.computed('intervaloSeleccion', function() {

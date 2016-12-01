@@ -21,16 +21,45 @@ export default Ember.Service.extend(Ember.Evented, {
     window.close();
   },
 
-  seleccionarUnDirectorio() {
-    return new Ember.RSVP.Promise((success) => {
+  /*
+   * Abre un cuadro de dialogo para seleccionar un directorio que la aplicación
+   * pueda escribir.
+   *
+   * La función retorna una promesa con la ruta seleccionada o un error si el
+   * directorio no se puede escribir.
+   */
+  seleccionarUnDirectorioEscribible() {
+    return new Ember.RSVP.Promise((success, reject) => {
+      let fs = requireNode('fs');
       let electron = requireNode('electron');
       let opciones = {properties: ['openDirectory']};
 
-      electron.remote.dialog.showOpenDialog(opciones, (a) => {
-        success(a);  
+      electron.remote.dialog.showOpenDialog(opciones, (directorio) => {
+
+        // Verifica que se pueda escribir sobre el directorio que eleligió el usuario.
+        fs.access(directorio[0], fs.W_OK, function(err) {
+
+          if (err) {
+            reject("Tiene que elegir un directorio que se pueda escribir.");
+          } else {
+            success(directorio[0]);
+          }
+
+        });
+
       });
     });
-  }
+  },
 
+  /*
+   * Verifica sincrónicamente si existe un proyecto dentro de un directorio.
+   */
+  existeProyectoEnLaRuta(directorio) {
+      let fs = requireNode('fs');
+      let path = requireNode('path');
+      let ruta_completa = path.join(directorio, 'proyecto.huayra-stopmotion');
+
+      return fs.existsSync(ruta_completa);
+  }
 
 });
