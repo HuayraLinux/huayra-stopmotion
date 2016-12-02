@@ -50,7 +50,7 @@ const v4l2 = optionalImports.v4l2;
 const udev = optionalImports.udev;
 const electron_window = optionalImports.electron.remote.getCurrentWindow();
 const monitor = udev.monitor();
-const ALTO_THUMBNAIL = 80;
+const ALTO_THUMBNAIL = 240;
 
 function setBiggestRGB(camera) {
   var biggestRGB = camera.formats
@@ -404,7 +404,7 @@ export default Ember.Service.extend(Ember.Evented, {
       var frame = ctx.createImageData(formato.width, formato.height);
       var thumbnail = {};
       var framePNG;
-      var thumbnailPNG;
+      var thumbnailJPEG;
       var now = Date.now();
 
       rgb2rgba(raw, frame.data);
@@ -432,15 +432,15 @@ export default Ember.Service.extend(Ember.Evented, {
 
       ctx.putImageData(thumbnail.imageData, 0, 0);
 
-      thumbnailPNG = canvas.toDataURL('image/png');
+      thumbnailJPEG = canvas.toDataURL('image/jpeg');
 
       Promise.all([
         guardar_base64_en_archivo(framePNG, now + '.png'),
-        guardar_base64_en_archivo(thumbnailPNG, now + '.thumbnail.png')
+        guardar_base64_en_archivo(thumbnailJPEG, now + '.thumbnail.jpeg')
       ]).then((archivos) => success({
         captura: framePNG,
         ruta_captura: archivos[0],
-        miniatura: thumbnailPNG,
+        miniatura: thumbnailJPEG,
         ruta_miniatura: archivos[1]
       }), (error) => reject({
         texto: 'Hubo un error',
