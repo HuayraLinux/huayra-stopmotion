@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.Service.extend({
+let ProyectoServiceParaElectron = Ember.Service.extend({
   datos: {},
 
   crearProyectoLaEnRuta(nombre, ubicacion) {
@@ -8,11 +8,7 @@ export default Ember.Service.extend({
     let path = requireNode('path');
     let ruta_completa = path.join(ubicacion, 'proyecto.huayra-stopmotion');
 
-    let datos = {
-      nombre: nombre,
-      version: "0.2",
-      cuadros: []
-    };
+    let datos = this._obtener_datos_iniciales(nombre);
 
     return new Ember.RSVP.Promise((success, reject) => {
 
@@ -28,14 +24,15 @@ export default Ember.Service.extend({
       });
 
     });
+
   },
 
   /**
-   * Carga todos los datos del proyecto desde un archivo.
-   *
-   * La función carga los datos en la propiedad 'datos' pero retorna
-   * una promesa para que el usuario pueda
-   */
+  * Carga todos los datos del proyecto desde un archivo.
+  *
+  * La función carga los datos en la propiedad 'datos' pero retorna
+  * una promesa para que el usuario pueda
+  */
   cargarProyectoDesdeLaRuta(ubicacion) {
     let fs = requireNode('fs');
     let path = requireNode('path');
@@ -55,6 +52,44 @@ export default Ember.Service.extend({
       });
 
     });
+  },
+
+  _obtener_datos_iniciales(nombre) {
+    let datos = {
+      nombre: nombre,
+      version: "0.2",
+      cuadros: []
+    };
+
+    return datos;
   }
 
 });
+
+
+const ProyectoServiceParaTestBrowser = ProyectoServiceParaElectron.reopen({
+
+  crearProyectoLaEnRuta(/* nombre, ubicacion */) {
+    return new Ember.RSVP.Promise((success) => {
+      success("Ejecutando desde electron ...");
+    });
+  },
+
+  cargarProyectoDesdeLaRuta(/* ubicacion */) {
+    return new Ember.RSVP.Promise((success /* , reject */) => {
+      this.set('datos', this._obtener_datos_iniciales("demo-desde-tests"));
+      success();
+    });
+  }
+
+});
+
+let servicioAExportar;
+
+if (inElectron) {
+  servicioAExportar = ProyectoServiceParaElectron;
+} else {
+  servicioAExportar = ProyectoServiceParaTestBrowser;
+}
+
+export default servicioAExportar;

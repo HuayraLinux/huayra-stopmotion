@@ -55,11 +55,15 @@ export default Ember.Service.extend(Ember.Evented, {
    * Verifica sincrónicamente si existe un proyecto dentro de un directorio.
    */
   existeProyectoEnLaRuta(directorio) {
+    if (inElectron) {
       let fs = requireNode('fs');
       let path = requireNode('path');
       let ruta_completa = path.join(directorio, 'proyecto.huayra-stopmotion');
 
       return fs.existsSync(ruta_completa);
+    } else {
+      return false;
+    }
   }
 
 });
