@@ -11,11 +11,10 @@ export default Ember.Controller.extend({
   },
 
   deactivate() {
-    console.log("deactivate");
   },
 
   actions: {
-    
+
     abrirDialogoConfirmacion() {
       this.get('remodal').open('modal-confirmar-salir');
     },

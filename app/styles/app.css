@@ -101,6 +101,7 @@ li.huayra-cuadro.seleccionado {
   background-color: transparent;
 }
 
+<<<<<<< HEAD
 /* Formularios de los controles */
 
 .huayra-control {
@@ -126,4 +127,8 @@ li.huayra-cuadro.seleccionado {
 .controles-camara {
     height: 200px;
     overflow-y: scroll;
+}
+
+.color_gray {
+  color: #ccc;
 }

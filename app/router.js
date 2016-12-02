@@ -16,6 +16,12 @@ Router.map(function() {
     this.route('camara');
     this.route('cebolla');
   });
+
+  this.route('editor', function() {
+    this.route('new');
+    this.route('editar', {path: 'editar/:ubicacion'});
+  });
+
 });
 
 export default Router;
