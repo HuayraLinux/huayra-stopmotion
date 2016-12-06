@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { execPreview as preview } from '../mlt-integration';
 
 let Captura = Ember.Object.extend({
   href_miniatura: null,       // miniatura cuando se usa electron
@@ -90,6 +91,13 @@ export default Ember.Controller.extend({
         this.set('capturandoFoto', false);
         alert(error);
       });
+    },
+
+    previsualizar() {
+      const seleccion = this.get('intervaloSeleccion');
+      const frames = this.get('capturas').slice(seleccion[0], seleccion[1]);
+      /* Esto es una prueba, vamos a mandarle 15 fps */
+      preview(frames, 15, true);
     }
   }
 });

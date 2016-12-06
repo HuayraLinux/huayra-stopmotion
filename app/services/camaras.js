@@ -1,7 +1,7 @@
 import Ember from 'ember';
 const Promise = Ember.RSVP.Promise;
-import ENV from "../config/environment";
-const IN_TESTS = ENV.environment === "test";
+import ENV from '../config/environment';
+const IN_TESTS = ENV.environment === 'test';
 
 var optionalImports;
 

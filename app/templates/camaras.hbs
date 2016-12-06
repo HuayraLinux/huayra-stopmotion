@@ -2,7 +2,7 @@
 
   <div class="vbox header">
 
-    <p>{{#link-to 'index' class="ui button"}}Regresar{{/link-to}}</p>
+    <p>{{#link-to "index" class="ui button"}}Regresar{{/link-to}}</p>
 
     <h1>Prueba de cámaras</h1>
 
@@ -30,6 +30,7 @@
 
   <div class="vbox controles">
     <button class="ui button primary" {{action "capturar"}}>Capturar</button>
+    <button class="ui button secondary" {{action "previsualizar"}}>Previsualizar selección</button>
     
     <button class="ui button red {{if haySeleccion '' 'disabled'}}" {{action "eliminarCuadrosSeleccionados"}}>Eliminar cuadros seleccionados</button>
   </div>
