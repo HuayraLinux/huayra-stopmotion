@@ -23,5 +23,11 @@ testem.log
 !public/capturas_de_ejemplo/*.png
 !public/imagenes/*.png
 
+# Thumbnails
+*.thumbnail.jpeg
+
+# Videos de prueba
+*.mp4
+
 # Archivos de proyecto de mltframework
 *.mlt

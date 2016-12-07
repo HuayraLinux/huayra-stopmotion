@@ -97,7 +97,7 @@ export default Ember.Controller.extend({
       const seleccion = this.get('intervaloSeleccion');
       const frames = this.get('capturas').slice(seleccion[0], seleccion[1]);
       /* Esto es una prueba, vamos a mandarle 15 fps */
-      preview(frames, 15, true);
+      preview(frames, 15, true, (frame, porcentaje) => console.log('Preview: %s%% [frame: %s]', porcentaje, frame));
     }
   }
 });

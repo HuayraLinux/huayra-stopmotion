@@ -16,11 +16,20 @@ function generateXML(frames, fpsStopmotion, fpsResult, fromThumbnails=false) {
   return `<mlt>${producers}<playlist id="main">${playlist}</playlist></mlt>`;
 }
 
-function execPreview(frames, fps, fromThumbnails=false) {
+function execPreview(frames, fps, fromThumbnails=false, onProgress=()=>{}) {
   return new Promise((accept, reject) => {
-    /* Voy a suponer que el output es de 30 frames */
-    const xml = generateXML(frames, fps, 30, fromThumbnails);
+    /* Voy a suponer que el output es de 60 frames */
+    const xml = generateXML(frames, fps, 60, fromThumbnails);
     const preview = spawn('melt', [`xml-string:${xml}`]);
+
+    /* Esto va a necesitar ser retocado, por ahora supongo que me llegan líneas enteras y que no ahy errores */
+    preview.stderr.on('data', (data) => {
+      const matchProgress = /Current Frame:[ \t]*([0-9]+), percentage:[ \t]*([0-9]+)/;
+      const message = data.toString();
+      const [currentFrame, progress] = matchProgress.exec(message).slice(1);
+
+      onProgress(currentFrame, progress);
+    });
 
     preview.on('close', (code) => {
       if(code === 0) { accept(); }
