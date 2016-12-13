@@ -19,8 +19,8 @@ function generateXML(frames, fpsStopmotion, fpsResult, fromThumbnails=false) {
 function execPreview(frames, fps, fromThumbnails=false, onProgress=()=>{}) {
   return new Promise((accept, reject) => {
     /* Voy a suponer que el output es de 60 frames */
-    const xml = generateXML(frames, fps, 60, fromThumbnails);
-    const preview = spawn('melt', [`xml-string:${xml}`]);
+    const xml = generateXML(frames, fps, 30, fromThumbnails);
+    const preview = spawn('melt', [`xml-string:${xml}`, '-repeat', '9999999']);
 
     /* Esto va a necesitar ser retocado, por ahora supongo que me llegan líneas enteras y que no ahy errores */
     preview.stderr.on('data', (data) => {

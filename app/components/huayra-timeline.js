@@ -9,31 +9,23 @@ export default Ember.Component.extend({
 
   actions: {
     alSeleccionarCuadro(indiceDeCuadro, shift) {
-      let numeroDeCuadro = indiceDeCuadro + 1;
-
       if (shift) {
-        this._expandir_seleccion_a(numeroDeCuadro);
+        this._expandir_seleccion_a(indiceDeCuadro);
       } else {
-        this.set('intervaloSeleccion', [numeroDeCuadro, numeroDeCuadro]);
+        this.set('intervaloSeleccion', [indiceDeCuadro, indiceDeCuadro + 1]);
       }
 
     }
   },
 
-  _expandir_seleccion_a(numeroDeCuadro) {
+  _expandir_seleccion_a(indiceDeCuadro) {
     let intervalo = this.get('intervaloSeleccion');
 
-    if (intervalo.length === 2) {
-      if (intervalo[1] > numeroDeCuadro) {
-        intervalo[0] = numeroDeCuadro;
-      } else {
-        if (intervalo[0] < numeroDeCuadro) {
-          intervalo[1] = numeroDeCuadro;
-        }
-      }
+    if (intervalo[1] > indiceDeCuadro) {
+      this.set('intervaloSeleccion.0', indiceDeCuadro);
+    } else {
+      this.set('intervaloSeleccion.1', indiceDeCuadro + 1);
     }
-
-    this.set('intervaloSeleccion', [intervalo[0], intervalo[1]]);
   },
 
   mouseDown(event) {

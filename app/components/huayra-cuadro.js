@@ -10,18 +10,11 @@ export default Ember.Component.extend({
     return this.get('index') + 1;
   }),
 
-  seleccionado: Ember.computed('intervaloSeleccion', function() {
+  seleccionado: Ember.computed('intervaloSeleccion.0', 'intervaloSeleccion.1', function() {
     let intervalo = this.get('intervaloSeleccion');
+    let cuadro = this.get('index');
 
-    if (intervalo.length > 1) {
-      let a = intervalo[0];
-      let b = intervalo[1];
-      let cuadro = this.get('numeroDeCuadro');
-
-      return (a <= cuadro &&  cuadro <= b);
-    }
-
-    return false;
+    return intervalo[0] <= cuadro && cuadro < intervalo[1];
   }),
 
   didInsertElement() {

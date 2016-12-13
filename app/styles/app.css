@@ -132,3 +132,7 @@ li.huayra-cuadro.seleccionado {
 .color_gray {
   color: #ccc;
 }
+
+.huayra-cuadro img {
+    height: 80px;
+}
