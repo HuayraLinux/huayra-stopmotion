@@ -67,7 +67,7 @@ let ProyectoServiceParaElectron = Ember.Service.extend({
 });
 
 
-const ProyectoServiceParaTestBrowser = ProyectoServiceParaElectron.reopen({
+const ProyectoServiceParaTestBrowser = ProyectoServiceParaElectron.extend({
 
   crearProyectoLaEnRuta(/* nombre, ubicacion */) {
     return new Ember.RSVP.Promise((success) => {
