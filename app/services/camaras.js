@@ -52,26 +52,6 @@ const electron_window = optionalImports.electron.remote.getCurrentWindow();
 const monitor = udev.monitor();
 const ALTO_THUMBNAIL = 240;
 
-function setBiggestRGB(camera) {
-  var biggestRGB = camera.formats
-    .filter((format) => format.formatName === 'RGB3')
-    .reduce((acc, format) => format.width * format.height > acc.width * acc.height ? format : acc);
-  camera.configSet(biggestRGB);
-}
-
-function rgb2rgba(rgb, rgba) {
-  var length = rgb.length / 3; /* RGB son 3 bytes por pixel */
-
-  for(var i = 0; i < length; i++) {
-    rgba[i * 4 + 0] = rgb[i * 3 + 0]; /* Rojo  */
-    rgba[i * 4 + 1] = rgb[i * 3 + 1]; /* Verde */
-    rgba[i * 4 + 2] = rgb[i * 3 + 2]; /* Azul  */
-    rgba[i * 4 + 3] = 255; /* Alpha: la imagen es opaca */
-  }
-
-  return rgba;
-}
-
 /**
  * Decodea un string en base64 y lo guarda como archivo
  *
@@ -92,7 +72,7 @@ function guardar_base64_en_archivo(datos_base_64, nombre_de_archivo) {
         success(path.resolve(nombre_de_archivo));
       }
     });
-
+    /* TODO: Si no estoy en electron puedo crear un blob y usar el localstorage o promptear una descarga */
   });
 }
 
@@ -101,85 +81,10 @@ const fakeCamClass = Ember.Object.extend({
   ID_V4L_PRODUCT: 'Sin cámara',
   controls: [],
   formats: [{formatName: 'RGB3', width: 1280, height: 720}],
-  frames: [],
-  currentFrame: 0,
-
-  /**
-   *Actualmente el servicio nunca usa más de una llamada a captura por frame
-   * en esta imitación tomamos eso como requerimiento
-   */
-  timeout: undefined,
-
-  genFrames: Ember.on('init', function() {
-    var frames = this.get('frames');
-    var camara = new Image();
-    var prohibido = new Image();
-    var texto = new Image();
-    var canvas = document.createElement('canvas');
-    var ctx = canvas.getContext('2d');
-    var width = this.configGet().width;
-    var height = this.configGet().height;
-
-    var fondoverde;
-    var textoycamara;
-    var textoycamaratachada;
-
-    var isNotAlpha = (value, index) => (index % 4) !== 3;
-
-    canvas.width = width;
-    canvas.height = height;
-
-    camara.src = 'imagenes/camara.png';
-    prohibido.src = 'imagenes/prohibido.png';
-    texto.src = 'imagenes/advertencia.png';
-
-    ctx.fillStyle = "green";
-    ctx.fillRect(0, 0, width, height);
-
-    if (!IN_TESTS) {
-      fondoverde = ctx.getImageData(0, 0, width, height).data.filter(isNotAlpha);
-      frames.push(fondoverde);
-      frames.push(fondoverde);
+  srcObject: {
+    getVideoTracks() {
+      return [{ stop() {} }];
     }
-
-    camara.onload = (() => prohibido.onload = (() => texto.onload = () => {
-      ctx.drawImage(camara, (width - camara.width) / 2, (height - camara.height) / 2);
-      ctx.drawImage(texto, (width - texto.width) / 2, height / 2 - camara.height - texto.height - 20);
-
-      /* Cada frame es medio segundo, dos segundos de esto */
-      textoycamara = ctx.getImageData(0, 0, width, height).data.filter(isNotAlpha);
-      frames[0] = textoycamara;
-      frames[1] = textoycamara;
-
-      ctx.drawImage(prohibido, (width - prohibido.width) / 2, (height - prohibido.height) / 2);
-
-      /* Y uno de esto */
-      textoycamaratachada = ctx.getImageData(0, 0, width, height).data.filter(isNotAlpha);
-      frames.push(textoycamaratachada);
-      frames.push(textoycamaratachada);
-    }));
-  }),
-
-  capture(cb) {
-    var timeout = setTimeout(cb, 500);
-
-    this.set('timeout', timeout);
-  },
-  configSet() {},
-  configGet() {
-    return this.get('formats')[0];
-  },
-  frameRaw() {
-    var frames = this.get('frames');
-    var frameIdx = this.get('currentFrame');
-    this.set('currentFrame', (frameIdx + 1) % frames.length);
-
-    return frames[frameIdx];
-  },
-  start() {},
-  stop(cb) {
-    clearTimeout(this.get('timeout'));
-    cb();
   }
 });
 const fakeCam = fakeCamClass.create();
@@ -256,28 +161,6 @@ export default Ember.Service.extend(Ember.Evented, {
     this.seleccionarCamara(defaultCamera);
   }),
 
-  capturar(camara) {
-    var raw = camara.frameRaw();
-
-    var continuar = () => {
-      this.trigger('frame', raw);
-      camara.capture(() => this.capturar(camara));
-    };
-
-    if(this.get('seleccionada') !== camara) {
-      /* Algo falló, abortemosssssssssssss */
-      return;
-    }
-
-    if(electron_window.isMinimized()) {
-      electron_window.once('restore', continuar);
-    } else if(!electron_window.isFocused()) {
-      Ember.run.later(continuar, 100);
-    } else {
-      continuar();
-    }
-  },
-
   /**
    * Permite cambiar la cámara actual.
    *
@@ -286,48 +169,39 @@ export default Ember.Service.extend(Ember.Evented, {
    * propiedades a ese cámara.
    */
   seleccionarCamara(indice) {
-    var devname;
-    var camara;
-    var _openDevices = this.get('_openDevices');
+    return new Promise((accept, reject) => {
 
-    if (!this.get('camaras')[indice]) {
-      throw new Error("No se puede encontrar la cámara índice " + indice);
-    }
+      if (!this.get('camaras')[indice]) {
+        reject(new Error('No se puede encontrar la cámara con índice ' + indice));
+      }
 
-    devname = this.get('camaras')[indice].DEVNAME;
+      const udevname = this.get('camaras')[indice];
+      const devname = udevname.DEVNAME;
+      const chromiumname = `${udevname.ID_V4L_PRODUCT} (${udevname.ID_VENDOR_ID}:${udevname.ID_MODEL_ID})`;
 
-    if(_openDevices[devname] === undefined) {
-      _openDevices[devname] = v4l2.Camera(devname);
-    }
+      /* TODO: Agregar como dato el deviceId de la cámara y pausar el stream anterior */
+      navigator.mediaDevices.enumerateDevices().then((devices) => {
+        const camara = devices.find((device) => device.label === chromiumname);
+        const camaraStream = navigator.mediaDevices.getUserMedia({ video: { deviceId: camara.deviceId } });
 
-    camara = _openDevices[devname];
+        return camaraStream;
+      }).then((camaraStream) => {
+        const openDevices = this.get('_openDevices');
 
-    try {
-      this.get('seleccionada').stop(() => this.cambiarCamara(camara));
-    } catch (e) { /* Tal vez dejó de existir la cámara */
-      this.cambiarCamara(camara);
-    }
+        if(openDevices[devname] === undefined) {
+          openDevices[devname] = v4l2.Camera(devname);
+          openDevices[devname].srcObject = camaraStream;
+        }
+
+        this.cambiarCamara(openDevices[devname]);
+      });
+    });
   },
 
   cambiarCamara(camara) {
+    this.get('seleccionada').srcObject.getVideoTracks()[0].stop(); /* Freno la cámara actual */
     this.set('seleccionada', camara);
-
-    setBiggestRGB(camara);
-    camara.start();
-    camara.capture(() => this.capturar(camara));
   },
-
-
-  /**
-   * Obtener listado de formatos que soporta la cámara seleccionada.
-   */
-  obtenerFormatos() {},
-
-  /**
-   * Define el formato a usar por la cámara actual.
-   */
-  definirFormato(/* indice */) {},
-
 
   /**
    * Retorna todos los controles para la cámara actual.
@@ -396,23 +270,22 @@ export default Ember.Service.extend(Ember.Evented, {
    */
   capturarFrame() {
     const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext('2d');
+    const video = document.createElement('video');
 
     /* TODO: Hacer esto más legible */
-    return new Promise((success, reject) => this.one('frame', (raw) => {
-      var formato = this.get('formato');
-      var frame = ctx.createImageData(formato.width, formato.height);
+    return new Promise((success, reject) => {
+      video.srcObject = this.get('seleccionada').srcObject;
+
       var thumbnail = {};
       var framePNG;
       var thumbnailJPEG;
       var now = Date.now();
 
-      rgb2rgba(raw, frame.data);
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
 
-      canvas.width = formato.width;
-      canvas.height = formato.height;
-
-      ctx.putImageData(frame, 0, 0, 0, 0, canvas.width, canvas.height);
+      ctx.drawImage(video, 0, 0);
 
       framePNG = canvas.toDataURL('image/png');
 
@@ -421,16 +294,13 @@ export default Ember.Service.extend(Ember.Evented, {
        *     height ------- width
        *     100px  -------   ?
        */
-      thumbnail.width = (ALTO_THUMBNAIL * formato.width) / formato.height;
+      thumbnail.width = (ALTO_THUMBNAIL * video.videoWidth) / video.videoHeight;
       thumbnail.height = ALTO_THUMBNAIL;
-
-      ctx.drawImage(canvas, 0, 0, thumbnail.width, thumbnail.height);
-      thumbnail.imageData = ctx.getImageData(0, 0, thumbnail.width, thumbnail.height);
 
       canvas.width = thumbnail.width;
       canvas.height = thumbnail.height;
 
-      ctx.putImageData(thumbnail.imageData, 0, 0);
+      ctx.drawImage(video, 0, 0, thumbnail.width, thumbnail.height);
 
       thumbnailJPEG = canvas.toDataURL('image/jpeg');
 
@@ -443,9 +313,11 @@ export default Ember.Service.extend(Ember.Evented, {
         miniatura: thumbnailJPEG,
         ruta_miniatura: archivos[1]
       }), (error) => reject({
+        captura: framePNG,
+        miniatura: thumbnailJPEG,
         texto: 'Hubo un error',
         error: error
       }));
-    }));
+    });
   }
 });
