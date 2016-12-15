@@ -81,11 +81,12 @@ const fakeCamClass = Ember.Object.extend({
   ID_V4L_PRODUCT: 'Sin cámara',
   controls: [],
   formats: [{formatName: 'RGB3', width: 1280, height: 720}],
-  srcObject: {
-    getVideoTracks() {
-      return [{ stop() {} }];
-    }
-  }
+  video: document.createElement('video'), /* Hay que cambiar esto */
+
+  init: Ember.on('init', function() {
+    this.get('video').src = '../lossless.mp4';
+    this.get('video').loop = true;
+  })
 });
 const fakeCam = fakeCamClass.create();
 const defaultCamera = 0;
@@ -111,13 +112,9 @@ export default Ember.Service.extend(Ember.Evented, {
   _openDevices: {
     [fakeCam.DEVNAME]: fakeCam
   },
-  formatos: Ember.computed.alias('seleccionada.formats'),
-  formato: Ember.computed('seleccionada', function() {
-    return this.get('seleccionada').configGet();
-  }),
 
 
-  init: Ember.on('init', function() {
+  onInit: Ember.on('init', function() {
     /* Reportar cuando se agrega una cámara */
     monitor.on('add', (dev) => {
       if(dev.SUBSYSTEM === 'video4linux' && /capture/.test(dev.ID_V4L_CAPABILITIES)) {
@@ -158,7 +155,7 @@ export default Ember.Service.extend(Ember.Evented, {
     });
 
     /* Pongo alguna cámara a la vista */
-    this.seleccionarCamara(defaultCamera);
+    return this.seleccionarCamara(defaultCamera);
   }),
 
   /**
@@ -177,30 +174,62 @@ export default Ember.Service.extend(Ember.Evented, {
 
       const udevname = this.get('camaras')[indice];
       const devname = udevname.DEVNAME;
-      const chromiumname = `${udevname.ID_V4L_PRODUCT} (${udevname.ID_VENDOR_ID}:${udevname.ID_MODEL_ID})`;
+      /* Chrome 53 (la versión que está empaquetada ahora) genera los nombres de otra forma,
+       * voy a tener que matchear el par vendor-model
+       *
+       *   URL: https://github.com/HuayraLinux/huayra-stopmotion/issues/17#issuecomment-267340832
+       */
+      //const chromiumname = `${udevname.ID_V4L_PRODUCT} (${udevname.ID_VENDOR_ID}:${udevname.ID_MODEL_ID})`;
+      const vendor_model = /\((....):(....)\)$/;
+
+      /* Si estamos seleccionando la fakeCam saltamos directo ahí */
+      if(udevname === fakeCam) {
+        this.set('seleccionada', fakeCam);
+        return fakeCam.video.play().then(accept);
+      }
 
       /* TODO: Agregar como dato el deviceId de la cámara y pausar el stream anterior */
-      navigator.mediaDevices.enumerateDevices().then((devices) => {
-        const camara = devices.find((device) => device.label === chromiumname);
+      return navigator.mediaDevices.enumerateDevices().then((devices) => {
+        /* Si no es la cámara fake tengo que frenar el stream para que se pueda pedir la otra */
+        if(this.get('seleccionada').video.srcObject) {
+          this.get('seleccionada').video.srcObject.getVideoTracks()[0].stop();
+        }
+
+        return devices;
+      }).then((devices) => {
+
+        /* Esta forma de buscar no funciona en chrome 53, ver el comentario de más arriba */
+        //const camara = devices.find((device) => device.label === chromiumname);
+        const camara = devices.find((device) => {
+          const match = vendor_model.exec(device.label);
+
+          if(match === null) {
+            return false;
+          }
+
+          const [vendor, model] = match.slice(1);
+          return vendor === udevname.ID_VENDOR_ID && model === udevname.ID_MODEL_ID;
+        });
         const camaraStream = navigator.mediaDevices.getUserMedia({ video: { deviceId: camara.deviceId } });
 
         return camaraStream;
       }).then((camaraStream) => {
         const openDevices = this.get('_openDevices');
+        const video = document.createElement('video');
+
+        video.srcObject = camaraStream;
 
         if(openDevices[devname] === undefined) {
           openDevices[devname] = v4l2.Camera(devname);
-          openDevices[devname].srcObject = camaraStream;
         }
 
-        this.cambiarCamara(openDevices[devname]);
-      });
-    });
-  },
+        Ember.set(openDevices[devname], 'video', video);
 
-  cambiarCamara(camara) {
-    this.get('seleccionada').srcObject.getVideoTracks()[0].stop(); /* Freno la cámara actual */
-    this.set('seleccionada', camara);
+        this.set('seleccionada', openDevices[devname]);
+
+        return video.play();
+      }).then(accept, reject).catch(reject);
+    });
   },
 
   /**
