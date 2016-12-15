@@ -5,8 +5,8 @@ export default Ember.Component.extend({
   tagName: 'canvas',
   classNames: ['canvas-layer'],
   attributeBindings: ['width', 'height'],
-  width: Ember.computed.alias('camaras.formato.width'),
-  height: Ember.computed.alias('camaras.formato.height'),
+  width: Ember.computed.alias('camaras.seleccionada.video.videoWidth'),
+  height: Ember.computed.alias('camaras.seleccionada.video.videoHeight'),
 
   config: {
     filas: 3,       /* Integer */

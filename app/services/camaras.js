@@ -1,15 +1,12 @@
 import Ember from 'ember';
 const Promise = Ember.RSVP.Promise;
-import ENV from '../config/environment';
-const IN_TESTS = ENV.environment === 'test';
 
 var optionalImports;
 
 try {
   optionalImports = {
     v4l2: requireNode('v4l2camera'),
-    udev: requireNode('udev'),
-    electron: requireNode('electron')
+    udev: requireNode('udev')
   };
   console.log('Cargadas las librerías nativas');
 } catch (e) { /* Debería catchear ÚNICAMENTE el caso de que falle el require */
@@ -26,21 +23,6 @@ try {
           }
         };
       }
-    },
-    electron: {
-      remote : {
-        getCurrentWindow: function() {
-          return {
-            isFocused() {
-              return true;
-            },
-            isMinimized() {
-              return false;
-            },
-            on() {}
-          };
-        }
-      }
     }
   };
   console.log('No se pudieron cargar v4l2 y/o udev');
@@ -48,7 +30,6 @@ try {
 
 const v4l2 = optionalImports.v4l2;
 const udev = optionalImports.udev;
-const electron_window = optionalImports.electron.remote.getCurrentWindow();
 const monitor = udev.monitor();
 const ALTO_THUMBNAIL = 240;
 
@@ -86,6 +67,7 @@ const fakeCamClass = Ember.Object.extend({
   init: Ember.on('init', function() {
     this.get('video').src = '../lossless.mp4';
     this.get('video').loop = true;
+    this.get('video').className = 'canvas-layer';
   })
 });
 const fakeCam = fakeCamClass.create();
@@ -218,6 +200,7 @@ export default Ember.Service.extend(Ember.Evented, {
         const video = document.createElement('video');
 
         video.srcObject = camaraStream;
+        video.className = 'canvas-layer';
 
         if(openDevices[devname] === undefined) {
           openDevices[devname] = v4l2.Camera(devname);
@@ -226,6 +209,13 @@ export default Ember.Service.extend(Ember.Evented, {
         Ember.set(openDevices[devname], 'video', video);
 
         this.set('seleccionada', openDevices[devname]);
+
+        $(video).on('loadedmetadata', () => {
+          /* Si sigue seleccionado */
+          if(this.get('seleccionada').video === video) {
+            this.notifyPropertyChange('seleccionada'); /* si uso seleccionada.video.videoWidth no anda :\ */
+          }
+        });
 
         return video.play();
       }).then(accept, reject).catch(reject);
@@ -300,11 +290,10 @@ export default Ember.Service.extend(Ember.Evented, {
   capturarFrame() {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    const video = document.createElement('video');
 
     /* TODO: Hacer esto más legible */
     return new Promise((success, reject) => {
-      video.srcObject = this.get('seleccionada').srcObject;
+      const video = this.get('seleccionada').video;
 
       var thumbnail = {};
       var framePNG;

@@ -7,8 +7,8 @@ export default Ember.Component.extend({
   tagName: 'canvas',
   classNames: ['canvas-layer'],
   attributeBindings: ['width', 'height'],
-  width: Ember.computed.alias('camaras.formato.width'),
-  height: Ember.computed.alias('camaras.formato.height'),
+  width: Ember.computed.alias('camaras.seleccionada.video.videoWidth'),
+  height: Ember.computed.alias('camaras.seleccionada.video.videoHeight'),
 
   /* Del formulario vienen strings en lugar de números, reparar eso */
   config: {
@@ -34,7 +34,7 @@ export default Ember.Component.extend({
   }),
 
   /* Como framesCebolla es un computed no va a triggerear el evento automáticamente, así que voy a escuchar por él */
-  cebolla: Ember.observer('config.cebollaLength', 'config.frames.[]', /*'framesCebolla',*/ 'config.alphaIn', 'config.alphaOut', 'config.cameraFrame', function() {
+  cebolla: Ember.observer('config.cebollaLength', 'config.frames.[]', /*'framesCebolla',*/ 'config.alphaIn', 'config.alphaOut', 'config.cameraFrame', 'width', 'height', function() {
     var resources = this.get('resources');
     var width = this.get('width');
     var height = this.get('height');
