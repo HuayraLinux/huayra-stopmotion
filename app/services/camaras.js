@@ -192,7 +192,7 @@ export default Ember.Service.extend(Ember.Evented, {
           const [vendor, model] = match.slice(1);
           return vendor === udevname.ID_VENDOR_ID && model === udevname.ID_MODEL_ID;
         });
-        const camaraStream = navigator.mediaDevices.getUserMedia({ video: { deviceId: camara.deviceId } });
+        const camaraStream = navigator.mediaDevices.getUserMedia({ video: { deviceId: camara.deviceId, width: 1920, height: 1080 } });
 
         return camaraStream;
       }).then((camaraStream) => {
