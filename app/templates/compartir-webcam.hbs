@@ -1,4 +1,4 @@
 {{#each camera-sharing.remoteWebcams as |camera|}}
-  <img src="http://{{camera.host}}:{{camera.port}}/{{tick}}"/>
+  {{remote-camera host=camera.host port=camera.port}}
   <p>{{camera.name}} en {{camera.host}}:{{camera.port}}</p>
 {{/each}}

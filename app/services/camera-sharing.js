@@ -1,7 +1,8 @@
 import Ember from 'ember';
 
-const bonjour = requireNode('bonjour');
 const http = requireNode('http');
+const electron = requireNode('electron').remote;
+const bonjourInstance = electron.getGlobal('bonjour');
 
 export default Ember.Service.extend({
   camaras: Ember.inject.service(),
@@ -13,7 +14,6 @@ export default Ember.Service.extend({
   remoteWebcams: Ember.computed.alias('search.services'),
 
   onInit: Ember.on('init', function() {
-    const bonjourInstance = bonjour();
     const search = bonjourInstance.find({ type: 'huayra-stopmotion' });
 
     search.on('up', () => {
@@ -25,8 +25,6 @@ export default Ember.Service.extend({
       this.notifyPropertyChange('search');
       this.notifyPropertyChange('remoteWebcams');
     });
-
-    window.GLOBAL_search = search;
 
     this.set('bonjourInstance', bonjourInstance);
     this.set('search', search);
@@ -54,14 +52,13 @@ export default Ember.Service.extend({
     }).listen();
     const serverAddress = httpServer.address();
     const webcamService = this.get('bonjourInstance')
-      .publish({ name: 'Huayra-Stopmotion test', type: 'huayra-stopmotion', port: serverAddress.port });
-
-    console.info(`Se inició el servidor de fotos en ${serverAddress.port}`);
+      .publish({ name: `Stopmotion Webcam (${Date.now()})`, type: 'huayra-stopmotion', port: serverAddress.port });
 
     this.set('httpServer', httpServer);
     this.set('webcamService', webcamService);
   },
 
+  /* Stop debe ser llamado antes de abandonar la ventana */
   stop() {
     this.get('httpServer').close();
     this.get('webcamService').stop();

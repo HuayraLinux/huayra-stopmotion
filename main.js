@@ -1,5 +1,6 @@
 const {app, protocol, BrowserWindow} = require('electron')
 const path = require('path');
+global['bonjour'] = require('bonjour')();
 
 let win
 
