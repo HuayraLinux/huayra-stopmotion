@@ -11,5 +11,8 @@ export default Ember.Route.extend({
     crearUnProyectoNuevo() {
       this.transitionTo('editor.new');
     },
+    abrirPanelCompartir() {
+      this.transitionTo('compartir-webcam');
+    }
   }
 });

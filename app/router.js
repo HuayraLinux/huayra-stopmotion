@@ -22,6 +22,7 @@ Router.map(function() {
     this.route('editar', {path: 'editar/:ubicacion'});
   });
 
+  this.route('compartir-webcam');
 });
 
 export default Router;
