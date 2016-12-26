@@ -136,3 +136,8 @@ li.huayra-cuadro.seleccionado {
 .huayra-cuadro img {
     height: 80px;
 }
+
+
+.no-padding-bottom {
+  padding-bottom: 0em !important;
+}

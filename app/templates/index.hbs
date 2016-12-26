@@ -17,6 +17,23 @@
       <div class="center aligned column">
         <a class="ui button primary" id='crearNuevoProyecto' {{action 'crearUnProyectoNuevo'}}>Crear un nuevo proyecto</a>
 
+        {{#if inElectron}}
+          <a class="ui button success" id='abrirUnProyecto' {{action 'abrirUnProyectoExistente'}}>Abrir un nuevo existente</a>
+        {{else}}
+          <a class="ui button success disabled" id='abrirUnProyecto'>Abrir un nuevo existente</a>
+        {{/if}}
+
+      </div>
+    </div>
+
+    <div class="row no-padding-bottom">
+      <div class="center aligned column">
+        Sección de pruebas:
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="center aligned column">
         <a class="ui button" {{action 'abrirPruebaDeCamaras'}}>Probar interfaz de cámaras</a>
         <a class="ui button" {{action 'abrirPruebas'}}>Abrir sección de pruebas</a>
       </div>
