@@ -51,5 +51,8 @@
     "udev": "cheery/node-udev",
     "electron-rebuild": "^1.3.0",
     "v4l2camera": "iglosiggio/node-v4l2camera"
+  },
+  "dependencies": {
+    "mediasource": "^2.1.3"
   }
 }
