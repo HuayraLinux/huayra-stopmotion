@@ -29,7 +29,8 @@ function preview(seleccion, framesPath='.', fps=24, onProgress=()=>{}) {
   const video = document.createElement('video');
   const wrappedVideo = new requireNode('mediasource')(video);
   const videoSink = wrappedVideo.createWriteStream('video/webm; codecs="vp8"');
-  const videoStream = startEncoding(seleccion, framesPath, fps, 'pipe:1', true, onProgress, 'f=webm vcodec=libvpx acodec=none deadline=realtime').stdout;
+  const deadline = Math.floor((1 / (fps + 2)) * 1000000); /* Cantidad de microsegundos por frame, agrego 2 frames por segundo para tener más tiempo libre */
+  const videoStream = startEncoding(seleccion, framesPath, fps, 'pipe:1', true, onProgress, `f=webm vcodec=libvpx acodec=none deadline=${deadline}`).stdout;
 
   /* Y le mando la data */
   videoStream.pipe(videoSink);
@@ -58,9 +59,9 @@ function renderVideo(framesPath, fps, path, onProgress=()=>{}) {
   });
 }
 
-function startEncoding(seleccion, framesPath, fps, path, fromThumbnails=false, onProgress=()=>{}, encoderFlags='preset=ultrafast vcodec=libx264 f=mp4') {
+function startEncoding(seleccion, framesPath, fps, path, fromThumbnails=false, onProgress=()=>{}, encoderFlags='properties=/lossless/H.264 vcodec=libx264 acodec=none f=mp4') {
   const xml = generateXML(seleccion, framesPath, fps, fromThumbnails);
-  const flags = `-consumer avformat:${path} ${encoderFlags} frame_rate_num=${fps} frame_rate_den=1`.split(' ');
+  const flags = `-consumer avformat:${path} ${encoderFlags} frame_rate_num=${fps} frame_rate_den=1 -progress`.split(' ');
   const encoder = spawn('melt', [`xml-string:${xml}`].concat(flags));
 
   encoder.stderr.setEncoding('utf8');
