@@ -24,8 +24,20 @@ function generateXML(seleccion, framesPath, fromThumbnails=false) {
   return `<mlt>${producer}<playlist id="main">${playlist}</playlist></mlt>`;
 }
 
+/* Devuelve un HTMLVideoElement con la preview */
 function preview(seleccion, framesPath='.', fps=24, onProgress=()=>{}) {
-  return startEncoding(seleccion, framesPath, fps, 'pipe:1', true, onProgress, 'f=webm vcodec=libvpx acodec=none deadline=realtime').stdout;
+  const video = document.createElement('video');
+  const wrappedVideo = new requireNode('mediasource')(video);
+  const videoSink = wrappedVideo.createWriteStream('video/webm; codecs="vp8"');
+  const videoStream = startEncoding(seleccion, framesPath, fps, 'pipe:1', true, onProgress, 'f=webm vcodec=libvpx acodec=none deadline=realtime').stdout;
+
+  /* Y le mando la data */
+  videoStream.pipe(videoSink);
+
+  /* El video se empieza a reproducir */
+  video.autoplay = true;
+
+  return video;
 }
 
 function renderVideo(framesPath, fps, path, onProgress=()=>{}) {
@@ -47,22 +59,22 @@ function renderVideo(framesPath, fps, path, onProgress=()=>{}) {
 }
 
 function startEncoding(seleccion, framesPath, fps, path, fromThumbnails=false, onProgress=()=>{}, encoderFlags='preset=ultrafast vcodec=libx264 f=mp4') {
-    const xml = generateXML(seleccion, framesPath, fps, fromThumbnails);
-    const flags = `-consumer avformat:${path} ${encoderFlags} frame_rate_num=${fps} frame_rate_den=1`.split(' ');
-    const encoder = spawn('melt', [`xml-string:${xml}`].concat(flags));
+  const xml = generateXML(seleccion, framesPath, fps, fromThumbnails);
+  const flags = `-consumer avformat:${path} ${encoderFlags} frame_rate_num=${fps} frame_rate_den=1`.split(' ');
+  const encoder = spawn('melt', [`xml-string:${xml}`].concat(flags));
 
-    encoder.stderr.setEncoding('utf8');
-    /* Esto va a necesitar ser retocado, por ahora supongo que me llegan líneas enteras y que no hay errores */
-    encoder.stderr.on('data', (data) => {
-      const matchProgress = /Current Frame:[ \t]*([0-9]+), percentage:[ \t]*([0-9]+)/;
-      const message = data;
-      const match = matchProgress.exec(message) || [];
-      const [currentFrame, progress] = match.slice(1);
+  encoder.stderr.setEncoding('utf8');
+  /* Esto va a necesitar ser retocado, por ahora supongo que me llegan líneas enteras y que no hay errores */
+  encoder.stderr.on('data', (data) => {
+    const matchProgress = /Current Frame:[ \t]*([0-9]+), percentage:[ \t]*([0-9]+)/;
+    const message = data;
+    const match = matchProgress.exec(message) || [];
+    const [currentFrame, progress] = match.slice(1);
 
-      onProgress(currentFrame, progress);
-    });
+    onProgress(currentFrame, progress);
+  });
 
-    return encoder;
+  return encoder;
 }
 
 export {renderVideo, generateXML, preview, startEncoding};

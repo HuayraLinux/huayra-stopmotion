@@ -1,8 +1,6 @@
 import Ember from 'ember';
 import { preview } from '../mlt-integration';
 
-const MediaSourceWrapper = requireNode('mediasource');
-
 let Captura = Ember.Object.extend({
   href_miniatura: null,       // miniatura cuando se usa electron
   href: null,                 // ruta a la imagen cuando se usa electron
@@ -98,13 +96,11 @@ export default Ember.Controller.extend({
       /* https://github.com/feross/mediasource */
       const seleccion = this.get('intervaloSeleccion');
       const path = this.get('pathProyecto');
-      const videoStream = preview(seleccion, path, 24);
-      const video = document.createElement('video');
-      video.autoplay = true;
+      const video = preview(seleccion, path, 24);
+
+      video.loop = true;
+
       document.body.appendChild(video);
-      const wrappedVideo = new MediaSourceWrapper(video);
-      const videoSink = wrappedVideo.createWriteStream('video/webm; codecs="vp8"');
-      videoStream.pipe(videoSink);
     }
   }
 });
