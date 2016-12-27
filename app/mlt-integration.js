@@ -29,8 +29,7 @@ function preview(seleccion, framesPath='.', fps=24, onProgress=()=>{}) {
   const video = document.createElement('video');
   const wrappedVideo = new requireNode('mediasource')(video);
   const videoSink = wrappedVideo.createWriteStream('video/webm; codecs="vp8"');
-  const deadline = Math.floor((1 / (fps + 2)) * 1000000); /* Cantidad de microsegundos por frame, agrego 2 frames por segundo para tener más tiempo libre */
-  const videoStream = startEncoding(seleccion, framesPath, fps, 'pipe:1', true, onProgress, `f=webm vcodec=libvpx acodec=none deadline=${deadline}`).stdout;
+  const videoStream = startEncoding(seleccion, framesPath, fps, 'pipe:1', true, onProgress, `f=webm vcodec=libvpx acodec=none deadline=realtime`).stdout;
 
   /* Y le mando la data */
   videoStream.pipe(videoSink);
