@@ -62,9 +62,10 @@ const fakeCamClass = Ember.Object.extend({
   ID_V4L_PRODUCT: 'Sin cámara',
   controls: [],
   formats: [{formatName: 'RGB3', width: 1280, height: 720}],
-  video: document.createElement('video'), /* Hay que cambiar esto */
+  video: null,
 
   init: Ember.on('init', function() {
+    this.set('video', document.createElement('video')); /* Hay que cambiar esto */
     this.get('video').src = '../lossless.mp4';
     this.get('video').loop = true;
     this.get('video').className = 'canvas-layer';
