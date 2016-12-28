@@ -53,6 +53,7 @@
     "v4l2camera": "iglosiggio/node-v4l2camera"
   },
   "dependencies": {
+    "bonjour": "^3.5.0",
     "mediasource": "^2.1.3",
     "webcam-http-streaming": "^1.1.1"
   }
