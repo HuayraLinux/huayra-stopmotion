@@ -5,16 +5,26 @@ const service = Ember.Service.extend({});
 export default service;
 
 if(inElectron) {
-  const Promise = Ember.RSVP.Promise;
+  const requireElectron = requireNode('electron').remote.require;
   const createServer = requireNode('webcam-http-streaming').createHTTPStreamingServer;
+  const hostname = requireNode('os').hostname;
+  const Promise = Ember.RSVP.Promise;
+  const bonjour = requireElectron('bonjour');
 
   service.reopen({
     server: null,
+    bonjour: null,
+    service: null,
+    search: null,
     camaras: Ember.inject.service(),
     webcams: Ember.computed.alias('camaras.camaras'),
 
     port: Ember.computed('server', function() {
       return this.get('server').address().port;
+    }),
+
+    remoteInstances: Ember.computed('search', function() {
+      return this.get('search').services;
     }),
 
     createServer: Ember.on('init', function() {
@@ -53,6 +63,26 @@ if(inElectron) {
       });
 
       this.set('server', server);
+
+
+      const bonjourInstance = bonjour();
+
+      this.set('bonjour', bonjourInstance);
+
+      const bonjourService = bonjourInstance.publish({
+        name: `${hostname()} está compartiendo sus cámaras web!`,
+        type: 'huayra-stopmotion',
+        port: this.get('port')
+      });
+
+      this.set('service', bonjourService);
+
+      const bonjourSearch = bonjourInstance.find({ type: 'huayra-stopmotion' });
+
+      bonjourSearch.on('up', () => this.notifyPropertyChange('remoteInstances'));
+      bonjourSearch.on('down', () => this.notifyPropertyChange('remoteInstances'));
+
+      this.set('search', bonjourSearch);
     })
   });
 }
