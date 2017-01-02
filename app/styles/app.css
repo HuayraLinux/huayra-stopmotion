@@ -140,3 +140,11 @@ li.huayra-cuadro.seleccionado {
 .no-padding-bottom {
   padding-bottom: 0em !important;
 }
+
+.tmp-nota-derecha {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  background-color: yellow;
+}

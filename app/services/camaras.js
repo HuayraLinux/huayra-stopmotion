@@ -41,16 +41,18 @@ const ALTO_THUMBNAIL = 240;
  *
  * La función retornará la ruta absoluta a la imagen en el sistema.
  */
-function guardar_base64_en_archivo(datos_base_64, nombre_de_archivo) {
+function guardar_base64_en_archivo(datos_base_64, ruta_destino, nombre_de_archivo) {
   return new Promise((success, reject) => {
     var base64Data = datos_base_64.replace(/^data:[^,]+,/, "");
     let path = requireNode('path');
 
-    requireNode("fs").writeFile(nombre_de_archivo, base64Data, 'base64', function(err) {
+    let ruta_completa = path.join(ruta_destino, nombre_de_archivo);
+
+    requireNode("fs").writeFile(ruta_completa, base64Data, 'base64', function(err) {
       if (err) {
         reject(err);
       } else {
-        success(path.resolve(nombre_de_archivo));
+        success(path.resolve(ruta_completa));
       }
     });
     /* TODO: Si no estoy en electron puedo crear un blob y usar el localstorage o promptear una descarga */
@@ -278,6 +280,10 @@ export default Ember.Service.extend(Ember.Evented, {
   /**
    * Inicia la captura de uno solo frame.
    *
+   * De manera opcional se puede especificar el directorio en donde se quiera
+   * guardar la captura. Cuando se usa normalmente este directorio es el mismo
+   * directorio del proyecto.
+   *
    * Retorna una promesa que al cumplirse incluye la captura de pantalla
    * en varios formatos, algo así:
    *
@@ -288,9 +294,10 @@ export default Ember.Service.extend(Ember.Evented, {
    *        ruta_miniatura:   path de sistema absoluto a la miniatura (solo electron)
    *     }
    */
-  capturarFrame() {
+  capturarFrame(ruta_destino) {
     const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
+    ruta_destino = ruta_destino || "./";
 
     /* TODO: Hacer esto más legible */
     return new Promise((success, reject) => {
@@ -324,8 +331,8 @@ export default Ember.Service.extend(Ember.Evented, {
       thumbnailJPEG = canvas.toDataURL('image/jpeg');
 
       Promise.all([
-        guardar_base64_en_archivo(framePNG, now + '.png'),
-        guardar_base64_en_archivo(thumbnailJPEG, now + '.thumbnail.jpeg')
+        guardar_base64_en_archivo(framePNG, ruta_destino, now + '.png'),
+        guardar_base64_en_archivo(thumbnailJPEG, ruta_destino, now + '.thumbnail.jpeg')
       ]).then((archivos) => success({
         captura: framePNG,
         ruta_captura: archivos[0],

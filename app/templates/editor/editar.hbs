@@ -1,7 +1,50 @@
 {{outlet}}
 
-<p>Editando el proyecto {{model.ubicacion}}</p>
+<div class="contenedor">
 
-<p>Nombre del proyecto desde archivo: {{proyecto.datos.nombre}}</p>
+  <div class="vbox header">
 
-<button class="ui button" {{action "cerrarElProyecto"}}>Cerrar</button>
+    <p class="tmp-nota-derecha">Editando el proyecto {{model.ubicacion}}</p>
+
+    <div class="">
+      <button class="ui button primary" {{action "guardar"}}>Guardar</button>
+      <button class="ui button" {{action "cerrarElProyecto"}}>Cerrar</button>
+    </div>
+
+
+    <p>Cantidad de cámaras disponibles: {{camaras.cantidadDeCamaras}}</p>
+
+    {{#each camaras.camaras as |camara id|}}
+      <button {{action "seleccionarCamara" id}}>{{camara.ID_V4L_PRODUCT}} ({{camara.DEVNAME}})</button>
+    {{/each}}
+
+    {{outlet}}
+
+  </div>
+
+  <div class="vbox vbox-camara">
+    {{huayra-camara}}
+    {{huayra-cebolla config=cebolla}}
+    {{huayra-grilla config=grilla}}
+  </div>
+
+  <!--
+  <div class="controles-camara">
+    {{!huayra-control-cebolla config=(changeset cebolla) aplicar=(action aplicar)}}
+    {{!huayra-control-grilla config=(changeset grilla) aplicar=(action aplicar)}}
+    {{!huayra-control-camara}}
+  </div>
+  -->
+
+  <div class="vbox controles">
+    <button class="ui button primary" {{action "capturar"}}>Capturar</button>
+    <!--<button class="ui button secondary" {{action "previsualizar"}}>Previsualizar selección</button>-->
+
+    <button class="ui button red {{if haySeleccion '' 'disabled'}}" {{action "eliminarCuadrosSeleccionados"}}>Eliminar cuadros seleccionados</button>
+  </div>
+
+  <div class="vbox timeline">
+    {{huayra-timeline capturas=capturas intervaloSeleccion=intervaloSeleccion}}
+  </div>
+
+</div>

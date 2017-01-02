@@ -54,6 +54,10 @@ let ProyectoServiceParaElectron = Ember.Service.extend({
     });
   },
 
+  guardarProyectoEnLaRuta(nombre, ubicacion, cuadros) {
+    debugger;
+  },
+
   _obtener_datos_iniciales(nombre) {
     let datos = {
       nombre: nombre,

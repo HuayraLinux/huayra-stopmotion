@@ -88,7 +88,8 @@ export default Ember.Controller.extend({
 
       }, (error) => {
         this.set('capturandoFoto', false);
-        alert(error);
+        console.error(error);
+        alert("ERROR" + error);
       });
     },
 
