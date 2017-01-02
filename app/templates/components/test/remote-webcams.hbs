@@ -1,0 +1,9 @@
+<ol>
+  {{#each webcams as |webcam|}}
+    <li onclick={{action (mut selectedWebcam) webcam}}>
+      {{webcam.name}}
+    </li>
+  {{/each}}
+</ol>
+
+<video src="{{url}}{{selectedWebcam.url}}" autoplay/>

@@ -15,6 +15,7 @@ Router.map(function() {
     this.route('grilla');
     this.route('camara');
     this.route('cebolla');
+    this.route('remote-instances');
   });
 
   this.route('editor', function() {

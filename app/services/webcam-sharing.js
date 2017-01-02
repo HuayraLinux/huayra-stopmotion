@@ -70,7 +70,7 @@ if(inElectron) {
       this.set('bonjour', bonjourInstance);
 
       const bonjourService = bonjourInstance.publish({
-        name: `${hostname()} está compartiendo sus cámaras web!`,
+        name: `${hostname()} ${Date.now()}`,
         type: 'huayra-stopmotion',
         port: this.get('port')
       });
