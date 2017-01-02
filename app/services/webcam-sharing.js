@@ -83,6 +83,15 @@ if(inElectron) {
       bonjourSearch.on('down', () => this.notifyPropertyChange('remoteInstances'));
 
       this.set('search', bonjourSearch);
+
+      /* Clean on unload */
+      $(window).on('beforeunload', () => {
+        bonjourInstance.unpublishAll();
+        bonjourSearch.removeAllListeners();
+        bonjourSearch.stop();
+        server.close();
+        bonjourInstance.destroy();
+      });
     })
   });
 }
