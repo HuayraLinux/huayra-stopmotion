@@ -19,6 +19,7 @@ comandos:
 	@echo "    ${G}compilar${N}        Genera los archivos compilados."
 	@echo "    ${G}compilar_live${N}   Compila de forma contínua."
 	@echo "    ${G}electron${N}        Ejecuta la aplicación sobre electron."
+	@echo "    ${G}test_electron${N}   Ejecuta los tests sobre electron."
 	@echo ""
 	@echo "  ${Y}Para distribuir${N}"
 	@echo ""
@@ -55,3 +56,6 @@ electron:
 	@echo "   ${G}make compilar o make compilar_live${N}"
 	@echo ""
 	node_modules/.bin/electron .
+
+test_electron:
+	./node_modules/.bin/electron electron-test.js

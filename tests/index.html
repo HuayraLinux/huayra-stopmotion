@@ -9,31 +9,43 @@
 
     <script>
       window.module = undefined;
-      window.requireNode = null;
-      window.inElectron = false;
+      window.requireNode = window.require || null;
+      window.inElectron = (window && window.process && window.process.type);
     </script>
+
 
     {{content-for "head"}}
     {{content-for "test-head"}}
 
-    <link rel="stylesheet" href="{{rootURL}}assets/vendor.css">
-    <link rel="stylesheet" href="{{rootURL}}assets/huayra-stopmotion.css">
-    <link rel="stylesheet" href="{{rootURL}}assets/test-support.css">
+    <link rel="stylesheet" href="app://assets/vendor.css">
+    <link rel="stylesheet" href="app://assets/huayra-stopmotion.css">
+    <link rel="stylesheet" href="app://assets/test-support.css">
 
     {{content-for "head-footer"}}
     {{content-for "test-head-footer"}}
   </head>
+
   <body>
     {{content-for "body"}}
     {{content-for "test-body"}}
 
-    <script src="{{rootURL}}testem.js" integrity=""></script>
-    <script src="{{rootURL}}assets/vendor.js"></script>
-    <script src="{{rootURL}}assets/test-support.js"></script>
-    <script src="{{rootURL}}assets/huayra-stopmotion.js"></script>
-    <script src="{{rootURL}}assets/tests.js"></script>
+    <script src="app://testem.js" integrity=""></script>
+    <script src="app://assets/vendor.js"></script>
+    <script src="app://assets/test-support.js"></script>
+    <script src="app://assets/huayra-stopmotion.js"></script>
+    <script src="app://assets/tests.js"></script>
 
     {{content-for "body-footer"}}
     {{content-for "test-body-footer"}}
   </body>
+
+
+  <script>
+
+    QUnit.done(function( details ) {
+      console.log( "Total: ", details.total, " Failed: ", details.failed, " Passed: ", details.passed, " Runtime: ", details.runtime );
+      debugger;
+    });
+
+  </script>
 </html>

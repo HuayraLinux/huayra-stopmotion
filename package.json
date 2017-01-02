@@ -45,6 +45,7 @@
     "ember-resolver": "^2.0.3",
     "ember-truth-helpers": "1.2.0",
     "loader.js": "^4.0.1",
+    "electron-prebuilt": "1.4.13",
     "semantic-ui-ember": "2.0.0-beta.0"
   },
   "optionalDependencies": {
