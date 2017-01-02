@@ -2,7 +2,9 @@
   {{#each servers as |server|}}
     <li>
       {{server.name}} ({{get server.addresses "0"}}:{{server.port}})
-      {{test/remote-webcams server=server}}
+      {{test/remote-webcams server=server onSelect=(action (mut selectedWebcam))}}
     </li>
   {{/each}}
 </ul>
+
+<video src={{selectedWebcam}} autoplay/>
