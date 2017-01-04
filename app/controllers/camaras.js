@@ -26,11 +26,11 @@ export default Ember.Controller.extend({
   copiarCursor: copyOnChange('cursor', 'cebolla.cameraFrame'),
 
   cebolla: {
-    frames: [],       /* alias('capturas') */
-    cebollaLength: 3, /* Integer */
-    alphaIn: 0.2,     /* Integer */
-    alphaOut: 0.2,    /* Integer */
-    cameraFrame: 0    /* alias('cursor') | NO IMPLEMENTADO | Integer */
+    frames: [],      /* [ImageSources] from newer to older */
+    futureFrames: 0, /* Integer */
+    pastFrames: 3,   /* Integer */
+    cameraFrame: 0,  /* Integer */
+    alpha: 0.2,      /* Float */
   },
 
   grilla: {
@@ -58,13 +58,25 @@ export default Ember.Controller.extend({
     },
 
     eliminarCuadrosSeleccionados() {
-      let a = this.get('intervaloSeleccion')[0];
-      let b = this.get('intervaloSeleccion')[1];
+      const [a, b] = this.get('intervaloSeleccion');
 
-      let primer_parte = this.get('capturas').slice(0, a);
-      let segunda_parte = this.get('capturas').slice(b);
+      const tamanioSeleccion = b - a;
 
-      this.set('capturas', primer_parte.concat(segunda_parte));
+      this.get('capturas').splice(a, tamanioSeleccion);
+      this.get('capturas').arrayContentDidChange(a, tamanioSeleccion, 0);
+
+      /* Reajustar el cursor */
+      const cursor = this.get('cursor');
+
+      /* Si el cursor está antes de los cambios no hago nada
+       * Si está después le resto el tamaño de la seleción
+       * Si está en el medio lo dejo en el medio
+       */
+      if(cursor >= b) {
+        this.set('cursor', cursor - tamanioSeleccion);
+      } else if(cursor <= a) {
+        this.set('cursor', a);
+      }
 
       this.set('intervaloSeleccion', [0, 0]);
     },
@@ -84,7 +96,12 @@ export default Ember.Controller.extend({
           data.data = fotos.captura;
         }
 
-        this.get('capturas').pushObject(Captura.create(data));
+        const cursor = this.get('cursor');
+
+        this.get('capturas').splice(cursor, 0, Captura.create(data));
+        this.get('capturas').arrayContentDidChange(cursor, 0, 1);
+
+        this.set('cursor', this.get('cursor') + 1);
 
       }, (error) => {
         this.set('capturandoFoto', false);
@@ -93,11 +110,12 @@ export default Ember.Controller.extend({
       });
     },
 
+    /* TODO: Mejorar esto */
     previsualizar() {
       /* https://github.com/feross/mediasource */
       const seleccion = this.get('intervaloSeleccion');
       const path = this.get('pathProyecto');
-      const video = preview(seleccion, path, 24);
+      const video = preview(seleccion, path, 24, console.log);
 
       video.loop = true;
 

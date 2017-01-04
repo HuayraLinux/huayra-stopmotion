@@ -12,58 +12,55 @@ export default Ember.Component.extend({
 
   /* Del formulario vienen strings en lugar de números, reparar eso */
   config: {
-    frames: [],       /* [ImageSources] from newer to older */
-    cebollaLength: 3, /* Integer */
-    cameraFrame: 0,   /* NO IMPLEMENTEADO (Integer) */
-    alphaIn: 1,       /* Integer */
-    alphaOut: 0       /* Integer */
+    frames: [],      /* [ImageSources] from newer to older */
+    futureFrames: 0, /* Integer */
+    pastFrames: 3,   /* Integer */
+    cameraFrame: 0,  /* Integer */
+    alpha: 0.2,      /* Float */
   },
 
-  framesCebolla: Ember.computed('config.cebollaLength', 'config.frames.[]', function() { /* Cambiar cuando exista el cursor de inserción */
-    var cuadros = Number(this.get('config.cebollaLength'));
+  framesCebolla: Ember.computed('config.futureFrames', 'config.pastFrames', 'config.frames.[]', 'config.cameraFrame', function() { /* Cambiar cuando exista el cursor de inserción */
+    const cuadrosAdelante = Number(this.get('config.futureFrames')) + 1; /* Los slice son [a;b) */
+    const cuadrosAtras = Number(this.get('config.pastFrames'));
+    const camara = Number(this.get('config.cameraFrame'));
+    const frames = this.get('config.frames');
 
-    /* Si es 0 o negativo supongo que no querés capa de cebolla */
-    if(cuadros <= 0) {
-      return [];
-    }
+    const inicio = camara - cuadrosAtras < 0 ?
+      0 : camara - cuadrosAtras;
+    const fin = camara + cuadrosAdelante > frames.length ?
+      frames.length : camara + cuadrosAdelante;
 
     return this.get('config.frames')
-      .slice(-cuadros)
-      .map((captura) => captura.href)
-      .reverse();
+      .slice(inicio, fin)
+      .map((captura) => captura.href);
   }),
 
   /* Como framesCebolla es un computed no va a triggerear el evento automáticamente, así que voy a escuchar por él */
-  cebolla: Ember.observer('config.cebollaLength', 'config.frames.[]', /*'framesCebolla',*/ 'config.alphaIn', 'config.alphaOut', 'config.cameraFrame', 'width', 'height', function() {
-    var resources = this.get('resources');
-    var width = this.get('width');
-    var height = this.get('height');
-    var frames = this.get('framesCebolla');
-    var alphaIn = Number(this.get('config.alphaIn'));
-    var alphaOut = Number(this.get('config.alphaOut'));
+  cebolla: Ember.observer(
+    'config.futureFrames', 'config.pastFrames', 'config.frames.[]',
+    'config.cameraFrame', /*'framesCebolla',*/ 'config.alphaIn',
+    'config.alphaOut', 'config.cameraFrame', 'width', 'height',
+    function() {
+      var resources = this.get('resources');
+      var width = this.get('width');
+      var height = this.get('height');
+      var frames = this.get('framesCebolla');
+      var alpha = Number(this.get('config.alpha'));
 
-    var canvas = this.get('element');
-    var ctx = canvas.getContext('2d');
+      var canvas = this.get('element');
+      var ctx = canvas.getContext('2d');
 
-    var loadFrames = Promise.all(frames.map(resources.loadImage));
+      var loadFrames = Promise.all(frames.map(resources.loadImage));
 
-    function dibujar_cebolla(imagenes) {
-      ctx.clearRect(0, 0, width, height);
-      imagenes.forEach((imagen, x) => {
-        /* Interpolo linealmente:
-         *   f(x) = ax + b
-         *   f(0) = alphaIn
-         *   f(imagenes.length - 1) = alphaOut
-         */
-        var a = (alphaOut - alphaIn) / ((imagenes.length - 1) || 1); /* Si hay una imagen no se puede dividir por 0 */
-        var b = alphaIn;
-        ctx.globalAlpha = a*x + b; /* x0 es el frame de la cámara*/
-        ctx.drawImage(imagen, 0, 0);
-      });
+      function dibujar_cebolla(imagenes) {
+        ctx.clearRect(0, 0, width, height);
+        ctx.globalAlpha = alpha;
+        imagenes.forEach((imagen) => ctx.drawImage(imagen, 0, 0));
+      }
+
+      loadFrames.then(dibujar_cebolla);
     }
-
-    loadFrames.then(dibujar_cebolla);
-  }),
+  ),
 
   didInsertElement() {
     this.cebolla(); /* Init! */

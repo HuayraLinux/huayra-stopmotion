@@ -1,9 +1,8 @@
 {{!-- Debería enviar números en lugar de strings --}}
 <fieldset class="huayra-control">
   <legend>Cebolla</legend>
-  <p><label>Tamaño:</label>{{input type="text" value=(mut config.cebollaLength)}}</p>
-  <p><label>Cursor:</label>{{input type="text" value=(mut config.cameraFrame)}}</p>
-  <p><label>Transparencia (entrada):</label>{{input type="text" value=(mut config.alphaIn)}}</p>
-  <p><label>Transparencia (salida):</label>{{input type="text" value=(mut config.alphaOut)}}</p>
+  <p><label>Cuadros en el pasado:</label>{{input type="text" value=(mut config.pastFrames)}}</p>
+  <p><label>Cuadros en el futuro:</label>{{input type="text" value=(mut config.futureFrames)}}</p>
+  <p><label>Transparencia (valor entre 0 y 1):</label>{{input type="text" value=(mut config.alpha)}}</p>
   <button {{action aplicar config}}>Aplicar cambios</button>
 </fieldset>
