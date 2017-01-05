@@ -45,7 +45,5 @@ export default Ember.Component.extend({
 
   mouseUp() {
     this.set('moverConMovimiento', false);
-  },
-
-
+  }
 });

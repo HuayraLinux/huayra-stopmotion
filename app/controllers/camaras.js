@@ -120,6 +120,19 @@ export default Ember.Controller.extend({
       video.loop = true;
 
       document.body.appendChild(video);
+    },
+
+    keyDown(key) {
+      if(key.altKey === true) {
+        const cursor = this.get('cursor');
+        const capturas = this.get('capturas.length');
+
+        if(key.key === 'ArrowLeft') {
+          this.set('cursor', cursor - 1 > 0 ? cursor - 1 : cursor);
+        } else if(key.key === 'ArrowRight') {
+          this.set('cursor', cursor + 1 < capturas ? cursor + 1 : cursor);
+        }
+      }
     }
   }
 });

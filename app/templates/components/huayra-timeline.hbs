@@ -1,6 +1,12 @@
 {{#each capturas as |captura index|}}
   {{huayra-cuadro index=index cuadro=captura intervaloSeleccion=intervaloSeleccion accionAlHacerClick='alSeleccionarCuadro'}}
+  {{#if (eq cursor index)}}
+    <div class="cursor">SOYELCURSOR</div>
+  {{/if}}
 {{else}}
   Espacio reservado para el timeline.
   {{yield}}
 {{/each}}
+{{#if (eq cursor capturas.length)}}
+  <div class="cursor">SOYELCURSOR</div>
+{{/if}}
