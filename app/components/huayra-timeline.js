@@ -2,10 +2,24 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   classNames: ['huayra-timeline'],
-  tagName: 'ul',
+  tagName: 'ol',
   intervaloSeleccion: [0, 0],
   moverConMovimiento: false,
   moverPosicionOriginalX: null,
+  capturas: [],
+
+  seleccion: Ember.computed('intervaloSeleccion.0', 'intervaloSeleccion.1', 'capturas.[]', function() {
+    const [inicio, fin] = this.get('intervaloSeleccion');
+    return this.get('capturas').slice(inicio, fin);
+  }),
+  capturasPrevias: Ember.computed('intervaloSeleccion.0', 'capturas.[]', function() {
+    const [inicio] = this.get('intervaloSeleccion');
+    return this.get('capturas').slice(0, inicio);
+  }),
+  capturasPosteriores: Ember.computed('intervaloSeleccion.1', 'capturas.[]', function() {
+    const [,fin] = this.get('intervaloSeleccion');
+    return this.get('capturas').slice(fin);
+  }),
 
   actions: {
     alSeleccionarCuadro(indiceDeCuadro, shift) {
@@ -14,7 +28,6 @@ export default Ember.Component.extend({
       } else {
         this.set('intervaloSeleccion', [indiceDeCuadro, indiceDeCuadro + 1]);
       }
-
     }
   },
 
@@ -28,12 +41,12 @@ export default Ember.Component.extend({
     }
   },
 
-  mouseDown(event) {
+  _mouseDown(event) {
     this.set('moverConMovimiento', true);
     this.set('moverPosicionOriginalX', event.clientX);
   },
 
-  mouseMove(event) {
+  _mouseMove(event) {
     if (this.get('moverConMovimiento')) {
       let dx = event.clientX - this.get('moverPosicionOriginalX');
 
@@ -43,7 +56,7 @@ export default Ember.Component.extend({
     }
   },
 
-  mouseUp() {
+  _mouseUp() {
     this.set('moverConMovimiento', false);
   }
 });

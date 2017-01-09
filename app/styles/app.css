@@ -39,13 +39,17 @@ body > .ember-view {
   padding-bottom: 5px;
 }
 
-ul.huayra-timeline {
+.huayra-timeline ol, .huayra-timeline li, .huayra-timeline ul {
+  list-style-type: none;
+}
+
+.huayra-timeline {
   width: 10000000000000px;
   padding: 0;
   margin: 0;
 }
 
-li.huayra-cuadro {
+.huayra-cuadro {
   display: inline-block;
   margin-left: 2px;
   float: left;
@@ -54,7 +58,7 @@ li.huayra-cuadro {
   position: relative;
 }
 
-li.huayra-cuadro .huayra-cuadro-numero {
+.huayra-cuadro .huayra-cuadro-numero {
   position:absolute;
   color: white;
   right: 4px;
@@ -62,8 +66,11 @@ li.huayra-cuadro .huayra-cuadro-numero {
   text-shadow: 0 0 5px black;
 }
 
+.seleccion {
+  display: list-item;
+}
 
-li.huayra-cuadro.seleccionado {
+.seleccion .huayra-cuadro {
   opacity: 0.5;
 }
 
