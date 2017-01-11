@@ -2,9 +2,17 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   classNames: ['huayra-cuadro'],
+  classNameBindings: ['seleccionado'],
   tagName: ['li'],
   attributeBindings: ['draggable'],
   draggable: true,
+
+  seleccionado: Ember.computed('intervaloSeleccion.0', 'intervaloSeleccion.1', function() {
+    const [inicio, fin] = this.get('intervaloSeleccion');
+    const cuadro = this.get('index');
+
+    return inicio <= cuadro && cuadro < fin;
+  }),
 
   numeroDeCuadro: Ember.computed('index', function() {
     return this.get('index') + 1;

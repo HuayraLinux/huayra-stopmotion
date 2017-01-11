@@ -20,6 +20,7 @@
   padding-left: 2px;
   padding-right: 2px;
   height: 110px;
+  white-space: nowrap;
   overflow-x: scroll;
   flex-shrink: 0;
 }
@@ -40,22 +41,20 @@ body > .ember-view {
 }
 
 .huayra-timeline ol, .huayra-timeline li, .huayra-timeline ul {
-  list-style-type: none;
+  display: inline-block;
 }
 
 .huayra-timeline {
-  width: 10000000000000px;
   padding: 0;
   margin: 0;
 }
 
 .huayra-cuadro {
+  position: relative;
   display: inline-block;
   margin-left: 2px;
-  float: left;
   border: 1px solid #777777;
   background-color: #1b1c1d;
-  position: relative;
 }
 
 .huayra-cuadro .huayra-cuadro-numero {
@@ -66,12 +65,18 @@ body > .ember-view {
   text-shadow: 0 0 5px black;
 }
 
-.seleccion {
-  display: list-item;
+.seleccionado.huayra-cuadro {
+  opacity: 0.5;
 }
 
-.seleccion .huayra-cuadro {
-  opacity: 0.5;
+.dragOverDropzone {
+  background-color: #8888FF;
+}
+
+.dropzone {
+  width: 1.7em;
+  height: 75px;
+  /*padding: 0px, 3px;*/
 }
 
 
