@@ -6,14 +6,29 @@ export default Ember.Component.extend({
   classNameBindings: ['dragOverDropzone'],
   dragOverDropzone: '',
 
-  dragEnter() {
+  dragEnter(event) {
     /* Acá habría que chequear que lo que se está arrastrando sea una miniatura, selección o cursor */
-    this.set('dragOverDropzone', 'dragOverDropzone');
+    if(event.dataTransfer.types.contains('x-ember/from')) {
+      this.set('dragOverDropzone', 'dragOverDropzone');
+      event.preventDefault(); /* Marco que soy una dropzone válida*/
+    }
   },
+
+  dragOver(event) {
+    if(event.dataTransfer.types.contains('x-ember/from')) {
+      event.preventDefault(); /* Marco que soy una dropzone válida*/
+    }
+  },
+
   dragLeave() {
     this.set('dragOverDropzone', '');
   },
-  drop() {
 
+  drop(event) {
+    const cuadroIndex = event.dataTransfer.getData('x-ember/from');
+    const tipo = event.dataTransfer.getData('x-ember/type');
+    event.preventDefault(); /* Evito cualquier cosa mágica que quiera hacer el browser */
+    this.set('dragOverDropzone', '');
+    this.sendAction('onDrop', cuadroIndex, this.get('index'), tipo);
   }
 });

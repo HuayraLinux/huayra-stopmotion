@@ -7,7 +7,7 @@ export default Ember.Component.extend({
   attributeBindings: ['draggable'],
   draggable: true,
 
-  seleccionado: Ember.computed('intervaloSeleccion.0', 'intervaloSeleccion.1', function() {
+  seleccionado: Ember.computed('intervaloSeleccion.0', 'intervaloSeleccion.1', 'index', function() {
     const [inicio, fin] = this.get('intervaloSeleccion');
     const cuadro = this.get('index');
 
@@ -24,5 +24,10 @@ export default Ember.Component.extend({
 
   click(event) {
     this.sendAction('accionAlHacerClick', this.get('index'), event.shiftKey || event.metaKey);
+  },
+
+  dragStart(event) {
+    event.dataTransfer.setData('x-ember/from', this.get('index'));
+    event.dataTransfer.setData('x-ember/type', 'huayra-cuadro');
   }
 });

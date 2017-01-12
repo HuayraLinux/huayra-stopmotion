@@ -81,6 +81,39 @@ export default Ember.Controller.extend({
       this.set('intervaloSeleccion', [0, 0]);
     },
 
+    moverCuadro(desde, hasta) {
+      /**
+       * Hay casos planteados:
+       *  1. Los cuadros que se mueven están ANTES o DESPUES del cursor, y se intercambian sin más
+       *  2. Se mueve un cuadro de un lado al otro del cursor y se lo ajusta de acuerdo a eso
+       */
+       const capturas =  this.get('capturas');
+       const dragged = capturas.get(desde);
+       const cursor = this.get('cursor');
+
+       /* Quito la captura que draggié */
+       capturas.splice(desde, 1);
+       if(desde < hasta) {
+         capturas.splice(hasta - 1, 0, dragged);
+       } else {
+         capturas.splice(hasta, 0, dragged);
+       }
+
+       if(desde > cursor && hasta < cursor) {
+          this.set('cursor', cursor + 1);
+        } else if(desde < cursor && hasta > cursor) {
+          this.set('cursor', cursor - 1);
+        }
+
+        capturas.arrayContentDidChange(Math.min(desde, hasta));
+
+       return capturas;
+    },
+
+    moverCursor(hasta) {
+      this.set('cursor', hasta);
+    },
+
     capturar() {
       this.set('capturandoFoto', true);
 

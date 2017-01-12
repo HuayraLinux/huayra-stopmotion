@@ -7,19 +7,7 @@ export default Ember.Component.extend({
   moverConMovimiento: false,
   moverPosicionOriginalX: null,
   capturas: [],
-
-  seleccion: Ember.computed('intervaloSeleccion.0', 'intervaloSeleccion.1', 'capturas.[]', function() {
-    const [inicio, fin] = this.get('intervaloSeleccion');
-    return this.get('capturas').slice(inicio, fin);
-  }),
-  capturasPrevias: Ember.computed('intervaloSeleccion.0', 'capturas.[]', function() {
-    const [inicio] = this.get('intervaloSeleccion');
-    return this.get('capturas').slice(0, inicio);
-  }),
-  capturasPosteriores: Ember.computed('intervaloSeleccion.1', 'capturas.[]', function() {
-    const [,fin] = this.get('intervaloSeleccion');
-    return this.get('capturas').slice(fin);
-  }),
+  cursor: 0,
 
   actions: {
     alSeleccionarCuadro(indiceDeCuadro, shift) {
@@ -27,6 +15,14 @@ export default Ember.Component.extend({
         this._expandir_seleccion_a(indiceDeCuadro);
       } else {
         this.set('intervaloSeleccion', [indiceDeCuadro, indiceDeCuadro + 1]);
+      }
+    },
+
+    modificarTimeline(desde, hasta, tipo) {
+      if(tipo === 'huayra-cuadro') {
+        this.sendAction('moverCuadro', desde, hasta);
+      } else if(tipo === 'huayra-cursor') {
+        this.sendAction('moverCursor', hasta);
       }
     }
   },
