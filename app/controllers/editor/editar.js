@@ -24,8 +24,8 @@ export default Ember.Controller.extend({
   actions: {
 
     guardar() {
-      console.log(this.get("capturas").toArray());
-      this.get('proyecto').guardarProyectoEnLaRuta();
+      let cuadros = this.get("capturas");
+      this.get('proyecto').guardarProyectoEnLaRuta(cuadros);
     },
 
     eliminarCuadrosSeleccionados() {
