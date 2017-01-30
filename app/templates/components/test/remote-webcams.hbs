@@ -1,6 +1,6 @@
 <ol>
   {{#each webcams as |webcam|}}
-    <li onclick={{action sendAction 'onSelect' (concat url webcam.url)}}>
+    <li onclick={{action sendAction 'onSelect' (concat 'http://' url webcam.url)}}>
       {{webcam.name}}
     </li>
   {{/each}}
