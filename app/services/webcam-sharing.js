@@ -27,7 +27,24 @@ if(inElectron) {
       return this.get('search').services;
     }),
 
-    createServer: Ember.on('init', function() {
+    stop() {
+      if(this.bonjour && this.search && this.server){
+        this.bonjour.unpublishAll();
+        this.search.removeAllListeners();
+        this.search.stop();
+        this.server.close();
+        this.bonjour.destroy();
+      }
+    },
+
+    closeOnUnload: Ember.on('init', function() {
+      /* Clean on unload */
+      $(window).on('beforeunload', () => {
+        this.stop();
+      });
+    }),
+
+    start() {
       /* x264 over matroska */
       const encoder = {
         command: 'avconv',
@@ -83,15 +100,6 @@ if(inElectron) {
       bonjourSearch.on('down', () => this.notifyPropertyChange('remoteInstances'));
 
       this.set('search', bonjourSearch);
-
-      /* Clean on unload */
-      $(window).on('beforeunload', () => {
-        bonjourInstance.unpublishAll();
-        bonjourSearch.removeAllListeners();
-        bonjourSearch.stop();
-        server.close();
-        bonjourInstance.destroy();
-      });
-    })
+    }
   });
 }
