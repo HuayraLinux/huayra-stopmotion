@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import Translation from '../guvcview_es';
 const Promise = Ember.RSVP.Promise;
 
 var optionalImports;
@@ -247,10 +248,10 @@ export default Ember.Service.extend(Ember.Evented, {
   controls: Ember.computed('seleccionada', function() {
     const camara = this.get('seleccionada');
     const Control = Ember.Object.extend({
-      value: Ember.computed('id', 'writeOnly', {
+      value: Ember.computed('control.id', 'control.writeOnly', {
         get() {
-          const writeOnly = this.get('writeOnly');
-          const id = this.get('id');
+          const writeOnly = this.get('control.writeOnly');
+          const id = this.get('control.id');
           if(writeOnly) {
             return undefined;
           } else {
@@ -263,6 +264,14 @@ export default Ember.Service.extend(Ember.Evented, {
           return camara.controlSet(id, Number(value)).controlGet(id);
         }
       }),
+
+      name: Ember.computed('control.name', function() {
+          return Translation.$t(this.get('control.name'));
+      }),
+      menu: Ember.computed('control.menu', function() {
+        return this.get('control.menu').map(Translation.$t);
+      }),
+
       unknownProperty(key) {
         const control = this.get('control');
         return Ember.get(control, key);
