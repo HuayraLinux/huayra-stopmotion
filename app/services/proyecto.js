@@ -61,7 +61,7 @@ let ProyectoServiceParaElectron = Ember.Service.extend({
               href: path.join(ubicacion, cuadro.href),
               href_miniatura: path.join(ubicacion, cuadro.href_miniatura)
             };
-          })
+          });
 
           this.set('nombre', datosJSON.nombre);
           this.set('ruta_al_archivo_de_proyecto', ruta_completa);
