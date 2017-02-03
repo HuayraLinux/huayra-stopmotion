@@ -1,0 +1,6 @@
+#!/bin/bash
+
+npm rebuild --runtime=electron \
+            --target=$(electron -v) \
+            --disturl=https://atom.io/download/atom-shell \
+            --abi=$(electron --abi)
