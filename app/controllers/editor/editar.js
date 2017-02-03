@@ -56,7 +56,12 @@ export default Ember.Controller.extend({
           data.data = fotos.captura;
         }
 
-        this.get('capturas').pushObject(Captura.create(data));
+        const cursor = this.get('cursor');
+
+        this.get('capturas').splice(cursor, 0, Captura.create(data));
+        this.get('capturas').arrayContentDidChange(cursor, 0, 1);
+
+        this.set('cursor', this.get('cursor') + 1);
 
       }, (error) => {
         this.set('capturandoFoto', false);
