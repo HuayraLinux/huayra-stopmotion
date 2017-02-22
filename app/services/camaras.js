@@ -247,6 +247,10 @@ export default Ember.Service.extend(Ember.Evented, {
    */
   controls: Ember.computed('seleccionada', function() {
     const camara = this.get('seleccionada');
+    const reloadControls = () => {
+      camara.reloadControls();
+      this.notifyPropertyChange('controls');
+    };
     const Control = Ember.Object.extend({
       value: Ember.computed('control.id', 'control.writeOnly', {
         get() {
@@ -261,7 +265,14 @@ export default Ember.Service.extend(Ember.Evented, {
         set(key, value) {
           const id = this.get('id');
           /* Si bien hay controles no numéricos con esto debería cubrir todos los casos realistas */
-          return camara.controlSet(id, Number(value)).controlGet(id);
+          const newValue = camara.controlSet(id, Number(value)).controlGet(id);
+          /* No hay buena forma de saber qué controles cambian, así que vamos a recargarlos todos
+           * Dado que es normal que se llamen muchos sets seguidos (si voy a cambiar muchos parámentros)
+           * voy a debouncear la llamada al reload.
+           */
+          Ember.run.debounce(null, reloadControls, 150);
+
+          return newValue;
         }
       }),
 
@@ -270,6 +281,11 @@ export default Ember.Service.extend(Ember.Evented, {
       }),
       menu: Ember.computed('control.menu', function() {
         return this.get('control.menu').map(Translation.$t);
+      }),
+      disabled: Ember.computed('control.flags.disabled', 'controls.flags.grabbed', 'controls.flags.readOnly', 'controls.flags.inactive', function() {
+        const properties = ['control.flags.disabled', 'control.flags.grabbed',
+                            'control.flags.readOnly', 'control.flags.inactive'];
+        return properties.some((prop) => this.get(prop));
       }),
 
       unknownProperty(key) {

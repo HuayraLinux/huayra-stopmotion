@@ -3,7 +3,7 @@
   <p>
   <label>{{control.name}}:</label>
   {{#if (eq control.type "menu")}}
-    <select onchange={{action (mut control.value) value="target.value"}}>
+    <select onchange={{action (mut control.value) value="target.value"}}  disabled={{control.disabled}}>
       {{#each control.menu as |option index|}}
         {{#if option}}
           <option value={{index}} selected={{eq control.value index}}>{{option}}</option>
@@ -11,9 +11,9 @@
       {{/each}}
     </select>
   {{else if (eq control.type "bool")}}
-    {{input type="checkbox" onclick=(action check control value="target.checked") checked=control.value}}
+    {{input type="checkbox" onclick=(action check control value="target.checked") checked=control.value disabled=control.disabled}}
   {{else}}
-    {{input type="text" value=(mut control.value)}}
+    {{input type="text" value=(mut control.value) disabled=control.disabled}}
   {{/if}}
   </p>
 {{/each}}
