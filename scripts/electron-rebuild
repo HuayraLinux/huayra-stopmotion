@@ -1,5 +1,10 @@
 #!/bin/bash
 
+alias electron=scripts/start-electron
+
+echo "Electron version: $(electron -v)"
+echo "Electron ABI: $(electron --abi)"
+
 npm rebuild --runtime=electron \
             --target=$(electron -v) \
             --disturl=https://atom.io/download/atom-shell \

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+ELECTRON=$(which electron)
+
+if [ -z $ELECTRON ]; then
+	echo "AVISO: Usando el binario electron instalado vía npm" >&2
+	ELECTRON=node_modules/.bin/electron
+else
+	echo "AVISO: usando el binario electron del sistema" >&2
+fi
+
+exec $ELECTRON $@

@@ -9,44 +9,53 @@ L=[01;30m
 
 npm_config_loglevel="warn"
 
-comandos:
+all:
+	npm install
+	node_modules/.bin/bower install
+	scripts/electron-rebuild
+	node_modiles/.bin/ember build -prod
+
+help:
 	@echo ""
 	@echo "${B}Comandos disponibles para ${G}${NOMBRE}${N} - ${Y} versión ${VERSION}${N}"
 	@echo ""
 	@echo "  ${Y}Para desarrolladores de la aplicación ember${N}"
 	@echo ""
-	@echo "    ${G}iniciar${N}         Instala dependencias."
-	@echo "    ${G}compilar${N}        Genera los archivos compilados."
-	@echo "    ${G}compilar_live${N}   Compila de forma contínua."
-	@echo "    ${G}electron${N}        Ejecuta la aplicación sobre electron."
+	@echo "    ${G}dependencias${N}      Instala dependencias."
+	@echo "    ${G}compilar${N}          Genera los archivos compilados."
+	@echo "    ${G}compilar_live${N}     Compila de forma contínua."
+	@echo "    ${G}electron${N}          Ejecuta la aplicación sobre electron."
 	@echo ""
 	@echo "  ${Y}Para distribuir${N}"
 	@echo ""
 	@echo "    ${G}version_patch${N}     Genera una versión (0.0.PATCH)."
 	@echo "    ${G}version_minor${N}     Genera una versión (0.MINOR.0)."
 	@echo "    ${G}version_major${N}     Genera una versión (MAJOR.0.0)."
+	@echo "    ${G}all${N}               Construye la aplicación para empaquetar."
 	@echo ""
 	@echo ""
 
-iniciar:
-	@echo "${G}instalando dependencias ...${N}"
+dependencias:
+	@echo "${G}Instalando dependencias${N}"
+	@echo "  Recordá que este paquete depende de libv4l-dev y libudev-dev"
 	@npm install
-	@bower install --allow-root
+	@node_modules/.bin/bower install
+	@scripts/electron-rebuild
 
 compilar:
-	./node_modules/ember-cli/bin/ember build
+	node_modules/.bin/ember build
 
 compilar_live:
-	./node_modules/ember-cli/bin/ember build --watch
+	node_modules/.bin/ember build --watch
 
 version_patch:
-	./node_modules/ember-cli/bin/ember release
+	node_modules/.bin/ember release
 
 version_minor:
-	./node_modules/ember-cli/bin/ember release --minor
+	node_modules/.bin/ember release --minor
 
 version_major:
-	./node_modules/ember-cli/bin/ember release --major
+	node_modules/.bin/ember release --major
 
 electron:
 	@echo ""
@@ -54,4 +63,4 @@ electron:
 	@echo ""
 	@echo "   ${G}make compilar o make compilar_live${N}"
 	@echo ""
-	node_modules/.bin/electron .
+	@scripts/start-electron
