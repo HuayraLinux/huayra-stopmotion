@@ -7,16 +7,19 @@
 
 .vbox {
   flex-grow: 1;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 
 .vbox.header {
+  margin-top: 10px;
   flex-grow: 0;
-  background-color: #ccc;
+/*  background-color: #fafafa;*/
 }
 
 .vbox.timeline {
   flex-grow: 0;
-  background-color: #ccc;
+/*  background-color: #ccc;*/
   padding-left: 2px;
   padding-right: 2px;
   height: 110px;
@@ -25,8 +28,16 @@
   flex-shrink: 0;
 }
 
+.vbox.vbox-opciones {
+	flex-grow: 0px;
+	height: 35px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .vbox.vbox-camara {
   overflow: scroll;
+  height: 400px;
 }
 
 body > .ember-view {
@@ -35,7 +46,7 @@ body > .ember-view {
 
 .vbox.controles {
   flex-grow: 0;
-  background-color: #ddd;
+/*  background-color: #ddd;*/
   padding-top: 5px;
   padding-bottom: 5px;
 }
@@ -160,3 +171,111 @@ body > .ember-view {
   padding: 5px;
   background-color: yellow;
 }
+
+.logo-centrado img {
+	display:block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Estilo para los Botones */
+/* Usamos colores de Huayra Liso */
+.ui.primary.button { /* el boton activo */
+
+	background-color: #ffb380;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #aa4400;
+}
+
+.ui.primary.button:hover { 
+
+	background-color: #ffb380;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #aa4400;
+}
+
+.ui.button { /* cualquier otro boton */
+	padding: 20px;
+	margin: auto;
+	text-align: center;
+	background-color:#cccccc;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #666666;
+	color: #666666;
+
+}
+
+.ui.button:hover { 
+
+	background-color:#ffb17c;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #aa4400;
+	color: white;
+}
+
+.ui.button.botonppal {
+	padding: 20px;
+	background-color: transparent;
+}
+
+.ui.button.botonchico {
+	padding: 5px;
+	height: 30px;
+	background-color: transparent;
+}
+
+.ui.toggle.button.active.botonchico { /* Este estilo es para botones toggle que todavia no se codificaron */
+	padding: 5px;
+	height: 30px;
+	background-color: green;
+}
+
+
+.ui.button.botonchico:hover {
+	background-color: #ffb17c;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #aa4400;
+	color: white;
+}
+
+
+.ui.button.botonppal:hover {
+	padding: 20px;
+	background-color:#ffb17c;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #aa4400;
+	color: white;
+}
+
+
+/* Corrije mal centrado de iconos en botones */
+.ui.button:not(.icon) > .icon:not(.button):not(.dropdown) {
+	margin: 0px;
+}
+
+/* Tamaño de iconos en botones ppales */
+i.icon {
+
+	font-size: 1.6em;
+	text-align:center;
+}
+
+i.icon.chico {
+
+	font-size: 1.0em;
+	text-align:center;
+}
+
+
+/* Color de fondo de la app */
+body {
+	background-color: #efefef;
+}
+
+
