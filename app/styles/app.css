@@ -20,13 +20,15 @@
 .vbox.timeline {
   flex-grow: 0;
 /*  background-color: #ccc;*/
-  padding-left: 2px;
-  padding-right: 2px;
-  height: 110px;
+  padding: 0px;
+  border:0px;
+  margin:0px;
+/*  height: 70px;*/
   white-space: nowrap;
   overflow-x: scroll;
   flex-shrink: 0;
 }
+
 
 .vbox.vbox-opciones {
 	flex-grow: 0px;
@@ -51,20 +53,27 @@ body > .ember-view {
   padding-bottom: 5px;
 }
 
-.huayra-timeline ol, .huayra-timeline li, .huayra-timeline ul {
-  display: inline-block;
-}
 
 .huayra-timeline {
-  padding: 0;
-  margin: 0;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
 }
+
+
+.huayra-timeline ol, .huayra-timeline li, .huayra-timeline ul {
+  margin:0px;
+  border: 0px;
+  padding: 0px;
+  display: inline-block;
+  /* float: left;*/ /* Elimina espacios entre cuadros */
+
+}
+
 
 .huayra-cuadro {
   position: relative;
-  display: inline-block;
-  margin-left: 2px;
-  border: 1px solid #777777;
+/*  display: inline-block;*/
   background-color: #1b1c1d;
 }
 
@@ -72,7 +81,7 @@ body > .ember-view {
   position:absolute;
   color: white;
   right: 4px;
-  top: 0;
+  top: 0px;
   text-shadow: 0 0 5px black;
 }
 
@@ -81,12 +90,14 @@ body > .ember-view {
 }
 
 .dragOverDropzone {
-  background-color: #8888FF;
+  background-color: green;
 }
 
 .dropzone {
-  width: 1.7em;
-  height: 75px;
+  width: 10px;
+ height: 40px;
+  background-color: purple;
+	display: inline;
   /*padding: 0px, 3px;*/
 }
 
@@ -113,14 +124,21 @@ body > .ember-view {
 
 .vbox-camara {
   position: relative;
+  max-width: 100%;
+  height: auto;
+
 }
 
 .vbox-camara > .canvas-layer {
-  position: absolute;
+  max-width: 100%;
+  height: auto;
+
+  position: relative;
 }
 
 .canvas-layer {
-  height: 450px;
+  max-width: 100%;
+  height: auto;
   background-color: transparent;
 }
 
@@ -147,16 +165,13 @@ body > .ember-view {
 /* TEMPORAL (para probar controles) */
 
 .controles-camara {
-    height: 200px;
+    height: 100px;
     overflow-y: scroll;
 }
 
-.color_gray {
-  color: #ccc;
-}
 
 .huayra-cuadro img {
-    height: 80px;
+    height: 40px; 
 }
 
 
@@ -253,6 +268,14 @@ body > .ember-view {
 	color: white;
 }
 
+.ui.button.cursortimeline {
+	background-color: #00fffb;
+	border-style: dashed;
+	border-color: red;
+	border-width: 4px;
+	height: 40px;
+	text-align: center;
+}
 
 /* Corrije mal centrado de iconos en botones */
 .ui.button:not(.icon) > .icon:not(.button):not(.dropdown) {

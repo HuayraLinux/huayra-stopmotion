@@ -2,7 +2,8 @@
   {{huayra-dropzone index=index onDrop='modificarTimeline'}}
   {{#if (eq cursor index)}}
     {{#huayra-cursor index=index}}
-      soy el cursor, nocierto?
+		<button class="ui button cursortimeline"><i class="camera icon"></i></button>
+<!--      soy el cursor, nocierto? -->
     {{/huayra-cursor}}
   {{/if}}
   {{huayra-cuadro index=index cuadro=captura intervaloSeleccion=intervaloSeleccion accionAlHacerClick='alSeleccionarCuadro' draggable=true}}
@@ -12,6 +13,7 @@
 {{huayra-dropzone index=capturas.length onDrop='modificarTimeline'}}
 {{#if (eq cursor capturas.length)}}
   {{#huayra-cursor index=capturas.length}}
-    soy el cursor, nocierto?
+		<button class="ui button cursortimeline"><i class="camera icon"></i></button>
+<!--    soy el cursor, nocierto? -->
   {{/huayra-cursor}}
 {{/if}}
