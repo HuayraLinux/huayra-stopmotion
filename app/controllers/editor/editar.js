@@ -16,6 +16,26 @@ export default Ember.Controller.extend({
   intervaloSeleccion: [0, 0],
   capturandoFoto: false,
 
+  mostrarGrilla: true,
+  grilla: {
+    filas: 3,
+    columnas: 3,
+    lineWidth: 3,
+    style: 'black',
+    dashFormat: []
+  },
+
+  mostrarCebolla: true,
+  cebolla: {
+    frames: [],      /* [ImageSources] from newer to older */
+    futureFrames: 0, /* Integer */
+    pastFrames: 3,   /* Integer */
+    cameraFrame: 0,  /* Integer */
+    alpha: 0.2,      /* Float */
+  },
+
+  mostrarTimeline: true,
+
   haySeleccion: Ember.computed('intervaloSeleccion', function() {
     let seleccion = this.get('intervaloSeleccion');
 

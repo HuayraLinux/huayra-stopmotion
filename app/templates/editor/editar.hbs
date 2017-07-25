@@ -3,7 +3,7 @@
 <div class="contenedor">
 
   <div class="vbox header">
-	
+
     <p class="tmp-nota-derecha">Editando el proyecto {{model.ubicacion}}</p>
 
 <!--  Barra de botones de accion superior -->
@@ -26,15 +26,19 @@
 
   <div class="vbox vbox-camara">
     {{huayra-camara}}
-    {{huayra-cebolla config=cebolla}}
-    {{huayra-grilla config=grilla}}
+    {{#if mostrarCebolla}} {{huayra-cebolla config=cebolla}} {{/if}}
+    {{#if mostrarGrilla}}  {{huayra-grilla config=grilla}}   {{/if}}
   </div>
 
   <div class="vbox vbox-opciones">
-   <div class="ui icon buttons"> 
-		<button {{action "mostrarTimeline"}}class="ui toggle button active {{if mostrarTimeline 'active'}} botonchico"><i class="film icon chico"></i></button>  <!-- COMPLETAME -->
-		<button {{action "mostrarGrilla"}}class="ui toggle button active botonchico"><i class="table icon chico"></i></button>
-		<button {{action "mostrarCebolla"}}class="ui toggle button active botonchico"><i class="clone icon chico"></i></button>
+   <div class="ui icon buttons">
+		<button {{action toggleProperty "mostrarTimeline"}}class="ui toggle button active botonchico"><i class="film icon chico"></i></button>  <!-- COMPLETAME -->
+		<button {{action toggleProperty "mostrarGrilla"}}class="ui toggle button active botonchico"><i class="table icon chico"></i></button>
+		<button {{action toggleProperty "mostrarCebolla"}}class="ui toggle button active botonchico"><i class="clone icon chico"></i></button>
+    {{!--
+      Male, el seleccionar cámara necesita como argumento la cámara a seleccionar,
+        después nos sentamos un rato a ver de que manera se puede resolver piola
+       --}}
 		<button {{action "seleccionarCamara"}}class="ui toggle button active botonchico"><i class="record icon chico"></i></button>
 	</div>
   </div>
@@ -55,9 +59,10 @@
     <button class="ui button red {{if haySeleccion '' 'disabled'}}" {{action "eliminarCuadrosSeleccionados"}}>Eliminar cuadros seleccionados</button>
   </div>
 -->
-
-  <div class="vbox timeline">
-    {{huayra-timeline capturas=capturas intervaloSeleccion=intervaloSeleccion cursor=cursor moverCuadro='moverCuadro' moverCursor='moverCursor'}}
-  </div>
+  {{# if motrarTimeline}}
+    <div class="vbox timeline">
+      {{huayra-timeline capturas=capturas intervaloSeleccion=intervaloSeleccion cursor=cursor moverCuadro='moverCuadro' moverCursor='moverCursor'}}
+    </div>
+  {{/if}}
 
 </div>
