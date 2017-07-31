@@ -8,7 +8,7 @@
 .vbox {
   flex-grow: 1;
   margin-left: 15px;
-  margin-right: 15px;
+  margin-right: 0px;
 }
 
 .vbox.header {
@@ -27,6 +27,8 @@
   white-space: nowrap;
   overflow-x: scroll;
   flex-shrink: 0;
+  font-size:0px;
+
 }
 
 
@@ -38,8 +40,11 @@
 }
 
 .vbox.vbox-camara {
-  overflow: scroll;
-  height: 400px;
+	width: 73%;
+	/*overflow: scroll;*/
+	height: 400px;
+	float:left;
+	background-color: black;
 }
 
 body > .ember-view {
@@ -54,22 +59,24 @@ body > .ember-view {
 }
 
 
+/*
 .huayra-timeline {
   padding: 0px;
   margin: 0px;
   border: 0px;
-}
 
+}
+*/
 
 .huayra-timeline ol, .huayra-timeline li, .huayra-timeline ul {
   margin:0px;
   border: 0px;
   padding: 0px;
   display: inline-block;
+
   /* float: left;*/ /* Elimina espacios entre cuadros */
 
 }
-
 
 .huayra-cuadro {
   position: relative;
@@ -301,4 +308,17 @@ body {
 	background-color: #efefef;
 }
 
+div.principal{
+	width:100%;
+	overflow:auto;
+}
+div.configuracion {
+	background-color: #808080;
+	visibility: visible;
+	float: right;
+	height: 400px;
+	width:25%;
+	padding: 15px;
+
+}
 

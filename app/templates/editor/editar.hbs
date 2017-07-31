@@ -10,7 +10,7 @@
     <div class="">
       <button class="ui button botonppal" {{action "capturar"}}><i class="photo icon"></i></button>
       <button class="ui button botonppal" {{action "previsualizar"}}><i class="play icon"></i></button>
-	  <button class="ui button botonppal" ><i class="setting icon"></i></button> <!-- Deberia abrir paneles de configuracion de Grid, Onion, etc -->
+	  <button class="ui button botonppal" {{action toggleProperty "mostrarConfig"}}><i class="setting icon"></i></button> <!-- Deberia abrir paneles de configuracion de Grid, Onion, etc -->
     </div>
 
 
@@ -24,11 +24,20 @@
 
   </div>
 
-  <div class="vbox vbox-camara">
+ <div class="principal"> <!-- Contiene a la vista de cmara y a la de configuracion si fuese visible -->
+  <div id="camara" class="vbox vbox-camara">
     {{huayra-camara}}
     {{#if mostrarCebolla}} {{huayra-cebolla config=cebolla}} {{/if}}
     {{#if mostrarGrilla}}  {{huayra-grilla config=grilla}}   {{/if}}
   </div>
+{{#if mostrarConfig}}
+  <div id="config" class="configuracion">
+	<p>Este seria el Panel de Configuraciones</p>
+	<p> HAY QUE MOSTRAR TODOS LOS CONTROLES DE ONION Y GRILLA AQUI </p>
+	<p> Idealmente al cerrarse esto la vista de camara tiene que tomar todo el ancho, aunque ahora no funciona</p>
+  </div>
+{{/if}}
+ </div>
 
   <div class="vbox vbox-opciones">
    <div class="ui icon buttons">
@@ -42,8 +51,8 @@
 		<button {{action "seleccionarCamara"}}class="ui toggle button active botonchico"><i class="record icon chico"></i></button>
 	</div>
   </div>
-<!--
 
+<!--
   <div class="controles-camara">
     {{!huayra-control-cebolla config=(changeset cebolla) aplicar=(action aplicar)}}
     {{!huayra-control-grilla config=(changeset grilla) aplicar=(action aplicar)}}
@@ -59,7 +68,7 @@
     <button class="ui button red {{if haySeleccion '' 'disabled'}}" {{action "eliminarCuadrosSeleccionados"}}>Eliminar cuadros seleccionados</button>
   </div>
 -->
-  {{# if motrarTimeline}}
+  {{#if mostrarTimeline}}
     <div class="vbox timeline">
       {{huayra-timeline capturas=capturas intervaloSeleccion=intervaloSeleccion cursor=cursor moverCuadro='moverCuadro' moverCursor='moverCursor'}}
     </div>

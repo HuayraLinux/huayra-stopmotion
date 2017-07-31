@@ -1,7 +1,4 @@
-{{#each capturas as |captura index|}}
-  {{huayra-dropzone index=index onDrop='modificarTimeline'}}
-  {{#if (eq cursor index)}}
-    {{#huayra-cursor index=index}}
+{{#each capturas as |captura index|}}{{huayra-dropzone index=index onDrop='modificarTimeline'}}{{#if (eq cursor index)}}{{#huayra-cursor index=index}}
 		<button class="ui button cursortimeline"><i class="camera icon"></i></button>
 <!--      soy el cursor, nocierto? -->
     {{/huayra-cursor}}

@@ -35,6 +35,7 @@ export default Ember.Controller.extend({
   },
 
   mostrarTimeline: true,
+  mostrarConfig: true,
 
   haySeleccion: Ember.computed('intervaloSeleccion', function() {
     let seleccion = this.get('intervaloSeleccion');
