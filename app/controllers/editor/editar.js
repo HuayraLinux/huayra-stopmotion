@@ -43,6 +43,10 @@ export default Ember.Controller.extend({
     return !(seleccion[0] === 0 && seleccion[1] === 0);
   }),
 
+  aplicar(cambios) {
+    cambios.save();
+  },
+
   actions: {
 
     guardar() {

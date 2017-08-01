@@ -32,19 +32,19 @@
   </div>
 {{#if mostrarConfig}}
   <div id="config" class="configuracion">
-	<p>Panel de Configuraciones</p>
-
-	{{huayra-control-cebolla config=cebolla aplicar=(action "blablabla")}} 
-<!--	{{huayra-control-grilla}} -->
+    <p>Panel de Configuraciones</p>
+      {{huayra-control-cebolla config=(changeset cebolla) aplicar=(action aplicar)}}
+      {{huayra-control-grilla config=(changeset grilla) aplicar=(action aplicar)}}
+      {{!-- {{huayra-control-camara}} --}}
   </div>
 {{/if}}
  </div>
 
   <div class="vbox vbox-opciones">
    <div class="ui icon buttons">
-		<button {{action toggleProperty "mostrarTimeline"}}class="ui toggle button active botonchico"><i class="film icon chico"></i></button>  <!-- COMPLETAME -->
-		<button {{action toggleProperty "mostrarGrilla"}}class="ui toggle button active botonchico"><i class="table icon chico"></i></button>
-		<button {{action toggleProperty "mostrarCebolla"}}class="ui toggle button active botonchico"><i class="clone icon chico"></i></button>
+		<button {{action toggleProperty "mostrarTimeline"}} class="ui toggle button {{if mostrarTimeline "active"}} botonchico"><i class="film icon chico"></i></button>  <!-- COMPLETAME -->
+		<button {{action toggleProperty "mostrarGrilla"}}   class="ui toggle button {{if mostrarGrilla   "active"}} botonchico"><i class="table icon chico"></i></button>
+		<button {{action toggleProperty "mostrarCebolla"}}  class="ui toggle button {{if mostrarCebolla  "active"}} botonchico"><i class="clone icon chico"></i></button>
     {{!--
       Male, el seleccionar cámara necesita como argumento la cámara a seleccionar,
         después nos sentamos un rato a ver de que manera se puede resolver piola
