@@ -33,16 +33,20 @@
 
 
 .vbox.vbox-opciones {
-	flex-grow: 0px;
+	position:relative;
+	flex-grow: 0;
 	height: 35px;
+
 	margin-left: auto;
 	margin-right: auto;
+	overflow: hidden;
 }
 
 .vbox.vbox-camara {
 	width: 73%;
-	/*overflow: scroll;*/
-	height: 400px;
+	/*overflow: scroll;
+	height: 400px;*/
+	height:auto;
 	float:left;
 	background-color: black;
 }
@@ -113,6 +117,13 @@ body > .ember-view {
   width: 100%;
 }
 
+.video {
+	position:relative;
+	height:0 ;
+	overflow: hidden;
+	
+}
+
 * {
   -moz-user-select: none;
  -khtml-user-select: none;
@@ -130,9 +141,10 @@ body > .ember-view {
 }
 
 .vbox-camara {
-  position: relative;
+  position: absolute;
   max-width: 100%;
   height: auto;
+  margin: auto;
 
 }
 
@@ -143,10 +155,12 @@ body > .ember-view {
   position: relative;
 }
 
-.canvas-layer {
+.canvas-layer { /* Estilo que usa el contenedor de la grilla */
   max-width: 100%;
   height: auto;
   background-color: transparent;
+  position: absolute;
+  color: yellow;
 }
 
 /* Formularios de los controles */
@@ -309,16 +323,23 @@ body {
 }
 
 div.principal{
-	width:100%;
-	overflow:auto;
+	padding: 10px;
+	position: relative;
+	padding-bottom: 45%;
+	height: 0;
+	overflow: hidden;
+/*	overflow:auto;*/
 }
 div.configuracion {
+	position: relative;
 	background-color: #808080;
 	visibility: visible;
 	float: right;
-	height: 400px;
-	width:25%;
+	width:200px;
+	max-width:25%;
+	height: auto;
 	padding: 15px;
+	overflow: hidden;
 
 }
 

@@ -35,7 +35,7 @@ export default Ember.Controller.extend({
   },
 
   mostrarTimeline: true,
-  mostrarConfig: true,
+  mostrarConfig: true, /* Ocultar la barra de configuracion de otra manera */
 
   haySeleccion: Ember.computed('intervaloSeleccion', function() {
     let seleccion = this.get('intervaloSeleccion');
