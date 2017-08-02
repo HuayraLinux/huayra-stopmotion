@@ -1,8 +1,8 @@
 
 .contenedor {
   display: flex;
-  flex-direction: column;
-  height: 100%;
+  flex-flow: column;
+/*  height: 20%;*/
 }
 
 .vbox {
@@ -17,39 +17,36 @@
 /*  background-color: #fafafa;*/
 }
 
-.vbox.timeline {
-  flex-grow: 0;
-/*  background-color: #ccc;*/
-  padding: 0px;
-  border:0px;
-  margin:0px;
-/*  height: 70px;*/
-  white-space: nowrap;
-  overflow-x: scroll;
-  flex-shrink: 0;
-  font-size:0px;
+/* Contenedor para la linea de edicion */
 
+.vbox.timeline {
+
+	flex-grow: 1 auto;
+	order: 4;
+/*  background-color: #ccc;*/
+	min-height: 70px;
+	width: 100%;
+	white-space: nowrap;
+	overflow-x: scroll;
+/*	flex-shrink: 0;*/
+/*	padding-top: 30%;*/
+/* Hack para eliminar espacio entre cuadros */
+/*	font-size:0px; */
 }
 
-
-.vbox.vbox-opciones {
+/* Contenedor para los botones al pie de la pantalla de video */
+.vbox.botones-opciones {
+	order: 3;
 	position:relative;
-	flex-grow: 0;
-	height: 35px;
-
+	flex-grow: 1 auto;
+	min-height: 35px;
+	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
 	overflow: hidden;
 }
 
-.vbox.vbox-camara {
-	width: 73%;
-	/*overflow: scroll;
-	height: 400px;*/
-	height:auto;
-	float:left;
-	background-color: black;
-}
+
 
 body > .ember-view {
   height: 100%;
@@ -63,23 +60,20 @@ body > .ember-view {
 }
 
 
-/*
+/* contenedor de lista */
 .huayra-timeline {
   padding: 0px;
   margin: 0px;
   border: 0px;
 
 }
-*/
+
 
 .huayra-timeline ol, .huayra-timeline li, .huayra-timeline ul {
   margin:0px;
   border: 0px;
   padding: 0px;
   display: inline-block;
-
-  /* float: left;*/ /* Elimina espacios entre cuadros */
-
 }
 
 .huayra-cuadro {
@@ -89,11 +83,11 @@ body > .ember-view {
 }
 
 .huayra-cuadro .huayra-cuadro-numero {
-  position:absolute;
-  color: white;
-  right: 4px;
-  top: 0px;
-  text-shadow: 0 0 5px black;
+	padding-left: 4px;
+	text-align: left;
+	position:relative;
+	color: white;
+	text-shadow: none;
 }
 
 .seleccionado.huayra-cuadro {
@@ -140,28 +134,6 @@ body > .ember-view {
   margin-top: 100px !important;
 }
 
-.vbox-camara {
-  position: absolute;
-  max-width: 100%;
-  height: auto;
-  margin: auto;
-
-}
-
-.vbox-camara > .canvas-layer {
-  max-width: 100%;
-  height: auto;
-
-  position: relative;
-}
-
-.canvas-layer { /* Estilo que usa el contenedor de la grilla */
-  max-width: 100%;
-  height: auto;
-  background-color: transparent;
-  position: absolute;
-  color: yellow;
-}
 
 /* Formularios de los controles */
 
@@ -174,6 +146,8 @@ body > .ember-view {
 }
 
 .huayra-control input {
+	text-align: right;
+	width: 50px;
     display: table-cell;
 }
 
@@ -323,23 +297,69 @@ body {
 }
 
 div.principal{
+	display: flex;
+	flex-flow: column wrap;
 	padding: 10px;
 	position: relative;
-	padding-bottom: 45%;
-	height: 0;
+/*	padding-bottom: 45%;*/
+	max-width:100%;
+	max-height: 75%;
 	overflow: hidden;
 /*	overflow:auto;*/
 }
+
+/*
+.vbox-camara {
+	flex-grow: 1 auto;
+  position: absolute;
+  max-width: 100%;
+  height: auto;
+  margin: auto;
+
+}
+*/
+
+.vbox-camara > .canvas-layer {
+  max-width: 100%;
+  height: auto;
+
+  position: relative;
+}
+
+.canvas-layer { /* Estilo que usa el contenedor de la grilla */
+  max-width: 100%;
+  height: auto;
+  background-color: transparent;
+  position: absolute;
+  color: yellow;
+}
+
+
+.vbox.vbox-camara {
+	flex:1 auto;
+	width: 75%;
+	max-width:800px;
+	order: 1;
+	/*overflow: scroll;*/
+	height: 500px;
+	float:left;
+	background-color: #1b1c1d;
+	margin:auto;
+}
+
+
 div.configuracion {
+	flex: 1 auto;
+	order: 2;
 	position: relative;
-	background-color: #808080;
-	visibility: visible;
+	background-color: transparent;
 	float: right;
-	width:200px;
-	max-width:25%;
-	height: auto;
+/*	width:250px;*/
+/*	max-width:25%;*/
+/*	height: auto;*/
 	padding: 15px;
-	overflow: hidden;
+	overflow: scroll;
+	margin: auto;
 
 }
 

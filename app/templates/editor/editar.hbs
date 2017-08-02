@@ -2,57 +2,60 @@
 
 <div class="contenedor">
 
-  <div class="vbox header">
+	<div class="vbox header">
 
     <p class="tmp-nota-derecha">Editando el proyecto {{model.ubicacion}}</p>
 
 <!--  Barra de botones de accion superior -->
-    <div class="">
-      <button class="ui button botonppal" {{action "capturar"}}><i class="photo icon"></i></button>
-      <button class="ui button botonppal" {{action "previsualizar"}}><i class="play icon"></i></button>
-	  <button class="ui button botonppal" {{action toggleProperty "mostrarConfig"}}><i class="setting icon"></i></button> <!-- Deberia abrir paneles de configuracion de Grid, Onion, etc -->
-    </div>
+		<div class="">
+		  <button class="ui button botonppal" {{action "capturar"}}><i class="photo icon"></i></button>
+		  <button class="ui button botonppal" {{action "previsualizar"}}><i class="play icon"></i></button>
+		  <button class="ui button botonppal" {{action toggleProperty "mostrarConfig"}}><i class="setting icon"></i></button>
+		</div>
 
 
     <p>Cantidad de cámaras disponibles: {{camaras.cantidadDeCamaras}}</p>
-
     {{#each camaras.camaras as |camara id|}}
       <button {{action "seleccionarCamara" id}}>{{camara.ID_V4L_PRODUCT}} ({{camara.DEVNAME}})</button>
     {{/each}}
 
     {{outlet}}
+	</div>
+</div>
 
-  </div>
-
- <div class="principal"> <!-- Contiene a la vista de cmara y a la de configuracion si fuese visible -->
+<div class="principal"> <!-- Contiene a la vista de camara y a la de configuracion si fuese visible -->
   <div id="camara" class="vbox vbox-camara">
     {{huayra-camara}}
     {{#if mostrarCebolla}} {{huayra-cebolla config=cebolla}} {{/if}}
-    {{#if mostrarGrilla}}  {{huayra-grilla config=grilla}}   {{/if}}
+    {{#if mostrarGrilla}}  {{huayra-grilla config=grilla}}   {{/if}} 
   </div>
-{{#if mostrarConfig}}
+	{{#if mostrarConfig}}
   <div id="config" class="configuracion">
     <p>Panel de Configuraciones</p>
       {{huayra-control-cebolla config=(changeset cebolla) aplicar=(action aplicar)}}
       {{huayra-control-grilla config=(changeset grilla) aplicar=(action aplicar)}}
       {{!-- {{huayra-control-camara}} --}}
   </div>
-{{/if}}
- </div>
-
-  <div class="vbox vbox-opciones">
-   <div class="ui icon buttons">
-		<button {{action toggleProperty "mostrarTimeline"}} class="ui toggle button {{if mostrarTimeline "active"}} botonchico"><i class="film icon chico"></i></button>  <!-- COMPLETAME -->
-		<button {{action toggleProperty "mostrarGrilla"}}   class="ui toggle button {{if mostrarGrilla   "active"}} botonchico"><i class="table icon chico"></i></button>
-		<button {{action toggleProperty "mostrarCebolla"}}  class="ui toggle button {{if mostrarCebolla  "active"}} botonchico"><i class="clone icon chico"></i></button>
-    {{!--
-      Male, el seleccionar cámara necesita como argumento la cámara a seleccionar,
-        después nos sentamos un rato a ver de que manera se puede resolver piola
-       --}}
-		<button {{action "seleccionarCamara"}}class="ui toggle button active botonchico"><i class="record icon chico"></i></button>
+	{{/if}}
+</div>
+<div class="contenedor">
+	<div class="vbox botones-opciones">
+	   <div class="ui icon buttons">
+			<button {{action toggleProperty "mostrarTimeline"}} class="ui toggle button {{if mostrarTimeline "active"}} botonchico"><i class="film icon chico"></i></button>
+			<button {{action toggleProperty "mostrarGrilla"}}   class="ui toggle button {{if mostrarGrilla   "active"}} botonchico"><i class="table icon chico"></i></button>
+			<button {{action toggleProperty "mostrarCebolla"}}  class="ui toggle button {{if mostrarCebolla  "active"}} botonchico"><i class="clone icon chico"></i></button>
+			<!--
+			<button {{action "seleccionarCamara"}}class="ui toggle button active botonchico"><i class="record icon chico"></i></button>
+			-->	
+		</div>
 	</div>
-  </div>
+  {{#if mostrarTimeline}}
+    <div class="vbox timeline">
+      {{huayra-timeline capturas=capturas intervaloSeleccion=intervaloSeleccion cursor=cursor moverCuadro='moverCuadro' moverCursor='moverCursor'}}
+    </div>
+  {{/if}}
 
+</div>
 <!--
   <div class="controles-camara">
     {{!huayra-control-cebolla config=(changeset cebolla) aplicar=(action aplicar)}}
@@ -69,10 +72,5 @@
     <button class="ui button red {{if haySeleccion '' 'disabled'}}" {{action "eliminarCuadrosSeleccionados"}}>Eliminar cuadros seleccionados</button>
   </div>
 -->
-  {{#if mostrarTimeline}}
-    <div class="vbox timeline">
-      {{huayra-timeline capturas=capturas intervaloSeleccion=intervaloSeleccion cursor=cursor moverCuadro='moverCuadro' moverCursor='moverCursor'}}
-    </div>
-  {{/if}}
 
-</div>
+
