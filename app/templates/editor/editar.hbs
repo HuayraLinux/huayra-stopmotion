@@ -24,11 +24,13 @@
 </div>
 
 <div class="principal"> <!-- Contiene a la vista de camara y a la de configuracion si fuese visible -->
-  <div id="camara" class="vbox vbox-camara">
-    {{huayra-camara}}
-    {{#if mostrarCebolla}} {{huayra-cebolla config=cebolla}} {{/if}}
-    {{#if mostrarGrilla}}  {{huayra-grilla config=grilla}}   {{/if}} 
-  </div>
+	<div class="pantalla">
+		<div id="camara" class="vbox vbox-camara">
+			{{huayra-camara}}
+			{{#if mostrarCebolla}} {{huayra-cebolla config=cebolla}} {{/if}}
+			{{#if mostrarGrilla}}  {{huayra-grilla config=grilla}}   {{/if}} 
+		</div>
+	</div>
 	{{#if mostrarConfig}}
   <div id="config" class="configuracion">
     <p>Panel de Configuraciones</p>
