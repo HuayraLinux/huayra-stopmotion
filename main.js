@@ -17,6 +17,7 @@ function createWindow () {
   const appLocation = `file://${__dirname}/dist/index.html`;
 
   win.loadURL(appLocation);
+  win.setMinimumSize(800, 600);
 
   //win.webContents.openDevTools();
 

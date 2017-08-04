@@ -7,6 +7,12 @@ let Captura = Ember.Object.extend({
   data: null,                 // imagen cuando NO se usa electro (chrome, firefox, tests ...)
 });
 
+function copyOnChange(what, where) {
+  return Ember.on('init', Ember.observer(what, function() {
+    return this.set(where, this.get(what));
+  }));
+}
+
 export default Ember.Controller.extend({
   proyecto: Ember.inject.service(),
   camaras: Ember.inject.service(),
@@ -15,6 +21,9 @@ export default Ember.Controller.extend({
   capturas: [],
   intervaloSeleccion: [0, 0],
   capturandoFoto: false,
+
+  copiarCapturas: copyOnChange('capturas', 'cebolla.frames'),
+  copiarCursor: copyOnChange('cursor', 'cebolla.cameraFrame'),
 
   mostrarGrilla: true,
   grilla: {
@@ -48,6 +57,9 @@ export default Ember.Controller.extend({
   },
 
   actions: {
+    seleccionarCamara(indice) {
+      this.get('camaras').seleccionarCamara(indice);
+    },
 
     guardar() {
       let cuadros = this.get("capturas");
