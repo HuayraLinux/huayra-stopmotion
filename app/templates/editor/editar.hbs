@@ -41,6 +41,11 @@
 	{{/if}}
 </div>
 <div class="contenedor">
+  {{#if mostrarTimeline}}
+    <div class="vbox timeline">
+      {{huayra-timeline capturas=capturas intervaloSeleccion=intervaloSeleccion cursor=cursor moverCuadro='moverCuadro' moverCursor='moverCursor'}}
+    </div>
+  {{/if}}
 	<div class="vbox botones-opciones">
 	   <div class="ui icon buttons">
 			<button {{action toggleProperty "mostrarTimeline"}} class="ui toggle button {{if mostrarTimeline "active"}} botonchico"><i class="film icon chico"></i></button>
@@ -51,11 +56,6 @@
 			-->	
 		</div>
 	</div>
-  {{#if mostrarTimeline}}
-    <div class="vbox timeline">
-      {{huayra-timeline capturas=capturas intervaloSeleccion=intervaloSeleccion cursor=cursor moverCuadro='moverCuadro' moverCursor='moverCursor'}}
-    </div>
-  {{/if}}
 
 </div>
 <!--
