@@ -22,6 +22,7 @@ export default Ember.Controller.extend({
   intervaloSeleccion: [0, 0],
   capturandoFoto: false,
 
+
   copiarCapturas: copyOnChange('capturas', 'cebolla.frames'),
   copiarCursor: copyOnChange('cursor', 'cebolla.cameraFrame'),
 

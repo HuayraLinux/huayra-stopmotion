@@ -18,6 +18,7 @@ export default Ember.Route.extend({
 
   setupController(controller, model) {
     controller.set('model', model);
+    controller.set('cursor', model.data.cuadros.length);
     controller.set('capturas', model.data.cuadros);
   },
 

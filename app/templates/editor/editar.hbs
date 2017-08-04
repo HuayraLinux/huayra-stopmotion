@@ -11,6 +11,7 @@
 		  <button class="ui button botonppal" {{action "capturar"}}><i class="photo icon"></i></button>
 		  <button class="ui button botonppal" {{action "previsualizar"}}><i class="play icon"></i></button>
 		  <button class="ui button botonppal" {{action toggleProperty "mostrarConfig"}}><i class="setting icon"></i></button>
+			<button class="ui button botonppal" {{action "guardar"}}><i class="save icon"></i></button>
 		</div>
 
 
@@ -28,7 +29,7 @@
 		<div id="camara" class="vbox vbox-camara">
 			{{huayra-camara}}
 			{{#if mostrarCebolla}} {{huayra-cebolla config=cebolla}} {{/if}}
-			{{#if mostrarGrilla}}  {{huayra-grilla config=grilla}}   {{/if}} 
+			{{#if mostrarGrilla}}  {{huayra-grilla config=grilla}}   {{/if}}
 		</div>
 	</div>
 	{{#if mostrarConfig}}
@@ -53,7 +54,7 @@
 			<button {{action toggleProperty "mostrarCebolla"}}  class="ui toggle button {{if mostrarCebolla  "active"}} botonchico"><i class="clone icon chico"></i></button>
 			<!--
 			<button {{action "seleccionarCamara"}}class="ui toggle button active botonchico"><i class="record icon chico"></i></button>
-			-->	
+			-->
 		</div>
 	</div>
 
@@ -74,5 +75,3 @@
     <button class="ui button red {{if haySeleccion '' 'disabled'}}" {{action "eliminarCuadrosSeleccionados"}}>Eliminar cuadros seleccionados</button>
   </div>
 -->
-
-
