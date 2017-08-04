@@ -5,6 +5,10 @@ import config from '../config/environment';
 export default Ember.Service.extend({
 
   inicializar: Ember.on('init', function() {
+    // El livereload se rompe en windows
+    if(window.process.platform === 'win32') {
+      return;
+    }
 
     if (config.electronLiveReload && window.inElectron) {
       console.warn("Se ha inicializado el modo livereload desde config/environment");

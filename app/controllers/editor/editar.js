@@ -25,7 +25,7 @@ export default Ember.Controller.extend({
   copiarCapturas: copyOnChange('capturas', 'cebolla.frames'),
   copiarCursor: copyOnChange('cursor', 'cebolla.cameraFrame'),
 
-  mostrarGrilla: true,
+  mostrarGrilla: false,
   grilla: {
     filas: 3,
     columnas: 3,
@@ -34,7 +34,7 @@ export default Ember.Controller.extend({
     dashFormat: []
   },
 
-  mostrarCebolla: true,
+  mostrarCebolla: false,
   cebolla: {
     frames: [],      /* [ImageSources] from newer to older */
     futureFrames: 0, /* Integer */
