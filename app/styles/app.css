@@ -95,15 +95,13 @@ body > .ember-view {
 }
 
 .dragOverDropzone {
-  background-color: green;
+  border-color: #FF0000;
+  border-width: 2px;
+  border-style: solid;
 }
 
 .dropzone {
-  width: 10px;
- height: 40px;
-  background-color: purple;
-	display: inline;
-  /*padding: 0px, 3px;*/
+	display: inline-block;
 }
 
 /*
@@ -116,7 +114,7 @@ body > .ember-view {
 	position:absolute;
 	height:0 ;
 	overflow: hidden;
-	
+
 }
 */
 
@@ -168,7 +166,7 @@ body > .ember-view {
 
 
 .huayra-cuadro img {
-    height: 40px; 
+    height: 40px;
 }
 
 
@@ -200,7 +198,7 @@ body > .ember-view {
 	border-color: #aa4400;
 }
 
-.ui.primary.button:hover { 
+.ui.primary.button:hover {
 
 	background-color: #ffb380;
 	border-style: solid;
@@ -220,7 +218,7 @@ body > .ember-view {
 
 }
 
-.ui.button:hover { 
+.ui.button:hover {
 
 	background-color:#ffb17c;
 	border-style: solid;
@@ -381,4 +379,3 @@ div.configuracion {
 	margin: auto;
 
 }
-

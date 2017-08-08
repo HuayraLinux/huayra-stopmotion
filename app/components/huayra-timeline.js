@@ -2,7 +2,6 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   classNames: ['huayra-timeline'],
-  tagName: 'ol',
   intervaloSeleccion: [0, 0],
   moverConMovimiento: false,
   moverPosicionOriginalX: null,

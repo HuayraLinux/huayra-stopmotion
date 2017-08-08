@@ -3,7 +3,6 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   classNames: ['huayra-cuadro'],
   classNameBindings: ['seleccionado'],
-  tagName: ['li'],
   attributeBindings: ['draggable'],
   draggable: true,
 

@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  tagName: 'li',
   classNames: ['dropzone'],
   classNameBindings: ['dragOverDropzone'],
   dragOverDropzone: '',
@@ -16,6 +15,7 @@ export default Ember.Component.extend({
 
   dragOver(event) {
     if(event.dataTransfer.types.contains('x-ember/from')) {
+      this.set('dragOverDropzone', 'dragOverDropzone');
       event.preventDefault(); /* Marco que soy una dropzone válida*/
     }
   },
