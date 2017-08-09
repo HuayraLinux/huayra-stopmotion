@@ -44,7 +44,7 @@
 <div class="contenedor">
   {{#if mostrarTimeline}}
     <div class="vbox timeline">
-      {{huayra-timeline capturas=capturas intervaloSeleccion=intervaloSeleccion cursor=cursor moverCuadro='moverCuadro' moverCursor='moverCursor'}}
+      {{huayra-timeline capturas=capturas intervaloSeleccion=intervaloSeleccion cursor=cursor moverCuadro='moverCuadro' moverCursor='moverCursor' cursorClick=(action "capturar")}}
     </div>
   {{/if}}
 	<div class="vbox botones-opciones">

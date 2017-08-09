@@ -15,7 +15,7 @@
 {{#huayra-dropzone index=capturas.length onDrop='modificarTimeline'}}
 	{{#if (eq cursor capturas.length)}}
   	{{#huayra-cursor index=capturas.length}}
-			<button class="ui button cursortimeline"><i class="camera icon"></i></button>
+			<button class="ui button cursortimeline" {{action sendAction "cursorClick"}}><i class="camera icon"></i></button>
   	{{/huayra-cursor}}
 	{{/if}}
 {{/huayra-dropzone}}
