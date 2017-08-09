@@ -96,7 +96,7 @@ body > .ember-view {
 
 .dragOverDropzone {
   border-color: #FF0000;
-  border-width: 2px;
+  border-width: 0px 0px 0px 4px;
   border-style: solid;
 }
 
