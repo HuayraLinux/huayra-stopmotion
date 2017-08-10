@@ -104,20 +104,6 @@ body > .ember-view {
 	display: inline-block;
 }
 
-/*
-#video {
-  width: 100%;
-}
-
-
-.video {
-	position:absolute;
-	height:0 ;
-	overflow: hidden;
-
-}
-*/
-
 * {
   -moz-user-select: none;
  -khtml-user-select: none;
@@ -238,12 +224,27 @@ body > .ember-view {
 	background-color: transparent;
 }
 
-.ui.toggle.button.active.botonchico { /* Este estilo es para botones toggle que todavia no se codificaron */
+.ui.toggle.button.botonchico {
+	padding: 5px;
+	height: 30px;
+	background-color: transparent;
+}
+
+/*
+.ui.toggle.button.botonchico.active {
+	padding: 5px;
+	height: 30px;
+	background-color: blue;
+}
+*/
+
+/*
+.ui.toggle.button.active.botonchico { // Este estilo es para botones toggle que todavia no se codificaron 
 	padding: 5px;
 	height: 30px;
 	background-color: green;
 }
-
+*/
 
 .ui.button.botonchico:hover {
 	background-color: #ffb17c;
@@ -297,6 +298,7 @@ body {
 }
 
 div.principal{
+	height: 70%;
 	display: flex;
 	flex-flow: column wrap;
 	padding: 10px;
@@ -308,60 +310,36 @@ div.principal{
 /*	overflow:auto;*/
 }
 
-/*
-.vbox-camara {
-	flex-grow: 1 auto;
-  position: absolute;
-  max-width: 100%;
-  height: auto;
-  margin: auto;
-
-}
-*/
-
-/*
-.vbox-camara > .canvas-layer {
-  max-width: 100%;
-  height: auto;
-
-  position: relative;
-}
-*/
-
 
 .canvas-layer { /* Estilo que usan todas las capas, video, grilla, cebolla */
 	width:100%;
-/*	height: 100%;*/
-	top: 0;
-	left: 0;
+	height: 100%;
+	object-fit: contain;
 	background-color: transparent;
 	position: absolute;
-	margin: auto;
+
 }
 
 
 .vbox.vbox-camara {
 	position: relative;
 /*	flex:1 auto;*/
-	top: 0;
-	left: 0;
-	width: 80%;
-	height: 100%;
-	max-width:1000px;
-	max-height:800px;
-
+	width: 95%;
+	height: 90%;
+	max-width:650px;
+	max-height:450px;
 	background-color: #1b1c1d;
 	margin:auto;
+	margin-top:3%;
 }
 
 div.pantalla {
 	flex: 1 auto;
 	width:75%;
-	height: 550px;
-	margin: auto;
+	height: 450px;
 	position: relative;
 	background-color: red;
-	padding:30px
+	margin: auto; /* para centrar horizontalmente cuando apago el panel de config */
 ;
 }
 
@@ -371,7 +349,7 @@ div.configuracion {
 	position: relative;
 	background-color: transparent;
 	float: right;
-	width:250px;
+	width:25%;
 	max-width:25%;
 /*	height: auto;*/
 	padding: 15px;
