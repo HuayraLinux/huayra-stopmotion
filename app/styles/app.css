@@ -1,3 +1,8 @@
+/* Color de fondo de la app */
+body {
+	background-color: #efefef;
+}
+
 
 .contenedor {
   display: flex;
@@ -44,6 +49,7 @@
 	margin-left: auto;
 	margin-right: auto;
 	overflow: hidden;
+	background-color: transparent;
 }
 
 
@@ -53,10 +59,11 @@ body > .ember-view {
 }
 
 .vbox.controles {
-  flex-grow: 0;
+	flex-grow: 0;
 /*  background-color: #ddd;*/
-  padding-top: 5px;
-  padding-bottom: 5px;
+	background-color: #1b1c1d;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
 
@@ -123,8 +130,10 @@ body > .ember-view {
 
 /* Formularios de los controles */
 
+
 .huayra-control {
     display: table;
+	border-radius: 8px;
 }
 
 .huayra-control p {
@@ -214,8 +223,10 @@ body > .ember-view {
 }
 
 .ui.button.botonppal {
-	padding: 20px;
+	padding: 10px;
 	background-color: transparent;
+	border-style: solid;
+	border-color: transparent;
 }
 
 .ui.button.botonchico {
@@ -256,7 +267,7 @@ body > .ember-view {
 
 
 .ui.button.botonppal:hover {
-	padding: 20px;
+	padding: 10px;
 	background-color:#ffb17c;
 	border-style: solid;
 	border-width: 1px;
@@ -278,6 +289,12 @@ body > .ember-view {
 	margin: 0px;
 }
 
+.ui.selection.dropdown {
+	background-color: transparent;
+	border-style: none;
+	padding: 0px;
+}
+
 /* Tamaño de iconos en botones ppales */
 i.icon {
 
@@ -292,21 +309,19 @@ i.icon.chico {
 }
 
 
-/* Color de fondo de la app */
-body {
-	background-color: #efefef;
-}
+
 
 div.principal{
 	height: 70%;
 	display: flex;
 	flex-flow: column wrap;
-	padding: 10px;
+	padding: 0px;
 	position: relative;
 /*	padding-bottom: 45%;*/
 	max-width:100%;
 	max-height: 75%;
 	overflow: hidden;
+	background-color: #1b1c1d ;
 /*	overflow:auto;*/
 }
 
@@ -338,7 +353,7 @@ div.pantalla {
 	width:75%;
 	height: 450px;
 	position: relative;
-	background-color: red;
+	background-color: #1b1c1d;
 	margin: auto; /* para centrar horizontalmente cuando apago el panel de config */
 ;
 }
@@ -347,7 +362,7 @@ div.configuracion {
 	flex: 1 auto;
 	order: 2;
 	position: relative;
-	background-color: transparent;
+	background-color: #efefef;
 	float: right;
 	width:25%;
 	max-width:25%;

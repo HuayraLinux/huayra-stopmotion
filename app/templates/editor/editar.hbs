@@ -8,9 +8,9 @@
 
 <!--  Barra de botones de accion superior -->
 		<div class="">
-		  <button class="ui button botonppal" {{action "capturar"}}><i class="photo icon"></i></button>
-		  <button class="ui button botonppal" {{action "previsualizar"}}><i class="play icon"></i></button>
-		  <button class="ui button botonppal" {{action toggleProperty "mostrarConfig"}}><i class="setting icon"></i></button>
+		  <button class="ui button botonppal" {{action "capturar"}} title="Sacar una foto"><i class="photo icon"></i> Capturar</button>
+		  <button class="ui button botonppal" {{action "previsualizar"}} title="Ver animacion"><i class="play icon"></i></button>
+		  <button class="ui button botonppal" {{action toggleProperty "mostrarConfig"}} title="Ver/Ocultar Preferencias"><i class="setting icon"></i></button>
 			<button class="ui button botonppal" {{action "guardar"}}><i class="save icon"></i></button>
 		</div>
 
@@ -49,21 +49,34 @@
   {{/if}}
 	<div class="vbox botones-opciones">
 	   <div class="ui icon buttons">
-			<button {{action toggleProperty "mostrarTimeline"}} class="ui toggle button {{if mostrarTimeline "active"}} botonchico"><i class="film icon chico"></i></button>
-			<button {{action toggleProperty "mostrarGrilla"}}   class="ui toggle button {{if mostrarGrilla   "active"}} botonchico"><i class="table icon chico"></i></button>
-			<button {{action toggleProperty "mostrarCebolla"}}  class="ui toggle button {{if mostrarCebolla  "active"}} botonchico"><i class="clone icon chico"></i></button>
+			<button {{action toggleProperty "mostrarTimeline"}} class="ui toggle button {{if mostrarTimeline "active"}} botonchico" title="Ver linea de tiempo"><i class="film icon chico"></i></button>
+			<button {{action toggleProperty "mostrarGrilla"}}   class="ui toggle button {{if mostrarGrilla   "active"}} botonchico"><i class="table icon chico" title="Activar Guias"></i></button>
+			<button {{action toggleProperty "mostrarCebolla"}}  class="ui toggle button {{if mostrarCebolla  "active"}} botonchico" title="Ver Capa de Cebolla"><i class="clone icon chico"></i></button>
 			<!--
 			<button {{action "seleccionarCamara"}}class="ui toggle button active botonchico"><i class="record icon chico"></i></button>
 			-->
 		</div>
-		<div class="ui vertical divider"> </div>
-	   <div class="ui icon buttons">
-			<button class="ui toggle button botonchico">insertar</button>
-			<button class="ui toggle button botonchico">reemplazar</button>
+		<div class="ui vertical divider"></div>
+
+{{#ui-dropdown class="selection" selected=model.modoSeleccionado onChange=(action (mut model.modoSeleccionado)) }}
+		<div class="ui button botonchico">Seleccione un modo</div>
+		<i class="dropdown icon"></i>
+		<div class="menu">
+			<div class="item" data-value="insertar">Modo: insertar</div>
+			<div class="item" data-value="sobrescribir">Modo: sobrescribir</div>
 		</div>
-
-
-
+{{/ui-dropdown}}
+<!--
+		<div class="ui dropdown">
+			<div class="ui button botonchico">Modo: Insertar</div>
+			<i class="dropdown icon"></i>
+			<div class="default text">Modo</div>
+			<div class="menu">
+					<div class="item" data-value="insertar">Modo: modo.valorAMostrar</div>
+					<div class="item" data-value="sobrescribir">Modo: modo.valorAMostrar</div>
+			</div>
+		</div>
+-->
 	</div>
 
 </div>

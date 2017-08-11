@@ -30,7 +30,7 @@ export default Ember.Controller.extend({
   grilla: {
     filas: 3,
     columnas: 3,
-    lineWidth: 3,
+    lineWidth: 1,
     style: 'black',
     dashFormat: []
   },
