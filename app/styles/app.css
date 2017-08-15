@@ -48,7 +48,6 @@ body {
 	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
-	overflow: hidden;
 	background-color: transparent;
 }
 
@@ -250,7 +249,7 @@ body > .ember-view {
 */
 
 /*
-.ui.toggle.button.active.botonchico { // Este estilo es para botones toggle que todavia no se codificaron 
+.ui.toggle.button.active.botonchico { // Este estilo es para botones toggle que todavia no se codificaron
 	padding: 5px;
 	height: 30px;
 	background-color: green;
