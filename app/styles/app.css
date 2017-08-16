@@ -100,9 +100,15 @@ body > .ember-view {
   opacity: 0.5;
 }
 
-.dragOverDropzone {
+.insertar .dragOverDropzone {
   border-color: #FF0000;
   border-width: 0px 0px 0px 4px;
+  border-style: solid;
+}
+
+.sobrescribir .dragOverDropzone {
+  border-color: #FF0000;
+  border-width: 4px 4px 4px 4px;
   border-style: solid;
 }
 

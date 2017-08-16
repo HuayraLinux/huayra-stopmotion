@@ -43,7 +43,7 @@
 </div>
 <div class="contenedor">
   {{#if mostrarTimeline}}
-    <div class="vbox timeline">
+    <div class="vbox timeline {{modoArrastre}}">
       {{huayra-timeline capturas=capturas intervaloSeleccion=intervaloSeleccion cursor=cursor moverCuadro='moverCuadro' moverCursor='moverCursor' cursorClick=(action "capturar")}}
     </div>
   {{/if}}
@@ -58,7 +58,7 @@
 		</div>
 		<div class="ui vertical divider"></div>
 
-{{#ui-dropdown class="selection" selected="insertar" onChange=(action (mut modoSeleccionado)) }}
+{{#ui-dropdown class="selection" selected="insertar" onChange=(action (mut modoArrastre)) }}
 		<div class="default text">Seleccione un modo</div>
 		<i class="dropdown icon"></i>
 		<div class="menu">
