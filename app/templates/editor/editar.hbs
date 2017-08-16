@@ -48,36 +48,26 @@
     </div>
   {{/if}}
 	<div class="vbox botones-opciones">
-	   <div class="ui icon buttons">
+	   <div class="ui icon buttons"> 
 			<button {{action toggleProperty "mostrarTimeline"}} class="ui toggle button {{if mostrarTimeline "active"}} botonchico" title="Ver linea de tiempo"><i class="film icon chico"></i></button>
 			<button {{action toggleProperty "mostrarGrilla"}}   class="ui toggle button {{if mostrarGrilla   "active"}} botonchico"><i class="table icon chico" title="Activar Guias"></i></button>
 			<button {{action toggleProperty "mostrarCebolla"}}  class="ui toggle button {{if mostrarCebolla  "active"}} botonchico" title="Ver Capa de Cebolla"><i class="clone icon chico"></i></button>
 			<!--
 			<button {{action "seleccionarCamara"}}class="ui toggle button active botonchico"><i class="record icon chico"></i></button>
 			-->
-		</div>
-		<div class="ui vertical divider"></div>
+		</div> 
+<!--		<div class="ui vertical divider"></div>  -->
 
 {{#ui-dropdown class="selection" selected="insertar" onChange=(action (mut modoArrastre)) }}
 		<div class="default text">Seleccione un modo</div>
 		<i class="dropdown icon"></i>
 		<div class="menu">
-			<div class="item" data-value="insertar">Modo: insertar</div>
-			<div class="item" data-value="sobrescribir">Modo: sobrescribir</div>
+			<div class="item" data-value="insertar">INSERTAR</div>
+			<div class="item" data-value="sobrescribir">SOBRESCRIBIR</div>
 		</div>
 {{/ui-dropdown}}
 
-<!--
-		<div class="ui dropdown">
-			<div class="ui button botonchico">Modo: Insertar</div>
-			<i class="dropdown icon"></i>
-			<div class="default text">Modo</div>
-			<div class="menu">
-					<div class="item" data-value="insertar">Modo: modo.valorAMostrar</div>
-					<div class="item" data-value="sobrescribir">Modo: modo.valorAMostrar</div>
-			</div>
-		</div>
--->
+
 	</div>
 
 </div>
