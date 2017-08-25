@@ -67,6 +67,10 @@ export default Ember.Controller.extend({
       this.get('proyecto').guardarProyectoEnLaRuta(cuadros);
     },
 
+    toggle: function(id) {
+      $(`#${id}`).sidebar('toggle');
+    },
+
     eliminarCuadrosSeleccionados() {
       let a = this.get('intervaloSeleccion')[0];
       let b = this.get('intervaloSeleccion')[1];

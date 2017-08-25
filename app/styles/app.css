@@ -3,6 +3,11 @@ body {
 	background-color: #efefef;
 }
 
+p.panel {
+
+	color: orange;
+}
+
 
 .contenedor {
   display: flex;
@@ -94,6 +99,12 @@ body > .ember-view {
 	position:relative;
 	color: white;
 	text-shadow: none;
+	width: 80px; /* ancho fijo sin importar el aspecto del cuadro */
+}
+
+.huayra-cuadro img {
+    height: 40px;
+	margin: auto;
 }
 
 .seleccionado.huayra-cuadro {
@@ -137,8 +148,18 @@ body > .ember-view {
 
 
 .huayra-control {
+	color: #efefef;
     display: table;
-	border-radius: 8px;
+	border-style: none;
+/*	border-radius: 8px;*/
+}
+
+.huayra-control button {
+	border-style: solid;
+	border-radius: 4px;
+	padding: 5px;
+	margin: 5px;
+	color: #101010;
 }
 
 .huayra-control p {
@@ -146,12 +167,17 @@ body > .ember-view {
 }
 
 .huayra-control input {
+	color: black;
 	text-align: right;
 	width: 50px;
     display: table-cell;
+	padding: 5px;
+	border-radius: 3px;
+	
 }
 
 .huayra-control label {
+	color: #cfcfcf;
     display: table-cell;
     text-align: right;
     padding-right: 1em;
@@ -165,9 +191,7 @@ body > .ember-view {
 }
 
 
-.huayra-cuadro img {
-    height: 40px;
-}
+
 
 
 .no-padding-bottom {
@@ -240,6 +264,8 @@ body > .ember-view {
 	background-color: transparent;
 }
 
+/* Toggles */
+
 .ui.toggle.button.botonchico {
 	padding: 5px;
 	height: 30px;
@@ -249,11 +275,26 @@ body > .ember-view {
 	border-color: transparent;
 }
 
+.ui.toggle.button.botonppal {
+
+	padding: 10px;
+	background-color: transparent;
+	border-style: solid;
+	border-color: transparent;
+}
+
+
 /* Boton oprimido */
 .ui.toggle.button.active.botonchico {
 	background-color: #1b1c1d !important; 
 	color: orange !important;
 }
+
+.ui.toggle.button.active.botonppal {
+	background-color: #1b1c1d !important; 
+	color: orange !important;
+}
+
 
 .ui.toggle.button.botonchico:hover, .ui.toggle.button:hover, .ui.toggle.button.active.botonchico:hover {
 	background-color: orange !important;
@@ -272,7 +313,7 @@ body > .ember-view {
 }
 
 
-.ui.button.botonppal:hover {
+.ui.button.botonppal:hover, .ui.toggle.button.botonppal:hover {
 	padding: 10px;
 	background-color:#ffb17c;
 	border-style: solid;
@@ -332,6 +373,20 @@ div.principal{
 /*	overflow:auto;*/
 }
 
+.pushable > .pusher {
+
+	background-color: #1b1c1d; 
+}
+
+
+.ui.segment {
+	border-style: none;
+	border-radius: 0px;
+}
+
+.ui.basic.segment {
+	padding: 0px;
+}
 
 .canvas-layer { /* Estilo que usan todas las capas, video, grilla, cebolla */
 	width:100%;
@@ -357,7 +412,7 @@ div.principal{
 
 div.pantalla {
 	flex: 1 auto;
-	width:75%;
+	width:100%;
 	height: 450px;
 	position: relative;
 	background-color: #1b1c1d;
@@ -369,13 +424,13 @@ div.configuracion {
 	flex: 1 auto;
 	order: 2;
 	position: relative;
-	background-color: #efefef;
+	background-color: transparent; /* #efefef; */
 	float: right;
-	width:25%;
-	max-width:25%;
+	width:100%;
+/*	max-width:25%;*/
 /*	height: auto;*/
 	padding: 15px;
-	overflow: scroll;
+/*	overflow: scroll;*/
 	margin: auto;
 
 }
