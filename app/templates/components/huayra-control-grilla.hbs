@@ -1,9 +1,11 @@
 {{!-- Debería enviar números en lugar de strings --}}
 <fieldset class="huayra-control">
   <legend>Grilla</legend>
-  <p><label>Filas:</label>{{input type="text" value=(mut config.filas)}}</p>
-  <p><label>Columnas: </label>{{input type="text" value=(mut config.columnas)}}</p>
-  <p><label>Ancho: </label>{{input type="text" value=(mut config.lineWidth)}}</p>
+	<br>
+	<p><label>Filas: </label>{{ui-slider value=(mut config.filas) min=1 max=15 step=1 orientation='horizontal' tooltip='show' mood="info"}}</p>
+
+	<p><label>Columnas: </label>{{ui-slider value=(mut config.columnas) min=1 max=15 step=1 orientation='horizontal' tooltip='show' mood="info"}}</p>
+	<p><label>Espesor: </label>{{ui-slider value=(mut config.lineWidth) min=0.1 max=1.0 step=0.1 orientation='horizontal' tooltip='show' mood="warning"}}</p>
   <p><label>Color: </label>{{input type="text" value=(mut config.style)}}</p>
   <button {{action aplicar config}}>Aplicar cambios</button>
 </fieldset>

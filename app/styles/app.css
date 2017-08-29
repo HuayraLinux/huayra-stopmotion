@@ -178,7 +178,7 @@ body > .ember-view {
 
 .huayra-control label {
 	color: #cfcfcf;
-    display: table-cell;
+    display: inline-block; /* table-cell;*/
     text-align: right;
     padding-right: 1em;
 }
@@ -434,3 +434,20 @@ div.configuracion {
 	margin: auto;
 
 }
+
+.slider.slider-horizontal {
+	width: 120px;
+	height: 40px;
+}
+
+.slider .tooltip.top {
+
+	margin-top: 10px;
+	margin-left: 130px !important;
+
+}
+
+
+
+
+
