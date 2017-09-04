@@ -21,6 +21,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "bower": "*",
     "broccoli-asset-rev": "^2.4.2",
     "electron": "1.4.3",
     "ember-ajax": "^2.0.1",
@@ -47,7 +48,7 @@
     "ember-truth-helpers": "1.2.0",
     "loader.js": "^4.0.1",
     "semantic-ui-ember": "2.0.0-beta.0",
-    "bower": "*"
+    "ui-ember-slider": "0.5.0"
   },
   "optionalDependencies": {
     "udev": "cheery/node-udev",
