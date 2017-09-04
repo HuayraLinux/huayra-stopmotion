@@ -33,15 +33,11 @@ p.panel {
 
 	flex-grow: 1 auto;
 	order: 4;
-/*  background-color: #ccc;*/
+	background-color: black;
 	min-height: 70px;
 	width: 100%;
 	white-space: nowrap;
 	overflow-x: scroll;
-/*	flex-shrink: 0;*/
-/*	padding-top: 30%;*/
-/* Hack para eliminar espacio entre cuadros */
-/*	font-size:0px; */
 }
 
 /* Contenedor para los botones al pie de la pantalla de video */
@@ -73,9 +69,7 @@ body > .ember-view {
 
 /* contenedor de lista */
 .huayra-timeline {
-  padding: 0px;
-  margin: 0px;
-  border: 0px;
+
 
 }
 
@@ -84,13 +78,14 @@ body > .ember-view {
   margin:0px;
   border: 0px;
   padding: 0px;
-  display: inline-block;
+  display: table-cell;
 }
 
 .huayra-cuadro {
   position: relative;
-/*  display: inline-block;*/
+  display: inline-block;
   background-color: #1b1c1d;
+	text-align: center;
 }
 
 .huayra-cuadro .huayra-cuadro-numero {
@@ -104,7 +99,6 @@ body > .ember-view {
 
 .huayra-cuadro img {
     height: 40px;
-	margin: auto;
 }
 
 .seleccionado.huayra-cuadro {
@@ -156,11 +150,18 @@ body > .ember-view {
 
 .huayra-control button {
 	border-style: solid;
+	border-color: transparent;
 	border-radius: 4px;
 	padding: 5px;
-	margin: 5px;
+	margin-top: 20px;
+	margin-left: 80px;
 	color: #101010;
 }
+.huayra-control button:hover {
+	background-color: #ffb380;
+	color: white;
+}
+
 
 .huayra-control p {
     display: table-row;
@@ -183,6 +184,10 @@ body > .ember-view {
     padding-right: 1em;
 }
 
+.huayra-control legend {
+	color: orange;
+	padding: 8px;
+}
 /* TEMPORAL (para probar controles) */
 
 .controles-camara {
@@ -199,11 +204,13 @@ body > .ember-view {
 }
 
 .tmp-nota-derecha {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 5px;
-  background-color: yellow;
+	position: absolute;
+	top: 110px;
+	left: 0;
+	z-index:900;
+	color: white;
+	padding: 5px;
+	background-color: transparent;
 }
 
 .logo-centrado img {
@@ -326,7 +333,8 @@ body > .ember-view {
 	background-color: #00fffb;
 	border-style: dashed;
 	border-color: red;
-	border-width: 4px;
+	border-radius: 0px;
+	border-width: 1px;
 	height: 40px;
 	text-align: center;
 }
@@ -436,6 +444,7 @@ div.configuracion {
 }
 
 .slider.slider-horizontal {
+	flex: 0 !important;
 	width: 120px;
 	height: 40px;
 }
