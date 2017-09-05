@@ -22,7 +22,7 @@
 		</div>
 
 
-    <p>Cantidad de cámaras disponibles: {{camaras.cantidadDeCamaras}}</p>
+    <p class="info">Cámaras disponibles: {{camaras.cantidadDeCamaras}}</p>
     {{#each camaras.camaras as |camara id|}}
       <button {{action "seleccionarCamara" id}}>{{camara.ID_V4L_PRODUCT}} ({{camara.DEVNAME}})</button>
     {{/each}}

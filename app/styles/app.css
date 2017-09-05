@@ -8,6 +8,11 @@ p.panel {
 	color: orange;
 }
 
+p.info { 
+	position: absolute;  /* info sobre cantidad de camaras disponibles */
+	top: 20px;
+	left: 280px;
+}
 
 .contenedor {
   display: flex;
@@ -205,7 +210,7 @@ body > .ember-view {
 
 .tmp-nota-derecha {
 	position: absolute;
-	top: 110px;
+	top: 80px;
 	left: 0;
 	z-index:900;
 	color: white;
@@ -390,6 +395,7 @@ div.principal{
 .ui.segment {
 	border-style: none;
 	border-radius: 0px;
+	overflow: hidden;
 }
 
 .ui.basic.segment {
@@ -455,6 +461,7 @@ div.configuracion {
 	margin-left: 130px !important;
 
 }
+
 
 
 
