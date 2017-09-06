@@ -7,17 +7,10 @@
     <p class="tmp-nota-derecha">Editando el proyecto {{model.ubicacion}}</p>
 
 <!--  Barra de botones de accion superior -->
-		<div class="">
-		  <button class="ui button botonppal" {{action "capturar"}} title="Sacar una foto"><i class="photo icon"></i> Capturar</button>
-
-	<button class="ui toggle button botonppal" {{action 'toggle' 'sub-sidebar'}} title="Ver/Ocultar Preferencias"><i class="setting icon"></i> </button> 
-
-		  <button class="ui button botonppal" {{action "previsualizar"}} title="Ver animacion"><i class="play icon"></i></button>
-
-<!--
-		  <button class="ui button botonppal" {{action toggleProperty "mostrarConfig"}} title="Ver/Ocultar Preferencias"><i class="setting icon"></i></button>
--->
-
+		<div class="cabecera">
+			<button class="ui button botonppal" {{action "capturar"}} title="Sacar una foto"><i class="photo icon"></i> Capturar</button>
+			<button class="ui toggle button botonppal" {{action 'toggle' 'sub-sidebar'}} title="Ver/Ocultar Preferencias"><i class="setting icon"></i> </button> 
+			<button class="ui button botonppal" {{action "previsualizar"}} title="Ver animacion"><i class="play icon"></i></button>
 			<button class="ui button botonppal" {{action "guardar"}}><i class="save icon"></i></button>
 		</div>
 
@@ -39,7 +32,7 @@
 
 			  {{huayra-control-cebolla config=(changeset cebolla) aplicar=(action aplicar)}}
 			  {{huayra-control-grilla config=(changeset grilla) aplicar=(action aplicar)}}
-			  {{!-- {{huayra-control-camara}} --}}
+			  {{huayra-control-camara}}
 		  </div>
 		{{/ui-sidebar}}
 
@@ -55,20 +48,7 @@
 			</div>
 		</div>
 	</div>
-<!--
 
-	{{#if mostrarConfig}}
-  <div id="config" class="configuracion">
-    <p>Panel de Configuraciones</p>
-
-      {{huayra-control-cebolla config=(changeset cebolla) aplicar=(action aplicar)}}
-      {{huayra-control-grilla config=(changeset grilla) aplicar=(action aplicar)}}
-      {{!-- {{huayra-control-camara}} --}}
-  </div>
-
-	{{/if}}
-
--->
 </div>
 
 <div class="contenedor">
@@ -101,6 +81,7 @@
 			<button {{action toggleProperty "mostrarCebolla"}}  class="ui toggle button {{if mostrarCebolla  "active"}} botonchico" title="Espejo Vertical"><i class="resize horizontal icon chico"></i></button>
 
 
+	<button class="ui button {{if haySeleccion '' 'disabled'}} botonchico " title="Eliminar cuadros seleccionados"  {{action "eliminarCuadrosSeleccionados"}}><i class="remove icon chico"></i></button>
 
 	</div>
 
