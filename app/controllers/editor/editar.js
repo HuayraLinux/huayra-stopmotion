@@ -45,7 +45,7 @@ export default Ember.Controller.extend({
   },
 
   mostrarTimeline: true,
-  mostrarConfig: true, /* Ocultar la barra de configuracion de otra manera */
+  mostrarConfig: false, 
 
   haySeleccion: Ember.computed('intervaloSeleccion', function() {
     let seleccion = this.get('intervaloSeleccion');
@@ -69,6 +69,7 @@ export default Ember.Controller.extend({
 
     toggle: function(id) {
       $(`#${id}`).sidebar('toggle');
+      this.toggleProperty('mostrarConfig');
     },
 
     eliminarCuadrosSeleccionados() {

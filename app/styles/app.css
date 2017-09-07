@@ -277,15 +277,9 @@ body > .ember-view {
 	border-color: transparent;
 }
 
-.ui.button.botonchico {
-	padding: 5px;
-	height: 30px;
-	background-color: transparent;
-}
+/* Boton chico, normal y toggles */
 
-/* Toggles */
-
-.ui.toggle.button.botonchico {
+.ui.button.botonchico, .ui.toggle.button.botonchico {
 	padding: 5px;
 	height: 30px;
 	background-color: #1b1c1d;
@@ -310,27 +304,21 @@ body > .ember-view {
 }
 
 .ui.toggle.button.active.botonppal {
-	background-color: #1b1c1d !important; 
-	color: orange !important;
+	background-color: #d47535 !important;
+	border-width: 2px;
+	border-color: #201010 #ffc8a3 #ffc8a3 #201010;
+	color: #202020 !important;
 }
 
 
-.ui.toggle.button.botonchico:hover, .ui.toggle.button:hover, .ui.toggle.button.active.botonchico:hover {
+/* Boton resaltado */
+
+.ui.button.botonchico:hover, .ui.toggle.button.botonchico:hover, .ui.toggle.button.active.botonchico:hover {
 	background-color: orange !important;
 	color: black !important;
 	border-color: transparent;
 
 }
-
-
-.ui.button.botonchico:hover {
-	background-color: #ffb17c;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #aa4400;
-	color: white;
-}
-
 
 .ui.button.botonppal:hover, .ui.toggle.button.botonppal:hover {
 	padding: 10px;
@@ -339,6 +327,13 @@ body > .ember-view {
 	border-width: 1px;
 	border-color: #aa4400;
 	color: white;
+}
+
+.ui.toggle.button.active.botonppal:hover {
+	background-color: #d47535 !important;
+	border-width: 2px;
+	border-color: #201010 #ffc8a3 #ffc8a3 #201010;
+	color: #ffe2ce !important;
 }
 
 .ui.button.cursortimeline {
@@ -350,6 +345,16 @@ body > .ember-view {
 	height: 40px;
 	text-align: center;
 }
+
+
+/* Boton deshabilitado */
+
+.ui.button.botonchico:disabled; .ui.toggle.button.botonchico:disabled {
+
+	background-color:transparent;
+	border-color: transparent;
+	color: #202020;
+} 
 
 /* Corrije mal centrado de iconos en botones */
 .ui.button:not(.icon) > .icon:not(.button):not(.dropdown) {
