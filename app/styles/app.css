@@ -412,7 +412,7 @@ div.flipY {
 	transform: scale(1, -1);
 }
 
-div.flipXY {
+div.flipX.flipY {
 	transform: scale(-1, -1);
 }
 
