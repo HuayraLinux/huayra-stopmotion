@@ -39,7 +39,7 @@
 		<div class="pusher">
 			<div class="ui basic segment" style="min-height:300px;">
 				<div class="pantalla">
-					<div id="camara" class="vbox vbox-camara">
+					<div id="camara" class="vbox vbox-camara {{if flipX "flipX"}} {{if flipY "flipY"}}">
 						{{huayra-camara}}
 						{{#if mostrarCebolla}} {{huayra-cebolla config=cebolla}} {{/if}}
 						{{#if mostrarGrilla}}  {{huayra-grilla config=grilla}}   {{/if}}
@@ -76,9 +76,9 @@
 		</div>
 {{/ui-dropdown}}
 
-			<button class="ui button botonchico" title="Espejo Vertical"><i class="resize vertical icon chico"></i></button>
+			<button class="ui button toggle {{if flipX "active"}} botonchico" title="Espejo Horizontal" {{action toggleProperty "flipX"}}><i class="resize horizontal icon chico"></i></button>
 
-			<button class="ui button botonchico" title="Espejo Vertical"><i class="resize horizontal icon chico"></i></button>
+			<button class="ui button toggle {{if flipY "active"}} botonchico" title="Espejo Vertical" {{action toggleProperty "flipY"}}><i class="resize vertical icon chico"></i></button>
 
 
 	<button class="ui button {{if haySeleccion '' 'disabled'}} botonchico " title="Eliminar cuadros seleccionados"  {{action "eliminarCuadrosSeleccionados"}}><i class="remove icon chico"></i></button>

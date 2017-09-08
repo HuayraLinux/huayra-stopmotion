@@ -5,6 +5,9 @@ export default Ember.Component.extend({
 	tagName: 'div',
   classNames: ['canvas-layer'],
 
+	flipX:false,
+	flipY:false,
+
 	didInsertElement() {
 		this.$('video')[0].play();
 	}
