@@ -50,6 +50,8 @@ export default Ember.Controller.extend({
   flipX: false,
   flipY: false,
 
+  pantallaZoom: 1,
+
   haySeleccion: Ember.computed('intervaloSeleccion', function() {
     let seleccion = this.get('intervaloSeleccion');
 
