@@ -20,7 +20,7 @@ export default Ember.Component.extend({
   },
 
   framesCebolla: Ember.computed('config.futureFrames', 'config.pastFrames', 'config.frames.[]', 'config.cameraFrame', function() { /* Cambiar cuando exista el cursor de inserción */
-    const cuadrosAdelante = Number(this.get('config.futureFrames')) + 1; /* Los slice son [a;b) */
+    const cuadrosAdelante = Number(this.get('config.futureFrames')); /* Los slice son [a;b) */
     const cuadrosAtras = Number(this.get('config.pastFrames'));
     const camara = Number(this.get('config.cameraFrame'));
     const frames = this.get('config.frames');
@@ -38,8 +38,8 @@ export default Ember.Component.extend({
   /* Como framesCebolla es un computed no va a triggerear el evento automáticamente, así que voy a escuchar por él */
   cebolla: Ember.observer(
     'config.futureFrames', 'config.pastFrames', 'config.frames.[]',
-    'config.cameraFrame', /*'framesCebolla',*/ 'config.alphaIn',
-    'config.alphaOut', 'config.cameraFrame', 'width', 'height',
+    'config.cameraFrame', /*'framesCebolla',*/ 'config.alpha',
+    'width', 'height',
     function() {
       var resources = this.get('resources');
       var width = this.get('width');

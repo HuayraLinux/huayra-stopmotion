@@ -4,5 +4,4 @@
   <p><label>Cuadros anteriores:</label>{{ui-slider value=(mut config.pastFrames) min=0 max=5 step=1 orientation='horizontal' tooltip='show' mood="info"}}</p>
   <p><label>Cuadros siguientes:</label>{{ui-slider value=(mut config.futureFrames) min=0 max=5 step=1 orientation='horizontal' tooltip='show' mood="info"}}</p>
   <p><label>Opacidad:</label>{{ui-slider value=(mut config.alpha) min=0 max=1.0 step=0.05 orientation='horizontal' tooltip='show' mood="info"}}</p>
-  <button {{action aplicar config}}>Aplicar cambios</button>
 </fieldset>

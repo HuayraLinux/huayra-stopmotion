@@ -5,11 +5,13 @@ export default Ember.Component.extend({
 	tagName: 'fieldset',
 	classNames: ['huayra-control'],
 	camaras: Ember.inject.service(),
+	controls: Ember.computed.alias('camaras.controls'),
 
+/*
 	controls: Ember.computed('camaras.controls', function() {
 		return this.get('camaras.controls').map((control) => new Changeset(control));
 	}),
-
+*/
 	save() {
 		return this.get('controls').map((control) => control.save());
 	},
