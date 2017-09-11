@@ -20,6 +20,16 @@ p.cursor-label {
 	height: 3px;
 }
 
+p.zoom-slider {
+	position: absolute;
+	top: 200px;
+	left: 20px;
+	z-index:900;
+	color: white;
+	padding: 5px;
+	background-color: transparent;
+}
+
 
 .contenedor {
   display: flex;
@@ -224,6 +234,7 @@ body > .ember-view {
 	padding: 5px;
 	background-color: transparent;
 }
+
 
 .logo-centrado img {
 	display:block;
@@ -485,9 +496,32 @@ div.configuracion {
 	height: 40px;
 }
 
-.slider .tooltip.top {
+.slider.slider-vertical {
+	flex: 0 !important;
+	width: 4px;
+	height: 200px;
+}
+
+.slider.slider-horizontal .tooltip.top {
 
 	margin-top: 10px;
 	margin-left: 130px !important;
 
 }
+
+#shruggie {
+	transition: transform .2x;
+	transform-origin: center;
+}
+
+.zoom-1x { transform: scale(1);}
+.zoom-2x { transform: scale(1.1);}
+.zoom-3x { transform: scale(1.2);}
+.zoom-4x { transform: scale(1.3);}
+.zoom-5x { transform: scale(1.4);}
+.zoom-6x { transform: scale(1.5);}
+.zoom-7x { transform: scale(1.6);}
+.zoom-8x { transform: scale(1.7);}
+.zoom-9x { transform: scale(1.8);}
+.zoom-10x { transform: scale(1.9);}
+.zoom-11x { transform: scale(2.0);}

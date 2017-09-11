@@ -24,6 +24,8 @@
 	</div>
 </div>
 
+<p class="zoom-slider">{{ui-slider orientation='vertical' onChange=(action (mut pantallaZoom)) value= config.pantallaZoom  min=1 max=2 step=0.1  tooltip='after' reversed='false' handle='rect' mood="info"}}</p>
+
 <div class="principal"> <!-- Contiene a la vista de camara y a la de configuracion si fuese visible -->
 	<div class="ui pushable segment component context">
 		{{#ui-sidebar class="inverted menu right inline vertical " context=".component.context" id="sub-sidebar"}}
