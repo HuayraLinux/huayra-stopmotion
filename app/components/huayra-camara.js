@@ -4,6 +4,7 @@ export default Ember.Component.extend({
 	camaras: Ember.inject.service(),
 	tagName: 'div',
   classNames: ['canvas-layer'],
+	classNameBindings: ['flipX', 'flipY'],
 
 	flipX:false,
 	flipY:false,

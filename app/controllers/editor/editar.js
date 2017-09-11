@@ -45,7 +45,10 @@ export default Ember.Controller.extend({
   },
 
   mostrarTimeline: true,
-  mostrarConfig: false, 
+  mostrarConfig: false,
+
+  flipX: false,
+  flipY: false,
 
   haySeleccion: Ember.computed('intervaloSeleccion', function() {
     let seleccion = this.get('intervaloSeleccion');
@@ -85,9 +88,12 @@ export default Ember.Controller.extend({
     },
 
     capturar() {
+      const flipx = this.get('flipX');
+      const flipy = this.get('flipY');
+
       this.set('capturandoFoto', true);
 
-      this.get('camaras').capturarFrame(this.get('model.ubicacion')).then((fotos) => {
+      this.get('camaras').capturarFrame(this.get('model.ubicacion'), flipx, flipy).then((fotos) => {
         this.set('capturandoFoto', false);
         let data = {};
 

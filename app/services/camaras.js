@@ -319,7 +319,7 @@ export default Ember.Service.extend(Ember.Evented, {
    *        ruta_miniatura:   path de sistema absoluto a la miniatura (solo electron)
    *     }
    */
-  capturarFrame(ruta_destino) {
+  capturarFrame(ruta_destino, flipx=false, flipy=false) {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext("2d");
     ruta_destino = ruta_destino || "./";
@@ -332,11 +332,13 @@ export default Ember.Service.extend(Ember.Evented, {
       var framePNG;
       var thumbnailJPEG;
       var now = Date.now();
+      var width;
+      var height;
 
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-
-      ctx.drawImage(video, 0, 0);
+      width = canvas.width = video.videoWidth;
+      height = canvas.height = video.videoHeight;
+      ctx.transform(flipx ? -1 : 1, 0, 0, flipy ? -1 : 1, 0, 0);
+      ctx.drawImage(video, flipx ? -width : 0, flipy ? -height : 0);
 
       framePNG = canvas.toDataURL('image/png');
 
@@ -348,10 +350,10 @@ export default Ember.Service.extend(Ember.Evented, {
       thumbnail.width = (ALTO_THUMBNAIL * video.videoWidth) / video.videoHeight;
       thumbnail.height = ALTO_THUMBNAIL;
 
-      canvas.width = thumbnail.width;
-      canvas.height = thumbnail.height;
-
-      ctx.drawImage(video, 0, 0, thumbnail.width, thumbnail.height);
+      width = canvas.width = thumbnail.width;
+      height = canvas.height = thumbnail.height;
+      ctx.transform(flipx ? -1 : 1, 0, 0, flipy ? -1 : 1, 0, 0);
+      ctx.drawImage(video, flipx ? -width : 0, flipy ? -height : 0, thumbnail.width, thumbnail.height);
 
       thumbnailJPEG = canvas.toDataURL('image/jpeg');
 

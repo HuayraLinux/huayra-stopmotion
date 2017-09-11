@@ -8,7 +8,7 @@ p.panel {
 	color: orange;
 }
 
-p.info { 
+p.info {
 	position: absolute;  /* info sobre cantidad de camaras disponibles */
 	top: 20px;
 	left: 290px;
@@ -186,7 +186,7 @@ body > .ember-view {
     display: table-cell;
 	padding: 5px;
 	border-radius: 3px;
-	
+
 }
 
 .huayra-control label {
@@ -299,7 +299,7 @@ body > .ember-view {
 
 /* Boton oprimido */
 .ui.toggle.button.active.botonchico {
-	background-color: #1b1c1d !important; 
+	background-color: #1b1c1d !important;
 	color: orange !important;
 }
 
@@ -354,7 +354,7 @@ body > .ember-view {
 	background-color:transparent;
 	border-color: transparent;
 	color: #202020;
-} 
+}
 
 /* Corrije mal centrado de iconos en botones */
 .ui.button:not(.icon) > .icon:not(.button):not(.dropdown) {
@@ -404,21 +404,21 @@ div.cabecera {
 	padding-left: 10px;
 }
 
-div.flipX {
+.flip-x {
 	transform: scale(-1, 1);
 }
 
-div.flipY {
+.flip-y {
 	transform: scale(1, -1);
 }
 
-div.flipX.flipY {
+.flip-x.flip-y {
 	transform: scale(-1, -1);
 }
 
 .pushable > .pusher {
 
-	background-color: #1b1c1d; 
+	background-color: #1b1c1d;
 }
 
 
@@ -491,9 +491,3 @@ div.configuracion {
 	margin-left: 130px !important;
 
 }
-
-
-
-
-
-
