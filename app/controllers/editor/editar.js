@@ -49,6 +49,8 @@ export default Ember.Controller.extend({
 
   flipX: false,
   flipY: false,
+  writeFlipped: false,
+  hasAnyFlip: Ember.computed.or('flipX', 'flipY'),
 
   pantallaZoom: 1,
 
@@ -90,8 +92,9 @@ export default Ember.Controller.extend({
     },
 
     capturar() {
-      const flipx = this.get('flipX');
-      const flipy = this.get('flipY');
+      const writeFlipped = this.get('writeFlipped');
+      const flipx = writeFlipped && this.get('flipX');
+      const flipy = writeFlipped && this.get('flipY');
 
       this.set('capturandoFoto', true);
 

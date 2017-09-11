@@ -84,8 +84,10 @@
 
 			<button class="ui button toggle {{if flipY "active"}} botonchico" title="Espejo Vertical" {{action toggleProperty "flipY"}}><i class="resize vertical icon chico"></i></button>
 
-			<div class="ui checkbox "><input name="flip-check" type="checkbox"><label>Espejado real</label></div>
-	
+			{{#if hasAnyFlip}}
+				<div class="ui checkbox"><input name="flip-check" onchange={{action toggleProperty "writeFlipped"}} type="checkbox"><label>Espejado real</label></div>
+			{{/if}}
+
 
 
 	<button class="ui button {{if haySeleccion '' 'disabled'}} botonchico " title="Eliminar cuadros seleccionados"  {{action "eliminarCuadrosSeleccionados"}}><i class="remove icon chico"></i></button>
