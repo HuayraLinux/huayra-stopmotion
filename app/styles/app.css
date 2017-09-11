@@ -508,6 +508,31 @@ div.configuracion {
 	margin-left: 130px !important;
 
 }
+.ui.checkbox input[type="checkbox"]{
+	color: orange;
+	
+}
+
+.ui.checkbox label {
+	background-color: transparent;
+	color: orange;
+	border-style: none;
+	min-width: 10em;
+}
+
+.ui.checkbox label:focus {
+	background-color: orange;
+	color: black;
+}
+
+.ui.checkbox.input:focus label {
+	color: orange;
+	font-weight: bold;
+}
+.ui.checkbox label:hover {
+	background-color: orange;
+	color: black;
+}
 
 #shruggie {
 	transition: transform .2x;
