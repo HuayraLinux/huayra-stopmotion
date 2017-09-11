@@ -534,8 +534,8 @@ div.configuracion {
 	color: black;
 }
 
-#shruggie {
-	transition: transform .2x;
+#camara {
+	transition: transform .2s;
 	transform-origin: center;
 }
 

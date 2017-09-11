@@ -24,7 +24,9 @@
 	</div>
 </div>
 
-<p class="zoom-slider">{{ui-slider orientation='vertical' onChange=(action (mut pantallaZoom)) value= config.pantallaZoom  min=1 max=2 step=0.1  tooltip='after' reversed='false' handle='rect' mood="info"}}</p>
+<p class="zoom-slider">{{ui-slider min=1 max=11 step=1
+	                                 value=(mut pantallaZoom)
+	                                 orientation="vertical"}}</p>
 
 <div class="principal"> <!-- Contiene a la vista de camara y a la de configuracion si fuese visible -->
 	<div class="ui pushable segment component context">
@@ -41,7 +43,7 @@
 		<div class="pusher">
 			<div class="ui basic segment" style="min-height:300px;">
 				<div class="pantalla">
-					<div id="camara" class="vbox vbox-camara">
+					<div id="camara" class="vbox vbox-camara zoom-{{pantallaZoom}}x">
 						{{huayra-camara flipX=flipX flipY=flipY}}
 						{{#if mostrarCebolla}} {{huayra-cebolla config=cebolla}} {{/if}}
 						{{#if mostrarGrilla}}  {{huayra-grilla config=grilla}}   {{/if}}
