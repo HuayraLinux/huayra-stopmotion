@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { preview } from 'huayra-stopmotion/mlt-integration';
 
 let Captura = Ember.Object.extend({
   href_miniatura: null,       // miniatura cuando se usa electron
@@ -60,6 +61,8 @@ export default Ember.Controller.extend({
     return !(seleccion[0] === 0 && seleccion[1] === 0);
   }),
 
+  previewStream: null,
+
   aplicar(cambios) {
     cambios.save();
   },
@@ -75,8 +78,15 @@ export default Ember.Controller.extend({
     },
 
     toggle: function(id) {
-      $(`#${id}`).sidebar('toggle');
       this.toggleProperty('mostrarConfig');
+      $(`#${id}`).sidebar('toggle');
+    },
+
+    previsualizar() {
+      const seleccion = this.get('intervaloSeleccion');
+      const path = this.get('pathProyecto');
+      const video = preview(seleccion, path, 24, console.log);
+      this.set('previewStream', video);
     },
 
     eliminarCuadrosSeleccionados() {

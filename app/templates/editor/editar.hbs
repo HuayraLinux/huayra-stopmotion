@@ -30,7 +30,8 @@
 
 <div class="principal"> <!-- Contiene a la vista de camara y a la de configuracion si fuese visible -->
 	<div class="ui pushable segment component context">
-		{{#ui-sidebar class="inverted menu right inline vertical " context=".component.context" id="sub-sidebar"}}
+		{{#ui-sidebar class="inverted menu right inline vertical " context=".component.context" id="sub-sidebar"
+	                onHide=(action (mut mostrarConfig) false)}}
 		  <div id="config" class="configuracion">
 			<p class="panel">Panel de Configuraciones</p>
 
