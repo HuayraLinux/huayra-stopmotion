@@ -1,19 +1,19 @@
 <legend>Cámara</legend>
 {{#each controls as |control|}}
   <p>
-  <label>{{control.name}}:</label>
-  {{#if (eq control.type "menu")}}
-    <select onchange={{action (mut control.value) value="target.value"}}  disabled={{control.disabled}}>
-      {{#each control.menu as |option index|}}
-        {{#if option}}
-          <option value={{index}} selected={{eq control.value index}}>{{option}}</option>
-        {{/if}}
-      {{/each}}
-    </select>
-  {{else if (eq control.type "bool")}}
-    {{input type="checkbox" onclick=(action check control value="target.checked") checked=control.value disabled=control.disabled}}
-  {{else}}
-    {{input type="text" value=(mut control.value) disabled=control.disabled}}
-  {{/if}}
+    <label>{{control.name}}:</label>
+    {{#if (eq control.type "menu")}}
+      <select onchange={{action (mut control.value) value="target.value"}}  disabled={{control.disabled}}>
+        {{#each control.menu as |option index|}}
+          {{#if option}}
+            <option value={{index}} selected={{eq control.value index}}>{{option}}</option>
+          {{/if}}
+        {{/each}}
+      </select>
+    {{else if (eq control.type "bool")}}
+      {{input type="checkbox" onclick=(action check control value="target.checked") checked=control.value disabled=control.disabled}}
+    {{else}}
+      {{ui-slider value=(mut control.value) min=control.min max=control.max step=control.step orientation='horizontal' mood="info"}}
+    {{/if}}
   </p>
 {{/each}}
