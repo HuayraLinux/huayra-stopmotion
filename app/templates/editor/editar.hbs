@@ -34,8 +34,8 @@
 		  <div id="config" class="configuracion">
 			<p class="panel">Panel de Configuraciones</p>
 
-			  {{huayra-control-cebolla config=cebolla aplicar=(action aplicar)}}
-			  {{huayra-control-grilla config=grilla aplicar=(action aplicar)}}
+			  {{#if mostrarCebolla}} {{huayra-control-cebolla config=cebolla aplicar=(action aplicar)}} {{/if}}
+			  {{#if mostrarGrilla}}  {{huayra-control-grilla config=grilla aplicar=(action aplicar)}}   {{/if}}
 			  {{huayra-control-camara}}
 		  </div>
 		{{/ui-sidebar}}
