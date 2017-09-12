@@ -24,20 +24,10 @@ function generateXML(seleccion, framesPath, fromThumbnails=false) {
   return `<mlt>${producer}<playlist id="main">${playlist}</playlist></mlt>`;
 }
 
-/* Devuelve un HTMLVideoElement con la preview */
+/* Devuelve un ReadableStream con la preview */
 function preview(seleccion, framesPath='.', fps=24, onProgress=()=>{}) {
-  const video = document.createElement('video');
-  const wrappedVideo = new requireNode('mediasource')(video);
-  const videoSink = wrappedVideo.createWriteStream('video/webm; codecs="vp8"');
-  const videoStream = startEncoding(seleccion, framesPath, fps, 'pipe:1', true, onProgress, `f=webm vcodec=libvpx acodec=none deadline=realtime`).stdout;
-
-  /* Y le mando la data */
-  videoStream.pipe(videoSink);
-
-  /* El video se empieza a reproducir */
-  video.autoplay = true;
-
-  return video;
+  return startEncoding(seleccion, framesPath, fps, 'pipe:1', true, onProgress,
+                       `f=webm vcodec=libvpx acodec=none deadline=realtime`).stdout;
 }
 
 function renderVideo(framesPath, fps, path, onProgress=()=>{}) {
@@ -77,4 +67,4 @@ function startEncoding(seleccion, framesPath, fps, path, fromThumbnails=false, o
   return encoder;
 }
 
-export {renderVideo, generateXML, preview, startEncoding};
+export { renderVideo, generateXML, preview, startEncoding };

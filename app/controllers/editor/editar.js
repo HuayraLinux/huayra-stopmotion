@@ -84,9 +84,12 @@ export default Ember.Controller.extend({
 
     previsualizar() {
       const seleccion = this.get('intervaloSeleccion');
-      const path = this.get('pathProyecto');
+      const path = this.get('model.ubicacion');
       const video = preview(seleccion, path, 24, console.log);
       this.set('previewStream', video);
+
+      /* Open modal */
+      $('.ui.preview.modal').modal('show');
     },
 
     eliminarCuadrosSeleccionados() {

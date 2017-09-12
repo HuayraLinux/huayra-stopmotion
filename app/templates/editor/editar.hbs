@@ -53,7 +53,6 @@
 			</div>
 		</div>
 	</div>
-
 </div>
 
 <div class="contenedor">
@@ -96,6 +95,16 @@
 	</div>
 
 </div>
+
+{{#ui-modal name="preview" class="preview"}}
+  <i class="close icon"></i>
+  <div class="header">
+    Previsualización
+  </div>
+  <div class="content">
+		{{streamed-video video=previewStream loop=true autoplay=true controls=true}}
+  </div>
+{{/ui-modal}}
 <!--
   <div class="controles-camara">
     {{!huayra-control-cebolla config=(changeset cebolla) aplicar=(action aplicar)}}

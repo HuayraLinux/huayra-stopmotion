@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import { preview } from '../mlt-integration';
 
 let Captura = Ember.Object.extend({
   href_miniatura: null,       // miniatura cuando se usa electron
@@ -143,16 +142,16 @@ export default Ember.Controller.extend({
       });
     },
 
-    /* TODO: Mejorar esto */
+    /* TODO: NO FUNCIONA, PREVIEW AHORA HACE OTRA COSA */
     previsualizar() {
       /* https://github.com/feross/mediasource */
-      const seleccion = this.get('intervaloSeleccion');
-      const path = this.get('pathProyecto');
-      const video = preview(seleccion, path, 24, console.log);
+      //const seleccion = this.get('intervaloSeleccion');
+      //const path = this.get('pathProyecto');
+      //const video = preview(seleccion, path, 24, console.log);
 
-      video.loop = true;
-
-      document.body.appendChild(video);
+      /* El video se empieza a reproducir */
+      //video.autoplay = true;
+      //video.loop = true;
     }
   },
 
