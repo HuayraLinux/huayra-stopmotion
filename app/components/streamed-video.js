@@ -11,6 +11,7 @@ const MediaSource = requireNode('mediasource');
  */
 
 export default Ember.Component.extend({
+  height: 320,
   video: null,
 
   onNewVideo: Ember.observer('video', function() {
