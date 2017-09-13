@@ -1,5 +1,5 @@
 module.exports = {
   browsers: [
-    'electron 1.4.0'
+    'electron 1.4'
   ]
 };
