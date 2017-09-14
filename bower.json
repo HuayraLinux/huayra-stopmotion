@@ -1,10 +1,7 @@
 {
   "name": "huayra-stopmotion",
   "dependencies": {
-    "ember": "~2.7.0",
-    "ember-cli-shims": "0.1.1",
-    "ember-qunit-notifications": "0.1.0",
-    "semantic-ui": "^2.2.4",
+    "semantic-ui": "^2.2.13",
     "remodal": "1.1.0",
     "seiyria-bootstrap-slider": "~6.0.6"
   }

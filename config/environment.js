@@ -1,16 +1,21 @@
-/* jshint node: true */
+/* eslint-env node */
+'use strict';
 
 module.exports = function(environment) {
-  var ENV = {
+  let ENV = {
     modulePrefix: 'huayra-stopmotion',
-    environment: environment,
-    //rootURL: '/',
+    environment,
+    rootURL: '/',
     electronLiveReload: true,
     locationType: 'hash',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
         // e.g. 'with-controller': true
+      },
+      EXTEND_PROTOTYPES: {
+        // Prevent Ember Data from overriding Date.parse.
+        Date: false
       }
     },
 
@@ -34,9 +39,7 @@ module.exports = function(environment) {
 
   if (environment === 'test') {
     // Testem prefers this...
-
     ENV.locationType = 'none';
-    ENV.rootURL = '/';
     ENV.electronLiveReload = false;
 
     // keep test console output quieter
