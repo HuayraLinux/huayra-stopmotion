@@ -62,6 +62,9 @@ export default Ember.Controller.extend({
   }),
 
   previewStream: null,
+  previewEncoder: null,
+  porcentajePreview: 0,
+  cargandoPreview: Ember.computed.lt('porcentajePreview', 100),
 
   aplicar(cambios) {
     cambios.save();
@@ -85,11 +88,26 @@ export default Ember.Controller.extend({
     previsualizar() {
       const seleccion = this.get('intervaloSeleccion');
       const path = this.get('model.ubicacion');
-      const video = preview(seleccion, path, 24, console.log);
+      const [video, encoder] = preview(seleccion, path, 24, (error, frame, porcentaje) => {
+        this.set('porcentajePreview', porcentaje);
+      });
+
+      this.set('porcentajePreview', 0);
       this.set('previewStream', video);
+      this.set('previewEncoder', encoder);
 
       /* Open modal */
-      $('.ui.preview.modal').modal('show');
+      Ember.run.schedule('render', null, () => {
+        $('.ui.preview.modal').modal('show');
+      })
+    },
+
+    cerrarPreview() {
+      const encoder = this.get('previewEncoder');
+
+      if(encoder) {
+        encoder.kill();
+      }
     },
 
     eliminarCuadrosSeleccionados() {

@@ -96,12 +96,17 @@
 
 </div>
 
-{{#ui-modal name="preview" class="preview"}}
+{{#ui-modal name="preview" class="preview" onHidden=(action "cerrarPreview")}}
   <i class="close icon"></i>
   <div class="header">
     Previsualización
   </div>
   <div class="content centered">
+		{{#if cargandoPreview}}
+			<div class="ui active inverted dimmer">
+				<div class="ui text loader">Generando preview ({{porcentajePreview}}%)</div>
+			</div>
+		{{/if}}
 		{{streamed-video video=previewStream loop=true autoplay=true controls=true}}
   </div>
 {{/ui-modal}}

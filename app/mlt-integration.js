@@ -26,8 +26,10 @@ function generateXML(seleccion, framesPath, fromThumbnails=false) {
 
 /* Devuelve un ReadableStream con la preview */
 function preview(seleccion, framesPath='.', fps=24, onProgress=()=>{}) {
-  return startEncoding(seleccion, framesPath, fps, 'pipe:1', true, onProgress,
-                       `f=webm vcodec=libvpx acodec=none deadline=realtime`).stdout;
+  const encoder = startEncoding(seleccion, framesPath, fps, 'pipe:1', true, onProgress,
+                                `f=webm vcodec=libvpx acodec=none deadline=realtime`);
+  const video = encoder.stdout;
+  return [video, encoder];
 }
 
 function renderVideo(framesPath, fps, path, onProgress=()=>{}) {
@@ -55,14 +57,22 @@ function startEncoding(seleccion, framesPath, fps, path, fromThumbnails=false, o
 
   encoder.stderr.setEncoding('utf8');
   /* Esto va a necesitar ser retocado, por ahora supongo que me llegan líneas enteras y que no hay errores */
-  encoder.stderr.on('data', (data) => {
+  encoder.stderr.on('data', data => {
     const matchProgress = /Current Frame:[ \t]*([0-9]+), percentage:[ \t]*([0-9]+)/;
     const message = data;
     const match = matchProgress.exec(message) || [];
     const [currentFrame, progress] = match.slice(1);
 
-    onProgress(currentFrame, progress);
+    onProgress(false, currentFrame, progress);
   });
+  encoder.on('exit', code => {
+    if(code === 0) {
+      /* Cerró exitosamente*/
+      onProgress(false, seleccion[1] - seleccion[0], 100);
+    } else {
+      onProgress({code, encoder}, 0, 0);
+    }
+  })
 
   return encoder;
 }
