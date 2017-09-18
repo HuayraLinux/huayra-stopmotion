@@ -1,6 +1,0 @@
-src/* usr/share/huayra-stopmotion/src
-bin/huayra-motion usr/bin/
-node_modules/* usr/share/huayra-stopmotion/node_modules/
-debian/huayra-motion.desktop /usr/share/applications
-debian/huayra-motion.svg /usr/share/icons/hicolor/scalable/apps
-debian/application-hmotion.svg /usr/share/icons/hicolor/scalable/mimetypes

@@ -1,7 +1,0 @@
-#!/bin/sh
-PARAMS=$@;
-
-# definir aqui los valores de la aplicacion
-APP_PATH="/usr/share/huayra-stopmotion/src";
-
-exec nw ${APP_PATH} ${PARAMS}
