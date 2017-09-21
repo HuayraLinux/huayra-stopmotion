@@ -28,8 +28,15 @@ function generateXML(seleccion, framesPath, fromThumbnails=false) {
 function preview(seleccion, framesPath='.', fps=24, onProgress=()=>{}) {
   const encoder = startEncoding(seleccion, framesPath, fps, 'pipe:1', true, onProgress,
                                 `f=webm vcodec=libvpx acodec=none deadline=realtime`);
-  const video = encoder.stdout;
-  return [video, encoder];
+  const previewPromise = new Promise((accept, reject) => {
+    const video = [];
+    encoder.stdout.on('data', chunk => video.push(chunk));
+    encoder.on('close', code => {
+      if(code === 0) { accept(new Blob(video)); }
+      else { reject(encoder); }
+    });
+  });
+  return [encoder, previewPromise];
 }
 
 function renderVideo(framesPath, fps, path, onProgress=()=>{}) {
@@ -41,10 +48,10 @@ function renderVideo(framesPath, fps, path, onProgress=()=>{}) {
       /* Filtro los que me importan y los cuento */
       const length = files.filter((file) => /\.png$/.test(file)).length;
       /* Empiezo a encodear */
-      const encodingProcess = startEncoding([0, length], framesPath, fps, path, false, onProgress);
-      encodingProcess.on('close', (code) => {
+      const encoder = startEncoding([0, length], framesPath, fps, path, false, onProgress);
+      encoder.on('close', (code) => {
         if(code === 0) { accept(path); }
-        else { reject(encodingProcess); }
+        else { reject(encoder); }
       });
     });
   });
