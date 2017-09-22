@@ -30,6 +30,24 @@ p.zoom-slider {
 	background-color: transparent;
 }
 
+p.zoom-icon {
+	color: #4f4f50;
+	position: absolute;
+	width:20px;
+	top: 420px;
+	left: 15px;
+	z-index:900;
+}
+
+p.zoom-out-icon {
+	color: #4f4f50;
+	position: absolute;
+	width:20px;
+	top: 160px;
+	left: 15px;
+	z-index:900;
+}
+
 
 .contenedor {
   display: flex;
@@ -107,7 +125,10 @@ body > .ember-view {
   position: relative;
   display: inline-block;
   background-color: #1b1c1d;
-	text-align: center;
+  text-align: center;
+  border-color: transparent;
+  border-top-style:solid;
+  border-bottom-style:solid;
 }
 
 .huayra-cuadro .huayra-cuadro-numero {
