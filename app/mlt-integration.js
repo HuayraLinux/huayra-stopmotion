@@ -1,15 +1,30 @@
 import Ember from 'ember';
 
-/*
- * NOTA IMPORTANTE:
- *   Todo el contenido de este archivo es válido sólo si las fotos están en orden
- *   dentro de la carpeta dada.
- */
+function promisify(fun) {
+   return function(...args) {
+     return new Promise((accept, reject) => {
+       fun(...args, (err, ...values) => {
+         if(values.length === 1) {
+           values = values[0];
+         }
+         if(err) {
+           reject(values);
+         } else {
+           accept(values);
+         }
+       })
+     });
+   }
+ }
 
-const spawn = requireNode('child_process').spawn;
-const Promise = Ember.RSVP.Promise;
+const { spawn } = requireNode('child_process');
+const fs = requireNode('fs');
+const [ rmdir, symlink, mkdtemp ] = [ promisify(fs.rmdir),
+                                      promisify(fs.symlink),
+                                      promisify(fs.mkdtemp) ];
+const { Promise } = Ember.RSVP;
 
-function generateXML(seleccion, framesPath, fromThumbnails=false) {
+function generateXML(videoLength, framesPath, fromThumbnails=false) {
   /* Genero el gdx-pixbuf */
   const producer =
     `<producer id="video">
@@ -18,25 +33,40 @@ function generateXML(seleccion, framesPath, fromThumbnails=false) {
        <property name="loop">0</property>
        <property name="mlt_service">pixbuf</property>
     </producer>`;
-  /* Genero la playlist, seleccion[1] no se incluye, por lo que tengo que recortarlo */
-  const playlist = `<entry producer="video" in="${seleccion[0]}" out="${seleccion[1] - 1}"/>`;
+  const playlist = `<entry producer="video" in="0" out="${videoLength}"/>`;
   /* Meto todo en un xml */
   return `<mlt>${producer}<playlist id="main">${playlist}</playlist></mlt>`;
 }
 
 /* Devuelve un ReadableStream con la preview */
-function preview(seleccion, framesPath='.', fps=24, onProgress=()=>{}) {
-  const encoder = startEncoding(seleccion, framesPath, fps, 'pipe:1', true, onProgress,
-                                `f=webm vcodec=libvpx acodec=none deadline=realtime`);
-  const previewPromise = new Promise((accept, reject) => {
-    const video = [];
-    encoder.stdout.on('data', chunk => video.push(chunk));
-    encoder.on('close', code => {
-      if(code === 0) { accept(new Blob(video)); }
-      else { reject(encoder); }
-    });
+function preview(pictures, fps=24, onProgress=()=>{}) {
+  onProgress(false, {
+    stage: 'PREPARATION',
+    completed: false
   });
-  return [encoder, previewPromise];
+
+  return setupVideo(pictures).then(framesPath => {
+    onProgress(false, {
+      stage: 'PREPARATION',
+      completed: true
+    });
+
+    const encoder = startEncoding(pictures.length, framesPath, fps,
+                                  'pipe:1', true, onProgress,
+                                  `f=webm vcodec=libvpx acodec=none deadline=realtime`);
+
+    const previewPromise = new Promise((accept, reject) => {
+      const video = [];
+      encoder.stdout.on('data', chunk => video.push(chunk));
+      encoder.on('close', code => {
+        if(code === 0) { accept(new Blob(video)); }
+        else { reject(encoder); }
+      });
+    });
+    return previewPromise;
+  });
+
+  /* TODO: Borrar la carpeta una vez terminado de encodear */
 }
 
 function renderVideo(framesPath, fps, path, onProgress=()=>{}) {
@@ -57,8 +87,8 @@ function renderVideo(framesPath, fps, path, onProgress=()=>{}) {
   });
 }
 
-function startEncoding(seleccion, framesPath, fps, path, fromThumbnails=false, onProgress=()=>{}, encoderFlags='properties=/lossless/H.264 vcodec=libx264 acodec=none f=mp4') {
-  const xml = generateXML(seleccion, framesPath, fps, fromThumbnails);
+function startEncoding(videoLength, framesPath, fps, path, fromThumbnails=false, onProgress=()=>{}, encoderFlags='properties=/lossless/H.264 vcodec=libx264 acodec=none f=mp4') {
+  const xml = generateXML(videoLength, framesPath, fps, fromThumbnails);
   const flags = `-consumer avformat:${path} ${encoderFlags} frame_rate_num=${fps} frame_rate_den=1 -progress`.split(' ');
   const encoder = spawn('melt', [`xml-string:${xml}`].concat(flags));
 
@@ -70,18 +100,48 @@ function startEncoding(seleccion, framesPath, fps, path, fromThumbnails=false, o
     const match = matchProgress.exec(message) || [];
     const [currentFrame, progress] = match.slice(1);
 
-    onProgress(false, currentFrame, progress);
+    onProgress(false, {
+      stage: 'ENCODING',
+      encoder: encoder,
+      encodedFrames: currentFrame,
+      percentage: progress
+    });
   });
   encoder.on('exit', code => {
     if(code === 0) {
       /* Cerró exitosamente*/
-      onProgress(false, seleccion[1] - seleccion[0], 100);
+      onProgress(false, {
+        stage: 'ENCODING',
+        encoder: encoder,
+        encodedFrames: videoLength,
+        percentage: 100
+      });
     } else {
-      onProgress({code, encoder}, 0, 0);
+      onProgress({code, encoder}, {
+        stage: 'ENCODING',
+        encoder: encoder,
+        encodedFrames: 0,
+        percentage: 0
+      });
     }
   })
 
   return encoder;
+}
+
+function setupVideo(pictures) {
+  const picturesStrLen = Math.ceil(Math.log10(pictures.length));
+  return mkdtemp('/tmp/stopmotion-') /* Hago el directorio temporal */
+         .then(tmpPath => {          /* Agrego las fotos */
+           const symlinks = pictures.map((picturePath, index) => {
+             index++; /* Tengo ganas de que las fotos arranquen en el índice 1 */
+             const indexStrLen = Math.ceil(Math.log10(index));
+             const paddedIndex = '0'.repeat(picturesStrLen - indexStrLen) + index.toString();
+             const [ extension ] = /\.[^.]*$/.exec(picturePath) || [''];
+             return symlink(picturePath, `${tmpPath}/${paddedIndex}${extension}`);
+           });
+           return Promise.all(symlinks).then(() => tmpPath); /* Me importa que ya symlinkie nomás */
+         });
 }
 
 export { renderVideo, generateXML, preview, startEncoding };

@@ -89,12 +89,18 @@ export default Ember.Controller.extend({
 
     previsualizar() {
       const seleccion = this.get('intervaloSeleccion');
-      const path = this.get('model.ubicacion');
-      const [encoder, videoPromise] = preview(seleccion, path, 24, (error, frame, porcentaje) => {
-        this.set('porcentajePreview', porcentaje);
-      });
+      const fotos = this.get('capturas')
+                        .slice(...seleccion)
+                        .map(({href}) => href);
+      const videoPromise = preview(fotos, 24, (error, progress) => {
+        this.set('previewStatus', progress.status);
+        console.info(`[${progress.stage}]`, progress);
 
-      this.set('previewEncoder', encoder);
+        if(progress.stage === 'ENCODING') {
+          this.set('previewEncoder', progress.encoder)
+          this.set('porcentajePreview', progress.percentage);
+        }
+      });
 
       videoPromise.then(video => {
         this.set('previewVideo', video);
