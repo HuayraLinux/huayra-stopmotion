@@ -19,16 +19,18 @@ function promisify(fun) {
 
 const { spawn } = requireNode('child_process');
 const fs = requireNode('fs');
-const [ rmdir, symlink, mkdtemp ] = [ promisify(fs.rmdir),
-                                      promisify(fs.symlink),
-                                      promisify(fs.mkdtemp) ];
+const [ rmdir, symlink, mkdtemp, unlink, readdir ] = [ fs.rmdir,
+                                                       fs.symlink,
+                                                       fs.mkdtemp,
+                                                       fs.unlink,
+                                                       fs.readdir ].map(promisify);
 const { Promise } = Ember.RSVP;
 
-function generateXML(videoLength, framesPath, fromThumbnails=false) {
+function generateXML(videoLength, framesPath) {
   /* Genero el gdx-pixbuf */
   const producer =
     `<producer id="video">
-       <property name="resource">${framesPath}/.all.${fromThumbnails? 'png' : 'thumbnail.jpeg'}</property>
+       <property name="resource">${framesPath}/.all.png</property>
        <property name="ttl">1</property>
        <property name="loop">0</property>
        <property name="mlt_service">pixbuf</property>
@@ -45,14 +47,18 @@ function preview(pictures, fps=24, onProgress=()=>{}) {
     completed: false
   });
 
-  return setupVideo(pictures).then(framesPath => {
+  let pathForDeletion = '';
+
+  const previewPromise = setupVideo(pictures).then(framesPath => {
     onProgress(false, {
       stage: 'PREPARATION',
       completed: true
     });
 
+    pathForDeletion = framesPath;
+
     const encoder = startEncoding(pictures.length, framesPath, fps,
-                                  'pipe:1', true, onProgress,
+                                  'pipe:1', onProgress,
                                   `f=webm vcodec=libvpx acodec=none deadline=realtime`);
 
     const previewPromise = new Promise((accept, reject) => {
@@ -66,29 +72,27 @@ function preview(pictures, fps=24, onProgress=()=>{}) {
     return previewPromise;
   });
 
-  /* TODO: Borrar la carpeta una vez terminado de encodear */
+  /* Borrar la carpeta una vez terminado de encodear
+   * tengo que borrar los contenidos primero porque rmdir es para directorios
+   * vacíos
+   */
+  const deleteFiles = () => {
+    return readdir(pathForDeletion)
+           .then(files => Promise.all(files.map(file => unlink(`${pathForDeletion}/${file}`))))
+           .then(() => rmdir(pathForDeletion))
+           .catch(() => rmdir(pathForDeletion));
+  };
+  previewPromise.then(deleteFiles);
+
+  return previewPromise;
 }
 
-function renderVideo(framesPath, fps, path, onProgress=()=>{}) {
-  return new Promise((accept, reject) => {
-    const readdir = requireNode('fs').readdir;
-
-    /* Veo los archivos de la carpeta */
-    readdir(path, (files) => {
-      /* Filtro los que me importan y los cuento */
-      const length = files.filter((file) => /\.png$/.test(file)).length;
-      /* Empiezo a encodear */
-      const encoder = startEncoding([0, length], framesPath, fps, path, false, onProgress);
-      encoder.on('close', (code) => {
-        if(code === 0) { accept(path); }
-        else { reject(encoder); }
-      });
-    });
-  });
+function renderVideo(pictures, fps=24, outputPath, onProgress=()=>{}) {
+  /* TODO: Hacer esto bien */
 }
 
-function startEncoding(videoLength, framesPath, fps, path, fromThumbnails=false, onProgress=()=>{}, encoderFlags='properties=/lossless/H.264 vcodec=libx264 acodec=none f=mp4') {
-  const xml = generateXML(videoLength, framesPath, fps, fromThumbnails);
+function startEncoding(videoLength, framesPath, fps, path, onProgress=()=>{}, encoderFlags='properties=/lossless/H.264 vcodec=libx264 acodec=none f=mp4') {
+  const xml = generateXML(videoLength, framesPath);
   const flags = `-consumer avformat:${path} ${encoderFlags} frame_rate_num=${fps} frame_rate_den=1 -progress`.split(' ');
   const encoder = spawn('melt', [`xml-string:${xml}`].concat(flags));
 

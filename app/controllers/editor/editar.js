@@ -92,7 +92,7 @@ export default Ember.Controller.extend({
       const fotos = this.get('capturas')
                         .slice(...seleccion)
                         .map(({href}) => href);
-      const videoPromise = preview(fotos, 24, (error, progress) => {
+      const videoPromise = preview(fotos, 20, (error, progress) => {
         this.set('previewStatus', progress.status);
         console.info(`[${progress.stage}]`, progress);
 
