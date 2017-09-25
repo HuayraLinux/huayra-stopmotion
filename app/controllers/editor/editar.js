@@ -68,6 +68,9 @@ export default Ember.Controller.extend({
   porcentajePreview: 0,
   cargandoPreview: Ember.computed.lt('porcentajePreview', 100),
 
+  timerInterval: 5000,
+  timer: null,
+
   aplicar(cambios) {
     cambios.save();
   },
@@ -75,6 +78,24 @@ export default Ember.Controller.extend({
   actions: {
     seleccionarCamara(indice) {
       this.get('camaras').seleccionarCamara(indice);
+    },
+
+    toggleTimer() {
+      const runTimer = () => {
+        this.send('capturar');
+
+        const interval = this.get('timerInterval');
+        const timer = Ember.run.later(null, runTimer, interval);
+        this.set('timer', timer);
+      };
+
+      const timer = this.get('timer');
+
+      if(timer) {
+        Ember.run.cancel(timer);
+      } else {
+        runTimer();
+      }
     },
 
     guardar() {

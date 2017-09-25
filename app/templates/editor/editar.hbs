@@ -9,6 +9,7 @@
 <!--  Barra de botones de accion superior -->
 		<div class="cabecera">
 			<button class="ui button botonppal" {{action "capturar"}} title="Sacar una foto"><i class="photo icon"></i> Capturar</button>
+			<button class="ui button botonppal" {{action "toggleTimer"}} title="toogleTimer"><i class="photo icon"></i></button>
 			<button class="ui toggle button {{if mostrarConfig "active"}} botonppal" {{action 'toggle' 'sub-sidebar'}} title="Ver/Ocultar Preferencias"><i class="setting icon"></i> </button>
 			<button class="ui button botonppal" {{action "previsualizar"}} title="Ver animacion"><i class="play icon"></i></button>
 			<button class="ui button botonppal" {{action "guardar"}} title="Guardar proyecto"><i class="save icon"></i></button>
