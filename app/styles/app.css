@@ -14,6 +14,18 @@ p.info {
 	right: 50px;
 }
 
+p.info-timer {
+	position: absolute;  /* info sobre cantidad de camaras disponibles */
+	top: 500px;
+	right: 50px;
+	z-index:800;
+	color: orange;
+	font-weight: bold;
+	font-size: 2em;
+
+}
+
+
 p.cursor-label {
 	color: cyan;
 	display: table-caption;

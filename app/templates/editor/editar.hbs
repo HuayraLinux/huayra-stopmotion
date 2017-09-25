@@ -32,6 +32,8 @@
 	                                 orientation="vertical"}}</p>
 <p class="zoom-out-icon"><i class="zoom out icon"></i></p>
 
+{{#if timer}}<p class="info-timer">02:00:00</p> {{/if}}
+
 <div class="principal"> <!-- Contiene a la vista de camara y a la de configuracion si fuese visible -->
 	<div class="ui pushable segment component context">
 		{{#ui-sidebar class="inverted menu right inline vertical " context=".component.context" id="sub-sidebar"
@@ -39,10 +41,10 @@
 		  <div id="config" class="configuracion">
 			<p class="panel">Panel de Configuraciones</p>
 				<div class="ui top attached tabular menu">
-					<div class="item" data-tab="tab-cebolla"><i class="clone icon chico"></i></div>
-					<div class="item" data-tab="tab-grilla"><i class="table icon chico"></i></div>
-					<div class="item" data-tab="tab-camara"><i class="photo icon chico"></i></div>
-					<div class="active item" data-tab="tab-temporizador"><i class="wait icon chico"></i></div>
+					<div class="item" data-tab="tab-cebolla"><i class="clone icon "></i></div>
+					<div class="item" data-tab="tab-grilla"><i class="table icon "></i></div>
+					<div class="item" data-tab="tab-camara"><i class="photo icon "></i></div>
+					<div class="active item" data-tab="tab-temporizador"><i class="wait icon "></i></div>
 				</div>
 				<div class="ui tab" data-tab="tab-cebolla">
 				  {{huayra-control-cebolla config=cebolla aplicar=(action aplicar)}}
