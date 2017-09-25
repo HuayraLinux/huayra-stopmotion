@@ -11,7 +11,7 @@ p.panel {
 p.info {
 	position: absolute;  /* info sobre cantidad de camaras disponibles */
 	top: 20px;
-	left: 290px;
+	right: 50px;
 }
 
 p.cursor-label {

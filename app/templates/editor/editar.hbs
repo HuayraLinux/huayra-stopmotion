@@ -9,7 +9,9 @@
 <!--  Barra de botones de accion superior -->
 		<div class="cabecera">
 			<button class="ui button botonppal" {{action "capturar"}} title="Sacar una foto"><i class="photo icon"></i> Capturar</button>
-			<button class="ui button botonppal" {{action "toggleTimer"}} title="toogleTimer"><i class="photo icon"></i></button>
+
+			<button class="ui toggle button {{if timer "active"}} botonppal" {{ action "toggleTimer" }} title="Activar Temporizador"><i class="wait icon"></i></button>	
+
 			<button class="ui toggle button {{if mostrarConfig "active"}} botonppal" {{action 'toggle' 'sub-sidebar'}} title="Ver/Ocultar Preferencias"><i class="setting icon"></i> </button>
 			<button class="ui button botonppal" {{action "previsualizar"}} title="Ver animacion"><i class="play icon"></i></button>
 			<button class="ui button botonppal" {{action "guardar"}} title="Guardar proyecto"><i class="save icon"></i></button>
@@ -36,10 +38,26 @@
 	                onHide=(action (mut mostrarConfig) false)}}
 		  <div id="config" class="configuracion">
 			<p class="panel">Panel de Configuraciones</p>
+				<div class="ui top attached tabular menu">
+					<div class="active item" data-tab="tab-cebolla"><i class="clone icon chico"></i></div>
+					<div class="item" data-tab="tab-grilla"><i class="table icon chico"></i></div>
+					<div class="item"><i class="photo icon chico"></i></div>
+					<div class="item"><i class="wait icon chico"></i></div>
+				</div>
+				<div class="ui active tab" data-tab="tab-cebolla">
+				  {{huayra-control-cebolla config=cebolla aplicar=(action aplicar)}}
+				</div>
+				<div class="ui tab" data-tab="tab-grilla">
+				  {{huayra-control-grilla config=grilla aplicar=(action aplicar)}}
+				</div>
 
-			  {{#if mostrarCebolla}} {{huayra-control-cebolla config=cebolla aplicar=(action aplicar)}} {{/if}}
-			  {{#if mostrarGrilla}}  {{huayra-control-grilla config=grilla aplicar=(action aplicar)}}   {{/if}}
-			  {{huayra-control-camara}}
+<!--				<div class="ui bottom attached active tab segment">
+				  {{huayra-control-camara}}
+				</div>
+				<div class="ui bottom attached active tab segment">
+				  {{huayra-control-cebolla config=cebolla aplicar=(action aplicar)}}
+				</div> -->
+
 		  </div>
 		{{/ui-sidebar}}
 
