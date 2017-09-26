@@ -8,6 +8,7 @@
 
 <!--  Barra de botones de accion superior -->
 		<div class="cabecera">
+			{{#link-to 'index'}}<button class="ui button botonppal" title="Volver al inicio"><i class="angle double left icon"></i></button>{{/link-to}}
 			<button class="ui button botonppal" {{action "capturar"}} title="Sacar una foto"><i class="photo icon"></i> Capturar</button>
 
 			<button class="ui toggle button {{if timer "active"}} botonppal" {{ action "toggleTimer" }} title="Activar Temporizador"><i class="wait icon"></i></button>
