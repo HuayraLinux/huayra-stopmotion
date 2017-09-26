@@ -10,7 +10,7 @@
 		<div class="cabecera">
 			<button class="ui button botonppal" {{action "capturar"}} title="Sacar una foto"><i class="photo icon"></i> Capturar</button>
 
-			<button class="ui toggle button {{if timer "active"}} botonppal" {{ action "toggleTimer" }} title="Activar Temporizador"><i class="wait icon"></i></button>	
+			<button class="ui toggle button {{if timer "active"}} botonppal" {{ action "toggleTimer" }} title="Activar Temporizador"><i class="wait icon"></i></button>
 
 			<button class="ui toggle button {{if mostrarConfig "active"}} botonppal" {{action 'toggle' 'sub-sidebar'}} title="Ver/Ocultar Preferencias"><i class="setting icon"></i> </button>
 			<button class="ui button botonppal" {{action "previsualizar"}} title="Ver animacion"><i class="play icon"></i></button>
@@ -39,26 +39,28 @@
 		{{#ui-sidebar class="inverted menu right inline vertical " context=".component.context" id="sub-sidebar"
 	                onHide=(action (mut mostrarConfig) false)}}
 		  <div id="config" class="configuracion">
-			<p class="panel">Panel de Configuraciones</p>
-				<div class="ui top attached tabular menu">
-					<div class="item" data-tab="tab-cebolla"><i class="clone icon "></i></div>
-					<div class="item" data-tab="tab-grilla"><i class="table icon "></i></div>
-					<div class="item" data-tab="tab-camara"><i class="photo icon "></i></div>
-					<div class="active item" data-tab="tab-temporizador"><i class="wait icon "></i></div>
-				</div>
-				<div class="ui tab" data-tab="tab-cebolla">
-				  {{huayra-control-cebolla config=cebolla aplicar=(action aplicar)}}
-				</div>
-				<div class="ui tab" data-tab="tab-grilla">
-				  {{huayra-control-grilla config=grilla aplicar=(action aplicar)}}
-				</div>
+			{{#huayra-semantic-tabs}}
+				<p class="panel">Panel de Configuraciones</p>
+					<div class="ui top attached tabular menu">
+						<div class="item" data-tab="tab-cebolla"><i class="clone icon "></i></div>
+						<div class="item" data-tab="tab-grilla"><i class="table icon "></i></div>
+						<div class="item" data-tab="tab-camara"><i class="photo icon "></i></div>
+						<div class="active item" data-tab="tab-temporizador"><i class="wait icon "></i></div>
+					</div>
+					<div class="ui tab" data-tab="tab-cebolla">
+					  {{huayra-control-cebolla config=cebolla aplicar=(action aplicar)}}
+					</div>
+					<div class="ui tab" data-tab="tab-grilla">
+					  {{huayra-control-grilla config=grilla aplicar=(action aplicar)}}
+					</div>
 
-				<div class="ui tab" data-tab="tab-camara">
-				  {{huayra-control-camara}}
-				</div>
-				<div class="ui active tab" data-tab="tab-temporizador">
-				  {{huayra-control-temporizador}}
-				</div> 
+					<div class="ui tab" data-tab="tab-camara">
+					  {{huayra-control-camara}}
+					</div>
+					<div class="ui active tab" data-tab="tab-temporizador">
+					  {{huayra-control-temporizador}}
+					</div>
+				{{/huayra-semantic-tabs}}
 
 		  </div>
 		{{/ui-sidebar}}
