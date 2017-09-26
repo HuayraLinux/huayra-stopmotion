@@ -554,6 +554,20 @@ div.configuracion {
 	margin-left: 130px !important;
 
 }
+
+/* TABS */
+.ui.tabular.menu .active.item {
+
+}
+.ui.tabular.menu .icon {
+	font-size: 1.2em;
+}
+
+/* centrado de icono en el tab */
+.ui.vertical.menu .item > i.icon {
+	margin: 0em;
+}
+
 .ui.checkbox input[type="checkbox"]{
 	color: orange;
 	
