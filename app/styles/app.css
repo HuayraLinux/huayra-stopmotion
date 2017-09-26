@@ -85,7 +85,7 @@ p.zoom-out-icon {
 
 	flex-grow: 1 auto;
 	order: 4;
-	background-color: black;
+	background-color: #606060;
 	min-height: 70px;
 	width: 100%;
 	white-space: nowrap;
