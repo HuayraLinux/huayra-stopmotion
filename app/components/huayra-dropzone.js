@@ -3,18 +3,18 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   classNames: ['dropzone'],
   classNameBindings: ['dragOverDropzone'],
-  dragOverDropzone: '',
+  dragOverDropzone: false,
 
   dragEnter(event) {
     /* Acá habría que chequear que lo que se está arrastrando sea una miniatura, selección o cursor */
-    if(event.dataTransfer.types.contains('x-ember/from')) {
+    if(event.dataTransfer.types.includes('x-ember/from')) {
       this.set('dragOverDropzone', 'dragOverDropzone');
       event.preventDefault(); /* Marco que soy una dropzone válida*/
     }
   },
 
   dragOver(event) {
-    if(event.dataTransfer.types.contains('x-ember/from')) {
+    if(event.dataTransfer.types.includes('x-ember/from')) {
       this.set('dragOverDropzone', 'dragOverDropzone');
       event.preventDefault(); /* Marco que soy una dropzone válida*/
     }

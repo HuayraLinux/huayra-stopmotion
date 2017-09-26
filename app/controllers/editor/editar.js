@@ -61,6 +61,8 @@ export default Ember.Controller.extend({
     return !(seleccion[0] === 0 && seleccion[1] === 0);
   }),
 
+  modoArrastre: 'insertar',
+
   previewEncoder: null,
   previewVideo: null,
   previewURL: '',
