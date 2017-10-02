@@ -1,10 +1,11 @@
+{{title (if cambiosSinGuardar '*') model.data.nombre}}
 {{outlet}}
 
 <div class="contenedor">
 
 	<div class="vbox header">
 
-    <p class="tmp-nota-derecha">Editando el proyecto {{model.ubicacion}}</p>
+    <p class="tmp-nota-derecha">Editando el proyecto: {{if cambiosSinGuardar "*"}}{{model.data.nombre}}</p>
 
 <!--  Barra de botones de accion superior -->
 		<div class="cabecera">

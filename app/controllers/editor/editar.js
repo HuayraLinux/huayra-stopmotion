@@ -73,6 +73,11 @@ export default Ember.Controller.extend({
   timerInterval: 5000,
   timer: null,
 
+  cambiosSinGuardar: false,
+  escucharCambios: Ember.observer('capturas.[]', function() {
+    this.set('cambiosSinGuardar', true);
+  }),
+
   aplicar(cambios) {
     cambios.save();
   },
@@ -103,7 +108,8 @@ export default Ember.Controller.extend({
 
     guardar() {
       let cuadros = this.get("capturas");
-      this.get('proyecto').guardarProyectoEnLaRuta(cuadros);
+      this.get('proyecto').guardarProyectoEnLaRuta(cuadros)
+                          .then(() => this.set('cambiosSinGuardar', false));
     },
 
     toggle: function(id) {
