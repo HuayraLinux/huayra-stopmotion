@@ -1,7 +1,7 @@
 <legend>Cámara</legend>
 {{#each controls as |control|}}
-  <p>
     <label>{{control.name}}:</label>
+    <br>
     {{#if (eq control.type "menu")}}
       <select onchange={{action (mut control.value) value="target.value"}}  disabled={{control.disabled}}>
         {{#each control.menu as |option index|}}
@@ -15,5 +15,4 @@
     {{else}}
       {{ui-slider value=(mut control.value) min=control.min max=control.max step=control.step orientation='horizontal' mood="info"}}
     {{/if}}
-  </p>
 {{/each}}

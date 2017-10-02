@@ -14,10 +14,10 @@ p.info {
 	right: 50px;
 }
 
-p.info-timer {
-	position: absolute;  /* info sobre cantidad de camaras disponibles */
-	top: 500px;
-	right: 50px;
+label.info-timer {
+	position: relative;  /* info sobre cantidad de camaras disponibles */
+	top: -12px;
+	left: 46%;
 	z-index:800;
 	color: orange;
 	font-weight: bold;
@@ -250,9 +250,11 @@ body > .ember-view {
     display: inline-block; /* table-cell;*/
     text-align: right;
     padding-right: 1em;
+	font-size: 0.8em;
 }
 
 .huayra-control legend {
+	font-weight: bold;
 	color: orange;
 	padding: 8px;
 }
@@ -364,7 +366,7 @@ body > .ember-view {
 	background-color: #d47535 !important;
 	border-width: 2px;
 	border-color: #201010 #ffc8a3 #ffc8a3 #201010;
-	color: #202020 !important;
+	color: white !important;
 }
 
 
@@ -536,10 +538,11 @@ div.configuracion {
 
 }
 
+/* SLIDERS */
 .slider.slider-horizontal {
 	flex: 0 !important;
-	width: 120px;
-	height: 40px;
+	width: 160px;
+	height: 25px;
 }
 
 .slider.slider-vertical {
@@ -550,18 +553,88 @@ div.configuracion {
 
 .slider.slider-horizontal .tooltip.top {
 
-	margin-top: 10px;
-	margin-left: 130px !important;
+	margin-top: 0px;
+	margin-left: 169px !important;
 
 }
 
+.slider.slider-vertical .slider-handle {
+	width: 15px;
+	height: 5px;
+	margin-left: -5px;
+	margin-top: 0px;
+	background-image: linear-gradient(to bottom, #4f4f4f 100%, #828282 0%);
+	background-repeat: repeat-x;
+	border-radius: 10%;	
+}
+
+.slider.slider-horizontal .slider-handle {
+	width: 5px;
+	height: 20px;
+	margin-left: 0px;
+	margin-top: -7px;
+	background-image: linear-gradient(to bottom, #4f4f4f 100%, #828282 0%);
+	background-repeat: repeat-x;
+	border-radius: 10%;	
+}
+
+.slider.slider-horizontal .slider-track {
+	height: 7px;
+}
+
+.slider.slider-vertical .slider-track {
+	width: 7px;
+}
+
+
+.slider.slider-horizontal .slider-selection {
+	background-image: linear-gradient(to bottom, #ffa500 0%, #ffa500 100%);
+}
+
+.slider-track {
+	border-radius: 1px;
+	background-image: linear-gradient(to bottom, #525252 0%, #424242 100%);
+	border-style: solid;
+	border-width: 1px;
+	border-color: #101010;
+}
+
+.slider-selection {
+	border-radius: 1px;
+	background-image: linear-gradient(to bottom, #ffa500 0%, #ffa500 100%);
+}
 /* TABS */
-.ui.tabular.menu .active.item {
 
+.ui.tabular.menu .item {
+	padding: 0px;
+	border-width: 1px 1px 0px 1px;
+	border-radius: 8px 8px 0px 0px !important;
+	border-color: #404040 !important;
+	background-color: #404040 !important;
 }
+
+.ui.tabular.menu .item:hover {
+	background-color: #606060 !important;
+}
+
+
+.ui.tabular.menu .active.item {
+	border-bottom-style: solid;
+	border-color: white !important;
+	border-bottom-color: #1b1c1d !important; /* Color para tapar la linea de base del tab activo */
+	border-radius: 8px 8px 0px 0px !important;
+	background-color: #1b1c1d !important;
+}
+
+.ui.tabular.menu .active.item:hover {
+	background-color: #1b1c1d !important;
+	color: orange;
+}
+
 .ui.tabular.menu .icon {
-	font-size: 1.2em;
+	font-size: 1.65em;
 }
+
 
 /* centrado de icono en el tab */
 .ui.vertical.menu .item > i.icon {
