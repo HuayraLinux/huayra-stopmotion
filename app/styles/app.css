@@ -156,30 +156,26 @@ body > .ember-view {
     height: 40px;
 }
 
-.seleccionado.huayra-cuadro {
+.seleccionado .huayra-cuadro {
   opacity: 0.9;
-  border-color: green;
-  border-width: 2px;
-  border-top-style: solid;
-  border-bottom-style: solid;
-	
 }
-.seleccionado-inicio {
+.seleccionado {
+	border-width: 2px;
+	border-color: green;
+	border-top-style: solid;
+	border-bottom-style: solid;
   border-left-style: solid;
-}
-
-.seleccionado-fin {
-  border-right-style: solid;
+	border-right-style: solid;
 }
 
 
-.insertar .dragOverDropzone {
+.insertar .dragged-over {
   border-color: #FF0000;
   border-width: 0px 0px 0px 4px;
   border-style: solid;
 }
 
-.sobrescribir .dragOverDropzone {
+.sobrescribir .dragged-over {
   border-color: #FF0000;
   border-width: 4px 4px 4px 4px;
   border-style: solid;
@@ -565,7 +561,7 @@ div.configuracion {
 	margin-top: 0px;
 	background-image: linear-gradient(to bottom, #4f4f4f 100%, #828282 0%);
 	background-repeat: repeat-x;
-	border-radius: 10%;	
+	border-radius: 10%;
 }
 
 .slider.slider-horizontal .slider-handle {
@@ -575,7 +571,7 @@ div.configuracion {
 	margin-top: -7px;
 	background-image: linear-gradient(to bottom, #4f4f4f 100%, #828282 0%);
 	background-repeat: repeat-x;
-	border-radius: 10%;	
+	border-radius: 10%;
 }
 
 .slider.slider-horizontal .slider-track {
@@ -643,7 +639,7 @@ div.configuracion {
 
 .ui.checkbox input[type="checkbox"]{
 	color: orange;
-	
+
 }
 
 .ui.checkbox label {

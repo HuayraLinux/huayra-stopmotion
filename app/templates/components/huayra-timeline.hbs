@@ -1,23 +1,30 @@
-{{#each capturas as |captura index|}}
-	{{#if (eq cursor index)}}
-	  {{#huayra-dropzone index=index onDrop='modificarTimeline'}}
-	    {{#huayra-cursor index=index}}
-			<p class="cursor-label"><i class="dropdown icon"></i></p>
-	      <button class="ui button cursortimeline"><i class="camera icon"></i></button>
-      {{/huayra-cursor}}
-		{{/huayra-dropzone}}
-  {{/if}}
-	{{#huayra-dropzone index=index onDrop='modificarTimeline'}}
-  	{{huayra-cuadro index=index cuadro=captura intervaloSeleccion=intervaloSeleccion accionAlHacerClick='alSeleccionarCuadro' draggable=true}}
-	{{/huayra-dropzone}}
-{{/each}}
-
-{{! Hay una dropzone al final del timeline}}
-{{#huayra-dropzone index=capturas.length onDrop='modificarTimeline'}}
-	{{#if (eq cursor capturas.length)}}
-  	{{#huayra-cursor index=capturas.length}}
-			<p class="cursor-label">CAMARA</p>
-			<button class="ui button cursortimeline" {{action sendAction "cursorClick"}}><i class="camera icon"></i></button>
-  	{{/huayra-cursor}}
-	{{/if}}
-{{/huayra-dropzone}}
+{{#ember-collection cell-layout=(huayra-timeline-layout 80 elementos)
+	                  items=elementos as |elemento index|}}
+	{{#huayra-dragdrop data=index type=elemento.tipo}}
+	  {{#if (eq elemento.tipo "foto")}}
+			{{huayra-cuadro index=elemento.index cuadro=elemento.captura onClick='seleccionarCuadro'}}
+		{{else if (eq elemento.tipo "seleccion")}}
+			<div class="seleccionado">
+				{{#each elemento.elementos as |elemento index|}}
+				  {{#if (eq elemento.tipo "foto")}}
+						{{huayra-cuadro index=elemento.index cuadro=elemento.captura onClick='seleccionarCuadro'}}
+					{{else if (eq elemento.tipo "cursor")}}
+						{{#huayra-cursor index=elemento.index}}
+							<p class="cursor-label"><i class="dropdown icon"></i></p>
+							<button class="ui button cursortimeline"><i class="camera icon"></i></button>
+						{{/huayra-cursor}}
+					{{else}}
+						{{!-- Error, acá no debería llegar nunca --}}
+					{{/if}}
+				{{/each}}
+			</div>
+		{{else if (eq elemento.tipo "cursor")}}
+			{{#huayra-cursor index=elemento.index}}
+				<p class="cursor-label"><i class="dropdown icon"></i></p>
+				<button class="ui button cursortimeline"><i class="camera icon"></i></button>
+			{{/huayra-cursor}}
+		{{else}}
+			{{!-- Error, acá no debería llegar nunca --}}
+		{{/if}}
+	{{/huayra-dragdrop}}
+{{/ember-collection}}

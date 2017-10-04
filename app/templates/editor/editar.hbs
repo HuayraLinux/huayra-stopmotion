@@ -38,7 +38,7 @@
 
 <div class="principal"> <!-- Contiene a la vista de camara y a la de configuracion si fuese visible -->
 	<div class="ui pushable segment component context">
-	
+
 		{{#ui-sidebar class="inverted menu right inline vertical " context=".component.context" id="sub-sidebar"
 	                onHide=(action (mut mostrarConfig) false)}}
 		  <div id="config" class="configuracion">
@@ -87,7 +87,7 @@
 <div class="contenedor">
   {{#if mostrarTimeline}}
     <div class="vbox timeline {{modoArrastre}}">
-      {{huayra-timeline capturas=capturas intervaloSeleccion=intervaloSeleccion cursor=cursor moverCuadro='moverCuadro' moverCursor='moverCursor' cursorClick=(action "capturar")}}
+      {{huayra-timeline capturas=capturas seleccion=intervaloSeleccion cursor=cursor moverCuadro='moverCuadro' moverCursor='moverCursor' cursorClick=(action "capturar")}}
     </div>
   {{/if}}
 	<div class="vbox botones-opciones">
