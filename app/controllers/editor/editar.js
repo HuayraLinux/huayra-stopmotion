@@ -100,7 +100,7 @@ export default Ember.Controller.extend({
 
       if(timer) {
         Ember.run.cancel(timer);
-	this.set('timer', null);
+        this.set('timer', null);
       } else {
         runTimer();
       }
