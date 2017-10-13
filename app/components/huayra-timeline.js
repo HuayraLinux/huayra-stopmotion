@@ -50,8 +50,8 @@ export default Ember.Component.extend({
       }
     },
 
-    processReorder() {
-
+    reordenar(from, data, tipo) {
+      console.log(from, data, tipo);
     }
   },
 
