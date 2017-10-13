@@ -82,14 +82,10 @@ p.zoom-out-icon {
 /* Contenedor para la linea de edicion */
 
 .vbox.timeline {
-
-	flex-grow: 1 auto;
 	order: 4;
 	background-color: #606060;
-	min-height: 70px;
 	width: 100%;
 	white-space: nowrap;
-	overflow-x: scroll;
 }
 
 /* Contenedor para los botones al pie de la pantalla de video */
@@ -661,6 +657,11 @@ div.configuracion {
 .ui.checkbox label:hover {
 	background-color: orange;
 	color: black;
+}
+
+.timeline-photo-container {
+	position: relative;
+	height: 85px;
 }
 
 #camara {

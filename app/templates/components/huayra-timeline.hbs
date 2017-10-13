@@ -1,4 +1,4 @@
-{{#ember-collection cell-layout=(huayra-timeline-layout 80 elementos)
+{{#ember-collection class="timeline-photo-container" cell-layout=(huayra-timeline-layout 80 70 elementos)
 	                  items=elementos as |elemento index|}}
 	{{#huayra-dragdrop data=index type=elemento.tipo}}
 	  {{#if (eq elemento.tipo "foto")}}

@@ -1,14 +1,19 @@
 import Ember from 'ember';
 
-export default Ember.Helper.helper(function(params/*, hash*/) {
+export default Ember.Helper.helper(function([width, height, elementos]/*, hash*/) {
+  const padding = 4;
+  const seleccionIndex = elementos.findIndex(elemento => elemento.tipo === 'seleccion');
+  const seleccion = elementos[seleccionIndex];
+  const seleccionLength = seleccion.elementos.length;
+
   return {
     /**
      * Return an object that describes the size of the content area
      */
     contentSize(clientWidth, clientHeight) {
       return {
-        width: params[0] * params[1].length,
-        height: clientHeight
+        width: (width + padding) * (elementos.length + seleccionLength - 1),
+        height: height
       };
     },
 
@@ -16,21 +21,34 @@ export default Ember.Helper.helper(function(params/*, hash*/) {
      * Return the index of the first item shown.
      */
     indexAt(offsetX, offsetY, clientWidth, clientHeight) {
-      return Math.floor(offsetX / params[0]);
+      const possibleIndex = Math.floor(offsetX / (width + padding));
+      const frameIndex = possibleIndex > seleccionIndex ?
+                         Math.max(0, possibleIndex - seleccionLength) : possibleIndex;
+
+      return frameIndex;
     },
 
     /**
      *  Return the number of items to display
      */
-    count(offsetX, offsetY, width, height) {
-      return Math.ceil(width / params[0]);
+    count(offsetX, offsetY, clientWidth, clientHeight) {
+      return Math.ceil(clientWidth / width);
     },
 
     /**
      * Return the css that should be used to set the size and position of the item.
      */
     formatItemStyle(itemIndex, clientWidth, clientHeight) {
-      return `display: inline-block; position: absolute; left: ${itemIndex * params[0]}px`;
+      const elemento = elementos[itemIndex];
+      let posicion = itemIndex * (width + padding);
+
+      if (elemento === seleccion && seleccionLength === 0) {
+        return 'display: none';
+      } else if (seleccionIndex < itemIndex) {
+        posicion += (seleccionLength - 1) * (width + padding);
+      }
+
+      return `position: absolute; left: ${posicion}px`;
     }
   }
 });
