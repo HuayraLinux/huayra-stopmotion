@@ -10,7 +10,7 @@ export default Ember.Helper.helper(function([width, height, elementos]/*, hash*/
     /**
      * Return an object that describes the size of the content area
      */
-    contentSize(clientWidth, clientHeight) {
+    contentSize() {
       return {
         width: (width + padding) * (elementos.length + seleccionLength - 1),
         height: height
@@ -20,7 +20,7 @@ export default Ember.Helper.helper(function([width, height, elementos]/*, hash*/
     /**
      * Return the index of the first item shown.
      */
-    indexAt(offsetX, offsetY, clientWidth, clientHeight) {
+    indexAt(offsetX) {
       const possibleIndex = Math.floor(offsetX / (width + padding));
       const frameIndex = possibleIndex > seleccionIndex ?
                          Math.max(0, possibleIndex - seleccionLength) : possibleIndex;
@@ -31,14 +31,14 @@ export default Ember.Helper.helper(function([width, height, elementos]/*, hash*/
     /**
      *  Return the number of items to display
      */
-    count(offsetX, offsetY, clientWidth, clientHeight) {
+    count(offsetX, offsetY, clientWidth) {
       return Math.ceil(clientWidth / width);
     },
 
     /**
      * Return the css that should be used to set the size and position of the item.
      */
-    formatItemStyle(itemIndex, clientWidth, clientHeight) {
+    formatItemStyle(itemIndex) {
       const elemento = elementos[itemIndex];
       let posicion = itemIndex * (width + padding);
 
