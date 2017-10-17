@@ -42,16 +42,32 @@ export default Ember.Component.extend({
       }
     },
 
-    modificarTimeline(desde, hasta, tipo) {
-      if(tipo === 'huayra-cuadro') {
-        this.sendAction('moverCuadro', desde, hasta);
-      } else if(tipo === 'huayra-cursor') {
-        this.sendAction('moverCursor', hasta);
-      }
-    },
+    reordenar(from, to, tipo) {
+      const [principio, fin] = this.get('seleccion');
 
-    reordenar(from, data, tipo) {
-      console.log(from, data, tipo);
+      if(tipo === 'cursor') {
+        this.sendAction('moverCursor', to)
+      } else {
+        if(tipo === 'seleccion') {
+          this.sendAction('reordenarTimeline', from, to, fin - principio);
+          /*** TODO: LIMPIAR ESTO ****/
+          this.set('seleccion.0', principio + (to - from));
+          this.set('seleccion.1', fin + (to - from));
+          /*** NO ESTÁ BUENO SIDEFECTEAR LA SELECCION ***/
+        } else if(tipo === 'foto') {
+          if(principio < from) {
+            from = from - 1 + fin - principio;
+          }
+          if(principio < to) {
+            to = to - 1 + fin - principio;
+          }
+          this.sendAction('reordenarTimeline', from, to);
+          if(to <= principio) {
+            this.set('seleccion.0', principio + 1);
+            this.set('seleccion.1', fin + 1);
+          }
+        }
+      }
     }
   },
 

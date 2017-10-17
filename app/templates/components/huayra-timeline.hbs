@@ -1,15 +1,15 @@
 {{#ember-collection class="timeline-photo-container" cell-layout=(huayra-timeline-layout 80 70 elementos)
 	                  items=elementos as |elemento index|}}
-	{{#huayra-dragdrop data=index type=elemento.tipo onDrop='reordenar'}}
+	{{#huayra-dragdrop data=index type=elemento.tipo onDrop="reordenar"}}
 	  {{#if (eq elemento.tipo "foto")}}
-			{{huayra-cuadro index=elemento.index cuadro=elemento.captura onClick='seleccionarCuadro'}}
+			{{huayra-cuadro index=elemento.index cuadro=elemento.captura onClick="seleccionarCuadro"}}
 		{{else if (eq elemento.tipo "seleccion")}}
 			<div class="seleccionado">
 				{{#each elemento.elementos as |elemento index|}}
 				  {{#if (eq elemento.tipo "foto")}}
-						{{huayra-cuadro index=elemento.index cuadro=elemento.captura onClick='seleccionarCuadro'}}
+						{{huayra-cuadro index=elemento.index cuadro=elemento.captura onClick="seleccionarCuadro"}}
 					{{else if (eq elemento.tipo "cursor")}}
-						<div class="huayra-cursor" {{action sendAction 'cursorClick'}}>
+						<div class="huayra-cursor" {{action sendAction "cursorClick"}}>
 							<p class="cursor-label"><i class="dropdown icon"></i></p>
 							<button class="ui button cursortimeline"><i class="camera icon"></i></button>
 						</div>
@@ -19,7 +19,7 @@
 				{{/each}}
 			</div>
 		{{else if (eq elemento.tipo "cursor")}}
-			<div class="huayra-cursor" {{action sendAction 'cursorClick'}}>
+			<div class="huayra-cursor" {{action sendAction "cursorClick"}}>
 				<p class="cursor-label"><i class="dropdown icon"></i></p>
 				<button class="ui button cursortimeline"><i class="camera icon"></i></button>
 			</div>
