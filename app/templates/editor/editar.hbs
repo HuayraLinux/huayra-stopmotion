@@ -38,7 +38,7 @@
 
 <div class="principal"> <!-- Contiene a la vista de camara y a la de configuracion si fuese visible -->
 	<div class="ui pushable segment component context">
-	
+
 		{{#ui-sidebar class="inverted menu right inline vertical " context=".component.context" id="sub-sidebar"
 	                onHide=(action (mut mostrarConfig) false)}}
 		  <div id="config" class="configuracion">
@@ -87,42 +87,34 @@
 <div class="contenedor">
   {{#if mostrarTimeline}}
     <div class="vbox timeline {{modoArrastre}}">
-      {{huayra-timeline capturas=capturas intervaloSeleccion=intervaloSeleccion cursor=cursor moverCuadro='moverCuadro' moverCursor='moverCursor' cursorClick=(action "capturar")}}
+      {{huayra-timeline capturas=capturas seleccion=intervaloSeleccion cursor=cursor
+				                reordenarTimeline="moverCuadros" moverCursor="moverCursor" cursorClick="capturar"}}
     </div>
   {{/if}}
 	<div class="vbox botones-opciones">
-			<button {{action toggleProperty "mostrarTimeline"}} class="ui toggle button {{if mostrarTimeline "active"}} botonchico" title="Ver linea de tiempo"><i class="film icon chico"></i></button>
-			<button {{action toggleProperty "mostrarGrilla"}}   class="ui toggle button {{if mostrarGrilla   "active"}} botonchico"><i class="table icon chico" title="Activar Guias"></i></button>
-			<button {{action toggleProperty "mostrarCebolla"}}  class="ui toggle button {{if mostrarCebolla  "active"}} botonchico" title="Ver Capa de Cebolla"><i class="clone icon chico"></i></button>
-			<!--
-			<button {{action "seleccionarCamara"}}class="ui toggle button active botonchico"><i class="record icon chico"></i></button>
-			-->
+		<button {{action toggleProperty "mostrarTimeline"}} class="ui toggle button {{if mostrarTimeline "active"}} botonchico" title="Ver linea de tiempo"><i class="film icon chico"></i></button>
+		<button {{action toggleProperty "mostrarGrilla"}}   class="ui toggle button {{if mostrarGrilla   "active"}} botonchico"><i class="table icon chico" title="Activar Guias"></i></button>
+		<button {{action toggleProperty "mostrarCebolla"}}  class="ui toggle button {{if mostrarCebolla  "active"}} botonchico" title="Ver Capa de Cebolla"><i class="clone icon chico"></i></button>
 
-<!--			<div class="ui vertical divider"></div> -->
+		{{#ui-dropdown class="selection" selected="insertar" onChange=(action (mut modoArrastre)) }}
+			<div class="default text">Seleccione un modo</div>
+			<i class="dropdown icon"></i>
+			<div class="menu">
+				<div class="item" data-value="insertar">INSERTAR</div>
+				<div class="item" data-value="sobrescribir">SOBRESCRIBIR</div>
+			</div>
+		{{/ui-dropdown}}
 
-{{#ui-dropdown class="selection" selected="insertar" onChange=(action (mut modoArrastre)) }}
-		<div class="default text">Seleccione un modo</div>
-		<i class="dropdown icon"></i>
-		<div class="menu">
-			<div class="item" data-value="insertar">INSERTAR</div>
-			<div class="item" data-value="sobrescribir">SOBRESCRIBIR</div>
-		</div>
-{{/ui-dropdown}}
+		<button class="ui button toggle {{if flipX "active"}} botonchico" title="Espejo Horizontal" {{action toggleProperty "flipX"}}><i class="resize horizontal icon chico"></i></button>
 
-			<button class="ui button toggle {{if flipX "active"}} botonchico" title="Espejo Horizontal" {{action toggleProperty "flipX"}}><i class="resize horizontal icon chico"></i></button>
+		<button class="ui button toggle {{if flipY "active"}} botonchico" title="Espejo Vertical" {{action toggleProperty "flipY"}}><i class="resize vertical icon chico"></i></button>
 
-			<button class="ui button toggle {{if flipY "active"}} botonchico" title="Espejo Vertical" {{action toggleProperty "flipY"}}><i class="resize vertical icon chico"></i></button>
+		{{#if hasAnyFlip}}
+			<div class="ui checkbox"><input name="flip-check" onchange={{action toggleProperty "writeFlipped"}} type="checkbox"><label>Espejado real</label></div>
+		{{/if}}
 
-			{{#if hasAnyFlip}}
-				<div class="ui checkbox"><input name="flip-check" onchange={{action toggleProperty "writeFlipped"}} type="checkbox"><label>Espejado real</label></div>
-			{{/if}}
-
-
-
-	<button class="ui button {{if haySeleccion '' 'disabled'}} botonchico " title="Eliminar cuadros seleccionados"  {{action "eliminarCuadrosSeleccionados"}}><i class="remove icon chico"></i></button>
-
+		<button class="ui button {{if haySeleccion '' 'disabled'}} botonchico " title="Eliminar cuadros seleccionados"  {{action "eliminarCuadrosSeleccionados"}}><i class="remove icon chico"></i></button>
 	</div>
-
 </div>
 
 {{#ui-modal name="preview" class="preview" onHidden=(action "cerrarPreview")}}
@@ -142,19 +134,3 @@
 		{{/if}}
   </div>
 {{/ui-modal}}
-<!--
-  <div class="controles-camara">
-    {{!huayra-control-cebolla config=(changeset cebolla) aplicar=(action aplicar)}}
-    {{!huayra-control-grilla config=(changeset grilla) aplicar=(action aplicar)}}
-    {{!huayra-control-camara}}
-  </div>
--->
-
-<!--
-  <div class="vbox controles">
-    <button class="ui button primary" {{action "capturar"}}>Capturar</button>
-    <button class="ui button secondary" {{action "previsualizar"}}>Previsualizar selección</button>
-
-    <button class="ui button red {{if haySeleccion '' 'disabled'}}" {{action "eliminarCuadrosSeleccionados"}}>Eliminar cuadros seleccionados</button>
-  </div>
--->
