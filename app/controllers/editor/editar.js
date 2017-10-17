@@ -209,7 +209,7 @@ export default Ember.Controller.extend({
 
     moverCuadros(desde, hasta, cantidad=1) {
        const capturas =  this.get('capturas');
-       /* Quito la captura que draggié */
+       /* Quito las capturas que draggié */
        const dragged = capturas.splice(desde, cantidad);
        const cursor = this.get('cursor');
 

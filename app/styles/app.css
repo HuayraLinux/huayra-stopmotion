@@ -164,17 +164,9 @@ body > .ember-view {
 	border-right-style: solid;
 }
 
-
-.insertar .dragged-over {
-  border-color: #FF0000;
-  border-width: 0px 0px 0px 4px;
-  border-style: solid;
-}
-
-.sobrescribir .dragged-over {
-  border-color: #FF0000;
-  border-width: 4px 4px 4px 4px;
-  border-style: solid;
+.dragged-over {
+	opacity: 0.7;
+	transition: opacity 0.12s ease;
 }
 
 .dropzone {

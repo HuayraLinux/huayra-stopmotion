@@ -12,6 +12,8 @@ export default Ember.Component.extend({
     return `x-ember/${this.get('type')}`;
   }),
 
+  cancelEndDrag: () => {},
+
   dragStart(event) {
     event.dataTransfer.setData('x-ember/from', this.get('data'));
     event.dataTransfer.setData('x-ember/type', this.get('type'));
@@ -20,7 +22,9 @@ export default Ember.Component.extend({
   dragEnter(event) {
     /* Acá habría que chequear que lo que se está arrastrando sea una miniatura, selección o cursor */
     if(event.dataTransfer.types.includes('x-ember/type')) {
+      console.log(event.dataTransfer.getData('x-ember/from'))
       this.set('draggedOver', true);
+      this.cancelEndDrag();
       event.preventDefault(); /* Marco que soy una dropzone válida*/
     }
   },
@@ -28,11 +32,20 @@ export default Ember.Component.extend({
   dragOver(event) {
     if(event.dataTransfer.types.includes('x-ember/type')) {
       this.set('draggedOver', true);
+      this.cancelEndDrag();
       event.preventDefault(); /* Marco que soy una dropzone válida*/
     }
   },
 
   dragLeave() {
+    const cancelable = Ember.run.debounce(this, this.endDrag, 250);
+    this.set('cancelEndDrag', () => {
+      Ember.run.cancel(cancelable);
+      this.set('cancelEndDrag', () => {});
+    });
+  },
+
+  endDrag() {
     this.set('draggedOver', false);
   },
 
