@@ -73,7 +73,6 @@ export default Ember.Controller.extend({
   timerInterval: 5000,
   timer: null,
   onIntervalChange: Ember.observer('timerInterval', function() {
-    const interval = this.get('timerInterval');
     const timer = this.get('timer');
     if(timer) {
       this.stopTimer();
