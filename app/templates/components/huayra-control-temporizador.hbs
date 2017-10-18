@@ -1,22 +1,4 @@
-{{!-- Debería enviar números en lugar de strings --}}
-<fieldset class="huayra-control">
-  <legend>Temporizador</legend>
-	<div class="ui right labeled input">
-		<label for="amount" class="ui label">Horas: </label>
-		<input placeholder="Amount" id="amount" type="text">
-		<div class="ui basic label"> Horas </div>
-	</div>
-<br>
-	<div class="ui right labeled input">
-		<label for="amount" class="ui label">Minutos: </label>
-		<input placeholder="Amount" id="amount" type="text">
-		<div class="ui basic label"> m </div>
-	</div>
-<br>
-	<div class="ui right labeled input">
-		<label for="amount" class="ui label">Segundos: </label>
-		<input placeholder="Amount" id="amount" type="text">
-		<div class="ui basic label"> s </div>
-	</div>
-
-</fieldset>
+<legend>Temporizador</legend>
+<div class="ui fluid input">
+  <input value={{value}} id="amount" step=1 type="time" oninput={{action (action sendAction "updateInterval") value="target.valueAsNumber"}}>
+</div>

@@ -72,6 +72,14 @@ export default Ember.Controller.extend({
 
   timerInterval: 5000,
   timer: null,
+  onIntervalChange: Ember.observer('timerInterval', function() {
+    const interval = this.get('timerInterval');
+    const timer = this.get('timer');
+    if(timer) {
+      this.stopTimer();
+      this.startTimer();
+    }
+  }),
 
   cambiosSinGuardar: false,
   escucharCambios: Ember.observer('capturas.[]', function() {
@@ -82,27 +90,38 @@ export default Ember.Controller.extend({
     cambios.save();
   },
 
+  startTimer() {
+    const interval = this.get('timerInterval');
+
+    const runTimer = () => {
+      this.send('capturar');
+      const timer = Ember.run.later(null, runTimer, interval);
+      this.set('timer', timer);
+    };
+
+    const newTimer = Ember.run.later(null, runTimer, interval);
+    this.set('timer', newTimer);
+  },
+
+  stopTimer() {
+    const timer = this.get('timer');
+
+    Ember.run.cancel(timer);
+    this.set('timer', null);
+  },
+
   actions: {
     seleccionarCamara(indice) {
       this.get('camaras').seleccionarCamara(indice);
     },
 
     toggleTimer() {
-      const runTimer = () => {
-        this.send('capturar');
-
-        const interval = this.get('timerInterval');
-        const timer = Ember.run.later(null, runTimer, interval);
-        this.set('timer', timer);
-      };
-
       const timer = this.get('timer');
 
       if(timer) {
-        Ember.run.cancel(timer);
-        this.set('timer', null);
+        this.stopTimer();
       } else {
-        runTimer();
+        this.startTimer();
       }
     },
 

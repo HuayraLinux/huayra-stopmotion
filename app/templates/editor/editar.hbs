@@ -61,7 +61,7 @@
 					  {{huayra-control-camara}}
 					</div>
 					<div class="ui active tab" data-tab="tab-temporizador">
-					  {{huayra-control-temporizador}}
+					  {{huayra-control-temporizador interval=timerInterval updateInterval=(action (mut timerInterval))}}
 					</div>
 				{{/huayra-semantic-tabs}}
 
@@ -78,7 +78,13 @@
 						{{#if mostrarGrilla}}  {{huayra-grilla config=grilla}}   {{/if}}
 					</div>
 				</div>
-				{{#if timer}}<label class="info-timer">2:00:00</label> {{/if}}
+				{{#if timer}}
+					<label class="info-timer">
+						{{#huayra-countdown interval=timerInterval as |horas minutos segundos|}}
+							{{format-number horas 2}}:{{format-number minutos 2}}:{{format-number segundos 2}}
+						{{/huayra-countdown}}
+					</label>
+				{{/if}}
 			</div>
 		</div>
 	</div>
