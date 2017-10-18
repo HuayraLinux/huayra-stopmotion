@@ -29,6 +29,10 @@ export default Ember.Component.extend({
     this.setTimer();
   },
 
+  willDestroy() {
+    Ember.run.cancel(this.get('timer'));
+  },
+
   aSecondPassed() {
     const secondsLeft = this.decrementProperty('secondsLeft');
 
