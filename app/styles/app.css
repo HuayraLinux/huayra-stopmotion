@@ -26,11 +26,6 @@ label.info-timer {
 }
 
 
-p.cursor-label {
-	color: cyan;
-	display: table-caption;
-	height: 3px;
-}
 
 p.zoom-slider {
 	position: absolute;
@@ -83,9 +78,11 @@ p.zoom-out-icon {
 
 .vbox.timeline {
 	order: 4;
-	background-color: #606060;
+	background-color: orange;
 	width: 100%;
 	white-space: nowrap;
+	font-size:0px; /* hack para eliminar espacio entre cuadros */
+	height:84px;
 }
 
 /* Contenedor para los botones al pie de la pantalla de video */
@@ -121,6 +118,44 @@ body > .ember-view {
 
 }
 
+/* Estilos de Cursor */
+.huayra-cursor {
+
+background-color: black;
+position: relative;
+top:1px;
+width: 81px;
+height:82px;
+margin-left:2px;
+
+}
+
+p.cursor-label {
+	color: orange;
+	display: table-caption;
+	background-color: black;
+	width: 81px;
+	height: 10px;
+	text-align: left;
+	font-size:12px;
+	
+}
+
+.ui.button.cursortimeline {
+	background-color: #00fffb;
+	border-style: solid;
+	border-color: black;
+	border-radius: 0px;
+	border-width: 1px;
+	height: 60px;
+	width:81px;
+	text-align: center;
+	position:relative;
+	top: 1px;
+}
+
+
+/* Timeline */
 
 .huayra-timeline ol, .huayra-timeline li, .huayra-timeline ul {
   margin:0px;
@@ -130,22 +165,27 @@ body > .ember-view {
 }
 
 .huayra-cuadro {
-  position: relative;
-  display: inline-block;
-  background-color: #1b1c1d;
-  text-align: center;
-  border-color: transparent;
-  border-top-style:solid;
-  border-bottom-style:solid;
+	position: relative;
+	display: inline-block;
+	background-color: #1b1c1d;
+	text-align: center;
+	/*  border-color: transparent;*/
+	height:84px;
+	border-style:solid;
+	border-width: 2px;
+	
+
 }
 
 .huayra-cuadro .huayra-cuadro-numero {
-	padding-left: 4px;
+	padding: 2px 4px 2px 4px;
 	text-align: left;
 	position:relative;
-	color: white;
+	color: orange;
 	text-shadow: none;
-	width: 80px; /* ancho fijo sin importar el aspecto del cuadro */
+	width: 81px; /* ancho fijo sin importar el aspecto del cuadro */
+	background-color: black;
+	font-size:12px;
 }
 
 .huayra-cuadro img {
@@ -153,15 +193,24 @@ body > .ember-view {
 }
 
 .seleccionado .huayra-cuadro {
-  opacity: 0.9;
+	opacity: 0.8;
+	border-left-width: 2px;
+	border-right-width: 2px;
+	border-top-width: 0px;
+	border-bottom-width: 0px;
+	border-style: solid;
+	height:68px;
+	width:83px;
+
+	
 }
+
 .seleccionado {
 	border-width: 2px;
-	border-color: green;
-	border-top-style: solid;
-	border-bottom-style: solid;
-  border-left-style: solid;
-	border-right-style: solid;
+	border-color: #22ffff;
+	border-style: solid;
+	font-size: 0px;
+	height: 72px;
 }
 
 
@@ -387,15 +436,6 @@ body > .ember-view {
 	color: #ffe2ce !important;
 }
 
-.ui.button.cursortimeline {
-	background-color: #00fffb;
-	border-style: dashed;
-	border-color: red;
-	border-radius: 0px;
-	border-width: 1px;
-	height: 40px;
-	text-align: center;
-}
 
 
 /* Boton deshabilitado */
@@ -661,7 +701,7 @@ div.configuracion {
 
 .timeline-photo-container {
 	position: relative;
-	height: 85px;
+	height: 100px;
 }
 
 #camara {
