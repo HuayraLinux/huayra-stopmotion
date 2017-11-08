@@ -5,7 +5,7 @@
 
 	<div class="vbox header">
 
-    <p class="tmp-nota-derecha">Editando el proyecto: {{if cambiosSinGuardar "*"}}{{model.data.nombre}}</p>
+<!--    <p class="tmp-nota-derecha">Editando el proyecto: {{if cambiosSinGuardar "*"}}{{model.data.nombre}}</p> -->
 
 <!--  Barra de botones de accion superior -->
 		<div class="cabecera">
@@ -37,6 +37,7 @@
 
 
 <div class="principal"> <!-- Contiene a la vista de camara y a la de configuracion si fuese visible -->
+	<div class="overlay"><i class="overlay photo icon"></i></div>
 	<div class="ui pushable segment component context">
 
 		{{#ui-sidebar class="inverted menu right inline vertical " context=".component.context" id="sub-sidebar"
@@ -69,6 +70,7 @@
 		{{/ui-sidebar}}
 
 		<div class="pusher">
+
 			<div class="ui basic segment" style="min-height:300px;">
 				<div class="pantalla">
 
@@ -88,6 +90,7 @@
 			</div>
 		</div>
 	</div>
+
 </div>
 
 <div class="contenedor">
