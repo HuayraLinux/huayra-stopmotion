@@ -139,7 +139,7 @@ p.cursor-label {
 	height: 10px;
 	text-align: left;
 	font-size:12px;
-	
+
 }
 
 .ui.button.cursortimeline {
@@ -174,7 +174,7 @@ p.cursor-label {
 	height:72px;
 	border-style:solid;
 	border-width: 2px;
-	
+
 
 }
 
@@ -203,7 +203,7 @@ p.cursor-label {
 	height:68px;
 	width:83px;
 
-	
+
 }
 
 .seleccionado {
@@ -504,7 +504,18 @@ div.cabecera {
 	padding-left: 10px;
 }
 
-div.overlay {
+@keyframes shot{
+	0%   {opacity: 0.0;}
+	15%  {opacity: 1.0;}
+	100% {opacity: 0.0;}
+}
+
+#foto-flash.flashing {
+	animation-name: shot;
+	animation-duration: 300ms;
+}
+
+#foto-flash {
 	background-color: white;
 	opacity: 0.0;
 	width: 100%;
@@ -512,20 +523,6 @@ div.overlay {
 	z-index:3000;
 	position: absolute;
 	pointer-events: none;
-	animation-name: shot;
-	animation-duration: 2s;
-}
-
-
-@keyframes shot{
-	0% {opacity: 0.0;}
-	50% {opacity:1.0;}
-	100% {opacity: 0.0;}
-}
-
-div.overlay.shot {
-	animation-name: shot;
-	animation-duration: 100ms;
 }
 
 

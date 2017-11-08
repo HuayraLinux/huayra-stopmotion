@@ -109,6 +109,15 @@ export default Ember.Controller.extend({
     this.set('timer', null);
   },
 
+  flashCaptura() {
+    //TODO: Reproducir sonido
+    const flash = $('#foto-flash')[0];
+
+    flash.classList.add('flashing');
+
+    flash.addEventListener('animationend', () => flash.classList.remove('flashing'), {once: true});
+  },
+
   actions: {
     seleccionarCamara(indice) {
       this.get('camaras').seleccionarCamara(indice);
@@ -196,6 +205,8 @@ export default Ember.Controller.extend({
       const writeFlipped = this.get('writeFlipped');
       const flipx = writeFlipped && this.get('flipX');
       const flipy = writeFlipped && this.get('flipY');
+
+      this.flashCaptura();
 
       this.set('capturandoFoto', true);
 
