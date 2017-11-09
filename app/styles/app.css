@@ -121,25 +121,37 @@ body > .ember-view {
 
 /* Estilos de Cursor */
 .huayra-cursor {
-
-background-color: black;
-position: relative;
-top:1px;
-width: 81px;
-height:71px;
-margin-left:2px;
+	display: inline-block;
+	background-color: black;
+	position: relative;
+	top:4px;
+	width: 84px;
+	height:61px;
+	text-align: center;
+/*	margin-left:2px;*/
 
 }
 
+.seleccionado .huayra-cursor {
+	top: 0px;
+/*	background-color: red; */
+}
 p.cursor-label {
 	color: orange;
 	display: table-caption;
 	background-color: black;
-	width: 81px;
-	height: 10px;
+	width: 84px;
+	height: 18px;
 	text-align: left;
 	font-size:12px;
+	top: 2px; 
+}
 
+.seleccionado .cursor-label {
+	height: 15px;
+	font-weight: bold;
+	top: -3px;
+	padding-bottom: 3px;
 }
 
 .ui.button.cursortimeline {
@@ -148,11 +160,12 @@ p.cursor-label {
 	border-color: black;
 	border-radius: 0px;
 	border-width: 1px;
-	height: 47px;
-	width:81px;
+	height: 41px;
+	width:74px;
 	text-align: center;
 	position:relative;
-	top: 1px;
+	top: -9px;
+	display: inline-block;
 }
 
 
