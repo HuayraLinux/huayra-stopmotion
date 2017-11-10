@@ -1,48 +1,52 @@
 {{title "Nuevo proyecto"}}
 {{outlet}}
-
-<div class="ui vertical stripe segment margin-top">
-  <div class="ui middle aligned grid container">
+<div class="centrado">
+ <div class="ui middle aligned grid container">
     <div class="row">
+	<div class="center aligned column">
+		<img src="imagenes/logo-nuevo-wide.png" width=353 height=52 class="logo-centrado">
+	</div>
+    </div>
 
-      <div class="twelve wide column center">
+    <div class="center row">
 
-        <div class="ui form">
+<!--	<div class="twelve wide column center"> -->
 
-          <div class="fields">
-            <div class="ten wide field {{if mensajeNombreInvalido 'error'}}">
-              <label>Nombre</label>
+	        <div class="ui form">
 
-              {{input id="nombre" type="text" value=model.nombre placeholder="ingrese el nombre del proyecto"}}
-            </div>
-          </div>
+	          <div class="fields">
+	            <div class="ten wide field {{if mensajeNombreInvalido 'error'}}">
+	              <label>Nombre</label>
+
+	              {{input id="nombre" type="text" value=model.nombre placeholder="Ingrese el nombre del proyecto"}}
+	            </div>
+	          </div>
 
 
-          <div class="fields">
-            <div class="ten wide field {{if mensajeNombreInvalido 'error'}}">
-              <label>Ubicación donde se guardará el proyecto</label>
+	          <div class="fields">
+	            <div class="ten wide field {{if mensajeNombreInvalido 'error'}}">
+	              <label>Ubicación donde se guardará el proyecto</label>
+			<div class="ui action input">
 
-              <p>
-                {{input id="ubicacion" type="text" value=model.ubicacion onclick=(action "seleccionarNuevaUbicacion") readonly="" placeholder="Pulse el botón 'explorar' para elegir una ruta"}}
-              </p>
+		        {{input id="ubicacion" type="text" value=model.ubicacion onclick=(action "seleccionarNuevaUbicacion") readonly="" placeholder="Pulse el botón para elegir una ruta"}} <button class="ui button" disabled={{model.noPuedeCambiarRuta}} {{action "seleccionarNuevaUbicacion"}}><i class="folder open outline icon"></i></button>
 
-              <button class="ui submit button mini" disabled={{model.noPuedeCambiarRuta}} {{action "seleccionarNuevaUbicacion"}}>Explorar</button>
+			</div>
+
+              
 
               {{#if model.noPuedeCambiarRuta}}
-                <span id='mensaje-de-error' class='color_gray'>No se puede la ruta cambiar desde la versión web.</span>
+                <span id='mensaje-de-error' class='color_gray'>No se puede cambiar la ruta desde la versión web.</span>
               {{/if}}
 
-            </div>
-          </div>
+	            </div>
+	          </div>
+        	</div>
+<!--      	</div> -->
 
-
-        </div>
-
-      </div>
     </div>
 
     <div class="row">
-      <div class="left aligned column">
+      <div class="center aligned column">
 
         <button id="crear-proyecto" class="ui button primary" disabled={{contieneErrores}} {{action "crearProyecto"}}>Crear el proyecto</button>
         {{#link-to 'index' id="cancelar" class="ui button"}}Cancelar{{/link-to}}

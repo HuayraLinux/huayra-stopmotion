@@ -32,7 +32,10 @@ export default Ember.Service.extend(Ember.Evented, {
     return new Ember.RSVP.Promise((success, reject) => {
       let fs = requireNode('fs');
       let electron = requireNode('electron');
-      let opciones = {properties: ['openDirectory']};
+      let opciones = {
+        title: 'Seleccionar una carpeta',
+        properties: ['openDirectory']
+      };
 
       electron.remote.dialog.showOpenDialog(opciones, (directorio) => {
 
@@ -76,7 +79,7 @@ export default Ember.Service.extend(Ember.Evented, {
     return new Ember.RSVP.Promise((success, reject) => {
       let fs = requireNode('fs');
       let electron = requireNode('electron');
-      let opciones = {properties: ['openDirectory']};
+      let opciones = {title: 'Seleccionar una carpeta con un proyecto', properties: ['openDirectory']};
 
       electron.remote.dialog.showOpenDialog(opciones, (directorio) => {
 

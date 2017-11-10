@@ -1,3 +1,6 @@
+
+
+
 /* Color de fondo de la app */
 body {
 	background-color: #efefef;
@@ -15,10 +18,10 @@ p.info {
 }
 
 label.info-timer {
-	position: relative;  /* info sobre cantidad de camaras disponibles */
+	position: relative;  /* contador del timer en pantalla */
 	top: -12px;
 	left: 46%;
-	z-index:800;
+	z-index:8000;
 	color: orange;
 	font-weight: bold;
 	font-size: 2em;
@@ -496,7 +499,15 @@ i.overlay.photo.icon {
 	left:calc(50% - 107px);
 }
 
+div.browser {
+	display: inline-block;
+}
 
+div.centrado {
+	display:block;
+	text-align: center;
+	padding: 50px;
+}
 
 div.principal{
 	height: 70%;
@@ -518,14 +529,14 @@ div.cabecera {
 }
 
 @keyframes shot{
-	0%   {opacity: 0.0;}
-	15%  {opacity: 1.0;}
+	0%   {opacity: 1.0;}
+	25%  {opacity: 0.9;}
 	100% {opacity: 0.0;}
 }
 
 #foto-flash.flashing {
 	animation-name: shot;
-	animation-duration: 300ms;
+	animation-duration: 400ms;
 }
 
 #foto-flash {
@@ -556,6 +567,9 @@ div.cabecera {
 	background-color: #1b1c1d;
 }
 
+.ui.action.input {
+	width: 400px;
+}
 
 .ui.segment {
 	border-style: none;
@@ -566,6 +580,21 @@ div.cabecera {
 .ui.basic.segment {
 	padding: 0px;
 }
+
+/* Ajustes para ventana Nuevo Proyecto */
+.ui.form .field > label {
+	text-align:left;
+}
+
+.ui.grid > .row {
+	justify-content: center;
+	display: block;
+}
+
+.ui.form .ten.wide.field {
+	margin:auto;
+}
+/* ------------------------------------*/
 
 .canvas-layer { /* Estilo que usan todas las capas, video, grilla, cebolla */
 	width:100%;
