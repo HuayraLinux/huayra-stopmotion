@@ -17,6 +17,13 @@ p.info {
 	right: 50px;
 }
 
+label.framenumber {
+	color: orange;
+	font-weight: bold;
+	display: inline-block;
+
+}
+
 label.info-timer {
 	position: relative;  /* contador del timer en pantalla */
 	top: -12px;
@@ -503,11 +510,12 @@ div.browser {
 	display: inline-block;
 }
 
-div.centrado {
-	display:block;
-	text-align: center;
-	padding: 50px;
+div.live-switch {
+	display: inline-flex;
+	color: orange;
+
 }
+
 
 div.principal{
 	height: 70%;
@@ -582,6 +590,12 @@ div.cabecera {
 }
 
 /* Ajustes para ventana Nuevo Proyecto */
+div.centrado {
+	display:block;
+	text-align: center;
+	padding: 50px;
+}
+
 .ui.form .field > label {
 	text-align:left;
 }
@@ -644,6 +658,11 @@ div.configuracion {
 }
 
 /* SLIDERS */
+
+.slider .tooltip-inner {
+	visibility: hidden;
+}
+
 .slider.slider-horizontal {
 	flex: 0 !important;
 	width: 160px;
