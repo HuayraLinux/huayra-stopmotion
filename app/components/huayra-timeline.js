@@ -16,9 +16,8 @@ export default Ember.Component.extend({
     capturas.splice(cursor.index, 0, cursor);
 
     /* Como insterté el cursor si está adentro de la selección tengo que agrandarla */
-    if(cursor.index >= seleccion[0] && cursor.index < seleccion[1]) {
-      seleccion[1]++;
-    }
+    if(seleccion[0] >= cursor.index) seleccion[0]++;
+    if(seleccion[1] >= cursor.index) seleccion[1]++
 
     /* Splice es un método horrible así que explico los argumentos para ahorrar una googleada:
      *   desde el índice donde inicia la seleccion
@@ -44,6 +43,10 @@ export default Ember.Component.extend({
 
     reordenar(from, to, tipo) {
       const [principio, fin] = this.get('seleccion');
+      const cursor = this.get('cursor');
+
+      if(from > cursor) from -= 1;
+      if(to   > cursor) to   -= 1;
 
       if(tipo === 'cursor') {
         this.sendAction('moverCursor', to)
