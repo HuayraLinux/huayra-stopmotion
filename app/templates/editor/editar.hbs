@@ -79,6 +79,7 @@
 						{{huayra-camara flipX=flipX flipY=flipY}}
 						{{#if mostrarCebolla}} {{huayra-cebolla config=cebolla}} {{/if}}
 						{{#if mostrarGrilla}}  {{huayra-grilla config=grilla}}   {{/if}}
+						{{huayra-cuadroactual config=cuadroActual}}
 					</div>
 				</div>
 				{{#if timer}}
@@ -125,7 +126,7 @@
 
 		<button class="ui button {{if haySeleccion '' 'disabled'}} botonchico " title="Eliminar cuadros seleccionados"  {{action "eliminarCuadrosSeleccionados"}}><i class="remove icon chico"></i></button>
 		
-<div class="live-switch"><i class="square icon chico"></i>{{ui-slider min=1 max=10 step=1 value=5 }}<i class="square outline icon chico"></i></div>
+<div class="live-switch"><i class="square icon chico"></i>{{ui-slider min=0 max=1 step=0.01 value=(mut cuadroActual.alpha)}}<i class="square outline icon chico"></i></div>
 	<label class="framenumber">Cuadro actual: {{ cursor }}</label>
 	</div>
 </div>

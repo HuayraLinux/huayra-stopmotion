@@ -26,6 +26,8 @@ export default Ember.Controller.extend({
 
   copiarCapturas: copyOnChange('capturas', 'cebolla.frames'),
   copiarCursor: copyOnChange('cursor', 'cebolla.cameraFrame'),
+  copiarCapturas: copyOnChange('capturas', 'cuadroActual.frames'),
+  copiarCursor: copyOnChange('cursor', 'cuadroActual.cameraFrame'),
 
   mostrarGrilla: false,
   grilla: {
@@ -43,6 +45,12 @@ export default Ember.Controller.extend({
     pastFrames: 3,   /* Integer */
     cameraFrame: 0,  /* Integer */
     alpha: 0.2,      /* Float */
+  },
+
+  cuadroActual: {
+    frames: [],
+    cameraFrame: 0,
+    alpha: 0
   },
 
   mostrarTimeline: true,
@@ -264,6 +272,8 @@ export default Ember.Controller.extend({
     },
 
     moverCursor(hasta) {
+      if(hasta < 0) hasta = 0;
+      if(hasta > this.get('capturas.length')) hasta = this.get('capturas.length');
       this.set('cursor', hasta);
     }
   }
