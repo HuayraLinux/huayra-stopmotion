@@ -88,7 +88,9 @@ export default Ember.Controller.extend({
   teclas: Ember.inject.service(),
   escucharTeclas: Ember.on('init', function() {
     const teclas = this.get('teclas');
-    teclas.on('capturar', () => this.send('capturar'));
+    teclas.on('enter',  () => this.send('capturar'));
+    teclas.on('izquierda', () => this.send('moverCursor', this.get('cursor') - 1));
+    teclas.on('derecha',   () => this.send('moverCursor', this.get('cursor') + 1));
   }),
 
   aplicar(cambios) {
