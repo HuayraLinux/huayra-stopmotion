@@ -25,13 +25,14 @@ label.framenumber {
 }
 
 label.info-timer {
-	position: relative;  /* contador del timer en pantalla */
-	top: -12px;
-	left: 46%;
+	position: absolute;  /* contador del timer en pantalla */
+	top: 75%;
+	left: calc(50% - 100px);
 	z-index:8000;
-	color: orange;
+	color: white;
 	font-weight: bold;
-	font-size: 2em;
+	font-size: 4em;
+	text-shadow: -2px 0 black, 0 2px black, 0 -2px black, 2px 0 black;
 
 }
 

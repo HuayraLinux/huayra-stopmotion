@@ -85,6 +85,12 @@ export default Ember.Controller.extend({
     this.set('cambiosSinGuardar', true);
   }),
 
+  teclas: Ember.inject.service(),
+  escucharTeclas: Ember.on('init', function() {
+    const teclas = this.get('teclas');
+    teclas.on('capturar', () => this.send('capturar'));
+  }),
+
   aplicar(cambios) {
     cambios.save();
   },
