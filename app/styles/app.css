@@ -55,6 +55,7 @@ p.zoom-icon {
 	top: 420px;
 	left: 15px;
 	z-index:900;
+	text-shadow: 1px 0 black, -1px 0 black, 0 1px black, 0 -1px black;
 }
 
 p.zoom-out-icon {
@@ -64,6 +65,7 @@ p.zoom-out-icon {
 	top: 160px;
 	left: 15px;
 	z-index:900;
+	text-shadow: 1px 0 black, -1px 0 black, 0 1px black, 0 -1px black;
 }
 
 
