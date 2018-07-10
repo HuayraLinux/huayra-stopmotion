@@ -2,51 +2,34 @@
 
 [![Build Status](https://travis-ci.org/HuayraLinux/huayra-stopmotion.svg?branch=develop)](https://travis-ci.org/HuayraLinux/huayra-stopmotion)
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+Huayra Stopmotion es un programa para realizar animaciones con una cámara web. En este branch estamos trabajando para actualizar la interfaz y añadir varias mejoras.
 
-## Prerequisites
+![](imagenes/preview.jpg)
+![](imagenes/panel.jpg)
 
-You will need the following things properly installed on your computer.
+## Nuevas features y correcciones
+
+* Panel de configuración se puede ocultar maximizando la vista del proyecto
+* Flip horizontal y vertical puede aplicarse en la imagen al guardar
+* Modo temporizador mejorado, sin límites para el retardo y con contador en pantalla.
+* Edición de línea de tiempo corregida
+* Zoom en la vista de cámara
+
+## Dependencias
+
+Para poder instalarlo necesitarás las siguientes dependencias
 
 * [Git](https://git-scm.com/)
 * [Node.js](https://nodejs.org/) (with NPM)
 * [Ember CLI](https://ember-cli.com/)
 * [Google Chrome](https://google.com/chrome/)
 
-## Installation
+## Instalación y ejecución
 
-* `git clone <repository-url>` this repository
-* `cd my-app`
+* `git clone <repository-url>` este repositorio
+* `cd huayra-stopmotion`
 * `npm install`
+* `ember b`
+* `electron .`
 
-## Running / Development
 
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
-
-### Code Generators
-
-Make use of the many generators for code, try `ember help generate` for more details
-
-### Running Tests
-
-* `ember test`
-* `ember test --server`
-
-### Building
-
-* `ember build` (development)
-* `ember build --environment production` (production)
-
-### Deploying
-
-Specify what it takes to deploy your app.
-
-## Further Reading / Useful Links
-
-* [ember.js](https://emberjs.com/)
-* [ember-cli](https://ember-cli.com/)
-* Development Browser Extensions
-  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
-  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
