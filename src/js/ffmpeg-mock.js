@@ -61,11 +61,11 @@ Ffmpeg.prototype.saveToFile = function(fileName, callback) {
   }
   options = options.concat(['-y', fileName]);
 
-  exec('avconv ' + options.join(' '), function(err, stdout, stderr) {
+  exec('ffmpeg ' + options.join(' '), function(err, stdout, stderr) {
     callback(stdout, stderr, err);
   });
 
-  console.log('avconv ' + options.join(' '));
+  console.log('ffmpeg ' + options.join(' '));
 
   return this;
 };

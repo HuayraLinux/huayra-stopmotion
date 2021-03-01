@@ -1,3 +1,9 @@
+huayra-stopmotion (1:0.5.3.2) unstable; urgency=medium
+
+  * cambio avconv => ffmpeg 
+
+ -- Fernando Toledo <ragnarok@docksud.com.ar>  Mon, 01 Mar 2021 17:19:29 -0300
+
 huayra-stopmotion (1:0.5.3.1) unstable; urgency=medium
 
   * actuliazando paquete para Huayra 5
