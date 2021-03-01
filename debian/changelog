@@ -1,3 +1,9 @@
+huayra-stopmotion (1:0.5.3.1) unstable; urgency=medium
+
+  * actuliazando paquete para Huayra 5
+
+ -- Fernando Toledo <ragnarok@docksud.com.ar>  Mon, 01 Mar 2021 17:02:25 -0300
+
 huayra-stopmotion (1:0.5.3.0) unstable; urgency=medium
 
   * Cambiada la forma en la que se genera el WM_CLASS
