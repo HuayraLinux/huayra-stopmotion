@@ -1,16 +1,16 @@
 Source: huayra-stopmotion
 Section: video
 Priority: extra
-Maintainer: Hugo Ruscitti <hugoruscitti@gmail.com>
-Build-Depends: debhelper (>= 8.0.0), nodejs, nodejs-legacy, npm, git
+Maintainer: Fernando Toledo <ragnarok@docksud.com.ar>
+Build-Depends: debhelper (>= 9.0.0), git, wget, ca-certificates
 Standards-Version: 3.9.3
 Homepage: http://github.com/HuayraLinux/huayra-stopmotion
+Vcs-Git: http://github.com/HuayraLinux/huayra-stopmotion.git
 
 Package: huayra-stopmotion
 Architecture: any
-Depends: ${misc:Depends}, node-webkit, libav-tools , uvcdynctrl,
- uvccapture, fswebcam, huayra-help (>= 0.3), node-q (>= 0.4.4),
- node-bluebird (>= 0.4.4)
+Depends: ${misc:Depends}, node-webkit, ffmpeg (>= 7:4.1.6), uvcdynctrl,
+  uvccapture, fswebcam
 Description: Permite realizar animaciones de stopmotion
  Huayra-motion permite crear películas y cortos animados
  utilizando la técnica de animación stopmotion, que consiste

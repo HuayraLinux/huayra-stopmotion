@@ -10,19 +10,29 @@
 # Modified to make a template file for a multi-binary package with separated
 # build-arch and build-indep targets  by Bill Allombert 2001
 
-# export DH_VERBOSE=1
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
 
-DEB_DH_SHLIBDEPS_ARGS_ALL=--dpkg-shlibdeps-params=--ignore-missing-info
 # This has to be exported to make some magic below work.
 export DH_OPTIONS
-export DEB_DH_SHLIBDEPS_ARGS_ALL
 
+# pbuilder doesn't set a valid $HOME on purpose, we need it for the npm cache
+ifeq ($(shell test -e $(HOME) || echo no),no)
+	export HOME=/tmp
+endif
+
+# Node
+NODE_VERSION=v12.21.0
+NODE_FILENAME=node-$(NODE_VERSION)-linux-x64
+NODE_TARBALL=$(NODE_FILENAME).tar.xz
+
+PATH:=./$(NODE_FILENAME)/bin:$(PATH)
 
 %:
-	dh $@ 
+	dh $@
 
-override_dh_shlibdeps:
-	@echo "..."
-
-override_dh_install:
-	dh_install
+override_dh_auto_configure:
+	wget https://nodejs.org/dist/$(NODE_VERSION)/$(NODE_TARBALL)
+	tar xvf $(NODE_TARBALL)
+	node -v; npm -v
+	npm i
