@@ -185,7 +185,7 @@ app.service('Proyecto', function(Menu, $q) {
         var acciones = "<div class='accion' onclick='borrar()'><i class='icon icon-trash icon-white'></i></div>";
         ruta_a_imagen += '?nocache=' + parseInt(Math.random()* 1000 + 1000, 10);
 
-        var image = '<li class="cargando"><img onload="mostrar(this, \'RUTA\'); return false" class="img-invisible" src="img/divider.jpg"></img>ACCIONES</li>'.replace('RUTA', ruta_a_imagen).replace('ACCIONES', acciones);
+        var image = '<li class="cargando"><img onload="mostrar(this, \'file://RUTA\'); return false" class="img-invisible" src="img/divider.jpg"></img>ACCIONES</li>'.replace('RUTA', ruta_a_imagen).replace('ACCIONES', acciones);
         var a = this.sly.add(image);
 
         //this.sly.moveBefore(-1, position +1);

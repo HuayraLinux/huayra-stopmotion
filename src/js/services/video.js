@@ -6,7 +6,7 @@ app.service('Video', function() {
     var video = document.querySelector('video');
     var exec = require('child_process').exec;
     var capturador = undefined;
-    
+    var camara_id = 0;    
     /**
      * Capturador de video que se utiliza si el equipo
      * no soporta acceso a la webcam utilizando HTML5.
@@ -94,7 +94,8 @@ app.service('Video', function() {
 
 
     this.iniciar = function(callback_respuesta) {
-        
+    
+        console.log("Iniciar stream:" + this.camara_id);
         function cuando_falla(error) {
           console.log(error);
           //var video = document.querySelector('video');
@@ -108,17 +109,36 @@ app.service('Video', function() {
         }
 
         function cuando_obtiene_stream(stream) {
-          video.src = window.URL.createObjectURL(stream);
+          console.log("Recibio stream");
+          if ('srcObject' in video) {
+            console.log("usando nwjs > 0.67");
+            video.srcObject = stream;
+          }
+          else {
+            console.log("fallback nwjs 0.12?");
+            video.src = window.URL.createObjectURL(stream);
+          }
           callback_respuesta("html5");
         }
 
         window.URL = window.URL || window.webkitURL;
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-
+        if (process.versions['node-webkit'] =='0.12.3') {
+            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+        }
+        
         if (navigator.getUserMedia) {
-          var medios = {audio: false, video: true};
+          console.log("Camara_ID: " + this.camara_id);
 
-          navigator.getUserMedia(medios, cuando_obtiene_stream, cuando_falla);
+  
+        
+          if (!this.camara_id) {
+            var medios = {audio: false, video: true};          
+          }
+          else {
+            var medios = {audio: false, video: {deviceId: {exact: this.camara_id}}};                     
+          }
+
+            navigator.getUserMedia(medios, cuando_obtiene_stream, cuando_falla);
         }
 
     }

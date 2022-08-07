@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -96,12 +97,16 @@
 
             window.URL = window.URL || window.webkitURL;
             navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-
             var video = document.querySelector('video');
 
             if (navigator.getUserMedia) {
                 navigator.getUserMedia({audio: false, video: true}, function(stream) {
-                    video.src = window.URL.createObjectURL(stream);
+                    if ('srcObject' in video) {
+                        video.srcObject = stream;
+                    }
+                    else {
+                        video.src = window.URL.createObjectURL(stream);
+                    }
                     iniciar_sockets_y_transmision();
                 }, onFailSoHard);
             } else {

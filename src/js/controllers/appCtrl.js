@@ -24,7 +24,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
   $scope.titulo = "Sin título";
   $scope.sonido_habilitado = true;
   $scope.camaras = [];
-  $scope.camara_seleccionada = 1;
+  $scope.camara_seleccionada = 0;
   $scope.camara_seleccionada_obj = {};
   $scope.panel_visible = true;
   $scope.puerto_remoto = "???";
@@ -651,27 +651,52 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.tab_seleccionado = "tab" + numero;
   };
 
-  $scope.seleccionar_camara = function (numero, socket_id) {
-    var indice = -1;
+  console.log("Agregando camaras detectadas");
+  navigator.mediaDevices.getUserMedia({ video:true }).then(() => {
+        navigator.mediaDevices.enumerateDevices().then((devices) => {
+            devices.forEach((device) => {
+                if (device.kind =='videoinput') {
+                    console.log(device.kind + ": " + device.label +
+                        " id = " + device.deviceId);
+
+                    $scope.camaras.push({
+                        label: device.label,
+                        id: device.deviceId,
+                        socket: undefined
+                    });
+                }
+
+            })
+            $scope.seleccionar_camara(0);
+
+        }).catch((err) => {
+            console.error(err.name + ": " + err.message);
+        })
+    })
+    console.log("Camaras:");
+    console.log($scope.camaras);
+
+
+  $scope.seleccionar_camara = function (numero) {
+    console.log("seleccionar camara nro:" + numero);
     if (numero)
-    $scope.detener();
+        $scope.detener();
 
     $scope.camara_seleccionada = numero;
+    $scope.camara_seleccionada_obj = $scope.camaras[numero];
+    //Video.camara_id = $scope.camaras[numero].id;
+    console.log("Seleccionada:");
+    console.log($scope.camara_seleccionada_obj);
+    Video.camara_id = $scope.camara_seleccionada_obj.id;
+    Video.iniciar(function(modo) {
+        $scope.modo = modo;
+        $scope.$apply();
+    });
 
-    if( socket_id !== undefined ){
-      for (var i=0; i<$scope.camaras.length; i++) {
-        if ($scope.camaras[i].id == socket_id){
-          $scope.camara_seleccionada_obj = $scope.camaras[i];
-          break;
-        }
-      }
-    }
-    else{
-      $scope.camara_seleccionada_obj = $scope.camaras[numero];
-    }
   };
 
-  $scope.seleccionar_camara(1);
+ 
+ 
 
   function actualizar_efectos(_old, _new) {
     var video = document.querySelector('video');
@@ -752,19 +777,14 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     var canvas = document.getElementById("canvas");
     var previsualizado = document.getElementById("previsualizado");
 
-    if ($scope.camara_seleccionada == 1) {
-      if ($scope.modo === 'html5') {
-        dibujar_imagen_sobre_canvas(video, canvas);
-        dibujar_imagen_sobre_canvas(video, previsualizado);
-      } else {
-        var imagen_uvc = document.getElementById('imagen_uvc');
-        dibujar_imagen_sobre_canvas(imagen_uvc, canvas);
-        dibujar_imagen_sobre_canvas(imagen_uvc, previsualizado);
-      }
-    } else {
+    if ($scope.camaras[$scope.camara_seleccionada].socket) {
       var imagen_remota = document.getElementById('imagen_remota');
       dibujar_imagen_sobre_canvas(imagen_remota, canvas);
       dibujar_imagen_sobre_canvas(imagen_remota, previsualizado);
+
+    } else {
+        dibujar_imagen_sobre_canvas(video, canvas);
+        dibujar_imagen_sobre_canvas(video, previsualizado);
     }
 
     var imagen = convertCanvasToImage(canvas);
@@ -970,7 +990,11 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
   $scope.abrir_modo_desarrollador = function() {
     var gui = require('nw.gui');
     var w = gui.Window.get();
-    w.showDevTools();
+    if (process.versions['nw-flavor'] == 'sdk') {
+        w.showDevTools();
+    } else {
+        alert ("Para usar las herramientas de desarrollo, debe ejecutar la aplicacion con una version SDK de nw.js");
+    }
   };
 
   window.borrar = function() {
@@ -1108,7 +1132,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     var server = http.createServer(app);
 
     app.configure(function(){
-      app.set('port', 3000 + Math.floor(Math.random() * 1000));
+      app.set('port', 8000 + Math.floor(Math.random() * 1000));
       app.use(express.static('./public'));
     });
 
@@ -1150,6 +1174,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         indice: $scope.camaras.length + 1,
         socket: socket,
         id: socket.id,
+        label: 'Remoto ' + socket.id
       });
 
       $scope.$apply();
@@ -1176,7 +1201,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
         var imagen_remota = document.getElementById('imagen_remota');
 
         if( $scope.camara_seleccionada_obj !== undefined ){
-          if( socket.id == $scope.camara_seleccionada_obj.id ){
+          if( socket.id == $scope.camara_seleccionada_obj.socket ){
             var buffer = data.data;
             imagen_remota.src = buffer;
           }

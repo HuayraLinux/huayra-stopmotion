@@ -93,10 +93,10 @@
                 <div class="sidebar-camara">
                     <ul class="sr-control-item">
 
-                        <li class="active"><a ng-click="seleccionar_camara(1)" href="#" data-toggle="tab"><i class="icon-camera"></i> Cámara 1</a></li>
-                        <li ng-repeat='c in camaras'><a ng-click="seleccionar_camara(c.indice + 1, c.id)" data-sid='{{ c.id }}' href="#" data-toggle="tab"><i class="icon-camera"></i> Cámara {{c.indice + 1}}</a></li>
+                        <!-- li class="active"><a ng-click="seleccionar_camara(1)" href="#" data-toggle="tab"><i class="icon-camera"></i> Cámara 1</a></li -->
+                        <li ng-repeat='c in camaras'><a title='{{ c.label }}' ng-click="seleccionar_camara($index)" data-sid='{{ c.id }}' href="#" data-toggle="tab"><i class="icon-camera"></i> Cámara {{$index+1}}</a></li>
 
-                    </ul>
+                    </ul> 
                 </div>
             </div>
 
@@ -136,7 +136,7 @@
                                 <img class='{{ camara_seleccionada_obj.id }}' ng-show='camara_seleccionada > 1'  id='imagen_remota'>
 
                                 <!-- el video capturado de la camara -->
-                                <video ng-show='camara_seleccionada == 1 && modo=="html5"' id='video' autoplay loop="true"></video>
+                                <video ng-show='modo=="html5"' id='video' autoplay loop="true"></video>
                                 <img   ng-show='camara_seleccionada == 1 && modo=="uvc"'   id='imagen_uvc'>
 
                                 <canvas ng-show='en_reproduccion' id='previsualizado' width=640 height=480></canvas>
@@ -150,13 +150,13 @@
                 <!-- PANEL CON BOTONES DEBAJO DEL VIDEO -->
                 <div id="contenedor-controles">
                 <!-- Botones para reproducir y previsualizar -->
-                <div ng-show='camara_seleccionada == 0'>
+                <div ng-show=''>
                     <button ng-show='!en_reproduccion' class='btn btn-success' ng-click='reproducir()'> <span class="icon-play icon-white"></span> Reproducir</button>
                     <button ng-show='en_reproduccion' class='btn btn-success' ng-click='detener()'> <span class="icon-stop icon-white"></span> Detener</button>
                 </div>
 
                 <!-- Capturar cuadro de animación -->
-                <div ng-show='modo_captura_con_intervalo === false' ng-hide='camara_seleccionada == 0'>
+                <div ng-show='modo_captura_con_intervalo === false'>
                     <button ng-show='!en_reproduccion' class='btn btn-success' ng-click='reproducir()'> <span class="icon-play icon-white"></span> Reproducir</button>
                     <button ng-show='en_reproduccion' class='btn btn-success' ng-click='detener()'> <span class="icon-stop icon-white"></span> Detener</button>
 

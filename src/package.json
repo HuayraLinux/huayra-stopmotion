@@ -5,7 +5,7 @@
     "livereload": false,
     "single-instance": false,
     "compartir": true,
-    "chromium-args": "--ignore-certificate-errors --enable-threaded-compositing",
+    "chromium-args": "--ignore-certificate-errors --enable-threaded-compositing --enable-logging=stderr",
     "window": {
       "toolbar": false,
       "min_width": 800,

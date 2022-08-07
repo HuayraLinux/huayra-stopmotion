@@ -3,8 +3,14 @@ window.onerror = function(e) {
 };
 
 window.mostrar_herramientas_de_desarrollo = function() {
-  var w = gui.Window.get();
-  w.showDevTools();
+    if (process.versions['nw-flavor'] == 'sdk') {
+        var w = gui.Window.get();
+        w.showDevTools();
+    }
+    else {
+        alert("Herramientas de desarrollo no disponible. Debe ejecutar la aplicacion con el la version SDK de nw.js");
+    }
+
 };
 
 window.mostrar = function(elemento, ruta_a_imagen) {
