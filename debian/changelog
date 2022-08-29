@@ -1,3 +1,9 @@
+huayra-stopmotion (1:0.6) unstable; urgency=medium
+
+  * update para nwjs 0.67
+
+ -- Fernando Toledo <ragnarok@docksud.com.ar>  Sun, 07 Aug 2022 06:49:19 -0300
+
 huayra-stopmotion (1:0.5.3.2) unstable; urgency=medium
 
   * cambio avconv => ffmpeg 

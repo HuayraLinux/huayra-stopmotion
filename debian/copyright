@@ -4,10 +4,12 @@ Source: https://github.com/HuayraLinux/huayra-stopmotion
 
 Files: *
 Copyright: 2014 Hugo Ruscitti <hugoruscitti@gmail.com>
+Copyright: 2022 Fernando Toledo <ragnarok@docksud.com.ar>
 License: GPL-3.0+
 
 Files: debian/*
 Copyright: 2014 Hugo Ruscitti <hugoruscitti@gmail.com>
+Copyright: 2022 Fernando Toledo <ragnarok@docksud.com.ar>
 License: GPL-3.0+
 
 License: GPL-3.0+
