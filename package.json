@@ -1,11 +1,15 @@
 {
-  "name": "stopmotion",
+  "name": "huayra-stopmotion",
   "version": "0.6.0",
-  "description": "stopmotion",
+  "description": "el StopMotion de Huayra",
   "main": "index.js",
   "scripts": {
     "test": "nodewebkit src",
-    "start": "nw src"
+    "start": "nw src",
+    "dist:win": "build --tasks win-x86,win-x64 --mirror https://dl.nwjs.io/ .",
+    "dist:osx": "build --tasks mac-x64 --mirror https://dl.nwjs.io/ .",
+    "dist": "build --tasks linux-x86,linux-x64 --mirror https://dl.nwjs.io/ .",
+    "nwjs-start": "run --x86 --mirror https://dl.nwjs.io/ ."
   },
   "repository": {
     "type": "git",
@@ -36,5 +40,12 @@
     "trim-newlines": "^4.0.2",
     "uglify-js": "^3.17.4",
     "update-notifier": "^6.0.2"
+  },
+  "devDependencies": {
+    "nwjs-builder-phoenix": "^1.15.0",
+    "nwjs-packager": "^1.5.1"
+  },
+  "build": {
+    "nwVersion": "0.73.0"
   }
 }
