@@ -1117,7 +1117,7 @@ app.controller('AppCtrl', ['$scope', '$modal', 'Video', 'Paneles', 'Preferencias
   var config = require('./package.json');
   
   if (gui.App.argv.length > 0)
-  window.abrir_proyecto_desde_ruta(gui.App.argv[0], true);
+    window.abrir_proyecto_desde_ruta(gui.App.argv[0], true);
 
   if (config.compartir) {
     var express = require('express');
@@ -1238,7 +1238,6 @@ const httpsServer = createServer({
   }
 
 }]);
-
 
 window.onready = function(){
   window.iniciar_nuevo_proyecto();
