@@ -1,7 +1,7 @@
 {
-    "name": "stop motion",
+    "name": "Huayra-Stopmotion",
     "main": "index.html",
-    "version": "0.6",
+    "version": "0.6.0",
     "livereload": false,
     "single-instance": false,
     "compartir": true,
@@ -10,8 +10,8 @@
       "toolbar": false,
       "min_width": 800,
       "min_height": 480,
-      "width": 800,
-      "height": 480,
+      "width": 860,
+      "height": 700,
       "icon": "huayra-motion.png",
       "position": "center"
     }

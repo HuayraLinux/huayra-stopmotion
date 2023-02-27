@@ -2,18 +2,17 @@ var gui = require('nw.gui');
 var fs = require('fs');
 var path = require('path');
 var ffmpeg = require('./js/ffmpeg-mock');
-var utils = require('./js/utils');
+//var utils = require('./js/utils');
 var exec = require('child_process').exec;
-window.motion_ready = null;
+window.motion_ready = false;
 
 var ventana = gui.Window.get();
 
 var app = angular.module('app');
 
-app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias, Proyecto, Menu, $timeout) {
+app.controller('AppCtrl', ['$scope', '$modal', 'Video', 'Paneles', 'Preferencias', 'Proyecto', 'Menu', '$timeout', function ($scope, $modal, Video, Paneles, Preferencias, Proyecto, Menu, $timeout) {
   $scope.proyectos_recientes = Preferencias.data.proyectos_recientes;
   $scope.sin_cuadros = true;
-
   $scope.brillo = 50;
   $scope.contraste = 50;
   $scope.borrosidad = 0;
@@ -38,9 +37,6 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
   $scope.online = true;
   $scope.capas_adelante = 1;
   $scope.capas_atras = 0;
-
-
-
 
   Video.iniciar(function(modo) {
     $scope.modo = modo;
@@ -134,16 +130,6 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
   ventana.on("close", window.on_close_motion);
 
   var ModalAcercaDeCtrl = function($scope, $modalInstance) {
-
-
-    var version = require('./version.json');
-    $scope.version += " (ver " + version.commit + " " + version.fecha + ")";
-
-    $scope.version = window.VERSION;
-    $scope.commit = version.commit.slice(0, 20) + '...';
-    $scope.fecha = version.fecha;
-    $scope.version = version.fecha.split(" ").slice(0,3).join(' ');
-
     $scope.cerrar = function() {
       $modalInstance.close();
     };
@@ -454,10 +440,10 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     var url;
 
     if (usar_ip) {
-      url = 'http://' + $scope.ip + ':' + $scope.puerto_remoto;
+      url = 'https://' + $scope.ip + ':' + $scope.puerto_remoto;
     }
     else {
-      url = 'http://' + $scope.host + ':' + $scope.puerto_remoto;
+      url = 'https://' + $scope.host + ':' + $scope.puerto_remoto;
     }
 
     gui.Shell.openExternal(url);
@@ -651,8 +637,10 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     $scope.tab_seleccionado = "tab" + numero;
   };
 
-  console.log("Agregando camaras detectadas");
-  navigator.mediaDevices.getUserMedia({ video:true }).then(() => {
+  $scope.cargar_camaras = function () {
+    console.log("Agregando camaras detectadas");
+    $scope.camaras = [];
+    navigator.mediaDevices.getUserMedia({ video:true }).then(() => {
         navigator.mediaDevices.enumerateDevices().then((devices) => {
             devices.forEach((device) => {
                 if (device.kind =='videoinput') {
@@ -675,7 +663,9 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     })
     console.log("Camaras:");
     console.log($scope.camaras);
+  }
 
+  $scope.cargar_camaras();
 
   $scope.seleccionar_camara = function (numero) {
     console.log("seleccionar camara nro:" + numero);
@@ -720,9 +710,14 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     //var saturacion = "saturate(" + $scope.saturacion / 50 + ") ";
     Video.definir_brillo($scope.brillo / 10);
     Video.definir_contraste($scope.contraste / 10);
+    video.style.filter = borrosidad + brillo + contraste;
+    video.style.transform = espejado_horizontal + espejado_vertical;
+    capa_cebolla.style.transform = espejado_horizontal + espejado_vertical;
+    /*
     video.style.webkitFilter = borrosidad + brillo + contraste;
     video.style.webkitTransform = espejado_horizontal + espejado_vertical;
     capa_cebolla.style.webkitTransform = espejado_horizontal + espejado_vertical;
+    */
     //+ saturacion;
   }
 
@@ -1120,22 +1115,30 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
   };
 
   var config = require('./package.json');
-
+  
   if (gui.App.argv.length > 0)
   window.abrir_proyecto_desde_ruta(gui.App.argv[0], true);
 
   if (config.compartir) {
     var express = require('express');
-    var http = require('http');
-
+    //var http = require('http');
+    var https = require('https');
     var app = express();
-    var server = http.createServer(app);
+    //var server = http.createServer(app);
 
-    app.configure(function(){
+    var server = https.createServer({
+      //key: fs.readFileSync("/tmp/huayra-stopmotion/huayra-stopmotion-key.pem"),
+      //cert: fs.readFileSync("/tmp/huayra-stopmotion/huayra-stopmotion.pem")
+      key: fs.readFileSync("pem/huayra-stopmotion-key.pem"),
+      cert: fs.readFileSync("pem/huayra-stopmotion.pem")
+    }, app); 
+
+    // app.configure
+    //(function(){
       app.set('port', 8000 + Math.floor(Math.random() * 1000));
       app.use(express.static('./public'));
-    });
-
+    //});
+    console.log( 'pase por aca ' + app.get('port'))
     server.listen(app.get('port'), function(){
       var os = require("os");
 
@@ -1165,11 +1168,31 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
       $scope.$apply();
     });
 
-    var io = require("socket.io").listen(server);
-    io.set('log level', 1);
+    var io = require("socket.io")(server) //, { /* ... */ })
+    //io.listen(server);
+    //io.set('log level', 1);
 
-    io.sockets.on('connection', function (socket) {
+/*
+ver de establecer una conexion segura para que funcione la camara en chrome
 
+const { readFileSync } = require("fs");
+const { createServer } = require("https");
+const { Server } = require("socket.io");
+
+const httpsServer = createServer({
+  key: readFileSync("/path/to/my/key.pem"),
+  cert: readFileSync("/path/to/my/cert.pem")
+});
+*/
+
+
+// const io = new Server(httpsServer, { /* options */ });
+
+
+
+
+    //io.sockets.on('connection', function (socket) {
+    io.on('connection', function (socket) {
       $scope.camaras.push({
         indice: $scope.camaras.length + 1,
         socket: socket,
@@ -1214,7 +1237,7 @@ app.controller('AppCtrl', function ($scope, $modal, Video, Paneles, Preferencias
     });
   }
 
-});
+}]);
 
 
 window.onready = function(){

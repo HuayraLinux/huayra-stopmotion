@@ -7,6 +7,48 @@ body {
     overflow: hidden;
 }
 
+
+.splash{
+    cursor : pointer;
+    position : fixed;
+    display : block;
+    top : 60%;
+    left : 50%;
+    height : 95%;
+    width : 85%;
+    transform : translate(-50%,-50%);    
+    /*background-color: rgba(156,246,248);*/
+    background-color: transparent;
+    justify-content: center;
+    align-items : center;
+    text-align: center;
+    transition : all ease-in-out 4500ms;
+    z-index: 998;
+}
+
+.hidden{
+    transition : 0.7s;
+    display : none;
+}
+
+.splash-header {
+    height : 90%;
+    color : white;
+    font-family : consolas;
+    font-size : 30px;
+    display : flex;
+    justify-content: center;
+    align-items : center;
+}
+
+.app-controller{
+    display : none;
+}
+
+.visible{
+    display : block;
+}
+
 ul.sortable {
     width: 100%;
     overflow: scroll;

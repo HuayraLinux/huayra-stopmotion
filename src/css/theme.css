@@ -482,6 +482,7 @@ ul.dropdown-notification > li.dropdown-header:hover{
 .sidebar-right-control > ul.sr-control-item{
     margin: 0px;
     padding: 0px;
+    font-size: 1.4em;
     list-style: none;
     white-space: nowrap;
 }
@@ -2541,6 +2542,10 @@ a[rel=to-top]:hover{
     -webkit-border-radius: 0px;
      -moz-border-radius: 0px;
           border-radius: 0px;
+}
+
+.sidebar-camara {
+    display: flex;
 }
 
 .sidebar-camara > ul.sr-control-item{

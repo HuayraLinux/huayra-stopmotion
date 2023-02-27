@@ -41,7 +41,7 @@
 
 
 
-        <video autoplay id='video'></video>
+        <video autoplay muted="muted" id='video'></video>
         <canvas width=640 height=480 id='canvas'></canvas>
 
         <p>Para finalizar la captura, solo cerrá la ventana.</p>
@@ -91,13 +91,34 @@
 
             var onFailSoHard = function(e) {
                 var video = document.querySelector('video');
+                console.log(video)
                 video.play();
-                alert("ERROR: es importante aceptar el pedido de la webcam.");
+                alert("onFailSoHard ERROR: es importante aceptar el pedido de la webcam.");
             };
 
             window.URL = window.URL || window.webkitURL;
-            navigator.getUserMedia  = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
             var video = document.querySelector('video');
+
+            console.log(navigator.getUserMedia)
+
+            /*
+            navigator.mediaDevices.getUserMedia({audio: false, video: true})
+                .then(function(stream) {
+                    if ('srcObject' in video) {
+                        video.srcObject = stream;
+                    }
+                    else {
+                        video.src = window.URL.createObjectURL(stream);
+                    }
+                    iniciar_sockets_y_transmision();
+                    })
+                .catch(function(err) {
+                    console.log(err)
+                    alert("catch promise ERROR: es importante aceptar el pedido de la webcam.");
+                });                
+            //}            
+            */
 
             if (navigator.getUserMedia) {
                 navigator.getUserMedia({audio: false, video: true}, function(stream) {
@@ -110,8 +131,30 @@
                     iniciar_sockets_y_transmision();
                 }, onFailSoHard);
             } else {
-                alert("ERROR: es importante aceptar el pedido de la webcam.");
-            }
+                    alert("dof ERROR: es importante aceptar el pedido de la webcam.");
+           }
+
+            /*
+            //ver si es posible establecer una conexion segura 
+            //porque en chrome es la unica forma de q socket funcione
+            navigator.getWebcam = (navigator.getUserMedia || navigator.webKitGetUserMedia || navigator.moxGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+            navigator.mediaDevices?.getUserMedia({  audio: false, video: true })
+            .then(function (stream) {
+                    alert( 'por mediaDevices ')
+                            //Display the video stream in the video object
+                })
+            .catch(
+                function (e) { console.log(e.name + ": " + e.message); 
+                navigator.getWebcam({ audio: false, video: true }, 
+                function (stream) {
+                    alert( 'por getWebcam ')
+                        //Display the video stream in the video object
+                }, 
+                function () { console.log("Web cam is not accessible."); }
+                );
+            }            
+            );*/
+
         </script>
     </body>
 </html>

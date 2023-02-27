@@ -6,7 +6,7 @@ app.directive('huayraVersion', function() {
     transclude: true,
     controller: function($scope, $http, $timeout) {
       $scope.data = {};
-      $scope.data.version = "0.5.1";
+      $scope.data.version = "0.6.0";
       $scope.data.info_url = "";
       $scope.data.status = 'query'; // 'ok' 'update' 'error'
 
@@ -35,28 +35,20 @@ app.directive('huayraVersion', function() {
       function consultar_version() {
         $http.get('https://api.github.com/repos/HuayraLinux/huayra-stopmotion/releases').
           then(function(response) {
-            var current_version = response.data.current_version;
-            $scope.data.info_url = response.data.info_url;
-
-
+            var release = JSON.parse(JSON.stringify(response.data))
+            var current_version = release[0].name;
+            $scope.data.info_url = release[0].html_url;
+           
             var value = compare($scope.data.version, current_version);
-            console.log($scope.data.version, current_version, value);
-
-            console.log({
-              "version": $scope.data.version,
-              "current_version": current_version,
-              "value": value
-            });
 
             if (value >= 0)
               $scope.data.status = "ok";
             else
               $scope.data.status = "update";
-
-
-          }).
-          catch(function(response) {
-            console.error("error", response);
+          
+          })
+          .catch(function(response) {
+            console.error("error", response.status, response.message);
             $scope.data.status = "error";
           });
       }
