@@ -1,6 +1,6 @@
 {
   "name": "huayra-stopmotion",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "el StopMotion de Huayra",
   "main": "index.js",
   "scripts": {
