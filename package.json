@@ -9,6 +9,7 @@
     "dist:win": "build --tasks win-x86,win-x64 --mirror https://dl.nwjs.io/ .",
     "dist:osx": "build --tasks mac-x64 --mirror https://dl.nwjs.io/ .",
     "dist": "build --tasks linux-x86,linux-x64 --mirror https://dl.nwjs.io/ .",
+    "release": "npm version patch && git push origin $(git rev-parse --abbrev-ref HEAD) && git push origin --tags",
     "nwjs-start": "run --x86 --mirror https://dl.nwjs.io/ ."
   },
   "repository": {
