@@ -22,17 +22,17 @@ ifeq ($(shell test -e $(HOME) || echo no),no)
 endif
 
 # Node
-NODE_VERSION=v18.12.1
+NODE_VERSION=v12.21.0
 NODE_FILENAME=node-$(NODE_VERSION)-linux-x64
 NODE_TARBALL=$(NODE_FILENAME).tar.xz
 
-PATH:=/usr/bin/$(NODE_FILENAME)/bin:$(PATH)
+PATH:=/tmp/$(NODE_FILENAME)/bin:$(PATH)
 
 %:
 	dh $@
 
 override_dh_auto_configure:
 	wget https://nodejs.org/dist/$(NODE_VERSION)/$(NODE_TARBALL)
-	tar xvf $(NODE_TARBALL)
+	tar xvf $(NODE_TARBALL) -C /tmp/
 	node -v; npm -v
 	npm i
