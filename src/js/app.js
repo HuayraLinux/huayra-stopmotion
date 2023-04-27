@@ -6,5 +6,4 @@ var fs = require('fs');
 require('nw.gui').Window.get().setPosition('center');
 
 /* Hack para setear WM_CLASS */
-require('nwjs-hack').set_wmclass("huayra-motion", true);
 fs.writeFileSync('/tmp/huayra-stopmotion.pid', process.pid);

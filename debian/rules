@@ -22,7 +22,7 @@ ifeq ($(shell test -e $(HOME) || echo no),no)
 endif
 
 # Node
-NODE_VERSION=v12.21.0
+NODE_VERSION=v18.12.1
 NODE_FILENAME=node-$(NODE_VERSION)-linux-x64
 NODE_TARBALL=$(NODE_FILENAME).tar.xz
 
