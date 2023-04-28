@@ -31,6 +31,12 @@ PATH:=/tmp/$(NODE_FILENAME)/bin:$(PATH)
 %:
 	dh $@
 
+override_dh_strip:
+	echo "Ignore"
+
+override_dh_shlibdeps:
+	echo "Ignore"
+
 override_dh_auto_configure:
 	wget https://nodejs.org/dist/$(NODE_VERSION)/$(NODE_TARBALL)
 	tar xvf $(NODE_TARBALL) -C /tmp/

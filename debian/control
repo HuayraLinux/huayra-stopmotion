@@ -9,8 +9,7 @@ Vcs-Git: http://github.com/HuayraLinux/huayra-stopmotion.git
 
 Package: huayra-stopmotion
 Architecture: any
-Depends: ${misc:Depends}, nwjs (>= 0.67), ffmpeg (>= 7:4.1.6), uvcdynctrl,
-  uvccapture, fswebcam
+Depends: ${misc:Depends}, nwjs (>= 0.67), ffmpeg (>= 7:4.1.6), uvccapture, fswebcam
 Description: Permite realizar animaciones de stopmotion
  Huayra-motion permite crear películas y cortos animados
  utilizando la técnica de animación stopmotion, que consiste
