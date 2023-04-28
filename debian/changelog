@@ -1,3 +1,10 @@
+huayra-stopmotion (1:0.6.2) unstable; urgency=medium
+
+  * version para huayra 6.
+  * 
+
+ -- Daniel <danieloscarferro@gmail.com>  Fri, 28 Apr 2023 09:00:19 -0300
+
 huayra-stopmotion (1:0.6.1) unstable; urgency=medium
 
   * recarga de camaras externas
