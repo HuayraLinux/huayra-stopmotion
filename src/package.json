@@ -1,7 +1,7 @@
 {
     "name": "Huayra-Stopmotion",
     "main": "index.html",
-    "version": "0.6.0",
+    "version": "0.6.2",
     "livereload": false,
     "single-instance": false,
     "compartir": true,
