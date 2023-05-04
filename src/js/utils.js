@@ -2,6 +2,8 @@ window.onerror = function(e) {
   alert(e);
 };
 
+require('nw.gui').Window.get().setPosition('center');
+
 window.mostrar_herramientas_de_desarrollo = function() {
     if (process.versions['nw-flavor'] == 'sdk') {
         var w = gui.Window.get();

@@ -94,7 +94,6 @@ app.service('Video', function() {
 
 
     this.iniciar = function(callback_respuesta) {
-    
         console.log("Iniciar stream:" + this.camara_id);
         function cuando_falla(error) {
           console.log(error);
@@ -112,7 +111,7 @@ app.service('Video', function() {
           console.log("Recibio stream");
           if ('srcObject' in video) {
             console.log("usando nwjs > 0.67");
-            video.srcObject = stream;
+            video.srcObject = stream;                        
           }
           else {
             console.log("fallback nwjs 0.12?");
@@ -122,14 +121,13 @@ app.service('Video', function() {
         }
 
         window.URL = window.URL || window.webkitURL;
-        if (process.versions['node-webkit'] =='0.12.3') {
+        //alert(process.versions['node-webkit'])
+        if (process.versions['node-webkit'] >='0.12.3') {
             navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
         }
         
         if (navigator.getUserMedia) {
           console.log("Camara_ID: " + this.camara_id);
-
-  
         
           if (!this.camara_id) {
             var medios = {audio: false, video: true};          
