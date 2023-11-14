@@ -1,6 +1,6 @@
 {
   "name": "huayra-stopmotion",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "el StopMotion de Huayra",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,7 @@
     "express": "^4.18.2",
     "gaze": "^1.1.3",
     "jsonfile": "~6.1.0",
-    "nw": "^0.75.0",
+    "nw": "^0.82.0",
     "q": "~1.5.1",
     "qs": "^6.11.0",
     "socket.io": "^4.6.1",
